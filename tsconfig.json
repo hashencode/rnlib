@@ -6,5 +6,15 @@
       "@/*": ["./src/*"],
     },
     "allowImportingTsExtensions": false
-  }
+  },
+  "include": [
+    "./src/**/*",
+    "./src/@types/**/*",
+    "index.d.ts",
+    ".eslintrc.js",
+    "jest.setup.js",
+    "jest.config.js",
+    "babel.config.js",
+    "index.js"
+  ]
 }

@@ -1,0 +1,96 @@
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import DemoActionSheet from '@/lib/demos/DemoActionSheet';
+import DemoAvatar from '@/lib/demos/DemoAvatar';
+import DemoBadge from '@/lib/demos/DemoBadge';
+import DemoButton from '@/lib/demos/DemoButton';
+import DemoCard from '@/lib/demos/DemoCard';
+import DemoCarousel from '@/lib/demos/DemoCarousel';
+import DemoCheckList from '@/lib/demos/DemoCheckList';
+import DemoCheckbox from '@/lib/demos/DemoCheckbox';
+import DemoDivider from '@/lib/demos/DemoDivider';
+import DemoErrorBlock from '@/lib/demos/DemoErrorBlock';
+import DemoGroup from '@/lib/demos/DemoGroup';
+import DemoHead from '@/lib/demos/DemoHead';
+import DemoInput from '@/lib/demos/DemoInput';
+import DemoList from '@/lib/demos/DemoList';
+import DemoDialog from '@/lib/demos/DemoDialog';
+import DemoPicker from '@/lib/demos/DemoPicker';
+import DemoRadio from '@/lib/demos/DemoRadio';
+import DemoResult from '@/lib/demos/DemoResult';
+import DemoSelector from '@/lib/demos/DemoSelector';
+import DemoSwitch from '@/lib/demos/DemoSwitch';
+import DemoTabs from '@/lib/demos/DemoTabs';
+import DemoTag from '@/lib/demos/DemoTag';
+import DemoToast from '@/lib/demos/DemoToast';
+import { COLOR } from '@/lib/scripts/const';
+import Demo from '@/screens/Demo';
+
+const Stack = createStackNavigator();
+
+const defaultOptions = { headerShown: false, navigationBarColor: 'transparent' };
+const screens = [
+    { name: 'ACTION_SHEET', component: DemoActionSheet },
+    { name: 'AVATAR', component: DemoAvatar },
+    { name: 'BADGE', component: DemoBadge },
+    { name: 'BUTTON', component: DemoButton },
+    { name: 'CARD', component: DemoCard },
+    { name: 'CAROUSEL', component: DemoCarousel },
+    { name: 'CHECK_LIST', component: DemoCheckList },
+    { name: 'CHECKBOX', component: DemoCheckbox },
+    { name: 'DIVIDER', component: DemoDivider },
+    { name: 'ERROR_BLOCK', component: DemoErrorBlock },
+    { name: 'GROUP', component: DemoGroup },
+    { name: 'HEAD', component: DemoHead },
+    { name: 'INPUT', component: DemoInput },
+    { name: 'LIST', component: DemoList },
+    { name: 'DIALOG', component: DemoDialog },
+    { name: 'PICKER', component: DemoPicker },
+    { name: 'RADIO', component: DemoRadio },
+    { name: 'RESULT', component: DemoResult },
+    { name: 'SELECTOR', component: DemoSelector },
+    { name: 'SWITCH', component: DemoSwitch },
+    { name: 'TABS', component: DemoTabs },
+    { name: 'TAG', component: DemoTag },
+    { name: 'TOAST', component: DemoToast },
+    { name: 'DEMO', component: Demo, options: { navigationBarColor: COLOR.white } },
+];
+
+export enum SCREENS {
+    ACTION_SHEET = 'ACTION_SHEET',
+    AVATAR = 'AVATAR',
+    BADGE = 'BADGE',
+    BUTTON = 'BUTTON',
+    CARD = 'CARD',
+    CAROUSEL = 'CAROUSEL',
+    CHECK_LIST = 'CHECK_LIST',
+    CHECKBOX = 'CHECKBOX',
+    DIALOG = 'DIALOG',
+    DIVIDER = 'DIVIDER',
+    ERROR_BLOCK = 'ERROR_BLOCK',
+    GROUP = 'GROUP',
+    HEAD = 'HEAD',
+    INPUT = 'INPUT',
+    LIST = 'LIST',
+    PICKER = 'PICKER',
+    RADIO = 'RADIO',
+    RESULT = 'RESULT',
+    SELECTOR = 'SELECTOR',
+    SWITCH = 'SWITCH',
+    TABS = 'TABS',
+    TAG = 'TAG',
+    TOAST = 'TOAST',
+    DEMO = 'DEMO',
+}
+
+export default function Router() {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName={SCREENS.DEMO}>
+                {screens.map(item => {
+                    return <Stack.Screen {...item} key={item.name} options={{ ...defaultOptions, ...item.options }} />;
+                })}
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+}
