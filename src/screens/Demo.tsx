@@ -1,76 +1,65 @@
 import React from 'react';
-import DefaultLayout from '@/lib/components/DefaultLayout';
 import List from '@/lib/components/List';
-import ListItem from '@/lib/components/ListItem';
-import { SCREENS } from '@/route/Router';
 import Group from '@/lib/components/Group';
+import { useNavigation } from '@react-navigation/native';
+import { DefaultLayout } from '@/lib/components';
+import { SCREENS } from '@/route/Router';
 
 export default function Demo() {
+    const navigation = useNavigation<any>();
+    const goTo = (path: string) => {
+        navigation.navigate(path);
+    };
+
     const common = [
-        { title: '按钮 ButtonPro', linkTo: SCREENS.BUTTON },
-        { title: '分割线 Divider', linkTo: SCREENS.DIVIDER },
+        { title: '按钮 Button', onPress: () => goTo(SCREENS.BUTTON) },
+        { title: '分割线 Divider', onPress: () => goTo(SCREENS.DIVIDER) },
     ];
-    const navigation = [{ title: '头部导航 Head', linkTo: SCREENS.HEAD }];
+    const navigations = [{ title: '头部导航 Head', onPress: () => goTo(SCREENS.HEAD) }];
     const entry = [
-        { title: '动作面板 ActionSheet', linkTo: SCREENS.ACTION_SHEET },
-        { title: '多选 Checkbox', linkTo: SCREENS.CHECKBOX },
-        { title: '勾选列表 CheckList', linkTo: SCREENS.CHECK_LIST },
-        { title: '输入框 Input', linkTo: SCREENS.INPUT },
-        { title: '单选 Radio', linkTo: SCREENS.RADIO },
-        { title: '选择 Picker', linkTo: SCREENS.PICKER },
-        { title: '选择组 Selector', linkTo: SCREENS.SELECTOR },
-        { title: '开关 SwitchPro', linkTo: SCREENS.SWITCH },
+        { title: '动作面板 ActionSheet', onPress: () => goTo(SCREENS.ACTION_SHEET) },
+        { title: '多选 Checkbox', onPress: () => goTo(SCREENS.CHECKBOX) },
+        { title: '勾选列表 CheckList', onPress: () => goTo(SCREENS.CHECK_LIST) },
+        { title: '输入框 Input', onPress: () => goTo(SCREENS.INPUT) },
+        { title: '单选 Radio', onPress: () => goTo(SCREENS.RADIO) },
+        { title: '选择 Picker', onPress: () => goTo(SCREENS.PICKER) },
+        { title: '选择组 Selector', onPress: () => goTo(SCREENS.SELECTOR) },
+        { title: '开关 Switch', onPress: () => goTo(SCREENS.SWITCH) },
     ];
     const display = [
-        { title: '头像 Avatar', linkTo: SCREENS.AVATAR },
-        { title: '徽标数 Badge', linkTo: SCREENS.BADGE },
-        { title: '卡片 Card', linkTo: SCREENS.CARD },
-        { title: '走马灯 Carousel', linkTo: SCREENS.CAROUSEL },
-        { title: '分组 Group', linkTo: SCREENS.GROUP },
-        { title: '列表 List', linkTo: SCREENS.LIST },
-        { title: '选项卡 Tabs', linkTo: SCREENS.TABS },
-        { title: '标签 Tag', linkTo: SCREENS.TAG },
+        { title: '头像 Avatar', onPress: () => goTo(SCREENS.AVATAR) },
+        { title: '徽标数 Badge', onPress: () => goTo(SCREENS.BADGE) },
+        { title: '卡片 Card', onPress: () => goTo(SCREENS.CARD) },
+        { title: '走马灯 Carousel', onPress: () => goTo(SCREENS.CAROUSEL) },
+        { title: '分组 Group', onPress: () => goTo(SCREENS.GROUP) },
+        { title: '列表 List', onPress: () => goTo(SCREENS.LIST) },
+        { title: '选项卡 Tabs', onPress: () => goTo(SCREENS.TABS) },
+        { title: '标签 Tag', onPress: () => goTo(SCREENS.TAG) },
     ];
     const feedback = [
-        { title: '错误块 ErrorBlock', linkTo: SCREENS.ERROR_BLOCK },
-        { title: '对话框 ModalPro', linkTo: SCREENS.DIALOG },
-        { title: '结果 Result', linkTo: SCREENS.RESULT },
-        { title: '轻提示 Toast', linkTo: SCREENS.TOAST },
+        { title: '错误块 ErrorBlock', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+        { title: '对话框 Dialog', onPress: () => goTo(SCREENS.DIALOG) },
+        { title: '结果 Result', onPress: () => goTo(SCREENS.RESULT) },
+        { title: '轻提示 Toast', onPress: () => goTo(SCREENS.TOAST) },
     ];
 
     return (
         <DefaultLayout>
-            <Group header="通用2" first>
+            <Group header="通用" first>
                 <List items={common}></List>
             </Group>
-            {/*<Group header="导航" bodyStyle={{ padding: 0 }}>*/}
-            {/*    <List>*/}
-            {/*        {navigation.map((item, index) => {*/}
-            {/*            return <ListItem {...item} key={index} touchable showArrow />;*/}
-            {/*        })}*/}
-            {/*    </List>*/}
-            {/*</Group>*/}
-            {/*<Group header="数据录入" bodyStyle={{ padding: 0 }}>*/}
-            {/*    <List>*/}
-            {/*        {entry.map((item, index) => {*/}
-            {/*            return <ListItem {...item} key={index} touchable showArrow />;*/}
-            {/*        })}*/}
-            {/*    </List>*/}
-            {/*</Group>*/}
-            {/*<Group header="数据展示" bodyStyle={{ padding: 0 }}>*/}
-            {/*    <List>*/}
-            {/*        {display.map((item, index) => {*/}
-            {/*            return <ListItem {...item} key={index} touchable showArrow />;*/}
-            {/*        })}*/}
-            {/*    </List>*/}
-            {/*</Group>*/}
-            {/*<Group header="反馈" bodyStyle={{ padding: 0 }}>*/}
-            {/*    <List>*/}
-            {/*        {feedback.map((item, index) => {*/}
-            {/*            return <ListItem {...item} key={index} touchable showArrow />;*/}
-            {/*        })}*/}
-            {/*    </List>*/}
-            {/*</Group>*/}
+            <Group header="导航">
+                <List items={navigations}></List>
+            </Group>
+            <Group header="数据录入">
+                <List items={entry}></List>
+            </Group>
+            <Group header="数据展示">
+                <List items={display}></List>
+            </Group>
+            <Group header="反馈">
+                <List items={feedback}></List>
+            </Group>
         </DefaultLayout>
     );
 }
