@@ -17,7 +17,7 @@ export default function Button(props: IButtonProps) {
     // 根元素样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root],
-        extraStyle: [disabled ? styles.disabled : undefined, { width: block ? '100%' : 'auto', borderRadius }, style?.root],
+        extraStyle: [{ width: block ? '100%' : 'auto', borderRadius }, style?.root],
     });
 
     // 图标样式
@@ -87,7 +87,7 @@ export default function Button(props: IButtonProps) {
     };
 
     return (
-        <PressHighlight disabled={disabled} underlayColor={underlayStyle} onPress={disabled ? undefined : onPress} style={rootStyle}>
+        <PressHighlight disabled={disabled} underlayColor={underlayStyle} onPress={onPress} style={rootStyle}>
             {renderButton()}
         </PressHighlight>
     );
@@ -103,9 +103,6 @@ const styles = StyleSheet.create({
         borderWidth: SIZE.border_default,
         paddingHorizontal: SIZE.button_padding_horizontal,
         position: 'relative',
-    },
-    disabled: {
-        opacity: COLOR.opacity_disabled_controller,
     },
     icon: {
         marginRight: SIZE.space_small,

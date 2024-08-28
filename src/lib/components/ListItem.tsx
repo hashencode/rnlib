@@ -27,7 +27,7 @@ export default function ListItem(props: IListItemProps) {
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root],
-        extraStyle: [disabled ? styles.disabled : undefined, style?.root],
+        extraStyle: [style?.root],
     });
 
     // 图标样式
@@ -45,7 +45,7 @@ export default function ListItem(props: IListItemProps) {
     // 额外区域样式
     const extraStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.extra],
-        extraStyle: [style?.extra],
+        extraStyle: [style?.extra, { marginRight: showArrow ? SIZE.space_middle : SIZE.space_large }],
     });
 
     // 额外区域标题样式
@@ -100,7 +100,7 @@ export default function ListItem(props: IListItemProps) {
 
     // 无反馈效果
     return (
-        <PressHighlight disabled={disabled} onPress={disabled ? undefined : onPress}>
+        <PressHighlight disabled={disabled} onPress={onPress}>
             {leftActions || rightActions ? (
                 <SwipeableRow leftActions={leftActions} rightActions={rightActions}>
                     {itemElement}
@@ -117,9 +117,6 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR.white,
         overflow: 'hidden',
         paddingLeft: SIZE.space_large,
-    },
-    disabled: {
-        opacity: COLOR.opacity_disabled_option,
     },
     icon: {
         borderRadius: SIZE.radius_middle,

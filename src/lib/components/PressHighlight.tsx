@@ -3,7 +3,7 @@ import { COLOR } from '@/lib/scripts/const';
 import { IPressHighlightProps } from '@/lib/_types/.components';
 
 export default function PressHighlight(props: IPressHighlightProps) {
-    const { underlayColor = COLOR.underlay_touchable, style, ...rest } = props;
+    const { underlayColor = COLOR.underlay_touchable, style, disabled, ...rest } = props;
 
     const renderContent = (pressed: boolean) => {
         return (
@@ -15,7 +15,10 @@ export default function PressHighlight(props: IPressHighlightProps) {
     };
 
     return (
-        <Pressable style={StyleSheet.flatten([styles.root, style])} {...rest}>
+        <Pressable
+            disabled={disabled}
+            style={StyleSheet.flatten([styles.root, { opacity: disabled ? COLOR.opacity_disabled_controller : 1 }, style])}
+            {...rest}>
             {({ pressed }) => renderContent(pressed)}
         </Pressable>
     );
