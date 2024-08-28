@@ -1,7 +1,28 @@
-import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
+import { CSSProperties, Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { ImageStyle, TextStyle, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
+
+/**
+ * Button
+ */
+export interface IButtonProps extends PropsWithChildren {
+    block?: boolean; // 占满整行
+    danger?: boolean; // 危险
+    disabled?: boolean; // 禁用
+    ghost?: boolean; // 幽灵按钮
+    icon?: ReactElement; // 图标
+    round?: boolean; // 圆形外观
+    size?: 'mini' | 'small' | 'middle' | 'large'; // 尺寸
+    style?: {
+        root?: ViewStyle; // 最外层样式
+        button?: ViewStyle; // 按钮主体样式
+        text?: TextStyle; // 文本样式
+        icon?: ViewStyle; // 图标样式
+    }; // 样式
+    type?: 'primary' | 'text' | 'default'; // 类型
+    onPress?: () => void; // 点击事件回调
+}
 
 /**
  * Divider

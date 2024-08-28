@@ -1,55 +1,30 @@
-import React, { CSSProperties, ReactElement, ReactNode, useMemo } from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, PressHighlight, PressOpacity, Text } from './index';
 import { mergeElement } from '@/lib/scripts/utils';
+import { IButtonProps } from '@/lib/_types/.components';
+import { ButtonIconSize, ButtonLabelSize } from '@/lib/scripts/enum';
+import useStyle from '@/lib/hooks/useStyle';
 
-export interface ButtonProps {
-    block?: boolean; // 占满整行
-    children?: ReactNode; // 内容插槽
-    danger?: boolean; // 危险
-    disabled?: boolean; // 禁用
-    ghost?: boolean; // 幽灵按钮
-    icon?: ReactElement; // 图标
-    round?: boolean; // 圆形外观
-    size?: 'mini' | 'small' | 'middle' | 'large'; // 尺寸
-    style?: {
-        wrapper?: ViewStyle; // 最外层样式
-        button?: ViewStyle; // 按钮主体样式
-        text?: TextStyle; // 文本样式
-        icon?: CSSProperties; // 图标样式
-    }; // 样式
-    type?: 'primary' | 'text' | 'default'; // 类型
-    onPress?: () => void; // 点击事件回调
-}
-
-// 按钮尺寸-字体大小映射表
-enum labelSizeMap {
-    large = SIZE.font_h2,
-    middle = SIZE.font_h3,
-    small = SIZE.font_basic,
-    mini = SIZE.font_desc,
-}
-
-// 按钮尺寸-图标大小映射表
-enum iconSizeMap {
-    large = SIZE.icon_mini,
-    middle = SIZE.icon_mini,
-    small = SIZE.icon_tiny,
-    mini = SIZE.icon_tiny,
-}
-
-export default function Button(props: ButtonProps) {
-    const { round, type = 'default', size = 'middle', ghost, danger, block, disabled, icon, style, onPress } = props;
+export default function Button(props: IButtonProps) {
+    const { round, type = 'default', size = 'middle', ghost, danger, block, disabled, icon, children, style, onPress } = props;
     const isPrimary = type === 'primary';
     const borderRadius = round ? SIZE[`button_height_${size}`] / 2 : SIZE.radius_middle; // 按钮圆角
 
-    // 最外层样式
-    const wrapperStyle = useMemo<any>(() => {
-        return [styles.wrapper, disabled ? styles.disabled : {}, { width: block ? '100%' : 'auto', borderRadius }, style?.wrapper];
-    }, [disabled, borderRadius, style]);
+    // 根元素样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [disabled ? styles.disabled : undefined, { width: block ? '100%' : 'auto', borderRadius }, style?.root],
+    });
+
+    // 图标样式
+    const iconStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.icon],
+        extraStyle: [style?.icon],
+    });
 
     // 覆盖样式
     const underlayStyle = useMemo(() => {
@@ -62,16 +37,16 @@ export default function Button(props: ButtonProps) {
 
     // 计算按钮样式
     const buttonStyle = useMemo(() => {
-        const basicStyle = [styles.button, styles[`button_type_${type}`], { borderRadius, height: SIZE[`button_height_${size}`] }];
+        const basicStyle = [styles.button, styles[`button_type_${type}`], { borderRadius, height: SIZE[`button_height_${size}`] }]; // 设置默认样式、高度、圆角
         if (danger) {
-            basicStyle.push(styles[`button_danger_${type}`]);
+            basicStyle.push(styles[`button_danger_${type}`]); // 危险按钮基础样式
         }
         if (ghost) {
-            basicStyle.push(styles.button_ghost_default);
+            basicStyle.push(styles.button_ghost_default); // 幽灵按钮透明背景、设置边框
             if (danger) {
-                basicStyle.push(styles.button_ghost_danger);
+                basicStyle.push(styles.button_ghost_danger); // 危险按钮设置边框色
             } else if (isPrimary) {
-                basicStyle.push(styles.button_ghost_primary);
+                basicStyle.push(styles.button_ghost_primary); // 主要按钮设置边框色
             }
         }
         if (style?.button) {
@@ -80,67 +55,51 @@ export default function Button(props: ButtonProps) {
         return basicStyle;
     }, [danger, ghost, size, type, borderRadius, style]);
 
-    // 计算文本样式
-    const textStyle: (TextStyle | undefined)[] = useMemo(() => {
+    // 计算文本、图标样式
+    const textStyle: TextStyle = useMemo(() => {
         let color = ghost ? COLOR.white : COLOR.text_title;
+        // 主按钮盒危险按钮因为有背景色，所以需要设置白色文本
         if (isPrimary || danger) {
             color = COLOR.white;
             if (ghost) {
-                color = danger ? COLOR.danger : COLOR.primary;
+                color = danger ? COLOR.danger : COLOR.primary; // 幽灵按钮没有背景色，需要设置成对应的颜色
             }
         }
+        // 危险按钮需要设置文本颜色
         if (danger && !isPrimary) {
             color = COLOR.danger;
         }
-        return [{ fontSize: labelSizeMap[size], color, textAlignVertical: 'center' }, style?.text];
+        return { fontSize: ButtonLabelSize[size], color, textAlignVertical: 'center' };
     }, [ghost, isPrimary, danger, size, style]);
 
-    // 图标样式
-    const iconColor = useMemo(() => {
-        let color = ghost ? COLOR.white : COLOR.icon_touchable;
-        if (isPrimary || danger) {
-            color = COLOR.white;
-            if (ghost) {
-                color = danger ? COLOR.danger : COLOR.primary;
-            }
-        }
-        if (danger && !isPrimary) {
-            color = COLOR.danger;
-        }
-        return color;
-    }, [ghost, isPrimary, danger]);
-
-    const renderIconAndText = (renderType: 'icon' | 'text') => {
-        if (renderType === 'text') {
-            return <Text style={StyleSheet.flatten(textStyle)}>{props?.children}</Text>;
-        }
-        // 图标
-        return mergeElement(icon, { color: iconColor, size: iconSizeMap[size], style: { ...styles.icon, ...(style?.icon || {}) } });
-    };
+    // 图标节点
+    const iconEl = useMemo(() => {
+        return mergeElement(icon, { color: textStyle.color, size: ButtonIconSize[size], style: iconStyle });
+    }, [icon, textStyle, size, iconStyle]);
 
     const renderButton = () => {
         return (
-            <Flex alignItems="center" justifyContent="center" style={StyleSheet.flatten(buttonStyle)}>
-                {renderIconAndText('icon')}
-                {_.isString(props?.children) ? renderIconAndText('text') : props?.children}
+            <Flex alignItems="center" justifyContent="center" style={StyleSheet.flatten([buttonStyle, style?.button])}>
+                {iconEl}
+                {_.isString(children) ? <Text style={StyleSheet.flatten([textStyle, style?.text])}>{children}</Text> : children}
             </Flex>
         );
     };
 
-    if (disabled) {
-        return <View style={StyleSheet.flatten([...wrapperStyle, styles.disabled])}>{renderButton()}</View>;
-    }
-
     switch (type) {
         case 'text':
             return (
-                <PressOpacity style={wrapperStyle} onPress={onPress}>
+                <PressOpacity disabled={disabled} onPress={disabled ? undefined : onPress} style={rootStyle}>
                     {renderButton()}
                 </PressOpacity>
             );
         default:
             return (
-                <PressHighlight underlayColor={underlayStyle} style={wrapperStyle} onPress={onPress}>
+                <PressHighlight
+                    disabled={disabled}
+                    underlayColor={underlayStyle}
+                    onPress={disabled ? undefined : onPress}
+                    style={rootStyle}>
                     {renderButton()}
                 </PressHighlight>
             );
@@ -148,7 +107,7 @@ export default function Button(props: ButtonProps) {
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         overflow: 'hidden',
     },
     button: {
