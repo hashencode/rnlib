@@ -27,15 +27,9 @@ export interface IListProps {
     }; // 样式
 }
 
-export interface IListItemActions {
-    backgroundColor?: string; // 背景色
-    content?: ReactNode; // 内容插槽
-    width: number; // 操作按钮宽度
-    onPress?: () => void; // 点击回调函数
-}
-
 export interface IListItemProps extends PropsWithChildren {
-    actions?: IListItemActions[]; // 操作按钮
+    leftActions?: ISwipeableRowProps['leftActions']; // 左侧操作按钮
+    rightActions?: ISwipeableRowProps['rightActions']; // 右侧操作按钮
     disabled?: boolean; // 禁用
     extra?: ReactNode; // 右侧附加元素
     extraSubtitle?: string; // 额外内容副标题
@@ -47,8 +41,8 @@ export interface IListItemProps extends PropsWithChildren {
     style?: {
         root?: ViewStyle; // 最外层样式
         icon?: ImageStyle; // 图标样式
-        body?: ViewStyle; // 主要区域样式
-        main?: ViewStyle; // 内容区域样式
+        body?: ViewStyle; // 内容区域样式
+        main?: ViewStyle; // 主要内容区域样式
         title?: TextStyle; // 内容标题样式
         subTitle?: TextStyle; // 内容副标题样式
         extra?: ViewStyle; // 额外内容区域样式
@@ -59,6 +53,21 @@ export interface IListItemProps extends PropsWithChildren {
 }
 
 /**
+ * SwipeableRow
+ */
+export interface ISwipeableRowActionItem {
+    backgroundColor?: string; // 背景色
+    content?: ReactNode; // 内容插槽
+    width: number; // 操作按钮宽度
+    onPress?: () => void; // 点击回调函数
+}
+
+export interface ISwipeableRowProps extends SwipeableProps {
+    leftActions?: ISwipeableRowActionItem[];
+    rightActions?: ISwipeableRowActionItem[];
+}
+
+/**
  * Text
  */
 export interface ITextProps extends TextOriginProps, PropsWithChildren {
@@ -66,11 +75,4 @@ export interface ITextProps extends TextOriginProps, PropsWithChildren {
     size?: number; // 字体大小
     weight?: TextStyle['fontWeight']; // 字重
     style?: TextStyle; // 样式
-}
-
-/**
- * SwipeableRow
- */
-export interface ISwipeableRowProps extends SwipeableProps {
-    actions: IListItemActions[];
 }

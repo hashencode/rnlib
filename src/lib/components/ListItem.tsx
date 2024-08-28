@@ -1,108 +1,125 @@
-import React, { ReactElement, ReactNode } from 'react';
-import { ImageStyle, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import _ from 'lodash';
 import { Flex, Icon, PressHighlight, SwipeableRow, Text } from './index';
 import { mergeElement } from '@/lib/scripts/utils';
+import { IListItemProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
+import { useMemo } from 'react';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export interface ListItemActions {
-    color?: string; // 背景色
-    content?: ReactNode; // 内容插槽
-    width?: number; // 操作按钮宽度
-    onPress?: () => void; // 点击回调函数
-}
+export default function ListItem(props: IListItemProps) {
+    const {
+        leftActions,
+        rightActions,
+        disabled,
+        icon,
+        style,
+        title,
+        subtitle,
+        extra,
+        extraTitle,
+        extraSubtitle,
+        showArrow,
+        children,
+        onPress,
+    } = props;
 
-export interface ListItemProps {
-    actions?: ListItemActions[]; // 操作按钮
-    children?: ReactNode; // 内容插槽
-    disabled?: boolean; // 禁用
-    extra?: ReactNode; // 右侧附加元素
-    extraSubtitle?: string; // 额外内容副标题
-    extraTitle?: string; // 额外内容标题
-    last?: boolean; // 尾项，不显示分割线
-    icon?: ReactElement; // 左侧图标
-    showArrow?: boolean; // 显示右侧箭头
-    subtitle?: string; // 副标题
-    title?: string; // 主标题,
-    style?: {
-        wrapper?: ViewStyle; // 最外层样式
-        icon?: ImageStyle; // 图标样式
-        main?: ViewStyle; // 主要区域样式
-        content?: ViewStyle; // 内容区域样式
-        contentTitle?: TextStyle; // 内容标题样式
-        contentSubtitle?: TextStyle; // 内容副标题样式
-        extra?: ViewStyle; // 额外内容区域样式
-        extraTitle?: TextStyle; // 额外内容标题样式
-        extraSubtitle?: TextStyle; // 额外内容副标题样式
-        divider?: ViewStyle; // 分割线样式
-    }; // 样式
-    onPress?: () => void; // 点击事件回调
-}
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [disabled ? styles.disabled : undefined, style?.root],
+    });
 
-export default function ListItem(props: ListItemProps) {
-    const { actions, disabled, last, icon, style, title, subtitle, extra, extraTitle, extraSubtitle, showArrow, onPress } = props;
-    const showMainPart = title || subtitle;
+    // 图标样式
+    const iconStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.icon],
+        extraStyle: [style?.icon],
+    });
+
+    // 主体样式
+    const bodyStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.body],
+        extraStyle: [style?.body],
+    });
+
+    // 额外区域样式
+    const extraStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.extra],
+        extraStyle: [style?.extra],
+    });
+
+    // 额外区域标题样式
+    const extraTitleStyle = useStyle<TextStyle>({
+        defaultStyle: [styles.extraText],
+        extraStyle: [style?.extraTitle],
+    });
+
+    // 额外区域标题样式
+    const extraSubtitleStyle = useStyle<TextStyle>({
+        defaultStyle: [styles.extraText],
+        extraStyle: [style?.extraSubtitle],
+    });
+
+    // 图标节点
+    const iconEl = useMemo(() => {
+        return mergeElement(icon, {
+            size: SIZE.icon_mini,
+            style: iconStyle,
+        });
+    }, [icon, iconStyle]);
 
     // 主体元素
     const itemElement = (
-        <Flex block alignItems="center" style={StyleSheet.flatten([styles.wrapper, disabled ? styles.disabled : {}, style?.wrapper])}>
-            {/* 渲染图标 */}
-            {mergeElement(icon, {
-                size: SIZE.icon_mini,
-                style: StyleSheet.flatten([styles.icon, style?.icon]),
-            })}
+        <Flex block alignItems="center" style={rootStyle}>
+            {iconEl}
 
-            <Flex alignItems="stretch" style={StyleSheet.flatten([styles.main, style?.main])}>
-                {!last ? <View style={StyleSheet.flatten([styles.divider, style?.divider])}></View> : null}
+            <Flex alignItems="stretch" style={bodyStyle}>
+                <Flex column justifyContent="center" grow={1} shrink={0} style={style?.main}>
+                    <Text size={SIZE.font_h3} style={style?.title}>
+                        {title}
+                    </Text>
+                    <Text size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subTitle}>
+                        {subtitle}
+                    </Text>
+                    {children}
+                </Flex>
 
-                {showMainPart ? (
-                    <Flex column justifyContent="center" grow={1} shrink={0} style={style?.content}>
-                        <Text size={SIZE.font_h3} style={style?.contentTitle}>
-                            {title}
-                        </Text>
-                        <Text size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.contentSubtitle}>
-                            {subtitle}
-                        </Text>
-                        {props?.children}
-                    </Flex>
-                ) : null}
-
-                <Flex column alignItems="flex-end" justifyContent="center" style={StyleSheet.flatten([styles.extra, style?.extra])}>
-                    <Text size={SIZE.font_h3} style={StyleSheet.flatten([styles.extraText, style?.extraTitle])}>
+                <Flex column alignItems="flex-end" justifyContent="center" style={extraStyle}>
+                    <Text size={SIZE.font_h3} style={extraTitleStyle}>
                         {extraTitle}
                     </Text>
-                    <Text
-                        size={SIZE.font_h5}
-                        color={COLOR.text_desc}
-                        style={StyleSheet.flatten([styles.extraText, style?.extraSubtitle])}>
+                    <Text size={SIZE.font_h5} color={COLOR.text_desc} style={extraSubtitleStyle}>
                         {extraSubtitle}
                     </Text>
                     {extra}
                 </Flex>
-                {showArrow ? (
-                    <Icon name="chevron-right" size={SIZE.icon_small} color={COLOR.icon_touchable} style={styles.arrow} />
-                ) : null}
+                {showArrow ? <Icon name="chevron-right" size={SIZE.icon_small} color={COLOR.icon_touchable} style={styles.arrow} /> : null}
             </Flex>
         </Flex>
     );
 
     // 无反馈效果
     return (
-        <PressHighlight disabled={onPress ? disabled : true} onPress={onPress}>
-            {_.isUndefined(actions) ? itemElement : <SwipeableRow actions={actions}>{itemElement}</SwipeableRow>}
+        <PressHighlight disabled={disabled} onPress={disabled ? undefined : onPress}>
+            {leftActions || rightActions ? (
+                <SwipeableRow leftActions={leftActions} rightActions={rightActions}>
+                    {itemElement}
+                </SwipeableRow>
+            ) : (
+                itemElement
+            )}
         </PressHighlight>
     );
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         backgroundColor: COLOR.white,
         overflow: 'hidden',
         paddingLeft: SIZE.space_large,
     },
     disabled: {
         opacity: COLOR.opacity_disabled_option,
-        pointerEvents: 'none',
     },
     icon: {
         borderRadius: SIZE.radius_middle,
@@ -110,18 +127,10 @@ const styles = StyleSheet.create({
         marginRight: SIZE.space_large,
         overflow: 'hidden',
     },
-    main: {
+    body: {
         minHeight: SIZE.list_item_min_height,
         paddingVertical: SIZE.space_large,
         position: 'relative',
-    },
-    divider: {
-        backgroundColor: COLOR.border_default,
-        bottom: 0,
-        height: SIZE.border_default,
-        left: 0,
-        position: 'absolute',
-        width: '100%',
     },
     extra: {
         marginRight: SIZE.space_large,
