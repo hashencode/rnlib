@@ -3,7 +3,8 @@ import { StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useMergedState, useToggle } from '../hooks';
-import { Flex, Icon, PressOpacity, Text } from './index';
+import { Flex, Icon, Text } from './index';
+import PressHighlight from '@/lib/components/PressHighlight';
 export type InputValueType = string | undefined;
 
 export interface InputProProps extends Omit<TextInputProps, 'onChange'> {
@@ -134,9 +135,9 @@ function Input(props: InputProProps, ref?: React.Ref<unknown>) {
             />
 
             {showClearIcon ? (
-                <PressOpacity onPress={handleClearPress}>
+                <PressHighlight onPress={handleClearPress}>
                     <Icon name="x-circle" size={SIZE.icon_mini} color={COLOR.icon_touchable} />
-                </PressOpacity>
+                </PressHighlight>
             ) : null}
 
             {renderPrefixSuffix(suffix)}

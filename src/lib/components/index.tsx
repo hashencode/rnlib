@@ -32,7 +32,6 @@ export { default as Image } from './Image';
 export { default as Loading } from './Loading';
 export { default as Overlay } from './Overlay';
 export { default as PressHighlight } from './PressHighlight';
-export { default as PressOpacity } from './PressOpacity';
 export { default as Separator } from './Separator';
 export { default as SwipeableRow } from './SwipeableRow';
 export { default as Text } from './Text';

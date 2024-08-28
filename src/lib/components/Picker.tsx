@@ -140,11 +140,7 @@ export default function Picker(props: PickerProps) {
                 <ScrollView style={{ maxHeight: maxHeight }}>
                     {options.map(option => {
                         return (
-                            <PressHighlight
-                                disabled={option.disabled}
-                                separator={<Separator />}
-                                onPress={() => handleOptionPress(option.value)}
-                                key={option.value}>
+                            <PressHighlight disabled={option.disabled} onPress={() => handleOptionPress(option.value)} key={option.value}>
                                 <Flex
                                     alignItems="center"
                                     justifyContent="space-between"

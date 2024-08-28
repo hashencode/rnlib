@@ -1,7 +1,16 @@
-import { CSSProperties, Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
+import { ImageStyle, PressableProps, TextStyle, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
+
+/**
+ * Pressable
+ */
+
+export interface IPressHighlightProps extends PressableProps {
+    children?: ReactNode | string; // 插槽
+    underlayColor?: string; // 遮罩颜色
+}
 
 /**
  * Button

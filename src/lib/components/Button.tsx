@@ -3,7 +3,7 @@ import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, PressHighlight, PressOpacity, Text } from './index';
+import { Flex, PressHighlight, Text } from './index';
 import { mergeElement } from '@/lib/scripts/utils';
 import { IButtonProps } from '@/lib/_types/.components';
 import { ButtonIconSize, ButtonLabelSize } from '@/lib/scripts/enum';
@@ -86,24 +86,11 @@ export default function Button(props: IButtonProps) {
         );
     };
 
-    switch (type) {
-        case 'text':
-            return (
-                <PressOpacity disabled={disabled} onPress={disabled ? undefined : onPress} style={rootStyle}>
-                    {renderButton()}
-                </PressOpacity>
-            );
-        default:
-            return (
-                <PressHighlight
-                    disabled={disabled}
-                    underlayColor={underlayStyle}
-                    onPress={disabled ? undefined : onPress}
-                    style={rootStyle}>
-                    {renderButton()}
-                </PressHighlight>
-            );
-    }
+    return (
+        <PressHighlight disabled={disabled} underlayColor={underlayStyle} onPress={disabled ? undefined : onPress} style={rootStyle}>
+            {renderButton()}
+        </PressHighlight>
+    );
 }
 
 const styles = StyleSheet.create({
