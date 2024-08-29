@@ -40,7 +40,9 @@ export interface IDividerProps extends PropsWithChildren {
     orientation?: 'left' | 'center' | 'right'; // 文字位置
     type?: 'horizontal' | 'vertical'; // 水平还是垂直类型
     style?: {
-        root: ViewStyle;
+        root?: ViewStyle;
+        text?: TextStyle;
+        divider?: ViewStyle;
     }; // 样式
 }
 
@@ -105,4 +107,22 @@ export interface ITextProps extends TextOriginProps, PropsWithChildren {
     size?: number; // 字体大小
     weight?: TextStyle['fontWeight']; // 字重
     style?: TextStyle; // 样式
+}
+
+/**
+ * Head
+ */
+export interface IHeadProps {
+    backButtonLabel?: ReactNode; // 返回按钮文本
+    backgroundColor?: string; // 背景色
+    children?: ReactNode; // 内容插槽
+    extra?: ReactNode; // 额外元素
+    lightMode?: boolean; // 明亮模式
+    showBackButton?: boolean; // 显示返回按钮
+    style?: {
+        wrapper?: ViewStyle; // 最外层样式
+    }; // 样式
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
+    onBackButtonPress?: () => void; // 返回按钮点击事件回调
 }

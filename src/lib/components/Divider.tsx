@@ -1,32 +1,47 @@
-import React, { ReactNode } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import _ from 'lodash';
 import { Flex, Text } from './index';
+import { IDividerProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export interface DividerProps {
-    children?: ReactNode | string; // 插槽
-    orientation?: 'left' | 'center' | 'right'; // 文字位置
-    style?: ViewStyle; // 样式
-    type?: 'horizontal' | 'vertical'; // 分割方向
-}
-
-export default function Divider(props: DividerProps) {
-    const { type = 'horizontal', orientation = 'center', style } = props;
-    const hasContent = !_.isNil(props?.children);
+export default function Divider(props: IDividerProps) {
+    const { type = 'horizontal', orientation = 'center', style, children } = props;
     const isHorizontal = type === 'horizontal';
 
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles[type]],
+        extraStyle: [style?.root],
+    });
+
+    // 左侧分割线样式
+    const leftStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.horizontalSeparator],
+        extraStyle: [{ flexGrow: orientation === 'left' ? 0.1 : 1 }, style?.divider],
+    });
+
+    // 文本样式
+    const textStyle = useStyle<TextStyle>({
+        defaultStyle: [styles.text],
+        extraStyle: [style?.text],
+    });
+
+    // 右侧分割线样式
+    const rightStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.horizontalSeparator],
+        extraStyle: [{ flexGrow: orientation === 'right' ? 0.1 : 1 }, style?.divider],
+    });
+
     return (
-        <Flex
-            alignItems="center"
-            justifyContent="center"
-            columnGap={hasContent ? SIZE.space_ultra : 0}
-            style={StyleSheet.flatten([styles[type], style])}>
+        <Flex alignItems="center" justifyContent="center" style={rootStyle}>
             {isHorizontal ? (
                 <>
-                    <View style={StyleSheet.flatten([styles.horizontalSeparator, { flexGrow: orientation === 'left' ? 0.1 : 1 }])} />
-                    <Text size={SIZE.font_h5}>{props.children}</Text>
-                    <View style={StyleSheet.flatten([styles.horizontalSeparator, { flexGrow: orientation === 'right' ? 0.1 : 1 }])} />
+                    <View style={leftStyle} />
+                    <Text size={SIZE.font_h5} style={textStyle}>
+                        {children}
+                    </Text>
+                    <View style={rightStyle} />
                 </>
             ) : (
                 <View style={styles.verticalSeparator} />
@@ -37,7 +52,7 @@ export default function Divider(props: DividerProps) {
 
 const styles = StyleSheet.create({
     horizontal: {
-        height: SIZE.divider_horizontal_height,
+        marginVertical: SIZE.divider_horizontal_height / 2,
     },
     vertical: {
         height: SIZE.divider_vertical_height,
@@ -53,5 +68,9 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR.border_default,
         height: '100%',
         width: SIZE.border_default,
+    },
+    text: {
+        color: COLOR.text_subtitle,
+        marginHorizontal: SIZE.space_ultra,
     },
 });

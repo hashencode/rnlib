@@ -2,7 +2,6 @@ import { Fragment, Key, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import ListItem from '@/lib/components/ListItem';
-import { Divider } from '@/lib/components/index';
 import { IListProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
 
@@ -38,7 +37,7 @@ export default function List(props: IListProps) {
                 return (
                     <Fragment key={keyValue}>
                         {itemNode}
-                        {isLast ? null : <Divider style={{ root: dividerStyle }}></Divider>}
+                        {isLast ? null : <View style={dividerStyle}></View>}
                     </Fragment>
                 );
             })}
@@ -52,5 +51,5 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.radius_large,
         overflow: 'hidden',
     },
-    divider: { marginLeft: SIZE.space_large, marginVertical: 0 },
+    divider: { backgroundColor: COLOR.border_default, height: SIZE.border_default, marginLeft: SIZE.space_large, marginVertical: 0 },
 });

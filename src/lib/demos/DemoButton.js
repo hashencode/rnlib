@@ -67,16 +67,16 @@ export default function DemoButton() {
                 <Card>
                     <Flex columnGap={SIZE.space_middle} wrap="wrap">
                         <Button type="primary" size="large" round>
-                            圆润大
+                            圆润
                         </Button>
                         <Button type="primary" size="middle" round>
-                            圆润中
+                            圆润
                         </Button>
                         <Button type="primary" size="small" round>
-                            圆润小
+                            圆润
                         </Button>
                         <Button type="primary" size="mini" round>
-                            圆润迷你
+                            圆润
                         </Button>
                     </Flex>
                 </Card>
