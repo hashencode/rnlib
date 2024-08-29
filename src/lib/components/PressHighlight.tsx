@@ -17,7 +17,7 @@ export default function PressHighlight(props: IPressHighlightProps) {
     return (
         <Pressable
             disabled={disabled}
-            style={StyleSheet.flatten([styles.root, { opacity: disabled ? COLOR.opacity_disabled_controller : 1 }, style])}
+            style={StyleSheet.flatten([{ opacity: disabled ? COLOR.opacity_disabled_controller : 1 }, style])}
             {...rest}>
             {({ pressed }) => renderContent(pressed)}
         </Pressable>
@@ -25,10 +25,6 @@ export default function PressHighlight(props: IPressHighlightProps) {
 }
 
 const styles = StyleSheet.create({
-    root: {
-        position: 'relative',
-        width: '100%',
-    },
     overlay: {
         height: '100%',
         left: 0,

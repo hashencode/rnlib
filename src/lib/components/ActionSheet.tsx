@@ -80,11 +80,7 @@ export default function ActionSheet(props: ActionSheetProps) {
                 <ScrollView style={{ maxHeight: maxHeight }}>
                     {options.map((item, index) => {
                         return (
-                            <PressHighlight
-                                disabled={item.disabled}
-                                onPress={() => handleOptionPress(item.value)}
-                                separator={<Separator />}
-                                key={index}>
+                            <PressHighlight disabled={item.disabled} onPress={() => handleOptionPress(item.value)} key={index}>
                                 <View style={StyleSheet.flatten([styles.option, item.disabled ? styles.disabled : {}])}>
                                     <Text size={SIZE.font_h2} color={item.danger ? COLOR.text_danger : COLOR.text_title}>
                                         {item?.title}

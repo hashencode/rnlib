@@ -3,7 +3,7 @@ import { StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useUpdateEffect } from 'ahooks';
-import { Button, Flex, Overlay, PressHighlight, PressOpacity, Separator, Text } from './index';
+import { Button, Flex, Overlay, PressHighlight, Separator, Text } from './index';
 
 export interface DialogProps {
     actions?: { text: string; onPress?: () => void; style?: { wrapper?: ViewStyle; text?: TextStyle } }[]; // 动作列表
@@ -73,7 +73,6 @@ function Dialog(props: DialogProps) {
                     }
                     return (
                         <PressHighlight
-                            separator={separator}
                             style={{ width: buttonLen === 2 ? '50%' : '100%' }}
                             onPress={() => buttonItem?.onPress?.()}
                             key={index}>
@@ -119,14 +118,14 @@ function Dialog(props: DialogProps) {
                     }
 
                     return (
-                        <PressOpacity onPress={() => actionItem?.onPress?.()} key={index} style={styles.action}>
+                        <PressHighlight onPress={() => actionItem?.onPress?.()} key={index} style={styles.action}>
                             {/* 按钮 */}
                             <Flex block justifyContent="center" alignItems="center" style={actionItem?.style?.wrapper}>
                                 <Text size={SIZE.font_h2} color={COLOR.text_primary} style={actionItem?.style?.text}>
                                     {actionItem.text}
                                 </Text>
                             </Flex>
-                        </PressOpacity>
+                        </PressHighlight>
                     );
                 })}
             </Flex>
