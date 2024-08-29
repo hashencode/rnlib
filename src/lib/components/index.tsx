@@ -35,3 +35,4 @@ export { default as PressHighlight } from './PressHighlight';
 export { default as Separator } from './Separator';
 export { default as SwipeableRow } from './SwipeableRow';
 export { default as Text } from './Text';
+export { default as TextBox } from './TextBox';

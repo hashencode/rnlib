@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import _ from 'lodash';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, PressHighlight, Text } from './index';
+import { Flex, PressHighlight, TextBox } from './index';
 import { mergeElement } from '@/lib/scripts/utils';
 import { IButtonProps } from '@/lib/_types/.components';
 import { ButtonIconSize, ButtonLabelSize } from '@/lib/scripts/enum';
@@ -81,7 +80,7 @@ export default function Button(props: IButtonProps) {
         return (
             <Flex alignItems="center" justifyContent="center" style={StyleSheet.flatten([buttonStyle, style?.button])}>
                 {iconEl}
-                {_.isString(children) ? <Text style={StyleSheet.flatten([textStyle, style?.text])}>{children}</Text> : children}
+                <TextBox style={StyleSheet.flatten([textStyle, style?.text])}>{children}</TextBox>
             </Flex>
         );
     };

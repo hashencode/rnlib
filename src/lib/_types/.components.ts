@@ -2,6 +2,7 @@ import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { ImageStyle, PressableProps, TextStyle, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
+import { IconNames } from '@/lib/components/Icon';
 
 /**
  * Pressable
@@ -113,16 +114,30 @@ export interface ITextProps extends TextOriginProps, PropsWithChildren {
  * Head
  */
 export interface IHeadProps {
-    backButtonLabel?: ReactNode; // 返回按钮文本
-    backgroundColor?: string; // 背景色
-    children?: ReactNode; // 内容插槽
+    backIcon?: ReactNode; // 返回按钮图标
+    backText?: ReactNode; // 返回按钮文本
     extra?: ReactNode; // 额外元素
-    lightMode?: boolean; // 明亮模式
-    showBackButton?: boolean; // 显示返回按钮
     style?: {
-        wrapper?: ViewStyle; // 最外层样式
+        root?: ViewStyle; // 根节点样式
+        body?: ViewStyle; // 主体节点样式
+        title?: TextStyle; // 标题样式
+        subtitle?: TextStyle; // 副标题样式
+        backIcon?: TextStyle; // 返回图标样式
+        backText?: TextStyle; // 返回文本样式
     }; // 样式
     subtitle?: ReactNode; // 副标题
     title?: ReactNode; // 标题
-    onBackButtonPress?: () => void; // 返回按钮点击事件回调
+    onBack?: () => void; // 返回按钮点击事件回调
+}
+
+/**
+ * Icon
+ */
+export interface IIconProps {
+    color?: string; // 颜色
+    fill?: string; // 填充颜色
+    name: IconNames; // 名称
+    size?: number; // 尺寸
+    strokeWidth?: number; // 线条粗细
+    style?: TextStyle; // 样式
 }
