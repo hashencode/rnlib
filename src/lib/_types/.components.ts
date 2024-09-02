@@ -1,5 +1,5 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { ImageStyle, PressableProps, TextStyle, ViewStyle } from 'react-native';
+import { FlexStyle, ImageStyle, PressableProps, TextStyle, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '@/lib/components/Icon';
@@ -187,4 +187,48 @@ export interface IActionSheetProps {
  */
 export interface IGrabberProps {
     style?: ViewStyle;
+}
+
+/**
+ * Checkbox
+ */
+export type ICheckboxValue = boolean;
+
+export interface ICheckboxProps {
+    defaultValue?: ICheckboxValue; // 默认值
+    disabled?: boolean; // 禁用
+    indeterminate?: boolean; // 半选
+    label?: string; // 文本
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        iconContainer?: ViewStyle; // 图标容器样式
+        icon?: TextStyle; // 图标样式
+        label?: TextStyle; // 文本样式
+    }; // 样式
+    value?: ICheckboxValue; // 受控值
+    onChange?: (val: ICheckboxValue) => void; // 值变动事件回调
+}
+
+/**
+ * CheckboxGroup
+ */
+export type ICheckboxGroupOptionValue = string | number;
+
+export interface ICheckboxGroupOptions {
+    disabled?: boolean; // 禁用
+    label: string; // 文本
+    value: ICheckboxGroupOptionValue; // 选项值
+}
+
+export type ICheckboxGroupValue = ICheckboxGroupOptionValue[];
+
+export interface ICheckboxGroupProps {
+    defaultValue?: ICheckboxGroupValue; // 默认值
+    options?: ICheckboxGroupOptions[]; // 子项
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        option?: ICheckboxProps['style'];
+    }; // 样式
+    value?: ICheckboxGroupValue; // 受控值
+    onChange?: (value: ICheckboxGroupValue) => void;
 }

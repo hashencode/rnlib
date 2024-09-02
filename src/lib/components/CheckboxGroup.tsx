@@ -1,38 +1,20 @@
-import { ViewStyle } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
-import Checkbox, { CheckboxValue } from './Checkbox';
+import Checkbox from './Checkbox';
 import { useMergedState } from '../hooks';
 import { Flex } from '@/lib/components';
+import { ICheckboxGroupOptions, ICheckboxGroupProps, ICheckboxGroupValue, ICheckboxValue } from '@/lib/_types/.components';
 
-export type CheckboxGroupOptionValue = string | number;
-
-export interface CheckboxGroupOptions {
-    disabled?: boolean; // 禁用
-    label: string; // 文本
-    value: CheckboxGroupOptionValue; // 选项值
-}
-
-export type CheckboxGroupValue = CheckboxGroupOptionValue[];
-
-export interface CheckboxGroupProps {
-    defaultValue?: CheckboxGroupValue; // 默认值
-    options?: CheckboxGroupOptions[]; // 子项
-    style?: ViewStyle; // 样式
-    value?: CheckboxGroupValue; // 受控值
-    onChange?: (value: CheckboxGroupValue) => void;
-}
-
-export default function CheckboxGroup(props: CheckboxGroupProps) {
+export default function CheckboxGroup(props: ICheckboxGroupProps) {
     const { defaultValue, value, onChange, options = [], style } = props;
 
-    const [innerValue, handleChange] = useMergedState<CheckboxGroupValue>([], {
+    const [innerValue, handleChange] = useMergedState<ICheckboxGroupValue>([], {
         defaultValue,
         value,
         onChange,
     });
 
     // 处理子项的变更
-    const handleOptionChange = (val: CheckboxValue, option: CheckboxGroupOptions) => {
+    const handleOptionChange = (val: ICheckboxValue, option: ICheckboxGroupOptions) => {
         const optionValue = option.value;
         if (val) {
             if (innerValue.includes(optionValue)) {
@@ -46,7 +28,7 @@ export default function CheckboxGroup(props: CheckboxGroupProps) {
     };
 
     return (
-        <Flex rowGap={SIZE.space_middle} columnGap={SIZE.space_max} style={style}>
+        <Flex rowGap={SIZE.space_middle} columnGap={SIZE.space_max} style={style?.root}>
             {options.map(option => {
                 return (
                     <Checkbox
@@ -55,6 +37,7 @@ export default function CheckboxGroup(props: CheckboxGroupProps) {
                         value={innerValue.includes(option.value)}
                         disabled={option.disabled}
                         onChange={val => handleOptionChange(val, option)}
+                        style={style?.option}
                     />
                 );
             })}
