@@ -42,7 +42,7 @@ export const COLOR = {
     icon_default: '#333333',
     icon_touchable: '#999999',
     // 透明度
-    opacity_disabled_controller: 0.65,
+    opacity_disabled_controller: 0.5,
     opacity_disabled_option: 0.4,
     /**
      * components
@@ -160,4 +160,5 @@ export const SCROLL_BASIC_CONFIG: ScrollViewProps = {
     bounces: false,
 };
 
-export const DEFAULT_IMAGE = 'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxsG72wAo9EWJR4yQWyJJaDb6rYcBtJvTvH3UoAS4JFNDaxGhmKNaMwgElLURlRFeVkLCjkfnXmWtINWZIrPGYq0-&format=source';
+export const DEFAULT_IMAGE =
+    'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxsG72wAo9EWJR4yQWyJJaDb6rYcBtJvTvH3UoAS4JFNDaxGhmKNaMwgElLURlRFeVkLCjkfnXmWtINWZIrPGYq0-&format=source';

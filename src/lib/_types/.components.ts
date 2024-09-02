@@ -141,3 +141,50 @@ export interface IIconProps {
     strokeWidth?: number; // 线条粗细
     style?: TextStyle; // 样式
 }
+
+/**
+ * ActionSheet
+ */
+export type IActionSheetOptionValue = string | number;
+
+export interface IActionSheetOption {
+    children?: ReactNode; // 内容插槽
+    danger?: boolean; // 危险选项
+    disabled?: boolean; // 禁用
+    title: string; // 主文本
+    subtitle?: string; // 描述文本
+    value: IActionSheetOptionValue; // 选项值
+}
+
+export interface IActionSheetProps {
+    backCloseable?: boolean; // 允许返回操作关闭
+    header?: ReactNode | string; // 头部插槽
+    overlayClosable?: boolean; // 允许点击蒙层关闭
+    maxHeight?: number; // 最大高度
+    options: IActionSheetOption[]; // 选项
+    showCancel?: boolean; // 显示取消按钮
+    cancelText?: string; // 取消按钮文本
+    style?: {
+        root: ViewStyle; // 根节点样式
+        header?: ViewStyle; // 头部样式
+        headerText?: TextStyle; // 头部文本样式
+        option?: ViewStyle; // 选项样式
+        title?: TextStyle; // 标题样式
+        subtitle?: TextStyle; // 副标题样式
+        divider?: ViewStyle; // 分割线样式
+        cancelButton?: ViewStyle; // 取消按钮样式
+        cancelText?: TextStyle; // 取消按钮文本样式
+        grabber?: ViewStyle; // 抓手样式
+    }; // 样式
+    visible?: boolean; // 显隐
+    onCancel?: () => void; // 关闭事件回调
+    onOpen?: () => void; // 开启事件回调
+    onChange?: (val: IActionSheetOptionValue) => void; // 点击选项事件回调
+}
+
+/**
+ * Grabber
+ */
+export interface IGrabberProps {
+    style?: ViewStyle;
+}

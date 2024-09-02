@@ -6056,6 +6056,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-actions-sheet@^0.9.7:
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.9.7.tgz#43ff2d9252f7af2da6dc051be5a5c375a844cdfb"
+  integrity sha512-rjUwxUr5dxbdSLDtLDUFAdSlFxpNSpJsbXLhHkBzEBMxEMPUhRT3zqbvKqsPj0JUkjwuRligxrhbIJZkg/6ZDw==
+
 react-native-animated-pagination-dot@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-native-animated-pagination-dot/-/react-native-animated-pagination-dot-0.4.0.tgz#23a2ae7a6f87fe0a71638ddc3cd8405810c10c2b"

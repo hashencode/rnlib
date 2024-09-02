@@ -20,6 +20,7 @@
     "lucide-react-native": "^0.436.0",
     "react": "18.3.1",
     "react-native": "0.75.2",
+    "react-native-actions-sheet": "^0.9.7",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-gesture-handler": "^2.18.1",
     "react-native-haptic-feedback": "^2.3.1",
