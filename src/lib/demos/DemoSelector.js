@@ -1,4 +1,3 @@
-import React from 'react';
 import { DefaultLayout, Head, Icon, Selector, Group, Card } from '../components';
 
 export default function DemoSelector() {

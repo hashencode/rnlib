@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, DefaultLayout, Flex, Head, Group, Card } from '../components';
 import { useToast } from '../hooks';
 import { SIZE } from '@/lib/scripts/const';

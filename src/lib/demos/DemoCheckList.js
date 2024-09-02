@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, CheckList, DefaultLayout, Head, Group, Image } from '../components';
 import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 

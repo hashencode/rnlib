@@ -1,6 +1,6 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Icon, PressHighlight, SwipeableRow, Text } from './index';
+import { Flex, Icon, PressHighlight, SwipeableRow, Text } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
 import { IListItemProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';

@@ -1,8 +1,8 @@
-import React, { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
-import { Flex, Text } from './index';
+import { Flex, Text } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
 
 export interface CardProps {

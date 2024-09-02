@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, DefaultLayout, Flex, Group, Head, Icon, Tag } from '../components';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 

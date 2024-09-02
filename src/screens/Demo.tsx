@@ -1,4 +1,3 @@
-import React from 'react';
 import List from '@/lib/components/List';
 import Group from '@/lib/components/Group';
 import { useNavigation } from '@react-navigation/native';

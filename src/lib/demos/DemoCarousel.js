@@ -1,4 +1,3 @@
-import React from 'react';
 import { Carousel, DefaultLayout, Flex, Head, Text, Group, Card } from '../components';
 
 export default function DemoCarousel() {

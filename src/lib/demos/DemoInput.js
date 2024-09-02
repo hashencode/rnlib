@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button, DefaultLayout, Flex, Group, Head, Icon, Input } from '../components';
 import { SIZE } from '@/lib/scripts/const';
 

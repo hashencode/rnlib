@@ -1,9 +1,8 @@
-import React from 'react';
 import { ViewStyle } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 import Radio, { RadioValue } from './Radio';
 import { useMergedState } from '../hooks';
-import { Flex } from './index';
+import { Flex } from '@/lib/components';
 
 export type RadioGroupOptionValue = string | number;
 

@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { FlexAlignType, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 
 export interface FlexProps extends ViewProps {

@@ -1,9 +1,9 @@
-import React, { forwardRef, ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
 import { StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useMergedState, useToggle } from '../hooks';
-import { Flex, Icon, Text } from './index';
+import { Flex, Icon, Text } from '@/lib/components';
 import PressHighlight from '@/lib/components/PressHighlight';
 export type InputValueType = string | undefined;
 

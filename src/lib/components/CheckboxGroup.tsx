@@ -1,9 +1,8 @@
-import React from 'react';
 import { ViewStyle } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 import Checkbox, { CheckboxValue } from './Checkbox';
 import { useMergedState } from '../hooks';
-import { Flex } from './index';
+import { Flex } from '@/lib/components';
 
 export type CheckboxGroupOptionValue = string | number;
 

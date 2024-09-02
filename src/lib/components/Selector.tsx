@@ -1,9 +1,9 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
-import { Flex, Icon, Text } from './index';
+import { Flex, Icon, Text } from '@/lib/components';
 
 export type SelectorRawValue = number | string;
 export type SelectorValue = SelectorRawValue | SelectorRawValue[] | undefined;

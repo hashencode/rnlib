@@ -1,9 +1,9 @@
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { LayoutChangeEvent, Pressable, ScrollView, StyleSheet, ViewStyle, View } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Flex, Text } from './index';
+import { Flex, Text } from '@/lib/components';
 import { useMergedState } from '../hooks';
 
 type TabsItemValue = string;

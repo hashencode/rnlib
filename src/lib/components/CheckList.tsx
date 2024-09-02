@@ -1,9 +1,9 @@
-import React, { ReactElement, ReactNode, useMemo } from 'react';
+import { ReactElement, ReactNode, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState } from '../hooks';
 import _ from 'lodash';
-import { Icon, ListItem } from './index';
+import { Icon, ListItem } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
 
 export type CheckListRawValue = number | string;

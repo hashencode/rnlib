@@ -1,8 +1,7 @@
-import React from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useUpdateEffect } from 'ahooks';
-import { Flex, Icon, Loading, Overlay, Text } from './index';
+import { Flex, Icon, Loading, Overlay, Text } from '@/lib/components';
 import { IconNames } from './Icon';
 
 export interface ToastProps {

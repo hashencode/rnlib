@@ -1,4 +1,3 @@
-import React from 'react';
 import { DefaultLayout, Divider, Flex, Head, Text, Group, Card } from '../components';
 
 export default function DemoDivider() {

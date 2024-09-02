@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
-import { Flex } from './index';
+import { Flex } from '@/lib/components';
 import { SCROLL_BASIC_CONFIG, SIZE } from '@/lib/scripts/const';
 import useTheme from '../hooks/useTheme';
 import { SafeAreaView } from 'react-native-safe-area-context';

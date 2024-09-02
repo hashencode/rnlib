@@ -1,6 +1,6 @@
-import React, { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
-import { Flex, Text } from './index';
+import { Flex, Text } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 

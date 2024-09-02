@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, DefaultLayout, Group, Head, Tabs, Text } from '../components';
 
 export default function DemoTabs() {

@@ -1,7 +1,7 @@
 /**
  * 改造自 https://github.com/jeanregisser/react-native-slider
  */
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { Animated, StyleSheet, PanResponder, View, Easing, ViewStyle } from 'react-native';
 
 const TRACK_SIZE = 3;

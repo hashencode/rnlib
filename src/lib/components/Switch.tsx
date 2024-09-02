@@ -1,8 +1,7 @@
-import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState } from '../hooks';
-import { Flex } from './index';
+import { Flex } from '@/lib/components';
 
 export interface SwitchProProps {
     defaultValue?: boolean; // 默认值

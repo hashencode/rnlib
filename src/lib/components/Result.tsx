@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Icon, Text } from './index';
+import { Flex, Icon, Text } from '@/lib/components';
 
 export interface ResultProps {
     style?: ViewStyle; // 样式

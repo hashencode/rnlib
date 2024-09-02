@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, ScrollView, TextInput, StatusBar } from 'react-native';
 
 interface Props extends React.ComponentProps<typeof ScrollView> {

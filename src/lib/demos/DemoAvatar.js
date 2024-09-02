@@ -1,4 +1,3 @@
-import React from 'react';
 import { Avatar, DefaultLayout, Flex, Head, Group, Card } from '../components';
 import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 

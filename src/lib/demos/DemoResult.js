@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, DefaultLayout, Group, Head, Result } from '../components';
 
 function DemoResult() {

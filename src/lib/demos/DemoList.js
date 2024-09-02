@@ -1,4 +1,3 @@
-import React from 'react';
 import { DefaultLayout, Head, Icon, Switch, Group, List, Image, Text } from '../components';
 import { COLOR, DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 

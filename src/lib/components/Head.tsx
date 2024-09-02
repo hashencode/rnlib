@@ -2,7 +2,7 @@ import { View, StyleSheet, Pressable, ViewStyle } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
-import { Flex, Icon, TextBox } from './index';
+import { Flex, Icon, TextBox } from '@/lib/components';
 import { IHeadProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
 

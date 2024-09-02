@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState } from '../hooks';
-import { Flex, Icon, Text } from './index';
+import { Flex, Icon, Text } from '@/lib/components';
 
 export type CheckboxValue = boolean;
 

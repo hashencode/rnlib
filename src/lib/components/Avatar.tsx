@@ -1,7 +1,7 @@
-import React, { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { ImageSourcePropType, ImageStyle, StyleSheet } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Image, Text } from './index';
+import { Flex, Image, Text } from '@/lib/components';
 import _ from 'lodash';
 
 export interface AvatarProps {

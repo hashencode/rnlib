@@ -1,10 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
 import Button from './Button';
-import { Flex, Grabber, Icon, Overlay, PressHighlight, Separator, Text } from './index';
+import { Flex, Grabber, Icon, Overlay, PressHighlight, Separator, Text } from '@/lib/components';
 
 export type PickerRawValue = number | string;
 export type PickerValue = PickerRawValue | PickerRawValue[] | undefined;

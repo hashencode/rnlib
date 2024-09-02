@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { cloneElement, isValidElement, ReactElement } from 'react';
+import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
 import _ from 'lodash';
 
 export function isAndroid() {
@@ -25,4 +25,9 @@ export function mergeElement(element?: ReactElement, defaultProps?: {}): ReactEl
         return element;
     }
     return null;
+}
+
+// 合并Ref
+export function mergeRefs<T>(refs: Array<RefObject<T> | ForwardedRef<T> | undefined | null>): RefObject<T> {
+    return refs.filter(ref => !!ref)[0] as RefObject<T>;
 }

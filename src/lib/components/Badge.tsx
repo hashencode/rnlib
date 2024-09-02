@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Text } from './index';
+import { Flex, Text } from '@/lib/components';
 
 export interface BadgeProps {
     bordered?: boolean; // 显示边框

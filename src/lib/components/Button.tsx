@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, PressHighlight, TextBox } from './index';
+import { Flex, PressHighlight, TextBox } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
 import { IButtonProps } from '@/lib/_types/.components';
 import { ButtonIconSize, ButtonLabelSize } from '@/lib/scripts/enum';

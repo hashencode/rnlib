@@ -1,8 +1,8 @@
-import React, { isValidElement, ReactElement, ReactNode } from 'react';
+import { isValidElement, ReactElement, ReactNode } from 'react';
 import { ImageStyle, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import Button, { ButtonProps } from './Button';
-import { Flex, Image, Text } from './index';
+import { Flex, Image, Text } from '@/lib/components';
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
 
 interface Buttons extends ButtonProps {

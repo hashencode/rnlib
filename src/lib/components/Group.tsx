@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
-import { Text } from './index';
+import { Text } from '@/lib/components';
 
 export interface GroupProps {
     children?: ReactNode; // 内容插槽
@@ -19,7 +19,7 @@ export interface GroupProps {
 
 export default function Group(props: GroupProps) {
     const { header, footer, first, style } = props;
-    const headPaddingStyle = { paddingTop: first ? 0 : SIZE.space_middle };
+    const headPaddingStyle = { paddingTop: first ? 0 : SIZE.space_large };
 
     return (
         <View style={StyleSheet.flatten([styles.wrapper, style?.wrapper])}>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { DefaultLayout, Head, Group, Card } from '../components';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
 

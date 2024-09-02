@@ -1,4 +1,3 @@
-import React from 'react';
 import { DefaultLayout, ErrorBlock, Head, Group, Card } from '../components';
 import { DEFAULT_IMAGE } from '@/lib/scripts/const';
 

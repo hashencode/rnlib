@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { COLOR } from '@/lib/scripts/const';
 import Icon from './Icon';
 import { StyleSheet, ViewStyle } from 'react-native';

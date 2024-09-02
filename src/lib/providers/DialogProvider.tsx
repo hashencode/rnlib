@@ -1,4 +1,3 @@
-import React from 'react';
 import { createContext, useCallback, useState } from 'react';
 import { randomId } from '../scripts/utils';
 import Dialog, { DialogProps } from '../components/Dialog';

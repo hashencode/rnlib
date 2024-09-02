@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, DefaultLayout, Dialog, Flex, Head, Input, Group, Card } from '../components';
 import { useDialog } from '../hooks';
 import { COLOR, SIZE } from '@/lib/scripts/const';

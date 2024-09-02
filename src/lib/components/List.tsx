@@ -51,5 +51,5 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.radius_large,
         overflow: 'hidden',
     },
-    divider: { backgroundColor: COLOR.border_default, height: SIZE.border_default, marginLeft: SIZE.space_large, marginVertical: 0 },
+    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_large, marginVertical: 0 },
 });

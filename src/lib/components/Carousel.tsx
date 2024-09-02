@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { default as CarouselX } from 'react-native-reanimated-carousel';
 import { LayoutChangeEvent } from 'react-native/Libraries/Types/CoreEventTypes';

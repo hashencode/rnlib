@@ -1,4 +1,3 @@
-import React from 'react';
 import { COLOR, DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
 import { Button, Card, DefaultLayout, Flex, Head, Icon, Text, Group, Image } from '../components';

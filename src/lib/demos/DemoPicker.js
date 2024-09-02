@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Card, DefaultLayout, Flex, Group, Head, Picker } from '../components';
 import { SIZE } from '@/lib/scripts/const';
 

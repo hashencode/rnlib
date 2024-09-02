@@ -1,4 +1,3 @@
-import React from 'react';
 import { Image as ImageOrigin, ImageProps as ImageOriginProps, ImageResizeMode, ImageStyle } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import DialogProvider from './DialogProvider';
 import ToastProvider from './ToastProvider';
 import ThemeProvider from './ThemeProvider';
