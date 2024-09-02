@@ -20,7 +20,7 @@ export default function List(props: IListProps) {
         extraStyle: [style?.divider],
     });
 
-    // 是否是最后一项
+    // 最后一项的序号
     const lastIndex = useMemo(() => {
         if (!items) {
             return 0;
@@ -48,8 +48,6 @@ export default function List(props: IListProps) {
 const styles = StyleSheet.create({
     root: {
         backgroundColor: COLOR.white,
-        borderRadius: SIZE.radius_large,
-        overflow: 'hidden',
     },
     divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_large, marginVertical: 0 },
 });

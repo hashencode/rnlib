@@ -232,3 +232,33 @@ export interface ICheckboxGroupProps {
     value?: ICheckboxGroupValue; // 受控值
     onChange?: (value: ICheckboxGroupValue) => void;
 }
+
+/**
+ * CheckList
+ */
+export type ICheckListRawValue = number | string;
+export type ICheckListValue = ICheckListRawValue | ICheckListRawValue[] | undefined;
+
+export interface CheckListOptions {
+    children?: ReactNode; // 内容插槽
+    disabled?: boolean; // 禁用
+    icon?: ReactElement; // 左侧图标
+    subtitle?: string; // 副标题
+    title?: string; // 主标题,
+    value: ICheckListRawValue; // 列表项值
+}
+
+export interface ICheckListProps {
+    defaultValue?: ICheckListValue; // 默认值
+    checkedIcon?: ReactElement; // 选中图标
+    options?: CheckListOptions[]; // 列表项
+    multiple?: boolean; // 多选
+    renderItem?: (item: IListItemProps, index: number) => ReactElement; // 渲染函数
+    rowKey?: (item: IListItemProps) => Key; // 唯一键生成函数
+    style?: {
+        root?: ViewStyle; // 最外层样式
+        divider?: ViewStyle; // 分割线样式
+    }; // 样式
+    value?: ICheckListValue; // 受控值
+    onChange?: (val: ICheckListValue) => void; // 值变动事件回调
+}

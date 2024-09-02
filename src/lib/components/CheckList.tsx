@@ -1,44 +1,35 @@
-import { ReactElement, ReactNode, useMemo } from 'react';
+import { Fragment, Key, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState } from '../hooks';
 import _ from 'lodash';
 import { Icon, ListItem } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
+import { ICheckListProps, ICheckListRawValue, ICheckListValue } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
 
-export type CheckListRawValue = number | string;
-export type CheckListValue = CheckListRawValue | CheckListRawValue[] | undefined;
+export default function CheckList(props: ICheckListProps) {
+    const { options, rowKey, renderItem, checkedIcon = <Icon name="check" />, defaultValue, multiple, style, value, onChange } = props;
 
-export interface CheckListOptions {
-    children?: ReactNode; // 内容插槽
-    disabled?: boolean; // 禁用
-    extra?: ReactNode; // 右侧附加元素
-    icon?: ReactElement; // 左侧图标
-    subtitle?: string; // 副标题
-    title?: string; // 主标题,
-    value: CheckListRawValue; // 列表项值
-}
-
-export interface CheckListProps {
-    defaultValue?: CheckListValue; // 默认值
-    checkedIcon?: ReactElement; // 选中图标
-    options?: CheckListOptions[]; // 列表项
-    multiple?: boolean; // 多选
-    style?: {
-        wrapper?: ViewStyle; // 最外层样式
-    }; // 样式
-    value?: CheckListValue; // 受控值
-    onChange?: (val: CheckListValue) => void; // 值变动事件回调
-}
-
-export default function CheckList(props: CheckListProps) {
-    const { options, checkedIcon = <Icon name="check" />, defaultValue, multiple, style, value, onChange } = props;
-
-    const [innerValue, handleChange] = useMergedState<CheckListValue>(multiple ? [] : undefined, {
+    const [innerValue, handleChange] = useMergedState<ICheckListValue>(multiple ? [] : undefined, {
         defaultValue,
         value,
         onChange,
     });
+
+    // 根元素样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
+
+    // 分割线样式
+    const dividerStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.divider],
+        extraStyle: [style?.divider],
+    });
+
+    // 最后一项的序号
     const lastIndex = useMemo(() => {
         if (!options) {
             return 0;
@@ -46,10 +37,11 @@ export default function CheckList(props: CheckListProps) {
         return options.length - 1;
     }, [options]);
 
-    const handleListItemPress = (itemValue: CheckListRawValue) => {
+    // 处理列表项点击
+    const handleListItemPress = (itemValue: ICheckListRawValue) => {
         if (multiple) {
             if (_.isArray(innerValue)) {
-                if (innerValue.includes(itemValue as CheckListRawValue)) {
+                if (innerValue.includes(itemValue as ICheckListRawValue)) {
                     handleChange(innerValue.filter(item => item !== itemValue));
                 } else {
                     handleChange([...innerValue, itemValue]);
@@ -61,42 +53,44 @@ export default function CheckList(props: CheckListProps) {
     };
 
     // 渲染右侧区域
-    const renderExtra = (itemValue: CheckListValue) => {
+    const renderExtra = (itemValue: ICheckListValue) => {
         const iconEl = mergeElement(checkedIcon, {
             size: SIZE.icon_mini,
             color: COLOR.primary,
         });
-        if (multiple) {
-            if (_.isArray(innerValue)) {
-                if (innerValue.includes(itemValue as CheckListRawValue)) {
-                    return iconEl;
-                }
-            }
-            return null;
-        } else {
-            if (innerValue === itemValue) {
-                return iconEl;
-            }
-            return null;
+        if (multiple && _.isArray(innerValue) && innerValue.includes(itemValue as ICheckListRawValue)) {
+            return iconEl;
+        } else if (innerValue === itemValue) {
+            return iconEl;
         }
+        return null;
     };
 
     if (!options) {
         return null;
     }
+
     return (
-        <View style={StyleSheet.flatten([styles.wrapper, style?.wrapper])}>
-            {options.map((item, index) => {
-                return (
+        <View style={rootStyle}>
+            {options?.map((item, index) => {
+                const isLast = index === lastIndex;
+                let keyValue: Key = rowKey ? rowKey(item) : index;
+                let itemNode = renderItem ? (
+                    renderItem(item, index)
+                ) : (
                     <ListItem
-                        {...item}
-                        last={index === lastIndex}
-                        key={index}
                         extra={renderExtra(item.value)}
                         onPress={() => {
                             handleListItemPress(item.value);
                         }}
+                        {...item}
                     />
+                );
+                return (
+                    <Fragment key={keyValue}>
+                        {itemNode}
+                        {isLast ? null : <View style={dividerStyle}></View>}
+                    </Fragment>
                 );
             })}
         </View>
@@ -104,10 +98,8 @@ export default function CheckList(props: CheckListProps) {
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
-        borderRadius: SIZE.radius_middle,
-        overflow: 'hidden',
-        position: 'relative',
-        width: '100%',
+    root: {
+        backgroundColor: COLOR.white,
     },
+    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_large, marginVertical: 0 },
 });

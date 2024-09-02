@@ -140,10 +140,6 @@ export default forwardRef(ActionSheet);
 const styles = StyleSheet.create({
     root: {
         backgroundColor: COLOR.white,
-        borderTopEndRadius: SIZE.radius_large,
-        borderTopStartRadius: SIZE.radius_large,
-        overflow: 'hidden',
-        width: '100%',
     },
     header: {
         backgroundColor: COLOR.white,
@@ -162,9 +158,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZE.space_ultra,
         paddingVertical: SIZE.space_middle,
         position: 'relative',
-    },
-    disabled: {
-        opacity: COLOR.opacity_disabled_option,
     },
     divider: {
         borderBottomWidth: SIZE.border_default,
