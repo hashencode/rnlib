@@ -270,7 +270,7 @@ export interface IInputRef {
     focus: () => void;
     blur: () => void;
     clear: () => void;
-    isFocused: () => boolean;
+    isFocused: () => boolean | undefined;
 }
 
 export interface IInputProps extends Omit<TextInputProps, 'onChange' | 'style'> {

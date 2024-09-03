@@ -1,9 +1,8 @@
 import { forwardRef, Ref, useImperativeHandle, useMemo, useRef } from 'react';
-import { StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState, useToggle } from '../hooks';
 import { Flex, Icon, TextBox } from '@/lib/components';
-import PressHighlight from '@/lib/components/PressHighlight';
 import { IInputProps, IInputRef } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -34,22 +33,17 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
         ...rest
     } = props;
 
-    const inputRef = useRef<any>(null);
+    const inputRef = useRef<TextInput>(null);
     const [previewIcon, nodeIndex] = useToggle([
         <Icon name="eye-off" size={SIZE.icon_xs} color={COLOR.icon_touchable} />,
         <Icon name="eye" size={SIZE.icon_xs} color={COLOR.icon_touchable} />,
     ]);
+
     const [innerValue, handleChange] = useMergedState(undefined, {
         defaultValue,
         value,
         onChange,
     });
-    const showClearIcon = useMemo(() => {
-        if (disabled || !allowClear) {
-            return false;
-        }
-        return innerValue && innerValue.length > 0;
-    }, [innerValue, disabled, allowClear]);
 
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
@@ -120,6 +114,18 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
         return null;
     };
 
+    // 渲染关闭按钮
+    const renderCloseIcon = useMemo(() => {
+        if (disabled || !allowClear || !(innerValue && innerValue.length)) {
+            return null;
+        }
+        return (
+            <Pressable disabled={disabled} onPress={handleClearPress}>
+                <Icon name="x-circle" size={SIZE.icon_xs} color={COLOR.icon_touchable} />
+            </Pressable>
+        );
+    }, [innerValue, disabled, allowClear]);
+
     return (
         <Flex block alignItems="center" columnGap={SIZE.space_md} style={rootStyle}>
             {renderPrefix()}
@@ -134,12 +140,7 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
                 onChange={handleInputChange}
             />
 
-            {showClearIcon ? (
-                <PressHighlight onPress={handleClearPress}>
-                    <Icon name="x-circle" size={SIZE.icon_xs} color={COLOR.icon_touchable} />
-                </PressHighlight>
-            ) : null}
-
+            {renderCloseIcon}
             {renderSuffix()}
             {password ? previewIcon : null}
         </Flex>
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
         borderWidth: SIZE.border_default,
     },
     input_sm: {
-        fontSize: SIZE.font_desc,
+        fontSize: SIZE.font_secondary,
         height: SIZE.input_height_sm,
     },
     input_md: {
@@ -192,6 +193,5 @@ const styles = StyleSheet.create({
     disabled: {
         backgroundColor: COLOR.bg_disabled,
         borderColor: COLOR.border_disabled,
-        pointerEvents: 'none',
     },
 });

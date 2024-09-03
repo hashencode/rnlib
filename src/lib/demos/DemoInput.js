@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Button, DefaultLayout, Flex, Group, Head, Icon, Input } from '../components';
+import { Button, DefaultLayout, Flex, Group, Head, Input } from '../components';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoInput() {
@@ -33,7 +33,6 @@ export default function DemoInput() {
             <Group header="前后缀">
                 <Flex column rowGap={SIZE.space_md}>
                     <Input prefix="$" suffix=".00" placeholder="金额" />
-                    <Input prefix={<Icon size={SIZE.icon_xxs} name="zap" />} suffix="kwh" placeholder="用电量" />
                 </Flex>
             </Group>
             <Group header="无边框">
