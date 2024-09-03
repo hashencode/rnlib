@@ -6,16 +6,16 @@ export default function DemoAvatar() {
         <DefaultLayout head={<Head title="头像 Avatar" />}>
             <Group header="尺寸" first>
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
-                        <Avatar size="large" source={{ uri: DEFAULT_IMAGE }} />
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
+                        <Avatar size="lg" source={{ uri: DEFAULT_IMAGE }} />
                         <Avatar source={{ uri: DEFAULT_IMAGE }} />
-                        <Avatar size="small" source={{ uri: DEFAULT_IMAGE }} />
+                        <Avatar size="sm" source={{ uri: DEFAULT_IMAGE }} />
                     </Flex>
                 </Card>
             </Group>
             <Group header="形状">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Avatar source={{ uri: DEFAULT_IMAGE }} shape="square" />
                         <Avatar source={{ uri: DEFAULT_IMAGE }} />
                     </Flex>
@@ -23,10 +23,10 @@ export default function DemoAvatar() {
             </Group>
             <Group header="文本显示">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
-                        <Avatar size="large" alt="用户" />
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
+                        <Avatar size="lg" alt="用户" />
                         <Avatar alt="用户" />
-                        <Avatar size="small" alt="用户" />
+                        <Avatar size="sm" alt="用户" />
                     </Flex>
                 </Card>
             </Group>

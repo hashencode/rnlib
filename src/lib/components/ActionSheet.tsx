@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: SIZE.border_default,
         borderColor: COLOR.border_default,
         minHeight: SIZE.action_sheet_option_height,
-        paddingHorizontal: SIZE.space_ultra,
-        paddingVertical: SIZE.space_middle,
+        paddingHorizontal: SIZE.space_xl,
+        paddingVertical: SIZE.space_md,
     },
     option: {
         alignItems: 'center',
@@ -155,8 +155,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         minHeight: SIZE.action_sheet_option_height,
-        paddingHorizontal: SIZE.space_ultra,
-        paddingVertical: SIZE.space_middle,
+        paddingHorizontal: SIZE.space_xl,
+        paddingVertical: SIZE.space_md,
         position: 'relative',
     },
     divider: {
@@ -165,6 +165,6 @@ const styles = StyleSheet.create({
     },
     footerSpace: {
         backgroundColor: COLOR.bg_page,
-        height: SIZE.space_large,
+        height: SIZE.space_lg,
     },
 });

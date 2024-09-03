@@ -1,16 +1,13 @@
 import { isValidElement, ReactElement, ReactNode } from 'react';
 import { ImageStyle, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import Button, { ButtonProps } from './Button';
+import Button from './Button';
 import { Flex, Image, Text } from '@/lib/components';
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
-
-interface Buttons extends ButtonProps {
-    text?: string; // 按钮文本
-}
+import { IButtonProps } from '@/lib/_types/.components';
 
 export interface ErrorBlockProps {
-    buttons?: Buttons[]; // 按钮列表
+    buttons?: IButtonProps[]; // 按钮列表
     fullscreen?: boolean; // 全屏显示
     image?: ReactElement | ImageSourcePropType; // 主图
     imageStyle?: ImageStyle; // 主图样式
@@ -61,11 +58,11 @@ export default function ErrorBlock(props: ErrorBlockProps) {
             )}
 
             {buttons ? (
-                <Flex columnGap={SIZE.space_large}>
-                    {buttons.map(({ text, ...rest }, index) => {
+                <Flex columnGap={SIZE.space_lg}>
+                    {buttons.map(({ children, ...rest }, index) => {
                         return (
-                            <Button size="small" key={index} {...rest}>
-                                {text}
+                            <Button size="sm" key={index} {...rest}>
+                                {children}
                             </Button>
                         );
                     })}
@@ -77,15 +74,15 @@ export default function ErrorBlock(props: ErrorBlockProps) {
 
 const styles = StyleSheet.create({
     wrapper: {
-        paddingHorizontal: SIZE.space_ultra,
+        paddingHorizontal: SIZE.space_xl,
     },
     image: {
-        marginBottom: SIZE.space_large,
+        marginBottom: SIZE.space_lg,
     },
     title: {
-        marginBottom: SIZE.space_middle,
+        marginBottom: SIZE.space_md,
     },
     subtitle: {
-        marginBottom: SIZE.space_max,
+        marginBottom: SIZE.space_2xl,
     },
 });

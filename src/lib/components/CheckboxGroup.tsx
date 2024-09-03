@@ -28,7 +28,7 @@ export default function CheckboxGroup(props: ICheckboxGroupProps) {
     };
 
     return (
-        <Flex rowGap={SIZE.space_middle} columnGap={SIZE.space_max} style={style?.root}>
+        <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_2xl} style={style?.root}>
             {options.map(option => {
                 return (
                     <Checkbox

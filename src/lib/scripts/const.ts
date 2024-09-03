@@ -57,11 +57,11 @@ export const COLOR = {
 
 export const SIZE = {
     // 间距
-    space_max: 20,
-    space_ultra: 16,
-    space_large: 12,
-    space_middle: 8,
-    space_small: 4,
+    space_2xl: 20,
+    space_xl: 16,
+    space_lg: 12,
+    space_md: 8,
+    space_sm: 4,
     // 字号
     font_h1: 20, // 结果页标题
     font_h2: 18, // 页面标题
@@ -76,26 +76,26 @@ export const SIZE = {
     border_default: 1,
     border_bold: 2,
     // 圆角
-    radius_small: 2,
-    radius_middle: 4,
-    radius_large: 8,
+    radius_sm: 2,
+    radius_md: 4,
+    radius_lg: 8,
     // 图标尺寸
-    icon_ultra: 36,
-    icon_large: 32,
-    icon_middle: 28,
-    icon_small: 24,
-    icon_mini: 20,
-    icon_tiny: 16,
+    icon_xl: 36,
+    icon_lg: 32,
+    icon_md: 28,
+    icon_sm: 24,
+    icon_xs: 20,
+    icon_xxs: 16,
     // 字重
     weight_title: '500' as any,
     /**
      * components
      */
     // 按钮
-    button_height_large: 50,
-    button_height_middle: 40,
-    button_height_small: 30,
-    button_height_mini: 26,
+    button_height_lg: 50,
+    button_height_md: 40,
+    button_height_sm: 30,
+    button_height_xs: 26,
     button_padding_horizontal: 12,
     // 列表
     list_item_min_height: 48,
@@ -107,21 +107,21 @@ export const SIZE = {
     // 卡片
     card_header_height: 46,
     // 输入框（关联button）
-    input_height_large: 50,
-    input_height_middle: 40,
-    input_height_small: 30,
+    input_height_lg: 50,
+    input_height_md: 40,
+    input_height_sm: 30,
     // 标签（关联mini button）
     tag_height: 26,
     tag_icon_size: 12,
     // 选择
     picker_item_height: 50,
     // 开关
-    switch_width_middle: 50,
-    switch_height_middle: 30,
-    switch_border_middle: 2,
-    switch_width_small: 36,
-    switch_height_small: 20,
-    switch_border_small: 1.5,
+    switch_width_md: 50,
+    switch_height_md: 30,
+    switch_border_md: 2,
+    switch_width_sm: 36,
+    switch_height_sm: 20,
+    switch_border_sm: 1.5,
     switch_radius: 15.5,
     // 对话框
     dialog_width: 288,
@@ -135,9 +135,9 @@ export const SIZE = {
     toast_big_size: 140,
     toast_width_max: 200,
     // 头像
-    avatar_size_large: 50,
-    avatar_size_middle: 40,
-    avatar_size_small: 30,
+    avatar_size_lg: 50,
+    avatar_size_md: 40,
+    avatar_size_sm: 30,
     // 结果
     result_icon_size: 64,
     result_icon_stroke_width: 1.2,

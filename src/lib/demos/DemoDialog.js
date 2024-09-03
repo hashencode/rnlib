@@ -36,7 +36,7 @@ export default function DemoDialog() {
         <DefaultLayout head={<Head title="对话框 Dialog" />}>
             <Group header="按钮数量" first>
                 <Card>
-                    <Flex columnGap={SIZE.space_middle}>
+                    <Flex columnGap={SIZE.space_md}>
                         <Button onPress={() => setOpenId('one')}>单个按钮</Button>
                         <Button onPress={() => setOpenId('two')}>两个按钮</Button>
                         <Button onPress={() => setOpenId('three')}>三个及以上</Button>
@@ -49,7 +49,7 @@ export default function DemoDialog() {
             </Group>
             <Group header="动作按钮">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle}>
+                    <Flex columnGap={SIZE.space_md}>
                         <Button onPress={() => setOpenId('actions_main')}>仅主操作</Button>
                         <Button onPress={() => setOpenId('actions_all')}>包含副操作</Button>
                     </Flex>
@@ -58,7 +58,7 @@ export default function DemoDialog() {
                 <Dialog {...config} visible={openId === 'actions_all'} actions={[{ ...primaryButton }, cancelButton]} />
             </Group>
             <Group header="按钮文本颜色">
-                <Card columnGap={SIZE.space_middle}>
+                <Card columnGap={SIZE.space_md}>
                     <Button onPress={() => setOpenId('danger')}>危险</Button>
                 </Card>
                 <Dialog
@@ -68,7 +68,7 @@ export default function DemoDialog() {
                 />
             </Group>
             <Group header="自定义插槽">
-                <Card columnGap={SIZE.space_middle}>
+                <Card columnGap={SIZE.space_md}>
                     <Button onPress={() => setOpenId('extra')}>输入框</Button>
                 </Card>
                 <Dialog {...config} visible={openId === 'extra'} buttons={[okButton]}>
@@ -76,7 +76,7 @@ export default function DemoDialog() {
                 </Dialog>
             </Group>
             <Group header="静态方法创建">
-                <Card columnGap={SIZE.space_middle}>
+                <Card columnGap={SIZE.space_md}>
                     <Button onPress={() => createDialogByMethod()}>非组件形式创建</Button>
                 </Card>
             </Group>

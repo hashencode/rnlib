@@ -38,7 +38,7 @@ export default function RadioGroup(props: RadioGroupProps) {
     };
 
     return (
-        <Flex rowGap={SIZE.space_middle} columnGap={SIZE.space_max} style={style}>
+        <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_2xl} style={style}>
             {options.map(option => {
                 return (
                     <Radio

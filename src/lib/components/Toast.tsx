@@ -46,7 +46,7 @@ export default function Toast(props: ToastProps) {
                 alignItems="center"
                 justifyContent="center"
                 column
-                rowGap={SIZE.space_middle}
+                rowGap={SIZE.space_md}
                 style={StyleSheet.flatten([styles.wrapper, isInfo ? styles.noIcon : styles.hasIcon, style])}>
                 {renderIcon()}
                 <Text size={SIZE.font_h4} color={COLOR.text_white}>
@@ -60,8 +60,8 @@ export default function Toast(props: ToastProps) {
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: COLOR.toast_background,
-        borderRadius: SIZE.radius_large,
-        padding: SIZE.space_large,
+        borderRadius: SIZE.radius_lg,
+        padding: SIZE.space_lg,
     },
     noIcon: {
         maxWidth: SIZE.toast_width_max,

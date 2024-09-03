@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     },
     vertical: {
         height: SIZE.divider_vertical_height,
-        marginHorizontal: SIZE.space_large,
+        marginHorizontal: SIZE.space_lg,
     },
     horizontalSeparator: {
         backgroundColor: COLOR.border_default,
@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     },
     text: {
         color: COLOR.text_subtitle,
-        marginHorizontal: SIZE.space_ultra,
+        marginHorizontal: SIZE.space_xl,
     },
 });

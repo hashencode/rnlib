@@ -117,7 +117,7 @@ export default function Tabs(props: TabsProps) {
                 alignItems="center"
                 justifyContent="space-around"
                 style={StyleSheet.flatten([styles.header, style?.header])}
-                columnGap={SIZE.space_max}>
+                columnGap={SIZE.space_2xl}>
                 {items.map(item => {
                     const isActive = innerValue === item.value;
                     return (

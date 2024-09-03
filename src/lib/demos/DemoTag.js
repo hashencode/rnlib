@@ -6,7 +6,7 @@ export default function DemoTag() {
         <DefaultLayout head={<Head title="标签 Tag" />}>
             <Group header="图标" first>
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Tag icon={<Icon name="tag"></Icon>}>文本</Tag>
                         <Tag icon={<Icon name="tag"></Icon>} />
                     </Flex>
@@ -14,7 +14,7 @@ export default function DemoTag() {
             </Group>
             <Group header="颜色">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Tag borderColor="#91caff">边框</Tag>
                         <Tag borderColor="#91caff" textColor={COLOR.primary}>
                             文本
@@ -37,7 +37,7 @@ export default function DemoTag() {
             </Group>
             <Group header="无边框">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Tag borderColor="#91caff" backgroundColor="#e6f4ff" textColor={COLOR.primary} bordered={false}>
                             无边框
                         </Tag>

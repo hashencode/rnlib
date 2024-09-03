@@ -55,7 +55,7 @@ export default function CheckList(props: ICheckListProps) {
     // 渲染右侧区域
     const renderExtra = (itemValue: ICheckListValue) => {
         const iconEl = mergeElement(checkedIcon, {
-            size: SIZE.icon_mini,
+            size: SIZE.icon_xs,
             color: COLOR.primary,
         });
         if (multiple && _.isArray(innerValue) && innerValue.includes(itemValue as ICheckListRawValue)) {
@@ -101,5 +101,5 @@ const styles = StyleSheet.create({
     root: {
         backgroundColor: COLOR.white,
     },
-    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_large, marginVertical: 0 },
+    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_lg, marginVertical: 0 },
 });

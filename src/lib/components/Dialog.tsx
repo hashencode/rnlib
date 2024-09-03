@@ -108,7 +108,7 @@ function Dialog(props: DialogProps) {
                                 <Button
                                     type="primary"
                                     onPress={actionItem?.onPress}
-                                    size="large"
+                                    size="lg"
                                     block
                                     style={{ text: actionItem?.style?.text }}>
                                     {actionItem.text}
@@ -137,7 +137,7 @@ function Dialog(props: DialogProps) {
             {/*主容器*/}
             <Flex column alignItems="center" style={StyleSheet.flatten([styles.wrapper, style?.wrapper])}>
                 {/*头部*/}
-                <Flex column block alignItems="center" rowGap={SIZE.space_middle} style={StyleSheet.flatten([styles.body, style?.body])}>
+                <Flex column block alignItems="center" rowGap={SIZE.space_md} style={StyleSheet.flatten([styles.body, style?.body])}>
                     <Text size={SIZE.font_h2} style={StyleSheet.flatten([styles.title, style?.title])}>
                         {title}
                     </Text>
@@ -159,18 +159,18 @@ export default Dialog;
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: COLOR.white,
-        borderRadius: SIZE.radius_large,
+        borderRadius: SIZE.radius_lg,
         overflow: 'hidden',
         width: SIZE.dialog_width,
         zIndex: 99,
     },
     body: {
-        paddingHorizontal: SIZE.space_large,
-        paddingVertical: SIZE.space_max,
+        paddingHorizontal: SIZE.space_lg,
+        paddingVertical: SIZE.space_2xl,
     },
     title: {
         fontWeight: SIZE.weight_title,
-        marginBottom: SIZE.space_middle,
+        marginBottom: SIZE.space_md,
     },
     buttonContainer: {
         borderColor: COLOR.border_controller,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: COLOR.white,
         borderColor: COLOR.border_controller,
-        height: SIZE.button_height_large,
+        height: SIZE.button_height_lg,
     },
     buttonTopSeparator: {
         bottom: 'auto',
@@ -195,14 +195,14 @@ const styles = StyleSheet.create({
         width: SIZE.border_default,
     },
     actionsContainer: {
-        paddingBottom: SIZE.space_large,
+        paddingBottom: SIZE.space_lg,
     },
     primaryAction: {
-        paddingHorizontal: SIZE.space_large,
+        paddingHorizontal: SIZE.space_lg,
         width: '100%',
     },
     action: {
-        marginTop: SIZE.space_ultra,
+        marginTop: SIZE.space_xl,
         width: '100%',
     },
 });

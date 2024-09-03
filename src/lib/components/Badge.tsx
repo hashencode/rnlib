@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.badge_size / 2,
         height: SIZE.badge_size,
         minWidth: SIZE.badge_size,
-        paddingHorizontal: SIZE.space_small,
+        paddingHorizontal: SIZE.space_sm,
     },
     dot: {
         backgroundColor: COLOR.danger,

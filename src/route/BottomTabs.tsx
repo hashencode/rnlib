@@ -23,7 +23,7 @@ function BottomTabs() {
                 tabBarInactiveTintColor: COLOR.text_subtitle,
                 tabBarActiveTintColor: COLOR.primary,
                 tabBarIcon: ({ color }) => {
-                    return <Icon name={tabs[route.name].icon} color={color} size={SIZE.icon_small} />;
+                    return <Icon name={tabs[route.name].icon} color={color} size={SIZE.icon_sm} />;
                 },
                 tabBarStyle: { backgroundColor: COLOR.white },
             })}>

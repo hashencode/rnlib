@@ -3,24 +3,19 @@ import { ImageSourcePropType, ImageStyle, StyleSheet } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { Flex, Image, Text } from '@/lib/components';
 import _ from 'lodash';
+import { TextSizeMap } from '@/lib/scripts/enum';
 
 export interface AvatarProps {
     alt?: string; // 未加载完成时显示的文本
     children?: ReactNode; // 内容插槽
     shape?: 'circle' | 'square'; // 形状
-    size?: 'large' | 'middle' | 'small' | number; // 尺寸
+    size?: 'lg' | 'md' | 'sm' | number; // 尺寸
     source?: ImageSourcePropType; // 图片来源
     style?: ImageStyle; // 样式
 }
 
-enum TextSizeMap {
-    large = SIZE.font_h2,
-    middle = SIZE.font_h5,
-    small = SIZE.font_mini,
-}
-
 export default function Avatar(props: AvatarProps) {
-    const { alt, shape = 'circle', source, size = 'middle', style } = props;
+    const { alt, shape = 'circle', source, size = 'md', style } = props;
 
     const [loadEnd, setLoadEnd] = useState(false);
 
@@ -32,7 +27,7 @@ export default function Avatar(props: AvatarProps) {
         } else {
             width = height = SIZE[`avatar_size_${size}`];
         }
-        return { width, height, borderRadius: shape === 'circle' ? width : SIZE.radius_middle };
+        return { width, height, borderRadius: shape === 'circle' ? width : SIZE.radius_md };
     }, [size, shape]);
 
     return (
@@ -59,7 +54,7 @@ export default function Avatar(props: AvatarProps) {
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: COLOR.bg_controller,
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         position: 'relative',
     },
     alt: {

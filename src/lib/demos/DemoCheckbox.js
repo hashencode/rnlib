@@ -14,7 +14,7 @@ export default function DemoCheckbox() {
             </Group>
             <Group header="禁用">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Checkbox label="未选中" disabled />
                         <Checkbox label="已选中" disabled defaultValue={true} />
                         <Checkbox label="半选" disabled indeterminate />
@@ -33,14 +33,14 @@ export default function DemoCheckbox() {
             </Group>
             <Group header="受控">
                 <Card>
-                    <Flex column rowGap={SIZE.space_middle} wrap="wrap">
+                    <Flex column rowGap={SIZE.space_md} wrap="wrap">
                         <Checkbox label="受控组件" value={isChecked} onChange={val => setIsChecked(val)} />
                         <Button onPress={() => setIsChecked(!isChecked)}>切换状态</Button>
                     </Flex>
                 </Card>
             </Group>
             <Group header="多选组合">
-                <Card columnGap={SIZE.space_middle} wrap="wrap">
+                <Card columnGap={SIZE.space_md} wrap="wrap">
                     <CheckboxGroup
                         options={[
                             { label: '选项A', value: 'A' },

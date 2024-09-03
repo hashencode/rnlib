@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     contentContainer: {
-        padding: SIZE.space_large,
+        padding: SIZE.space_lg,
     },
 });

@@ -14,7 +14,7 @@ export interface LoadingProps {
 }
 
 export default function Loading(props: LoadingProps) {
-    const { icon = <Icon name="loader"></Icon>, color = COLOR.icon_touchable, size = SIZE.icon_middle, style } = props;
+    const { icon = <Icon name="loader"></Icon>, color = COLOR.icon_touchable, size = SIZE.icon_md, style } = props;
 
     const angle = useSharedValue(0);
 

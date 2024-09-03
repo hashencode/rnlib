@@ -40,9 +40,9 @@ export default function Radio(props: RadioProps) {
 
     return (
         <Pressable onPress={handlePress} disabled={disabled}>
-            <Flex alignItems="center" columnGap={SIZE.space_small} style={style}>
+            <Flex alignItems="center" columnGap={SIZE.space_sm} style={style}>
                 <Flex alignItems="center" justifyContent="center" style={StyleSheet.flatten([styles.iconBox, boxStyle])}>
-                    {innerValue ? <Icon name="check" size={SIZE.icon_tiny} color={disabled ? COLOR.text_desc : COLOR.white} /> : null}
+                    {innerValue ? <Icon name="check" size={SIZE.icon_xxs} color={disabled ? COLOR.text_desc : COLOR.white} /> : null}
                 </Flex>
                 <Text size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title}>
                     {label}

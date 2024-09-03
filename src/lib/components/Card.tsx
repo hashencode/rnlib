@@ -25,10 +25,10 @@ export default function Card(props: CardProps) {
         <View style={StyleSheet.flatten([styles.wrapper, style?.wrapper])}>
             {/* 头部 */}
             {showHeader ? (
-                <Flex justifyContent="space-between" alignItems="center" wrap="nowrap" columnGap={SIZE.space_middle} style={styles.header}>
-                    <Flex alignItems="center" columnGap={SIZE.space_middle} grow={1}>
+                <Flex justifyContent="space-between" alignItems="center" wrap="nowrap" columnGap={SIZE.space_md} style={styles.header}>
+                    <Flex alignItems="center" columnGap={SIZE.space_md} grow={1}>
                         {/* 图标 */}
-                        {mergeElement(icon, { size: SIZE.icon_mini })}
+                        {mergeElement(icon, { size: SIZE.icon_xs })}
                         {/* 标题 */}
                         {_.isString(title) ? (
                             <Text size={SIZE.font_h4} weight={SIZE.weight_title}>
@@ -51,17 +51,17 @@ export default function Card(props: CardProps) {
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: COLOR.white,
-        borderRadius: SIZE.radius_large,
+        borderRadius: SIZE.radius_lg,
         overflow: 'hidden',
         width: '100%',
     },
     header: {
         borderBottomWidth: SIZE.border_default,
         borderColor: COLOR.border_default,
-        marginHorizontal: SIZE.space_large,
+        marginHorizontal: SIZE.space_lg,
         minHeight: SIZE.card_header_height,
     },
     body: {
-        padding: SIZE.space_large,
+        padding: SIZE.space_lg,
     },
 });

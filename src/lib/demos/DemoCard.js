@@ -30,7 +30,7 @@ export default function DemoCard() {
                     extra={
                         <Flex alignItems="center">
                             <Text color={COLOR.text_desc}>更多</Text>
-                            <Icon name="chevron-right" size={SIZE.icon_mini} color={COLOR.icon_touchable} />
+                            <Icon name="chevron-right" size={SIZE.icon_xs} color={COLOR.icon_touchable} />
                         </Flex>
                     }>
                     <Placeholder>
@@ -45,7 +45,7 @@ export default function DemoCard() {
                     title="标题"
                     icon={<Icon name="alarm-clock" />}
                     extra={
-                        <Button size="mini" type="primary" ghost>
+                        <Button size="xs" type="primary" ghost>
                             动作按钮
                         </Button>
                     }>

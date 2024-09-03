@@ -9,9 +9,9 @@ export default function DemoSwitch() {
         <DefaultLayout head={<Head title="开关 Switch" />}>
             <Group header="尺寸" first>
                 <Card>
-                    <Flex columnGap={SIZE.space_middle}>
+                    <Flex columnGap={SIZE.space_md}>
                         <Switch />
-                        <Switch size="small" />
+                        <Switch size="sm" />
                     </Flex>
                 </Card>
             </Group>
@@ -22,9 +22,9 @@ export default function DemoSwitch() {
             </Group>
             <Group header="受控">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle}>
+                    <Flex columnGap={SIZE.space_md}>
                         <Switch value={switchValue} onChange={val => setSwitchValue(val)} />
-                        <Button size="small" onPress={() => setSwitchValue(!switchValue)}>
+                        <Button size="sm" onPress={() => setSwitchValue(!switchValue)}>
                             切换
                         </Button>
                     </Flex>
@@ -32,11 +32,11 @@ export default function DemoSwitch() {
             </Group>
             <Group header="禁用">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle}>
+                    <Flex columnGap={SIZE.space_md}>
                         <Switch disabled={true} />
-                        <Switch size="small" disabled={true} />
+                        <Switch size="sm" disabled={true} />
                         <Switch disabled defaultValue={true} />
-                        <Switch size="small" disabled defaultValue={true} />
+                        <Switch size="sm" disabled defaultValue={true} />
                     </Flex>
                 </Card>
             </Group>

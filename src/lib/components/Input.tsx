@@ -1,24 +1,12 @@
-import { forwardRef, ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, Ref, useImperativeHandle, useMemo, useRef } from 'react';
 import { StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import _ from 'lodash';
 import { useMergedState, useToggle } from '../hooks';
-import { Flex, Icon, Text } from '@/lib/components';
+import { Flex, Icon, TextBox } from '@/lib/components';
 import PressHighlight from '@/lib/components/PressHighlight';
-export type InputValueType = string | undefined;
-
-export interface InputProProps extends Omit<TextInputProps, 'onChange'> {
-    allowClear?: boolean; // 允许清空输入
-    bordered?: boolean; // 显示边框
-    disabled?: boolean; // 禁用
-    prefix?: ReactNode | string; // 前缀
-    round?: boolean; // 圆形外观
-    size?: 'small' | 'middle' | 'large'; // 尺寸
-    style?: ViewStyle; // 样式
-    suffix?: ReactNode | string; // 后缀
-    type?: 'password' | 'search'; // 预设类型
-    onChange?: (val: InputValueType) => void; // 值变动事件回调
-}
+import { IInputProps, IInputRef } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 const defaultProps: Partial<TextInputProps> = {
     autoCapitalize: 'none',
@@ -29,7 +17,7 @@ const defaultProps: Partial<TextInputProps> = {
     placeholderTextColor: COLOR.text_placeholder,
 };
 
-function Input(props: InputProProps, ref?: React.Ref<unknown>) {
+function Input(props: IInputProps, ref?: Ref<IInputRef>) {
     const {
         allowClear,
         bordered = true,
@@ -37,19 +25,19 @@ function Input(props: InputProProps, ref?: React.Ref<unknown>) {
         disabled,
         prefix,
         round,
-        size = 'middle',
+        size = 'md',
         style,
         suffix,
-        type,
         value,
+        password,
         onChange,
         ...rest
     } = props;
 
     const inputRef = useRef<any>(null);
     const [previewIcon, nodeIndex] = useToggle([
-        <Icon name="eye-off" size={SIZE.icon_mini} color={COLOR.icon_touchable} />,
-        <Icon name="eye" size={SIZE.icon_mini} color={COLOR.icon_touchable} />,
+        <Icon name="eye-off" size={SIZE.icon_xs} color={COLOR.icon_touchable} />,
+        <Icon name="eye" size={SIZE.icon_xs} color={COLOR.icon_touchable} />,
     ]);
     const [innerValue, handleChange] = useMergedState(undefined, {
         defaultValue,
@@ -62,12 +50,23 @@ function Input(props: InputProProps, ref?: React.Ref<unknown>) {
         }
         return innerValue && innerValue.length > 0;
     }, [innerValue, disabled, allowClear]);
-    const isPasswordInput = useMemo(() => {
-        return type === 'password';
-    }, [type]);
-    const isSearchInput = useMemo(() => {
-        return type === 'search';
-    }, [type]);
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [
+            bordered ? styles.inputBorder : undefined,
+            round ? styles[`round_${size}`] : undefined,
+            disabled ? styles.disabled : undefined,
+            style?.root,
+        ],
+    });
+
+    // 主输入框样式
+    const mainStyle = useStyle<TextStyle>({
+        defaultStyle: [styles.main, styles[`input_${size}`]],
+        extraStyle: [style?.main],
+    });
 
     // 处理清空按钮点击
     const handleClearPress = () => {
@@ -93,41 +92,42 @@ function Input(props: InputProProps, ref?: React.Ref<unknown>) {
             inputRef?.current?.clear();
         },
         isFocused: () => {
-            inputRef?.current?.isFocused();
+            return inputRef?.current?.isFocused();
         },
     }));
 
-    // 渲染前后缀
-    const renderPrefixSuffix = (content: ReactNode | string) => {
-        if (_.isString(content)) {
+    // 渲染前缀
+    const renderPrefix = () => {
+        if (prefix) {
             return (
-                <Text style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }])}>{content}</Text>
+                <TextBox style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.prefix])}>
+                    {prefix}
+                </TextBox>
             );
         }
-        return content;
+        return null;
+    };
+
+    // 渲染后缀
+    const renderSuffix = () => {
+        if (suffix) {
+            return (
+                <TextBox style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.suffix])}>
+                    {suffix}
+                </TextBox>
+            );
+        }
+        return null;
     };
 
     return (
-        <Flex
-            block
-            alignItems="center"
-            columnGap={SIZE.space_middle}
-            style={StyleSheet.flatten([
-                styles.wrapper,
-                bordered ? styles.inputBorder : {},
-                round ? styles[`round_${size}`] : {},
-                disabled ? styles.disabled : {},
-                style,
-            ])}>
-            {isSearchInput ? <Icon name="search" size={SIZE.icon_mini} color={COLOR.icon_touchable} /> : renderPrefixSuffix(prefix)}
+        <Flex block alignItems="center" columnGap={SIZE.space_md} style={rootStyle}>
+            {renderPrefix()}
+
             <TextInput
                 ref={inputRef}
-                secureTextEntry={isPasswordInput && nodeIndex === 0}
-                style={StyleSheet.flatten([
-                    styles.input,
-                    styles[`input_${size}`],
-                    { color: disabled ? COLOR.text_desc : COLOR.text_title },
-                ])}
+                secureTextEntry={password && nodeIndex === 0}
+                style={mainStyle}
                 {...defaultProps}
                 {...rest}
                 value={innerValue}
@@ -136,12 +136,12 @@ function Input(props: InputProProps, ref?: React.Ref<unknown>) {
 
             {showClearIcon ? (
                 <PressHighlight onPress={handleClearPress}>
-                    <Icon name="x-circle" size={SIZE.icon_mini} color={COLOR.icon_touchable} />
+                    <Icon name="x-circle" size={SIZE.icon_xs} color={COLOR.icon_touchable} />
                 </PressHighlight>
             ) : null}
 
-            {renderPrefixSuffix(suffix)}
-            {isPasswordInput ? previewIcon : null}
+            {renderSuffix()}
+            {password ? previewIcon : null}
         </Flex>
     );
 }
@@ -149,12 +149,12 @@ function Input(props: InputProProps, ref?: React.Ref<unknown>) {
 export default forwardRef(Input);
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         backgroundColor: COLOR.white,
-        paddingHorizontal: SIZE.space_large,
+        paddingHorizontal: SIZE.space_lg,
         position: 'relative',
     },
-    input: {
+    main: {
         flexGrow: 1,
         flexShrink: 1,
         margin: 0,
@@ -162,32 +162,32 @@ const styles = StyleSheet.create({
     },
     inputBorder: {
         borderColor: COLOR.border_controller,
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         borderWidth: SIZE.border_default,
     },
-    input_small: {
+    input_sm: {
         fontSize: SIZE.font_desc,
-        height: SIZE.input_height_small,
+        height: SIZE.input_height_sm,
     },
-    input_middle: {
+    input_md: {
         fontSize: SIZE.font_h4,
-        height: SIZE.input_height_middle,
+        height: SIZE.input_height_md,
     },
-    input_large: {
+    input_lg: {
         fontSize: SIZE.font_h2,
-        height: SIZE.input_height_large,
+        height: SIZE.input_height_lg,
     },
-    round_small: {
-        borderRadius: SIZE.input_height_small / 2,
-        paddingHorizontal: SIZE.space_ultra,
+    round_sm: {
+        borderRadius: SIZE.input_height_sm / 2,
+        paddingHorizontal: SIZE.space_xl,
     },
-    round_middle: {
-        borderRadius: SIZE.input_height_middle / 2,
-        paddingHorizontal: SIZE.space_ultra,
+    round_md: {
+        borderRadius: SIZE.input_height_md / 2,
+        paddingHorizontal: SIZE.space_xl,
     },
-    round_large: {
-        borderRadius: SIZE.input_height_large / 2,
-        paddingHorizontal: SIZE.space_ultra,
+    round_lg: {
+        borderRadius: SIZE.input_height_lg / 2,
+        paddingHorizontal: SIZE.space_xl,
     },
     disabled: {
         backgroundColor: COLOR.bg_disabled,

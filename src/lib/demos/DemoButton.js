@@ -7,7 +7,7 @@ export default function DemoButton() {
         <DefaultLayout head={<Head title="按钮 Button" />}>
             <Group header="类型" first>
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Button type="default">默认</Button>
                         <Button type="primary">强调</Button>
                         <Button type="text">文本</Button>
@@ -16,7 +16,7 @@ export default function DemoButton() {
             </Group>
             <Group header="危险按钮">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Button type="default" danger>
                             默认
                         </Button>
@@ -31,7 +31,7 @@ export default function DemoButton() {
             </Group>
             <Group header="幽灵按钮">
                 <Card style={{ wrapper: { backgroundColor: COLOR.gray } }}>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Button type="default" ghost>
                             默认
                         </Button>
@@ -46,17 +46,15 @@ export default function DemoButton() {
             </Group>
             <Group header="尺寸">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
-                        <Button type="primary" size="large">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
+                        <Button type="primary" size="lg">
                             大
                         </Button>
-                        <Button type="primary" size="middle">
-                            中
-                        </Button>
-                        <Button type="primary" size="small">
+                        <Button type="primary">中</Button>
+                        <Button type="primary" size="sm">
                             小
                         </Button>
-                        <Button type="primary" size="mini">
+                        <Button type="primary" size="xs">
                             迷你
                         </Button>
                     </Flex>
@@ -64,17 +62,17 @@ export default function DemoButton() {
             </Group>
             <Group header="圆润外观">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
-                        <Button type="primary" size="large" round>
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
+                        <Button type="primary" size="lg" round>
                             圆润
                         </Button>
-                        <Button type="primary" size="middle" round>
+                        <Button type="primary" round>
                             圆润
                         </Button>
-                        <Button type="primary" size="small" round>
+                        <Button type="primary" size="sm" round>
                             圆润
                         </Button>
-                        <Button type="primary" size="mini" round>
+                        <Button type="primary" size="xs" round>
                             圆润
                         </Button>
                     </Flex>
@@ -82,7 +80,7 @@ export default function DemoButton() {
             </Group>
             <Group header="块">
                 <Card>
-                    <Flex rowGap={SIZE.space_middle} block column wrap="wrap">
+                    <Flex rowGap={SIZE.space_md} block column wrap="wrap">
                         <Button type="default" block>
                             默认
                         </Button>
@@ -97,7 +95,7 @@ export default function DemoButton() {
             </Group>
             <Group header="图标">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} rowGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} rowGap={SIZE.space_md} wrap="wrap">
                         <Button icon={<Icon name="check"></Icon>}>默认</Button>
                         <Button type="primary" icon={<Icon name="check"></Icon>}>
                             反色
@@ -107,7 +105,7 @@ export default function DemoButton() {
             </Group>
             <Group header="禁用">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} rowGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} rowGap={SIZE.space_md} wrap="wrap">
                         <Button type="default" disabled>
                             默认
                         </Button>

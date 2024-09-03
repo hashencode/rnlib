@@ -39,17 +39,33 @@ export default function Checkbox(props: ICheckboxProps) {
     // 渲染图标
     const renderIcon = () => {
         if (indeterminate) {
-            return <Icon name="minus" size={SIZE.icon_tiny} color={disabled ? COLOR.text_desc : COLOR.primary} style={style?.icon} />;
+            return (
+                <Icon
+                    name="minus"
+                    size={SIZE.icon_xxs}
+                    strokeWidth={3}
+                    color={disabled ? COLOR.text_desc : COLOR.primary}
+                    style={style?.icon}
+                />
+            );
         }
         if (innerValue) {
-            return <Icon name="check" size={SIZE.icon_tiny} color={disabled ? COLOR.text_desc : COLOR.white} style={style?.icon} />;
+            return (
+                <Icon
+                    name="check"
+                    size={SIZE.icon_xxs}
+                    strokeWidth={3}
+                    color={disabled ? COLOR.text_desc : COLOR.white}
+                    style={style?.icon}
+                />
+            );
         }
         return null;
     };
 
     return (
         <Pressable onPress={handlePress} disabled={disabled}>
-            <Flex alignItems="center" columnGap={SIZE.space_middle} style={style?.root}>
+            <Flex alignItems="center" columnGap={SIZE.space_md} style={style?.root}>
                 <Flex alignItems="center" justifyContent="center" style={containerStyle}>
                     {renderIcon()}
                 </Flex>
@@ -64,7 +80,7 @@ export default function Checkbox(props: ICheckboxProps) {
 const styles = StyleSheet.create({
     iconContainer: {
         borderColor: COLOR.border_controller,
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         borderWidth: SIZE.border_default,
         height: SIZE.checkbox_size,
         width: SIZE.checkbox_size,

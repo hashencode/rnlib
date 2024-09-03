@@ -60,13 +60,13 @@ export default function Result(props: ResultProps) {
 
 const styles = StyleSheet.create({
     wrapper: {
-        paddingHorizontal: SIZE.space_large,
-        paddingVertical: SIZE.space_max,
+        paddingHorizontal: SIZE.space_lg,
+        paddingVertical: SIZE.space_2xl,
     },
     icon: {
-        marginBottom: SIZE.space_max,
+        marginBottom: SIZE.space_2xl,
     },
     title: {
-        marginBottom: SIZE.space_middle,
+        marginBottom: SIZE.space_md,
     },
 });

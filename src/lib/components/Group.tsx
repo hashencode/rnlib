@@ -19,7 +19,7 @@ export interface GroupProps {
 
 export default function Group(props: GroupProps) {
     const { header, footer, first, style } = props;
-    const headPaddingStyle = { paddingTop: first ? 0 : SIZE.space_large };
+    const headPaddingStyle = { paddingTop: first ? 0 : SIZE.space_lg };
 
     return (
         <View style={StyleSheet.flatten([styles.wrapper, style?.wrapper])}>
@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     header: {
-        paddingVertical: SIZE.space_middle,
+        paddingVertical: SIZE.space_md,
     },
     headerPlaceholder: {
-        height: SIZE.space_large,
+        height: SIZE.space_lg,
     },
     footer: {
-        paddingVertical: SIZE.space_middle,
+        paddingVertical: SIZE.space_md,
     },
 });

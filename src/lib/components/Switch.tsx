@@ -6,7 +6,7 @@ import { Flex } from '@/lib/components';
 export interface SwitchProProps {
     defaultValue?: boolean; // 默认值
     disabled?: boolean; // 禁用
-    size?: 'small' | 'middle'; // 尺寸
+    size?: 'sm' | 'md'; // 尺寸
     style?: ViewStyle; // 样式
     value?: boolean; // 受控值,
     onChange?: (value: boolean) => void; // 值变动事件回调
@@ -14,7 +14,7 @@ export interface SwitchProProps {
 }
 
 export default function Switch(props: SwitchProProps) {
-    const { size = 'middle', style, disabled, onPress, onChange, value, defaultValue = false } = props;
+    const { size = 'md', style, disabled, onPress, onChange, value, defaultValue = false } = props;
 
     const [innerValue, handleChange] = useMergedState(false, {
         defaultValue,
@@ -52,8 +52,8 @@ export default function Switch(props: SwitchProProps) {
     );
 }
 
-const handleWidthMiddle = SIZE.switch_height_middle - 2 * SIZE.switch_border_middle;
-const handleWidthSmall = SIZE.switch_height_small - 2 * SIZE.switch_border_small;
+const handleWidthMiddle = SIZE.switch_height_md - 2 * SIZE.switch_border_md;
+const handleWidthSmall = SIZE.switch_height_sm - 2 * SIZE.switch_border_sm;
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -74,15 +74,15 @@ const styles = StyleSheet.create({
         borderColor: COLOR.primary,
         justifyContent: 'flex-end',
     },
-    body_small: {
-        borderWidth: SIZE.switch_border_small,
-        height: SIZE.switch_height_small,
-        width: SIZE.switch_width_small,
+    body_sm: {
+        borderWidth: SIZE.switch_border_sm,
+        height: SIZE.switch_height_sm,
+        width: SIZE.switch_width_sm,
     },
-    body_middle: {
-        borderWidth: SIZE.switch_border_middle,
-        height: SIZE.switch_height_middle,
-        width: SIZE.switch_width_middle,
+    body_md: {
+        borderWidth: SIZE.switch_border_md,
+        height: SIZE.switch_height_md,
+        width: SIZE.switch_width_md,
     },
     handle: {
         backgroundColor: COLOR.white,

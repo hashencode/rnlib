@@ -34,8 +34,8 @@ function Head(props: IHeadProps) {
     return (
         <Flex justifyContent="space-between" alignItems="center" block style={rootStyle}>
             <Pressable onPress={handleGoBack} style={{ zIndex: 2 }}>
-                <Flex alignItems="center" gap={SIZE.space_small}>
-                    {_.isUndefined(backIcon) ? <Icon name="chevron-left" size={SIZE.icon_large} style={style?.backIcon} /> : backIcon}
+                <Flex alignItems="center" gap={SIZE.space_sm}>
+                    {_.isUndefined(backIcon) ? <Icon name="chevron-left" size={SIZE.icon_lg} style={style?.backIcon} /> : backIcon}
                     <TextBox size={SIZE.font_h2} style={style?.backText}>
                         {backText}
                     </TextBox>
@@ -59,7 +59,7 @@ function Head(props: IHeadProps) {
 const styles = StyleSheet.create({
     root: {
         height: SIZE.navigator_height,
-        paddingHorizontal: SIZE.space_middle,
+        paddingHorizontal: SIZE.space_md,
     },
     body: {
         alignItems: 'center',

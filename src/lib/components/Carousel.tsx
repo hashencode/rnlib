@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     dots: {
-        bottom: SIZE.space_small,
+        bottom: SIZE.space_sm,
         position: 'absolute',
-        right: SIZE.space_middle,
+        right: SIZE.space_md,
     },
 });

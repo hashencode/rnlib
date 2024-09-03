@@ -45,7 +45,7 @@ export default function ListItem(props: IListItemProps) {
     // 额外区域样式
     const extraStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.extra],
-        extraStyle: [style?.extra, { marginRight: showArrow ? SIZE.space_middle : SIZE.space_large }],
+        extraStyle: [style?.extra, { marginRight: showArrow ? SIZE.space_md : SIZE.space_lg }],
     });
 
     // 额外区域标题样式
@@ -63,7 +63,7 @@ export default function ListItem(props: IListItemProps) {
     // 图标节点
     const iconEl = useMemo(() => {
         return mergeElement(icon, {
-            size: SIZE.icon_mini,
+            size: SIZE.icon_xs,
             style: iconStyle,
         });
     }, [icon, iconStyle]);
@@ -93,7 +93,7 @@ export default function ListItem(props: IListItemProps) {
                     </Text>
                     {extra}
                 </Flex>
-                {showArrow ? <Icon name="chevron-right" size={SIZE.icon_small} color={COLOR.icon_touchable} style={styles.arrow} /> : null}
+                {showArrow ? <Icon name="chevron-right" size={SIZE.icon_sm} color={COLOR.icon_touchable} style={styles.arrow} /> : null}
             </Flex>
         </Flex>
     );
@@ -116,27 +116,27 @@ const styles = StyleSheet.create({
     root: {
         backgroundColor: COLOR.white,
         overflow: 'hidden',
-        paddingLeft: SIZE.space_large,
+        paddingLeft: SIZE.space_lg,
     },
     icon: {
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         flexShrink: 0,
-        marginRight: SIZE.space_large,
+        marginRight: SIZE.space_lg,
         overflow: 'hidden',
     },
     body: {
         minHeight: SIZE.list_item_min_height,
-        paddingVertical: SIZE.space_large,
+        paddingVertical: SIZE.space_lg,
         position: 'relative',
     },
     extra: {
-        marginRight: SIZE.space_large,
+        marginRight: SIZE.space_lg,
     },
     extraText: {
         textAlign: 'right',
     },
     arrow: {
         alignSelf: 'center',
-        marginRight: SIZE.space_middle,
+        marginRight: SIZE.space_md,
     },
 });

@@ -21,7 +21,7 @@ export default function Tag(props: TagProps) {
         <Flex
             alignItems="center"
             justifyContent="center"
-            columnGap={SIZE.space_small}
+            columnGap={SIZE.space_sm}
             style={StyleSheet.flatten([
                 styles.wrapper,
                 { borderColor, backgroundColor, borderWidth: bordered ? SIZE.border_default : 0 },
@@ -37,8 +37,8 @@ export default function Tag(props: TagProps) {
 
 const styles = StyleSheet.create({
     wrapper: {
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         height: SIZE.tag_height,
-        paddingHorizontal: SIZE.space_middle,
+        paddingHorizontal: SIZE.space_md,
     },
 });

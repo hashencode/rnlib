@@ -9,9 +9,9 @@ import { ButtonIconSize, ButtonLabelSize } from '@/lib/scripts/enum';
 import useStyle from '@/lib/hooks/useStyle';
 
 export default function Button(props: IButtonProps) {
-    const { round, type = 'default', size = 'middle', ghost, danger, block, disabled, icon, children, style, onPress } = props;
+    const { round, type = 'default', size = 'md', ghost, danger, block, disabled, icon, children, style, onPress } = props;
     const isPrimary = type === 'primary';
-    const borderRadius = round ? SIZE[`button_height_${size}`] / 2 : SIZE.radius_middle; // 按钮圆角
+    const borderRadius = round ? SIZE[`button_height_${size}`] / 2 : SIZE.radius_md; // 按钮圆角
 
     // 根元素样式
     const rootStyle = useStyle<ViewStyle>({
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
     },
     button: {
         borderColor: 'transparent',
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         borderWidth: SIZE.border_default,
         paddingHorizontal: SIZE.button_padding_horizontal,
         position: 'relative',
     },
     icon: {
-        marginRight: SIZE.space_small,
+        marginRight: SIZE.space_sm,
     },
     // 类型-按钮
     button_type_default: {

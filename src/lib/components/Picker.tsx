@@ -98,7 +98,7 @@ export default function Picker(props: PickerProps) {
 
     const renderCheckIcon = (option: PickerOption) => {
         if ((multiple && valueCache?.includes(option.value)) || (!multiple && option?.value === innerValue)) {
-            return <Icon name="check" color={COLOR.primary} size={SIZE.icon_mini} />;
+            return <Icon name="check" color={COLOR.primary} size={SIZE.icon_xs} />;
         }
         return null;
     };
@@ -170,8 +170,8 @@ export default function Picker(props: PickerProps) {
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: COLOR.white,
-        borderTopEndRadius: SIZE.radius_large,
-        borderTopStartRadius: SIZE.radius_large,
+        borderTopEndRadius: SIZE.radius_lg,
+        borderTopStartRadius: SIZE.radius_lg,
         overflow: 'hidden',
         width: '100%',
     },
@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: SIZE.border_default,
         borderColor: COLOR.border_default,
         minHeight: SIZE.action_sheet_option_height,
-        paddingHorizontal: SIZE.space_small,
-        paddingVertical: SIZE.space_middle,
+        paddingHorizontal: SIZE.space_sm,
+        paddingVertical: SIZE.space_md,
         position: 'relative',
     },
     actionButton: {
@@ -190,13 +190,13 @@ const styles = StyleSheet.create({
     option: {
         backgroundColor: COLOR.white,
         minHeight: SIZE.picker_item_height,
-        paddingHorizontal: SIZE.space_ultra,
-        paddingVertical: SIZE.space_middle,
+        paddingHorizontal: SIZE.space_xl,
+        paddingVertical: SIZE.space_md,
     },
     disabled: {
         opacity: COLOR.opacity_disabled_option,
     },
     checkIcon: {
-        width: SIZE.icon_middle,
+        width: SIZE.icon_md,
     },
 });

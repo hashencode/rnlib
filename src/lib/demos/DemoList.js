@@ -23,7 +23,7 @@ export default function DemoList() {
             extraTitle: '额外标题',
             extraSubtitle: '额外描述文本',
             showArrow: true,
-            style: { icon: { width: SIZE.icon_large, height: SIZE.icon_large } },
+            style: { icon: { width: SIZE.icon_lg, height: SIZE.icon_lg } },
         },
     ];
 
@@ -31,7 +31,7 @@ export default function DemoList() {
         {
             title: '更多操作按钮',
             leftActions: [
-                { content: <Icon name="ban" size={SIZE.icon_mini} color={COLOR.white} />, backgroundColor: COLOR.danger, width: 60 },
+                { content: <Icon name="ban" size={SIZE.icon_xs} color={COLOR.white} />, backgroundColor: COLOR.danger, width: 60 },
             ],
             rightActions: [
                 { content: <Text color={COLOR.white}>次要</Text>, backgroundColor: COLOR.gray, width: 60 },

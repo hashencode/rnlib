@@ -13,8 +13,8 @@ export default function FloatingPanel(props: FloatingPanelProps) {
 
 const styles = StyleSheet.create({
     wrapper: {
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         height: SIZE.tag_height,
-        paddingHorizontal: SIZE.space_middle,
+        paddingHorizontal: SIZE.space_md,
     },
 });

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, CheckList, DefaultLayout, Head, Group, Image, Icon } from '../components';
-import { COLOR, DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
+import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 
 export default function DemoCheckList() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -13,13 +13,13 @@ export default function DemoCheckList() {
     const slotList = [
         {
             title: '标题文本',
-            icon: <Image source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_small} />,
+            icon: <Image source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_sm} />,
             value: 'A',
         },
         {
             title: '标题文本',
             subtitle: '副标题',
-            icon: <Image source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_large} />,
+            icon: <Image source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_lg} />,
             value: 'B',
         },
     ];
@@ -52,7 +52,7 @@ export default function DemoCheckList() {
                 <Button
                     type="primary"
                     onPress={() => setActiveIndex(activeIndex + 1 > 2 ? 0 : activeIndex + 1)}
-                    style={{ root: { marginTop: SIZE.space_middle } }}>
+                    style={{ root: { marginTop: SIZE.space_md } }}>
                     切换
                 </Button>
             </Group>

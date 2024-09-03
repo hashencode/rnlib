@@ -1,5 +1,5 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { FlexStyle, ImageStyle, PressableProps, TextStyle, ViewStyle } from 'react-native';
+import { ImageStyle, PressableProps, TextInputProps, TextStyle, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '@/lib/components/Icon';
@@ -23,7 +23,7 @@ export interface IButtonProps extends PropsWithChildren {
     ghost?: boolean; // 幽灵按钮
     icon?: ReactElement; // 图标
     round?: boolean; // 圆形外观
-    size?: 'mini' | 'small' | 'middle' | 'large'; // 尺寸
+    size?: 'xs' | 'sm' | 'md' | 'lg'; // 尺寸
     style?: {
         root?: ViewStyle; // 最外层样式
         button?: ViewStyle; // 按钮主体样式
@@ -261,4 +261,32 @@ export interface ICheckListProps {
     }; // 样式
     value?: ICheckListValue; // 受控值
     onChange?: (val: ICheckListValue) => void; // 值变动事件回调
+}
+
+/**
+ * Input
+ */
+export interface IInputRef {
+    focus: () => void;
+    blur: () => void;
+    clear: () => void;
+    isFocused: () => boolean;
+}
+
+export interface IInputProps extends Omit<TextInputProps, 'onChange' | 'style'> {
+    allowClear?: boolean; // 允许清空输入
+    bordered?: boolean; // 显示边框
+    disabled?: boolean; // 禁用
+    prefix?: ReactNode | string; // 前缀
+    round?: boolean; // 圆形外观
+    size?: 'sm' | 'md' | 'lg'; // 尺寸
+    password?: boolean; // 密码输入
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        prefix?: TextStyle; // 前缀样式
+        suffix?: TextStyle; // 后缀样式
+        main?: TextStyle; // 主体样式
+    }; // 样式
+    suffix?: ReactNode | string; // 后缀
+    onChange?: (val?: string) => void; // 值变动事件回调
 }

@@ -14,7 +14,7 @@ type ArrayItem<T> = T extends (infer U)[] ? U : never;
 export type IconNames = ArrayItem<typeof nameMap>;
 
 export default function Icon(props: IIconProps) {
-    const { fill = 'transparent', strokeWidth = 2, style = {}, size = SIZE.icon_middle, color = COLOR.icon_default, name } = props;
+    const { fill = 'transparent', strokeWidth = 2, style = {}, size = SIZE.icon_md, color = COLOR.icon_default, name } = props;
 
     if (_.isNil(name)) {
         return null;

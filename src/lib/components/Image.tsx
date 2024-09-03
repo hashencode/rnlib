@@ -14,7 +14,7 @@ export default function Image(props: ImageProps) {
     const {
         defaultSource = require('../assets/images/imagePlaceholder.jpg'),
         height = props.size,
-        radius = SIZE.radius_middle,
+        radius = SIZE.radius_md,
         style = {},
         width = props.size,
         ...rest

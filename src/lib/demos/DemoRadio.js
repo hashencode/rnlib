@@ -14,7 +14,7 @@ export default function DemoRadio() {
             </Group>
             <Group header="禁用">
                 <Card>
-                    <Flex columnGap={SIZE.space_large} wrap="wrap">
+                    <Flex columnGap={SIZE.space_lg} wrap="wrap">
                         <Radio label="未选中" disabled />
                         <Radio label="已选中" disabled defaultValue={true} />
                     </Flex>
@@ -27,7 +27,7 @@ export default function DemoRadio() {
             </Group>
             <Group header="受控">
                 <Card>
-                    <Flex column rowGap={SIZE.space_large} wrap="wrap">
+                    <Flex column rowGap={SIZE.space_lg} wrap="wrap">
                         <Radio label="受控组件" value={isChecked} onChange={val => setIsChecked(val)} />
                         <Button onPress={() => setIsChecked(!isChecked)}>切换状态</Button>
                     </Flex>

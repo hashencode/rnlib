@@ -10,7 +10,7 @@ export default function DemoHead() {
             <Group header="自定义插槽">
                 <Head
                     backText="按钮插槽"
-                    backIcon={<Icon name="arrow-left" size={SIZE.icon_small} color={COLOR.white} />}
+                    backIcon={<Icon name="arrow-left" size={SIZE.icon_sm} color={COLOR.white} />}
                     title={<Icon name="earth" color={COLOR.white} strokeWidth={1.5} />}
                     extra={<Text color={COLOR.white}>额外插槽</Text>}
                     style={{

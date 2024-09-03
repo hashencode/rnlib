@@ -50,7 +50,7 @@ export default function Selector(props: SelectProps) {
     };
 
     return (
-        <Flex wrap="wrap" gap={SIZE.space_large} style={StyleSheet.flatten([styles.wrapper, style])}>
+        <Flex wrap="wrap" gap={SIZE.space_lg} style={StyleSheet.flatten([styles.wrapper, style])}>
             {options.map(option => {
                 const isActive = (multiple && valueCache?.includes(option.value)) || (!multiple && option?.value === innerValue);
                 return (
@@ -90,9 +90,9 @@ const styles = StyleSheet.create({
     wrapper: {},
     option: {
         backgroundColor: COLOR.selector_option_background,
-        borderRadius: SIZE.radius_middle,
+        borderRadius: SIZE.radius_md,
         overflow: 'hidden',
-        padding: SIZE.space_middle,
+        padding: SIZE.space_md,
         position: 'relative',
     },
     active: {

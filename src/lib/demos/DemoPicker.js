@@ -22,7 +22,7 @@ export default function DemoPicker() {
         <DefaultLayout head={<Head title="选择 Picker" />}>
             <Group header="模式" first>
                 <Card>
-                    <Flex rowGap={SIZE.space_middle} columnGap={SIZE.space_middle}>
+                    <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_md}>
                         <Button onPress={() => setOpenId('single')}>单选</Button>
                         <Button onPress={() => setOpenId('multiple')}>多选</Button>
                     </Flex>
@@ -46,7 +46,7 @@ export default function DemoPicker() {
             </Group>
             <Group header="禁用选项">
                 <Card>
-                    <Flex rowGap={SIZE.space_middle} columnGap={SIZE.space_middle}>
+                    <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_md}>
                         <Button onPress={() => setOpenId('singleDisabled')}>单选</Button>
                         <Button onPress={() => setOpenId('multipleDisabled')}>多选</Button>
                     </Flex>

@@ -6,7 +6,7 @@ export default function DemoBadge() {
         <DefaultLayout head={<Head title="徽标数 Badge" />}>
             <Group header="基本">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap" first>
+                    <Flex columnGap={SIZE.space_md} wrap="wrap" first>
                         <Badge>新</Badge>
                         <Badge>1</Badge>
                         <Badge>99</Badge>
@@ -16,7 +16,7 @@ export default function DemoBadge() {
             </Group>
             <Group header="无边框">
                 <Card>
-                    <Flex columnGap={SIZE.space_middle} wrap="wrap">
+                    <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Badge bordered={false}>新</Badge>
                         <Badge bordered={false}>1</Badge>
                         <Badge bordered={false}>99</Badge>
