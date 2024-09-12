@@ -62,6 +62,7 @@ export const SIZE = {
     space_lg: 12,
     space_md: 8,
     space_sm: 4,
+    space_xs: 2,
     // 字号
     font_h1: 20, // 结果页标题
     font_h2: 18, // 页面标题
@@ -86,6 +87,10 @@ export const SIZE = {
     icon_sm: 24,
     icon_xs: 20,
     icon_xxs: 16,
+    // 图标粗细
+    icon_stroke_sm: 1.5,
+    icon_stroke_md: 2,
+    icon_stroke_lg: 3,
     // 字重
     weight_title: '500' as any,
     /**
@@ -140,7 +145,6 @@ export const SIZE = {
     avatar_size_sm: 30,
     // 结果
     result_icon_size: 64,
-    result_icon_stroke_width: 1.2,
     // 分割线
     divider_horizontal_height: 24,
     divider_vertical_height: 14,
