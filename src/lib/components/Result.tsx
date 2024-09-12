@@ -44,7 +44,7 @@ export default function Result(props: ResultProps) {
                 size={SIZE.result_icon_size}
                 fill={IconMap[type].color}
                 color={COLOR.white}
-                strokeWidth={SIZE.result_icon_stroke_width}
+                strokeWidth={SIZE.icon_stroke_sm}
                 style={styles.icon}
             />
 

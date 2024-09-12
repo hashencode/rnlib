@@ -38,7 +38,7 @@ export default function DemoCheckList() {
                 <CheckList options={basicList} multiple defaultValue={['A', 'B']} />
             </Group>
             <Group header="自定义插槽">
-                <CheckList options={slotList} checkedIcon={<Icon name="earth" />} defaultValue="A" />
+                <CheckList options={slotList} checkedIcon={<Icon name="arrow-left" />} defaultValue="A" />
             </Group>
             <Group header="禁用">
                 <CheckList options={disabledList} />

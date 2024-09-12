@@ -96,8 +96,8 @@ export default function DemoButton() {
             <Group header="图标">
                 <Card>
                     <Flex columnGap={SIZE.space_md} rowGap={SIZE.space_md} wrap="wrap">
-                        <Button icon={<Icon name="check"></Icon>}>默认</Button>
-                        <Button type="primary" icon={<Icon name="check"></Icon>}>
+                        <Button icon={<Icon name="arrow-down-to-line"></Icon>}>默认</Button>
+                        <Button type="primary" icon={<Icon name="arrow-down-to-line"></Icon>}>
                             反色
                         </Button>
                     </Flex>

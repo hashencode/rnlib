@@ -75,6 +75,7 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
         }
     }, [visible]);
 
+    // 头部元素
     const headerEl = useMemo(() => {
         if (_.isString(header)) {
             return (
@@ -158,6 +159,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
         position: 'relative',
+        rowGap: SIZE.space_xs,
     },
     divider: {
         borderBottomWidth: SIZE.border_default,
