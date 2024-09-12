@@ -1,42 +1,20 @@
-import { ReactNode, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
 import Button from './Button';
-import { Flex, Grabber, Icon, Overlay, PressHighlight, Separator, Text } from '@/lib/components';
+import { Flex, Grabber, Icon, PressHighlight, Text, TextBox } from '@/lib/components';
+import useStyle from '@/lib/hooks/useStyle';
+import { IPickerProps, IPickerRawValue, IPickerValue, PickerOption } from '@/lib/_types/.components';
+import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
+import { mergeRefs } from '@/lib/scripts/utils';
 
-export type PickerRawValue = number | string;
-export type PickerValue = PickerRawValue | PickerRawValue[] | undefined;
-export interface PickerOption {
-    content?: ReactNode; // 内容插槽
-    desc?: string; // 描述文本
-    disabled?: boolean; // 禁用
-    title: string; // 主文本
-    value: PickerRawValue; // 选项值
-}
-export interface PickerProps {
-    backCloseable?: boolean; // 允许返回操作关闭
-    cancelText?: string; // 取消按钮文案
-    confirmText?: string; // 确认按钮文案（多选）
-    defaultValue?: PickerValue; // 默认值
-    title?: ReactNode | string; // 头部标题插槽
-    overlayClosable?: boolean; // 允许点击蒙层关闭
-    maxHeight?: number; // 最大高度
-    multiple?: boolean; // 多选
-    options: PickerOption[]; // 选项
-    style?: ViewStyle; // 样式
-    value?: PickerValue; // 受控值
-    visible?: boolean; // 显隐
-    onCancel?: () => void; // 取消按钮点击事件回调
-    onChange?: (val: PickerValue) => void; // 值变动事件回调
-}
-
-export default function Picker(props: PickerProps) {
+function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
     const {
         backCloseable = true,
         cancelText = '取消',
-        confirmText = '确定',
+        okText = '确定',
         defaultValue,
         title,
         overlayClosable = true,
@@ -46,28 +24,48 @@ export default function Picker(props: PickerProps) {
         style,
         value,
         visible,
+        checkIcon,
+        cancelButtonProps,
+        okButtonProps,
+        onOpen,
         onCancel,
         onChange,
     } = props;
 
-    const [innerValue, handleChange] = useMergedState<PickerValue>(multiple ? [] : undefined, {
+    const localRef = useRef<ActionSheetRef>(null);
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
+
+    // 头部节点样式
+    const headerStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.header],
+        extraStyle: [style?.header],
+    });
+
+    // 选项节点样式
+    const optionStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.option],
+        extraStyle: [style?.option],
+    });
+
+    // 选项节点样式
+    const dividerStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.divider],
+        extraStyle: [style?.divider],
+    });
+
+    const [innerValue, handleChange] = useMergedState<IPickerValue>(multiple ? [] : undefined, {
         defaultValue,
         value,
     });
-    const [valueCache, setValueCache] = useState<PickerRawValue[]>(innerValue as PickerRawValue[]);
-
-    // 遮罩点击
-    const handleOverlayPress = () => {
-        overlayClosable && handleCancel();
-    };
-
-    // 返回操作回调
-    const handleBackClose = () => {
-        backCloseable && handleCancel();
-    };
+    const [valueCache, setValueCache] = useState<IPickerRawValue[]>(innerValue as IPickerRawValue[]);
 
     // 处理选项点击
-    const handleOptionPress = (val: PickerRawValue) => {
+    const handleOptionPress = (val: IPickerRawValue) => {
         if (multiple) {
             if (_.isArray(valueCache)) {
                 const newValue = valueCache?.includes(val) ? valueCache.filter(item => item !== val) : [...valueCache, val];
@@ -91,89 +89,98 @@ export default function Picker(props: PickerProps) {
     // 处理取消按钮点击
     const handleCancel = () => {
         if (multiple) {
-            setValueCache(innerValue as PickerRawValue[]);
+            setValueCache(innerValue as IPickerRawValue[]);
         }
         onCancel?.();
     };
 
+    // 监听visible的变化
+    useEffect(() => {
+        const _ref = mergeRefs<ActionSheetRef>([ref, localRef]);
+        if (visible && _ref) {
+            _ref.current?.show();
+        } else {
+            _ref?.current?.hide();
+        }
+    }, [visible]);
+
+    // 渲染选中图标
     const renderCheckIcon = (option: PickerOption) => {
         if ((multiple && valueCache?.includes(option.value)) || (!multiple && option?.value === innerValue)) {
-            return <Icon name="check" color={COLOR.primary} size={SIZE.icon_xs} />;
+            return checkIcon || <Icon name="check" color={COLOR.primary} size={SIZE.icon_xs} style={style?.checkIcon} />;
         }
         return null;
     };
 
     return (
-        <Overlay visible={visible} position="bottom" onPress={handleOverlayPress} onRequestClose={handleBackClose}>
-            <View style={StyleSheet.flatten([styles.wrapper, style])}>
-                {/* 头部 */}
-                {title || multiple ? (
-                    <Flex alignItems="center" justifyContent="space-between" style={styles.header}>
-                        {/* 操作按钮 */}
-                        <Button
-                            type="text"
-                            onPress={handleCancel}
-                            style={{ wrapper: styles.actionButton, text: { color: COLOR.text_subtitle, fontSize: SIZE.font_h4 } }}>
+        <ActionSheetOrigin
+            ref={mergeRefs([ref, localRef])}
+            containerStyle={rootStyle}
+            enableRouterBackNavigation={backCloseable}
+            closable={overlayClosable}
+            onOpen={onOpen}
+            onClose={onCancel}>
+            {/* 头部 */}
+            {title || multiple ? (
+                <Flex alignItems="center" justifyContent="space-between" style={headerStyle}>
+                    {/* 取消按钮 */}
+                    <View style={styles.actionButton}>
+                        <Button type="text" style={{ text: { color: COLOR.text_subtitle } }} onPress={handleCancel} {...cancelButtonProps}>
                             {cancelText}
                         </Button>
-                        {/* 标题文本 */}
-                        <Flex justifyContent="center" alignItems="center" grow={1}>
-                            {_.isString(title) ? (
-                                <Text size={SIZE.font_h2} weight={SIZE.weight_title}>
-                                    {title}
-                                </Text>
-                            ) : (
-                                title
-                            )}
-                        </Flex>
-                        {/* 操作按钮 */}
-                        <Button
-                            type="text"
-                            onPress={handleConfirm}
-                            style={{ wrapper: styles.actionButton, text: { color: COLOR.text_primary, fontSize: SIZE.font_h4 } }}>
-                            {confirmText}
-                        </Button>
+                    </View>
+                    {/* 标题文本 */}
+                    <Flex justifyContent="center" alignItems="center" grow={1}>
+                        <TextBox size={SIZE.font_h2} weight={SIZE.weight_title}>
+                            {title}
+                        </TextBox>
                     </Flex>
-                ) : null}
+                    {/*确定按钮*/}
+                    <View style={styles.actionButton}>
+                        <Button type="text" style={{ text: { color: COLOR.primary } }} onPress={handleConfirm} {...okButtonProps}>
+                            {okText}
+                        </Button>
+                    </View>
+                </Flex>
+            ) : null}
 
-                {/* 内容 */}
-                <ScrollView style={{ maxHeight: maxHeight }}>
-                    {options.map(option => {
-                        return (
-                            <PressHighlight disabled={option.disabled} onPress={() => handleOptionPress(option.value)} key={option.value}>
-                                <Flex
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    style={StyleSheet.flatten([styles.option, option.disabled ? styles.disabled : {}])}>
-                                    <Flex alignItems="center" grow={1}>
-                                        <Flex column shrink={0}>
-                                            <Text size={SIZE.font_h2}>{option.title}</Text>
-                                            <Text color={COLOR.text_desc}>{option.desc}</Text>
-                                        </Flex>
-                                        <Flex grow={1}>{option?.content}</Flex>
+            {/* 内容 */}
+            <ScrollView style={{ maxHeight: maxHeight }}>
+                {options.map(option => {
+                    return (
+                        <PressHighlight disabled={option.disabled} onPress={() => handleOptionPress(option.value)} key={option.value}>
+                            <Flex alignItems="center" justifyContent="space-between" style={optionStyle}>
+                                <Flex alignItems="center" grow={1}>
+                                    <Flex column shrink={0} rowGap={SIZE.space_xs}>
+                                        <Text size={SIZE.font_h2} style={style?.title}>
+                                            {option.title}
+                                        </Text>
+                                        <Text color={COLOR.text_desc} style={style?.subtitle}>
+                                            {option.subtitle}
+                                        </Text>
                                     </Flex>
-                                    <Flex alignItems="center" justifyContent="flex-end" shrink={0} style={styles.checkIcon}>
-                                        {renderCheckIcon(option)}
-                                    </Flex>
+                                    <Flex grow={1}>{option?.children}</Flex>
                                 </Flex>
-                            </PressHighlight>
-                        );
-                    })}
-                </ScrollView>
+                                <Flex alignItems="center" justifyContent="flex-end" shrink={0}>
+                                    {renderCheckIcon(option)}
+                                </Flex>
+                            </Flex>
+                            <View style={dividerStyle}></View>
+                        </PressHighlight>
+                    );
+                })}
+            </ScrollView>
 
-                <Grabber />
-            </View>
-        </Overlay>
+            <Grabber style={style?.grabber} />
+        </ActionSheetOrigin>
     );
 }
 
+export default forwardRef(Picker);
+
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         backgroundColor: COLOR.white,
-        borderTopEndRadius: SIZE.radius_lg,
-        borderTopStartRadius: SIZE.radius_lg,
-        overflow: 'hidden',
-        width: '100%',
     },
     header: {
         backgroundColor: COLOR.white,
@@ -193,10 +200,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
     },
-    disabled: {
-        opacity: COLOR.opacity_disabled_option,
-    },
-    checkIcon: {
-        width: SIZE.icon_md,
+    divider: {
+        borderBottomWidth: SIZE.border_default,
+        borderColor: COLOR.border_default,
     },
 });

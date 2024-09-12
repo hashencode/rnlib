@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Card, DefaultLayout, Flex, Group, Head, Picker } from '../components';
-import { SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '@/lib/scripts/const';
+import { Icon } from '@/lib/components';
 
 export default function DemoPicker() {
     const [openId, setOpenId] = useState('');
@@ -9,8 +10,8 @@ export default function DemoPicker() {
         { title: '选项 A', value: 'A' },
         { title: '选项 B', value: 'B' },
         { title: '选项 C', value: 'C' },
-        { title: '选项 D', value: 'D' },
-        { title: '选项 E', value: 'E' },
+        { title: '选项 D', subtitle: '选项副标题', value: 'D' },
+        { title: '选项 禁用', value: 'N', disabled: true },
     ];
     const optionsDesc = optionsData.map(item => ({ ...item, desc: '描述文本' }));
 
@@ -44,29 +45,6 @@ export default function DemoPicker() {
                     multiple
                 />
             </Group>
-            <Group header="禁用选项">
-                <Card>
-                    <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_md}>
-                        <Button onPress={() => setOpenId('singleDisabled')}>单选</Button>
-                        <Button onPress={() => setOpenId('multipleDisabled')}>多选</Button>
-                    </Flex>
-                </Card>
-                <Picker
-                    visible={openId === 'singleDisabled'}
-                    defaultValue="A"
-                    options={optionsData.map((item, index) => ({ ...item, disabled: index === 2 }))}
-                    onChange={resetOpenId}
-                    onCancel={resetOpenId}
-                />
-                <Picker
-                    visible={openId === 'multipleDisabled'}
-                    defaultValue={['A', 'B', 'C']}
-                    options={optionsData.map((item, index) => ({ ...item, disabled: index === 2 }))}
-                    onChange={resetOpenId}
-                    onCancel={resetOpenId}
-                    multiple
-                />
-            </Group>
             <Group header="自定义插槽">
                 <Card>
                     <Button header="选项标题" onPress={() => setOpenId('slots')}>
@@ -76,10 +54,11 @@ export default function DemoPicker() {
                 <Picker
                     visible={openId === 'slots'}
                     options={optionsDesc}
-                    title="选项标题"
-                    cancelText="关闭"
-                    confirmText="保存"
+                    title="多选"
+                    cancelText="Cancel"
+                    cancelButtonProps={{ style: { text: { color: COLOR.text_danger } } }}
                     multiple
+                    checkIcon={<Icon name="arrow-left" size={SIZE.icon_xs} color={COLOR.primary} />}
                     onChange={resetOpenId}
                     onCancel={resetOpenId}
                 />
