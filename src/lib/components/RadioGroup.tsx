@@ -1,36 +1,20 @@
-import { ViewStyle } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
-import Radio, { RadioValue } from './Radio';
+import Radio from './Radio';
 import { useMergedState } from '../hooks';
 import { Flex } from '@/lib/components';
+import { IRadioGroupOptions, IRadioGroupOptionValue, IRadioGroupProps, IRadioValue } from '@/lib/_types/.components';
 
-export type RadioGroupOptionValue = string | number;
-
-export interface RadioGroupOptions {
-    disabled?: boolean; // 禁用
-    label: string; // 文本
-    value: RadioGroupOptionValue; // 选项值
-}
-
-export interface RadioGroupProps {
-    defaultValue?: RadioGroupOptionValue; // 默认值
-    options?: RadioGroupOptions[]; // 子项
-    style?: ViewStyle; // 样式
-    value?: RadioGroupOptionValue; // 受控值
-    onChange?: (value: RadioGroupOptionValue) => void;
-}
-
-export default function RadioGroup(props: RadioGroupProps) {
+export default function RadioGroup(props: IRadioGroupProps) {
     const { defaultValue, value, onChange, options = [], style } = props;
 
-    const [innerValue, handleChange] = useMergedState<RadioGroupOptionValue>('', {
+    const [innerValue, handleChange] = useMergedState<IRadioGroupOptionValue>(undefined, {
         defaultValue,
         value,
         onChange,
     });
 
     // 处理子项的变更
-    const handleOptionChange = (val: RadioValue, option: RadioGroupOptions) => {
+    const handleOptionChange = (val: IRadioValue, option: IRadioGroupOptions) => {
         const optionValue = option.value;
         if (innerValue !== optionValue) {
             handleChange(optionValue);
@@ -38,7 +22,7 @@ export default function RadioGroup(props: RadioGroupProps) {
     };
 
     return (
-        <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_2xl} style={style}>
+        <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_2xl} style={style?.root}>
             {options.map(option => {
                 return (
                     <Radio

@@ -3,22 +3,12 @@ import { Pressable, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState } from '../hooks';
 import { Flex, Icon, Text } from '@/lib/components';
+import { IRadioProps, IRadioValue } from '@/lib/_types/.components';
 
-export type RadioValue = boolean;
-
-export interface RadioProps {
-    defaultValue?: RadioValue; // 默认值
-    disabled?: boolean; // 禁用
-    label?: string; // 文本
-    style?: ViewStyle; // 样式
-    value?: RadioValue; // 受控值
-    onChange?: (val: RadioValue) => void; // 值变动事件回调
-}
-
-export default function Radio(props: RadioProps) {
+export default function Radio(props: IRadioProps) {
     const { label, defaultValue, disabled, value, style, onChange } = props;
 
-    const [innerValue, handleChange] = useMergedState<RadioValue>(false, {
+    const [innerValue, handleChange] = useMergedState<IRadioValue>(false, {
         defaultValue,
         value,
         onChange,
@@ -29,22 +19,32 @@ export default function Radio(props: RadioProps) {
         handleChange(!innerValue);
     };
 
-    // 边框样式
-    const boxStyle = useMemo(() => {
+    // 图标容器样式
+    const containerStyle = useMemo(() => {
+        let styleArray: ViewStyle[] = [styles.iconContainer];
         if (disabled) {
-            return styles.iconBoxDisabled;
-        } else {
-            return innerValue ? styles.iconBoxActive : {};
+            // 禁用
+            styleArray.push(styles.iconContainerDisabled);
+        } else if (innerValue) {
+            styleArray.push(styles.iconContainerActive);
         }
+        return StyleSheet.flatten(styleArray);
     }, [disabled, innerValue]);
 
     return (
         <Pressable onPress={handlePress} disabled={disabled}>
-            <Flex alignItems="center" columnGap={SIZE.space_sm} style={style}>
-                <Flex alignItems="center" justifyContent="center" style={StyleSheet.flatten([styles.iconBox, boxStyle])}>
-                    {innerValue ? <Icon name="check" size={SIZE.icon_xxs} color={disabled ? COLOR.text_desc : COLOR.white} /> : null}
+            <Flex alignItems="center" columnGap={SIZE.space_sm} style={style?.root}>
+                <Flex alignItems="center" justifyContent="center" style={containerStyle}>
+                    {innerValue ? (
+                        <Icon
+                            name="check"
+                            size={SIZE.icon_xxs}
+                            strokeWidth={SIZE.icon_stroke_lg}
+                            color={disabled ? COLOR.text_desc : COLOR.white}
+                        />
+                    ) : null}
                 </Flex>
-                <Text size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title}>
+                <Text size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
                     {label}
                 </Text>
             </Flex>
@@ -53,18 +53,18 @@ export default function Radio(props: RadioProps) {
 }
 
 const styles = StyleSheet.create({
-    iconBox: {
+    iconContainer: {
         borderColor: COLOR.border_controller,
         borderRadius: SIZE.checkbox_size,
         borderWidth: SIZE.border_default,
         height: SIZE.checkbox_size,
         width: SIZE.checkbox_size,
     },
-    iconBoxActive: {
+    iconContainerActive: {
         backgroundColor: COLOR.primary,
         borderColor: COLOR.primary,
     },
-    iconBoxDisabled: {
+    iconContainerDisabled: {
         backgroundColor: COLOR.bg_disabled,
         borderColor: COLOR.border_disabled,
     },
