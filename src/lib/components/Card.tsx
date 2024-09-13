@@ -1,55 +1,65 @@
-import { ReactElement, ReactNode } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import _ from 'lodash';
-import { Flex, Text } from '@/lib/components';
+import { Flex, TextBox } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
+import { ICardProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
 
-export interface CardProps {
-    children?: ReactNode; // 内容插槽
-    extra?: ReactElement; // 额外元素
-    icon?: ReactElement; // 头部图标
-    style?: {
-        wrapper?: ViewStyle;
-        header?: ViewStyle;
-        body?: ViewStyle;
-    }; // 样式
-    title?: string; // 标题
-}
-
-export default function Card(props: CardProps) {
+export default function Card(props: ICardProps) {
     const { title, extra, icon, style } = props;
     const showHeader = icon || title || extra;
 
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
+
+    // 头部节点样式
+    const headerStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.header],
+        extraStyle: [style?.header],
+    });
+
+    // 主体节点样式
+    const bodyStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.body],
+        extraStyle: [style?.body],
+    });
+
+    // 页脚节点样式
+    const footerStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.footer],
+        extraStyle: [style?.footer],
+    });
+
     return (
-        <View style={StyleSheet.flatten([styles.wrapper, style?.wrapper])}>
+        <View style={rootStyle}>
             {/* 头部 */}
             {showHeader ? (
-                <Flex justifyContent="space-between" alignItems="center" wrap="nowrap" columnGap={SIZE.space_md} style={styles.header}>
+                <Flex justifyContent="space-between" alignItems="center" wrap="nowrap" columnGap={SIZE.space_md} style={headerStyle}>
                     <Flex alignItems="center" columnGap={SIZE.space_md} grow={1}>
                         {/* 图标 */}
                         {mergeElement(icon, { size: SIZE.icon_xs })}
                         {/* 标题 */}
-                        {_.isString(title) ? (
-                            <Text size={SIZE.font_h4} weight={SIZE.weight_title}>
-                                {title}
-                            </Text>
-                        ) : (
-                            title
-                        )}
+                        <TextBox size={SIZE.font_h4} weight={SIZE.weight_title} style={style?.title}>
+                            {title}
+                        </TextBox>
                     </Flex>
-                    {/* 额外元素 */}
+                    {/* 额外节点 */}
                     {props?.extra}
                 </Flex>
             ) : null}
-            {/* 内容 */}
-            <View style={StyleSheet.flatten([styles.body, style?.body])}>{props?.children}</View>
+            {/* 主体 */}
+            {props?.children ? <View style={bodyStyle}>{props.children}</View> : null}
+            {/* 页脚 */}
+            {props?.footer ? <View style={footerStyle}>{props.footer}</View> : null}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         backgroundColor: COLOR.white,
         borderRadius: SIZE.radius_lg,
         overflow: 'hidden',
@@ -59,9 +69,15 @@ const styles = StyleSheet.create({
         borderBottomWidth: SIZE.border_default,
         borderColor: COLOR.border_default,
         marginHorizontal: SIZE.space_lg,
-        minHeight: SIZE.card_header_height,
+        paddingVertical: SIZE.space_lg,
     },
     body: {
         padding: SIZE.space_lg,
+    },
+    footer: {
+        borderColor: COLOR.border_default,
+        borderTopWidth: SIZE.border_default,
+        marginHorizontal: SIZE.space_lg,
+        paddingVertical: SIZE.space_lg,
     },
 });
