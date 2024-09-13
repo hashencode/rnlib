@@ -24,9 +24,9 @@ export default function DemoAvatar() {
             <Group header="文本显示">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Avatar size="lg" alt="用户" />
-                        <Avatar alt="用户" />
-                        <Avatar size="sm" alt="用户" />
+                        <Avatar size="lg">用户</Avatar>
+                        <Avatar>用户</Avatar>
+                        <Avatar size="sm">用户</Avatar>
                     </Flex>
                 </Card>
             </Group>

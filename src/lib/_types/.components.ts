@@ -1,5 +1,5 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { ImageStyle, PressableProps, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
+import { ImageSourcePropType, ImageStyle, PressableProps, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '@/lib/components/Icon';
@@ -404,4 +404,35 @@ export interface ISelectProps {
     }; // 样式
     value?: ISelectorValue; // 受控值
     onChange?: (val: ISelectorValue) => void; // 值变动事件回调
+}
+
+/**
+ * Switch
+ */
+export interface ISwitchProProps {
+    defaultValue?: boolean; // 默认值
+    disabled?: boolean; // 禁用
+    size?: 'sm' | 'md'; // 尺寸
+    style?: {
+        root?: ViewStyle; // 根节点样式
+    };
+    value?: boolean; // 受控值,
+    onChange?: (value: boolean) => void; // 值变动事件回调
+    onPress?: () => void; // 点击事件回调
+}
+
+/**
+ * Avatar
+ */
+export interface IAvatarProps {
+    alt?: string; // 未加载完成时显示的文本
+    children?: ReactNode; // 内容插槽
+    shape?: 'circle' | 'square'; // 形状
+    size?: 'lg' | 'md' | 'sm' | number; // 尺寸
+    source?: ImageSourcePropType; // 图片来源
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        image?: ImageStyle; // 图片样式
+        text?: TextStyle; // 文本样式
+    }; // 样式
 }

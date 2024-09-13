@@ -20,9 +20,18 @@ export enum ButtonIconSize {
     xs = SIZE.icon_xxs,
 }
 
+/**
+ * Avatar
+ */
 // 头像尺寸映射表
 export enum TextSizeMap {
     lg = SIZE.font_h2,
     md = SIZE.font_h5,
     sm = SIZE.font_mini,
+}
+
+// 头像加载状态
+export enum AvatarStatusMap {
+    '加载中',
+    '加载失败',
 }

@@ -1,25 +1,29 @@
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState } from '../hooks';
-import { Flex } from '@/lib/components';
+import { Flex, PressHighlight } from '@/lib/components';
+import { ISwitchProProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
 
-export interface SwitchProProps {
-    defaultValue?: boolean; // 默认值
-    disabled?: boolean; // 禁用
-    size?: 'sm' | 'md'; // 尺寸
-    style?: ViewStyle; // 样式
-    value?: boolean; // 受控值,
-    onChange?: (value: boolean) => void; // 值变动事件回调
-    onPress?: () => void; // 点击事件回调
-}
-
-export default function Switch(props: SwitchProProps) {
-    const { size = 'md', style, disabled, onPress, onChange, value, defaultValue = false } = props;
+export default function Switch(props: ISwitchProProps) {
+    const { size = 'md', style, disabled, onPress, onChange, value, defaultValue } = props;
 
     const [innerValue, handleChange] = useMergedState(false, {
         defaultValue,
         value,
         onChange,
+    });
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
+
+    // 激活样式
+    const activeBodyStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.body],
+        extraStyle: [styles[`body_${size}`], innerValue ? styles.body_active : {}],
     });
 
     // 处理点击事件
@@ -31,37 +35,22 @@ export default function Switch(props: SwitchProProps) {
         onPress?.();
     };
 
-    // 渲染开关主体
-    const renderSwitch = () => {
-        // 判断是否设置了value
-        const bodyActiveStyle = innerValue ? styles.body_active : {};
-        return (
-            <Flex alignItems="center" style={StyleSheet.flatten([styles.body, styles[`body_${size}`], bodyActiveStyle])}>
+    return (
+        <PressHighlight underlayColor="transparent" disabled={disabled} style={rootStyle} onPress={handlePress}>
+            <Flex alignItems="center" style={activeBodyStyle}>
                 <View style={StyleSheet.flatten([styles.handle, styles[`handle_${size}`]])} />
             </Flex>
-        );
-    };
-
-    return (
-        <Pressable
-            disabled={disabled}
-            style={StyleSheet.flatten([styles.wrapper, disabled ? styles.disabled : {}, style])}
-            onPress={handlePress}>
-            {renderSwitch()}
-        </Pressable>
+        </PressHighlight>
     );
 }
 
-const handleWidthMiddle = SIZE.switch_height_md - 2 * SIZE.switch_border_md;
-const handleWidthSmall = SIZE.switch_height_sm - 2 * SIZE.switch_border_sm;
+const handleMd = SIZE.switch_height_md - 2 * SIZE.switch_border_md;
+const handleSm = SIZE.switch_height_sm - 2 * SIZE.switch_border_sm;
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         overflow: 'hidden',
         position: 'relative',
-    },
-    disabled: {
-        opacity: COLOR.opacity_disabled_controller,
     },
     body: {
         alignItems: 'center',
@@ -88,16 +77,16 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR.white,
     },
     handleShadow: {
-        borderRadius: handleWidthMiddle,
+        borderRadius: handleMd,
     },
-    handle_small: {
-        borderRadius: handleWidthSmall,
-        height: handleWidthSmall,
-        width: handleWidthSmall,
+    handle_sm: {
+        borderRadius: handleSm,
+        height: handleSm,
+        width: handleSm,
     },
-    handle_middle: {
-        borderRadius: handleWidthMiddle,
-        height: handleWidthMiddle,
-        width: handleWidthMiddle,
+    handle_md: {
+        borderRadius: handleMd,
+        height: handleMd,
+        width: handleMd,
     },
 });

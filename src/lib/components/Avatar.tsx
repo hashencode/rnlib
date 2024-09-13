@@ -1,23 +1,16 @@
-import { ReactNode, useMemo, useState } from 'react';
-import { ImageSourcePropType, ImageStyle, StyleSheet } from 'react-native';
+import { useMemo, useState } from 'react';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Image, Text } from '@/lib/components';
+import { Flex, Image, TextBox } from '@/lib/components';
 import _ from 'lodash';
-import { TextSizeMap } from '@/lib/scripts/enum';
+import { AvatarStatusMap, TextSizeMap } from '@/lib/scripts/enum';
+import { IAvatarProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
 
-export interface AvatarProps {
-    alt?: string; // 未加载完成时显示的文本
-    children?: ReactNode; // 内容插槽
-    shape?: 'circle' | 'square'; // 形状
-    size?: 'lg' | 'md' | 'sm' | number; // 尺寸
-    source?: ImageSourcePropType; // 图片来源
-    style?: ImageStyle; // 样式
-}
-
-export default function Avatar(props: AvatarProps) {
+export default function Avatar(props: IAvatarProps) {
     const { alt, shape = 'circle', source, size = 'md', style } = props;
 
-    const [loadEnd, setLoadEnd] = useState(false);
+    const [loadStatus, setLoadStatus] = useState(AvatarStatusMap['加载中']);
 
     const sizeStyle = useMemo(() => {
         let width = 0;
@@ -30,38 +23,39 @@ export default function Avatar(props: AvatarProps) {
         return { width, height, borderRadius: shape === 'circle' ? width : SIZE.radius_md };
     }, [size, shape]);
 
+    // 根元素样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root, sizeStyle],
+        extraStyle: [style?.root],
+    });
+
     return (
-        <Flex alignItems="center" justifyContent="center" style={StyleSheet.flatten([styles.wrapper, sizeStyle, style])}>
+        <Flex alignItems="center" justifyContent="center" style={rootStyle}>
             {source ? (
                 <Image
                     source={source}
                     width={sizeStyle.width}
                     height={sizeStyle.height}
                     radius={sizeStyle.borderRadius}
-                    onLoadEnd={() => setLoadEnd(true)}
+                    onError={() => setLoadStatus(AvatarStatusMap['加载失败'])}
+                    style={style?.image}
                 />
             ) : null}
-            {!loadEnd ? (
-                <Flex style={styles.alt} justifyContent="center" alignItems="center">
-                    <Text size={_.isNumber(size) ? size : TextSizeMap[size]}>{alt}</Text>
+            {(loadStatus === AvatarStatusMap['加载失败'] && alt) || props?.children ? (
+                <Flex justifyContent="center" alignItems="center">
+                    <TextBox size={_.isNumber(size) ? size : TextSizeMap[size]} style={style?.text}>
+                        {props?.children || alt}
+                    </TextBox>
                 </Flex>
             ) : null}
-            {props?.children}
         </Flex>
     );
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         backgroundColor: COLOR.bg_controller,
         borderRadius: SIZE.radius_md,
         position: 'relative',
-    },
-    alt: {
-        height: '100%',
-        left: 0,
-        position: 'absolute',
-        top: 0,
-        width: '100%',
     },
 });
