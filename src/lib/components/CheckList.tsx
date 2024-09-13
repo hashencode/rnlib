@@ -17,7 +17,7 @@ export default function CheckList(props: ICheckListProps) {
         onChange,
     });
 
-    // 根元素样式
+    // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root],
         extraStyle: [style?.root],

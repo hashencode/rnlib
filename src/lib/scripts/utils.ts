@@ -17,7 +17,7 @@ export function randomId() {
     return `${id}${timestamp}`;
 }
 
-// 克隆元素，设置部分默认属性
+// 克隆节点，设置部分默认属性
 export function mergeElement(element?: ReactElement, defaultProps?: {}): ReactElement | null {
     if (isValidElement(element) && defaultProps) {
         return cloneElement(element, _.merge({}, defaultProps, element.props));

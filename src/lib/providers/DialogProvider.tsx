@@ -64,7 +64,7 @@ export default function DialogProvider(props: any) {
         });
     }, [setDialogQueue]);
 
-    // 蒙层动画结束，元素销毁后的回调
+    // 蒙层动画结束，节点销毁后的回调
     const handleDialogClose = (queueId: string) => {
         const currentTask = dialogQueue.find(queueItem => queueItem.id === queueId);
         if (currentTask) {

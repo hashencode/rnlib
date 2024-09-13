@@ -13,7 +13,7 @@ export default function Button(props: IButtonProps) {
     const isPrimary = type === 'primary';
     const borderRadius = round ? SIZE[`button_height_${size}`] / 2 : SIZE.radius_md; // 按钮圆角
 
-    // 根元素样式
+    // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root],
         extraStyle: [{ width: block ? '100%' : 'auto', borderRadius }, style?.root],

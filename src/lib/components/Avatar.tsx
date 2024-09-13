@@ -23,7 +23,7 @@ export default function Avatar(props: IAvatarProps) {
         return { width, height, borderRadius: shape === 'circle' ? width : SIZE.radius_md };
     }, [size, shape]);
 
-    // 根元素样式
+    // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root, sizeStyle],
         extraStyle: [style?.root],

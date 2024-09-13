@@ -72,7 +72,7 @@ export default function ToastProvider(props: any) {
         });
     }, [setToastQueue]);
 
-    // 蒙层动画结束，元素销毁后的回调
+    // 蒙层动画结束，节点销毁后的回调
     const handleToastClose = (queueId: string) => {
         const currentTask = toastQueue.find(queueItem => queueItem.id === queueId);
         if (currentTask) {

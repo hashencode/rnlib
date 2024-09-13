@@ -7,7 +7,7 @@ import { IBadgeProps } from '@/lib/_types/.components';
 export default function Badge(props: IBadgeProps) {
     const { dot, style } = props;
 
-    // 根元素样式
+    // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [dot ? styles.dot : styles.default],
         extraStyle: [style?.root],

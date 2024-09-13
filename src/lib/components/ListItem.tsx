@@ -68,7 +68,7 @@ export default function ListItem(props: IListItemProps) {
         });
     }, [icon, iconStyle]);
 
-    // 主体元素
+    // 主体节点
     const itemElement = (
         <Flex block alignItems="center" style={rootStyle}>
             {iconEl}

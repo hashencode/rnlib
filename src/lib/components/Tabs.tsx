@@ -10,7 +10,7 @@ type TabsItemValue = string;
 
 export interface TabsItem {
     content?: ReactNode; // 内容插槽
-    extra?: ReactNode; // 选项额外元素
+    extra?: ReactNode; // 选项额外节点
     title?: string; // 主文本
     value: TabsItemValue; // 选项值
 }
@@ -57,7 +57,7 @@ export default function Tabs(props: TabsProps) {
         parentRects.current = { ...parentRects.current, [val]: { width, x } };
     };
 
-    // 获取实际展示的元素的宽度和偏移量
+    // 获取实际展示的节点的宽度和偏移量
     const getChildRect = (val: TabsItemValue, ev: LayoutChangeEvent) => {
         const { width } = ev.nativeEvent.layout;
         childRects.current = { ...childRects.current, [val]: { width } };
@@ -109,7 +109,7 @@ export default function Tabs(props: TabsProps) {
         };
     });
 
-    // 渲染头部元素
+    // 渲染头部节点
     const renderHeader = () => {
         return (
             <Flex

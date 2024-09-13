@@ -8,7 +8,7 @@ import useStyle from '@/lib/hooks/useStyle';
 export default function List(props: IListProps) {
     const { items, renderItem, rowKey, style } = props;
 
-    // 根元素样式
+    // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root],
         extraStyle: [style?.root],
