@@ -436,3 +436,15 @@ export interface IAvatarProps {
         text?: TextStyle; // 文本样式
     }; // 样式
 }
+
+/**
+ * Badge
+ */
+export interface IBadgeProps {
+    children?: ReactNode; // 内容插槽
+    dot?: boolean; // 红点模式
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        text?: TextStyle; // 文本样式
+    }; // 样式
+}

@@ -1,36 +1,33 @@
-import { ReactNode } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Text } from '@/lib/components';
+import { Flex, TextBox } from '@/lib/components';
+import useStyle from '@/lib/hooks/useStyle';
+import { IBadgeProps } from '@/lib/_types/.components';
 
-export interface BadgeProps {
-    bordered?: boolean; // 显示边框
-    children?: ReactNode; // 内容插槽
-    dot?: boolean; // 红点模式
-    style?: ViewStyle; // 样式
-}
+export default function Badge(props: IBadgeProps) {
+    const { dot, style } = props;
 
-export default function Badge(props: BadgeProps) {
-    const { bordered = true, dot, style } = props;
+    // 根元素样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [dot ? styles.dot : styles.default],
+        extraStyle: [style?.root],
+    });
 
     if (dot) {
-        return <View style={StyleSheet.flatten([styles.dot, style])} />;
+        return <View style={rootStyle} />;
     }
 
     return (
-        <Flex
-            alignItems="center"
-            justifyContent="center"
-            style={StyleSheet.flatten([styles.wrapper, bordered ? styles.bordered : {}, style])}>
-            <Text size={SIZE.badge_font_size} color={COLOR.text_white}>
+        <Flex alignItems="center" justifyContent="center" style={rootStyle}>
+            <TextBox size={SIZE.badge_font_size} color={COLOR.text_white} style={style?.text}>
                 {props.children}
-            </Text>
+            </TextBox>
         </Flex>
     );
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    default: {
         backgroundColor: COLOR.danger,
         borderRadius: SIZE.badge_size / 2,
         height: SIZE.badge_size,
@@ -42,9 +39,5 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.badge_size / 2,
         height: SIZE.badge_dot_size,
         width: SIZE.badge_dot_size,
-    },
-    bordered: {
-        borderColor: COLOR.white,
-        borderWidth: SIZE.border_default,
     },
 });
