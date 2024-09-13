@@ -1,8 +1,8 @@
-import { Carousel, DefaultLayout, Flex, Head, Text, Group, Card } from '../components';
+import { Carousel, DefaultLayout, Flex, Text, Group, Card } from '../components';
 
 export default function DemoCarousel() {
     return (
-        <DefaultLayout head={<Head title="走马灯 Carousel" />}>
+        <DefaultLayout head="走马灯 Carousel">
             <Group header="基础" first>
                 <Card>
                     <Carousel

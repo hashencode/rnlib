@@ -1,9 +1,9 @@
-import { Card, DefaultLayout, Flex, Group, Head, Icon, Tag } from '../components';
+import { Card, DefaultLayout, Flex, Group, Icon, Tag } from '../components';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 
 export default function DemoTag() {
     return (
-        <DefaultLayout head={<Head title="标签 Tag" />}>
+        <DefaultLayout head="标签 Tag">
             <Group header="图标" first>
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">

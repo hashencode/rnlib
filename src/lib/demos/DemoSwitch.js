@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Button, Card, DefaultLayout, Flex, Group, Head, Switch } from '../components';
+import { Button, Card, DefaultLayout, Flex, Group, Switch } from '../components';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoSwitch() {
     const [switchValue, setSwitchValue] = useState(false);
 
     return (
-        <DefaultLayout head={<Head title="开关 Switch" />}>
+        <DefaultLayout head="开关 Switch">
             <Group header="尺寸" first>
                 <Card>
                     <Flex columnGap={SIZE.space_md}>

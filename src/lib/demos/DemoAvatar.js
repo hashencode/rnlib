@@ -1,9 +1,9 @@
-import { Avatar, DefaultLayout, Flex, Head, Group, Card } from '../components';
+import { Avatar, DefaultLayout, Flex, Group, Card } from '../components';
 import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 
 export default function DemoAvatar() {
     return (
-        <DefaultLayout head={<Head title="头像 Avatar" />}>
+        <DefaultLayout head="头像 Avatar">
             <Group header="尺寸" first>
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">

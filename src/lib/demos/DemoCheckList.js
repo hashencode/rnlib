@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, CheckList, DefaultLayout, Head, Group, Image, Icon } from '../components';
+import { Button, CheckList, DefaultLayout, Group, Image, Icon } from '../components';
 import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 
 export default function DemoCheckList() {
@@ -30,7 +30,7 @@ export default function DemoCheckList() {
     ];
 
     return (
-        <DefaultLayout head={<Head title="勾选列表 CheckList" />}>
+        <DefaultLayout head="勾选列表 CheckList">
             <Group header="单选" first>
                 <CheckList options={basicList} defaultValue="A" />
             </Group>

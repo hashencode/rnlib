@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Button, DefaultLayout, Flex, Group, Head, RadioGroup, Radio, Card } from '../components';
+import { Button, DefaultLayout, Flex, Group, RadioGroup, Radio, Card } from '../components';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoRadio() {
     const [isChecked, setIsChecked] = useState(false);
 
     return (
-        <DefaultLayout head={<Head title="单选 Radio" />}>
+        <DefaultLayout head="单选 Radio">
             <Group header="基本用法" first>
                 <Card>
                     <Radio label="选项" />

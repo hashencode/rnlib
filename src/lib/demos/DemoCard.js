@@ -1,10 +1,10 @@
 import { COLOR, DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
-import { Card, DefaultLayout, Flex, Head, Icon, Text, Group, Image } from '../components';
+import { Card, DefaultLayout, Flex, Icon, Text, Group, Image } from '../components';
 
 export default function DemoCard() {
     return (
-        <DefaultLayout head={<Head title="卡片 Card" />}>
+        <DefaultLayout head="卡片 Card">
             <Group header="无标题" first>
                 <Card>
                     <Placeholder>

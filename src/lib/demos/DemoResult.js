@@ -1,9 +1,9 @@
-import { Card, DefaultLayout, Group, Head, Result } from '../components';
+import { Card, DefaultLayout, Group, Result } from '../components';
 
 function DemoResult() {
     return (
         <>
-            <DefaultLayout head={<Head title="结果 Result" />}>
+            <DefaultLayout head="结果 Result">
                 <Group header="成功" first>
                     <Card>
                         <Result type="success" title="操作成功" subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" />

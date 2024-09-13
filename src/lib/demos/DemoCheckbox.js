@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Button, Checkbox, CheckboxGroup, DefaultLayout, Flex, Head, Group, Card } from '../components';
+import { Button, Checkbox, CheckboxGroup, DefaultLayout, Flex, Group, Card } from '../components';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoCheckbox() {
     const [isChecked, setIsChecked] = useState(false);
 
     return (
-        <DefaultLayout head={<Head title="多选 Checkbox" />}>
+        <DefaultLayout head="多选 Checkbox">
             <Group header="基本用法" first>
                 <Card>
                     <Checkbox label="选项" />

@@ -1,4 +1,4 @@
-import { DefaultLayout, Head, Icon, Selector, Group, Card } from '../components';
+import { DefaultLayout, Icon, Selector, Group, Card } from '../components';
 
 export default function DemoSelector() {
     const optionsData = [
@@ -15,7 +15,7 @@ export default function DemoSelector() {
     const basicStyle = { option: { flexBasis: '30%', flexGrow: 1 } };
 
     return (
-        <DefaultLayout head={<Head title="选择组 Selector" />}>
+        <DefaultLayout head="选择组 Selector">
             <Group header="单选" first>
                 <Card>
                     <Selector defaultValue="A" options={optionsData} style={basicStyle} />

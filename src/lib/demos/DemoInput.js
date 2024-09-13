@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Button, DefaultLayout, Flex, Group, Head, Input } from '../components';
+import { Button, DefaultLayout, Flex, Group, Input } from '../components';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoInput() {
@@ -7,7 +7,7 @@ export default function DemoInput() {
     const [inputValue, setInputValue] = useState('');
 
     return (
-        <DefaultLayout head={<Head title="输入框 Input" />}>
+        <DefaultLayout head="输入框 Input">
             <Group header="尺寸" first>
                 <Flex column rowGap={SIZE.space_md}>
                     <Input size="sm" placeholder="小尺寸" />

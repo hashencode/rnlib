@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, DefaultLayout, Flex, Group, Head, Picker } from '../components';
+import { Button, Card, DefaultLayout, Flex, Group, Picker } from '../components';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { Icon } from '@/lib/components';
 
@@ -20,7 +20,7 @@ export default function DemoPicker() {
     };
 
     return (
-        <DefaultLayout head={<Head title="选择 Picker" />}>
+        <DefaultLayout head="选择 Picker">
             <Group header="模式" first>
                 <Card>
                     <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_md}>

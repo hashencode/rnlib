@@ -3,7 +3,7 @@ import { COLOR, SIZE } from '@/lib/scripts/const';
 
 export default function DemoHead() {
     return (
-        <DefaultLayout head={<Head title="头部导航 Head" />}>
+        <DefaultLayout head="头部导航 Head">
             <Group header="标题与描述" first>
                 <Head title="页面标题" subtitle="描述文本" />
             </Group>

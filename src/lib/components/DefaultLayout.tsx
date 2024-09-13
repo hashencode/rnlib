@@ -1,27 +1,12 @@
-import { ReactNode } from 'react';
-import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
-import { Flex } from '@/lib/components';
+import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import { Flex, Head } from '@/lib/components';
 import { SCROLL_BASIC_CONFIG, SIZE } from '@/lib/scripts/const';
 import useTheme from '../hooks/useTheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import _ from 'lodash';
+import { IDefaultLayoutProps } from '@/lib/_types/.components';
 
-export interface DefaultLayoutProps {
-    children?: ReactNode; // 插槽
-    head?: ReactNode; // 头部插槽
-    footer?: ReactNode; // 底部插槽
-    statusBarConfig?: {
-        whiteText?: boolean;
-        backgroundColor?: string;
-    }; // 状态栏配置
-    scrollable?: boolean; // 是否使用scrollView
-    style?: {
-        wrapper?: ViewStyle; // 最外层样式
-        scrollView?: ViewStyle; // 滚动区域样式
-        contentContainer?: ViewStyle; // 主要内容区域样式
-    }; // 样式
-}
-
-export default function DefaultLayout(props: DefaultLayoutProps) {
+export default function DefaultLayout(props: IDefaultLayoutProps) {
     const { scrollable = true, statusBarConfig, head, footer, style } = props;
 
     const { theme } = useTheme();
@@ -37,7 +22,7 @@ export default function DefaultLayout(props: DefaultLayoutProps) {
                 {...statusBarConfig}
             />
             <Flex column style={StyleSheet.flatten([styles.fullSize, style?.wrapper])}>
-                {head}
+                {_.isString(head) ? <Head title={head} /> : head}
                 {scrollable ? (
                     <ScrollView
                         {...SCROLL_BASIC_CONFIG}

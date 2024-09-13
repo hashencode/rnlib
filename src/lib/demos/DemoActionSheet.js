@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Head from '../components/Head';
 import { ActionSheet, Button, Card, DefaultLayout, Group, Text, Icon, Flex } from '../components';
 import { COLOR } from '@/lib/scripts/const';
 
@@ -17,7 +16,7 @@ export default function DemoActionSheet() {
     };
 
     return (
-        <DefaultLayout head={<Head title="动作面板 ActionSheet" />}>
+        <DefaultLayout head="动作面板 ActionSheet">
             <Group header="选项" first>
                 <Card>
                     <Button onPress={() => setOpenId('basic')}>基础</Button>

@@ -1,10 +1,10 @@
-import { DefaultLayout, ErrorBlock, Head, Group, Card } from '../components';
+import { DefaultLayout, ErrorBlock, Group, Card } from '../components';
 import { DEFAULT_IMAGE } from '@/lib/scripts/const';
 
 function DemoResult() {
     return (
         <>
-            <DefaultLayout head={<Head title="错误块 ErrorBlock" />}>
+            <DefaultLayout head="错误块 ErrorBlock">
                 <Group header="全屏" first>
                     <Card>
                         <ErrorBlock

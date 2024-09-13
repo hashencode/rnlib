@@ -516,3 +516,38 @@ export interface ICarouselProps {
         root?: ViewStyle; // 根节点样式
     }; // 样式
 }
+
+/**
+ * Group
+ */
+export interface IGroupProps {
+    children?: ReactNode; // 内容插槽
+    first?: boolean; // 是否是首行
+    footer?: ReactNode | string; // 底部插槽
+    header?: ReactNode | string; // 头部插槽
+    style?: {
+        root?: ViewStyle; // 最外层样式
+        header?: ViewStyle; // 头部样式
+        body?: ViewStyle; // 主要内容样式
+        footer?: ViewStyle; // 底部样式
+    }; // 样式
+}
+
+/**
+ * DefaultLayout
+ */
+export interface IDefaultLayoutProps {
+    children?: ReactNode; // 插槽
+    head?: ReactNode; // 头部插槽
+    footer?: ReactNode; // 底部插槽
+    statusBarConfig?: {
+        whiteText?: boolean;
+        backgroundColor?: string;
+    }; // 状态栏配置
+    scrollable?: boolean; // 是否使用scrollView
+    style?: {
+        wrapper?: ViewStyle; // 最外层样式
+        scrollView?: ViewStyle; // 滚动区域样式
+        contentContainer?: ViewStyle; // 主要内容区域样式
+    }; // 样式
+}

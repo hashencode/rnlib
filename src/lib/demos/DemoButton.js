@@ -1,10 +1,10 @@
-import { Button, DefaultLayout, Flex, Head, Group, Card } from '../components';
+import { Button, DefaultLayout, Flex, Group, Card } from '../components';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { Icon } from '@/lib/components';
 
 export default function DemoButton() {
     return (
-        <DefaultLayout head={<Head title="按钮 Button" />}>
+        <DefaultLayout head="按钮 Button">
             <Group header="类型" first>
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">

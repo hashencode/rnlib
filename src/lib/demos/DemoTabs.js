@@ -1,4 +1,4 @@
-import { Card, DefaultLayout, Group, Head, Tabs, Text } from '../components';
+import { Card, DefaultLayout, Group, Tabs, Text } from '../components';
 
 export default function DemoTabs() {
     const basicItems = [
@@ -32,7 +32,7 @@ export default function DemoTabs() {
     ];
 
     return (
-        <DefaultLayout head={<Head title="选项卡 Tabs" />}>
+        <DefaultLayout head="选项卡 Tabs">
             <Group header="基础" first>
                 <Card>
                     <Tabs items={basicItems} />

@@ -1,4 +1,4 @@
-import { DefaultLayout, Head, Icon, Switch, Group, List, Image, Text } from '../components';
+import { DefaultLayout, Icon, Switch, Group, List, Image, Text } from '../components';
 import { COLOR, DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 
 export default function DemoList() {
@@ -51,7 +51,7 @@ export default function DemoList() {
     ];
 
     return (
-        <DefaultLayout head={<Head title="列表 List" />}>
+        <DefaultLayout head="列表 List">
             <Group header="单行列表" first>
                 <List items={singleLineList}></List>
             </Group>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, DefaultLayout, Dialog, Flex, Head, Input, Group, Card } from '../components';
+import { Button, DefaultLayout, Dialog, Flex, Input, Group, Card } from '../components';
 import { useDialog } from '../hooks';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 
@@ -33,7 +33,7 @@ export default function DemoDialog() {
     };
 
     return (
-        <DefaultLayout head={<Head title="对话框 Dialog" />}>
+        <DefaultLayout head="对话框 Dialog">
             <Group header="按钮数量" first>
                 <Card>
                     <Flex columnGap={SIZE.space_md}>
