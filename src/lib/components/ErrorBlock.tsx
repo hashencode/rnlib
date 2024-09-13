@@ -12,8 +12,8 @@ export interface ErrorBlockProps {
     image?: ReactElement | ImageSourcePropType; // 主图
     imageStyle?: ImageStyle; // 主图样式
     style?: ViewStyle; // 样式
-    subtitle?: ReactNode | string; // 副标题
-    title?: ReactNode | string; // 标题
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
 }
 
 export default function ErrorBlock(props: ErrorBlockProps) {

@@ -4,7 +4,7 @@ import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
 import Button from './Button';
-import { Flex, Grabber, Icon, PressHighlight, Text, TextBox } from '@/lib/components';
+import { Flex, Grabber, Icon, PressHighlight, TextBox } from '@/lib/components';
 import useStyle from '@/lib/hooks/useStyle';
 import { IPickerProps, IPickerRawValue, IPickerValue, PickerOption } from '@/lib/_types/.components';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
@@ -152,12 +152,12 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
                             <Flex alignItems="center" justifyContent="space-between" style={optionStyle}>
                                 <Flex alignItems="center" grow={1}>
                                     <Flex column shrink={0} rowGap={SIZE.space_xs}>
-                                        <Text size={SIZE.font_h2} style={style?.title}>
+                                        <TextBox size={SIZE.font_h2} style={style?.title}>
                                             {option.title}
-                                        </Text>
-                                        <Text color={COLOR.text_desc} style={style?.subtitle}>
+                                        </TextBox>
+                                        <TextBox color={COLOR.text_desc} style={style?.subtitle}>
                                             {option.subtitle}
-                                        </Text>
+                                        </TextBox>
                                     </Flex>
                                     <Flex grow={1}>{option?.children}</Flex>
                                 </Flex>

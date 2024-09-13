@@ -1,11 +1,10 @@
-import { ForwardedRef, forwardRef, useEffect, useMemo, useRef } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useRef } from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Text, TextBox, Flex, PressHighlight, Grabber } from '@/lib/components';
+import { TextBox, Flex, PressHighlight, Grabber } from '@/lib/components';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
 import { mergeRefs } from '@/lib/scripts/utils';
 import useStyle from '@/lib/hooks/useStyle';
-import _ from 'lodash';
 import { IActionSheetOptionValue, IActionSheetProps } from '@/lib/_types/.components';
 
 function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>) {
@@ -75,20 +74,6 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
         }
     }, [visible]);
 
-    // 头部元素
-    const headerEl = useMemo(() => {
-        if (_.isString(header)) {
-            return (
-                <Flex alignItems="center" justifyContent="center" style={headerStyle}>
-                    <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
-                        {header}
-                    </TextBox>
-                </Flex>
-            );
-        }
-        return header;
-    }, [header, headerStyle, style?.headerText]);
-
     return (
         <ActionSheetOrigin
             ref={mergeRefs([ref, localRef])}
@@ -97,19 +82,23 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
             closable={overlayClosable}
             onOpen={onOpen}
             onClose={onCancel}>
-            {headerEl}
+            <Flex alignItems="center" justifyContent="center" style={headerStyle}>
+                <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
+                    {header}
+                </TextBox>
+            </Flex>
 
             <ScrollView>
                 {options.map((item, index) => {
                     return (
                         <PressHighlight disabled={item.disabled} onPress={() => handleOptionPress(item.value)} key={index}>
                             <View style={optionStyle}>
-                                <Text size={SIZE.font_h2} style={style?.title}>
+                                <TextBox size={SIZE.font_h2} style={style?.title}>
                                     {item?.title}
-                                </Text>
-                                <Text color={COLOR.text_desc} style={style?.subtitle}>
+                                </TextBox>
+                                <TextBox color={COLOR.text_desc} style={style?.subtitle}>
                                     {item?.subtitle}
-                                </Text>
+                                </TextBox>
                                 {item?.children}
                             </View>
                             <View style={dividerStyle}></View>
@@ -123,9 +112,9 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
                     <View style={styles.footerSpace} />
                     <PressHighlight onPress={handleCancel}>
                         <View style={cancelButtonStyle}>
-                            <Text size={SIZE.font_h2} style={style?.cancelText}>
+                            <TextBox size={SIZE.font_h2} style={style?.cancelText}>
                                 {cancelText}
-                            </Text>
+                            </TextBox>
                         </View>
                     </PressHighlight>
                 </>

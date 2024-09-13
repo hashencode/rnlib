@@ -5,8 +5,8 @@ import { Flex, Icon, Text } from '@/lib/components';
 
 export interface ResultProps {
     style?: ViewStyle; // 样式
-    subtitle?: ReactNode | string; // 副标题
-    title?: ReactNode | string; // 标题
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
     type: 'success' | 'info' | 'waiting' | 'error' | 'warning'; // 类型
 }
 

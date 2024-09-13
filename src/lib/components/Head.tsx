@@ -1,7 +1,6 @@
-import { View, StyleSheet, Pressable, ViewStyle } from 'react-native';
+import { View, StyleSheet, ViewStyle, Pressable } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 import { useNavigation } from '@react-navigation/native';
-import _ from 'lodash';
 import { Flex, Icon, TextBox } from '@/lib/components';
 import { IHeadProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
@@ -35,7 +34,7 @@ function Head(props: IHeadProps) {
         <Flex justifyContent="space-between" alignItems="center" block style={rootStyle}>
             <Pressable onPress={handleGoBack} style={{ zIndex: 2 }}>
                 <Flex alignItems="center" gap={SIZE.space_sm}>
-                    {_.isUndefined(backIcon) ? <Icon name="chevron-left" size={SIZE.icon_lg} style={style?.backIcon} /> : backIcon}
+                    {backIcon || <Icon name="chevron-left" size={SIZE.icon_lg} style={style?.backIcon} />}
                     <TextBox size={SIZE.font_h2} style={style?.backText}>
                         {backText}
                     </TextBox>
