@@ -1,5 +1,5 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { ImageStyle, PressableProps, TextInputProps, TextStyle, ViewStyle } from 'react-native';
+import { ImageStyle, PressableProps, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '@/lib/components/Icon';
@@ -8,9 +8,10 @@ import { IconNames } from '@/lib/components/Icon';
  * Pressable
  */
 
-export interface IPressHighlightProps extends PressableProps {
+export interface IPressHighlightProps extends Omit<PressableProps, 'style'> {
     children?: ReactNode | string; // 插槽
     underlayColor?: string; // 遮罩颜色
+    style?: ViewStyle;
 }
 
 /**
@@ -69,8 +70,8 @@ export interface IListItemProps extends PropsWithChildren {
     extraTitle?: string; // 额外内容标题
     icon?: ReactElement; // 左侧图标
     showArrow?: boolean; // 显示右侧箭头
-    subtitle?: string; // 副标题
-    title?: string; // 主标题,
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 主标题
     style?: {
         root?: ViewStyle; // 最外层样式
         icon?: ImageStyle; // 图标样式
@@ -149,21 +150,20 @@ export type IActionSheetOptionValue = string | number;
 
 export interface IActionSheetOption {
     children?: ReactNode; // 内容插槽
-    danger?: boolean; // 危险选项
     disabled?: boolean; // 禁用
-    title: string; // 主文本
-    subtitle?: string; // 描述文本
+    title: ReactNode; // 主文本
+    subtitle?: ReactNode; // 副标题
     value: IActionSheetOptionValue; // 选项值
 }
 
 export interface IActionSheetProps {
     backCloseable?: boolean; // 允许返回操作关闭
-    header?: ReactNode | string; // 头部插槽
+    header?: ReactNode; // 头部插槽
     overlayClosable?: boolean; // 允许点击蒙层关闭
     maxHeight?: number; // 最大高度
     options: IActionSheetOption[]; // 选项
     showCancel?: boolean; // 显示取消按钮
-    cancelText?: string; // 取消按钮文本
+    cancelText?: ReactNode; // 取消按钮文本
     style?: {
         root: ViewStyle; // 根节点样式
         header?: ViewStyle; // 头部样式
@@ -243,8 +243,8 @@ export interface CheckListOptions {
     children?: ReactNode; // 内容插槽
     disabled?: boolean; // 禁用
     icon?: ReactElement; // 左侧图标
-    subtitle?: string; // 副标题
-    title?: string; // 主标题,
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 主标题,
     value: ICheckListRawValue; // 列表项值
 }
 
@@ -289,4 +289,119 @@ export interface IInputProps extends Omit<TextInputProps, 'onChange' | 'style'> 
     }; // 样式
     suffix?: ReactNode | string; // 后缀
     onChange?: (val?: string) => void; // 值变动事件回调
+}
+
+/**
+ * Radio
+ */
+export type IRadioValue = boolean;
+
+export interface IRadioProps {
+    defaultValue?: IRadioValue; // 默认值
+    disabled?: boolean; // 禁用
+    label?: string; // 文本
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        iconContainer?: ViewStyle; // 图标容器样式
+        icon?: TextStyle; // 图标样式
+        label?: TextStyle; // 文本样式
+    }; // 样式
+    value?: IRadioValue; // 受控值
+    onChange?: (val: IRadioValue) => void; // 值变动事件回调
+}
+
+/**
+ * RadioGroup
+ */
+export type IRadioGroupOptionValue = string | number | undefined;
+
+export interface IRadioGroupOptions {
+    disabled?: boolean; // 禁用
+    label: string; // 文本
+    value: IRadioGroupOptionValue; // 选项值
+}
+
+export interface IRadioGroupProps {
+    defaultValue?: IRadioGroupOptionValue; // 默认值
+    options?: IRadioGroupOptions[]; // 子项
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        option?: ICheckboxProps['style'];
+    }; // 样式
+    value?: IRadioGroupOptionValue; // 受控值
+    onChange?: (value: IRadioGroupOptionValue) => void;
+}
+
+/**
+ * Picker
+ */
+export type IPickerRawValue = number | string;
+export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
+export interface PickerOption {
+    children?: ReactNode; // 内容插槽
+    disabled?: boolean; // 禁用
+    title: ReactNode; // 主文本
+    subtitle?: ReactNode; // 副标题
+    value: IPickerRawValue; // 选项值
+}
+export interface IPickerProps {
+    backCloseable?: boolean; // 允许返回操作关闭
+    cancelText?: string; // 取消按钮文案
+    okText?: string; // 确认按钮文案（多选）
+    defaultValue?: IPickerValue; // 默认值
+    title?: ReactNode; // 头部标题插槽
+    overlayClosable?: boolean; // 允许点击蒙层关闭
+    maxHeight?: number; // 最大高度
+    multiple?: boolean; // 多选
+    options: PickerOption[]; // 选项
+    checkIcon?: ReactNode; // 自定义选中图标
+    okButtonProps?: IButtonProps; // 确定按钮属性
+    cancelButtonProps?: IButtonProps; // 取消按钮属性
+    style?: {
+        root: ViewStyle; // 根节点样式
+        header?: ViewStyle; // 头部样式
+        headerText?: TextStyle; // 头部文本样式
+        option?: ViewStyle; // 选项样式
+        checkIcon?: TextStyle; // 选中图标样式
+        title?: TextStyle; // 标题样式
+        subtitle?: TextStyle; // 副标题样式
+        divider?: ViewStyle; // 分割线样式
+        cancelButton?: ViewStyle; // 取消按钮样式
+        cancelText?: TextStyle; // 取消按钮文本样式
+        grabber?: ViewStyle; // 抓手样式
+    }; // 样式
+    value?: IPickerValue; // 受控值
+    visible?: boolean; // 显隐
+    onOpen?: () => void; // 开启事件回调
+    onCancel?: () => void; // 取消按钮点击事件回调
+    onChange?: (val: IPickerValue) => void; // 值变动事件回调
+}
+
+/**
+ * Selector
+ */
+export type ISelectorRawValue = number | string;
+export type ISelectorValue = ISelectorRawValue | ISelectorRawValue[] | undefined;
+export interface SelectorOption {
+    content?: ReactNode; // 内容插槽
+    subtitle?: ReactNode; // 副标题
+    disabled?: boolean; // 禁用
+    title?: ReactNode; // 主文本
+    value: ISelectorRawValue; // 选项值
+}
+export interface ISelectProps {
+    defaultValue?: ISelectorValue; // 默认值
+    multiple?: boolean; // 多选
+    options: SelectorOption[]; // 选项
+    style?: {
+        root: ViewStyle; // 根节点样式
+        option?: ViewStyle; // 选项样式
+        active?: ViewStyle; // 激活样式
+        checkIcon?: TextStyle; // 选中图标样式
+        title?: TextStyle; // 标题样式
+        subtitle?: TextStyle; // 副标题样式
+        corner?: ViewStyle; // 角落样式
+    }; // 样式
+    value?: ISelectorValue; // 受控值
+    onChange?: (val: ISelectorValue) => void; // 值变动事件回调
 }

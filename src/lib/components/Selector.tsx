@@ -1,40 +1,48 @@
-import { ReactNode, useState } from 'react';
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
-import { Flex, Icon, Text } from '@/lib/components';
+import { Flex, Icon, PressHighlight, TextBox } from '@/lib/components';
+import { ISelectorRawValue, ISelectorValue, ISelectProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export type SelectorRawValue = number | string;
-export type SelectorValue = SelectorRawValue | SelectorRawValue[] | undefined;
-export interface SelectorOption {
-    content?: ReactNode; // 内容插槽
-    desc?: string; // 描述文本
-    disabled?: boolean; // 禁用
-    title?: string; // 主文本
-    value: SelectorRawValue; // 选项值
-}
-export interface SelectProps {
-    defaultValue?: SelectorValue; // 默认值
-    multiple?: boolean; // 多选
-    options: SelectorOption[]; // 选项
-    optionStyle?: ViewStyle; // 选项样式
-    style?: ViewStyle; // 样式
-    value?: SelectorValue; // 受控值
-    onChange?: (val: SelectorValue) => void; // 值变动事件回调
-}
+export default function Selector(props: ISelectProps) {
+    const { defaultValue, multiple, options = [], style, value, onChange } = props;
 
-export default function Selector(props: SelectProps) {
-    const { optionStyle, defaultValue, multiple, options = [], style, value, onChange } = props;
-
-    const [innerValue, handleChange] = useMergedState<SelectorValue>(multiple ? [] : undefined, {
+    const [innerValue, handleChange] = useMergedState<ISelectorValue>(multiple ? [] : undefined, {
         defaultValue,
         value,
     });
-    const [valueCache, setValueCache] = useState<SelectorRawValue[]>(innerValue as SelectorRawValue[]);
+    const [valueCache, setValueCache] = useState<ISelectorRawValue[]>(innerValue as ISelectorRawValue[]);
+
+    // 选项节点样式
+    const optionStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.option],
+        extraStyle: [style?.option],
+    });
+
+    // 勾选图标样式
+    const checkIconStyle = useStyle<TextStyle>({
+        defaultStyle: [styles.checkIcon],
+        extraStyle: [style?.checkIcon],
+    });
+
+    // 激活背景样式
+    const activeStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.active],
+        extraStyle: [style?.active],
+    });
+
+    // 角落节点样式
+    const cornerStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.corner],
+        extraStyle: [style?.corner],
+    });
 
     // 处理选项点击
-    const handleOptionPress = (val: SelectorRawValue) => {
+    const handleOptionPress = (val: ISelectorRawValue) => {
         if (multiple) {
             if (_.isArray(valueCache)) {
                 const newValue = valueCache?.includes(val) ? valueCache.filter(item => item !== val) : [...valueCache, val];
@@ -50,36 +58,46 @@ export default function Selector(props: SelectProps) {
     };
 
     return (
-        <Flex wrap="wrap" gap={SIZE.space_lg} style={StyleSheet.flatten([styles.wrapper, style])}>
+        <Flex wrap="wrap" gap={SIZE.space_lg} style={style?.root}>
             {options.map(option => {
                 const isActive = (multiple && valueCache?.includes(option.value)) || (!multiple && option?.value === innerValue);
                 return (
-                    <Pressable
+                    <PressHighlight
                         disabled={option.disabled}
                         onPress={() => handleOptionPress(option.value)}
                         key={option.value}
-                        style={StyleSheet.flatten([
-                            styles.option,
-                            isActive ? styles.active : {},
-                            option.disabled ? styles.disabled : {},
-                            optionStyle,
-                        ])}>
-                        <Flex alignItems="center" column>
-                            <Text size={SIZE.font_h5} color={isActive ? COLOR.text_primary : COLOR.text_title} numberOfLines={1}>
+                        style={StyleSheet.flatten([optionStyle, isActive ? activeStyle : {}])}>
+                        <Flex alignItems="center" column rowGap={SIZE.space_xs}>
+                            <TextBox
+                                size={SIZE.font_h5}
+                                color={isActive ? COLOR.text_primary : COLOR.text_title}
+                                numberOfLines={1}
+                                style={style?.title}>
                                 {option.title}
-                            </Text>
-                            <Text size={SIZE.font_secondary} color={COLOR.text_desc} numberOfLines={1} ellipsizeMode="tail">
-                                {option.desc}
-                            </Text>
+                            </TextBox>
+                            <TextBox
+                                size={SIZE.font_secondary}
+                                color={COLOR.text_desc}
+                                numberOfLines={1}
+                                ellipsizeMode="tail"
+                                style={style?.subtitle}>
+                                {option.subtitle}
+                            </TextBox>
                             {option?.content}
                         </Flex>
                         {isActive ? (
                             <>
-                                <View style={styles.iconBackground} />
-                                <Icon name="check" size={SIZE.selector_icon_size} color={COLOR.white} style={styles.checkIcon} />
+                                <View style={cornerStyle} />
+                                <Icon
+                                    name="check"
+                                    size={SIZE.selector_icon_size}
+                                    strokeWidth={SIZE.icon_stroke_lg}
+                                    color={COLOR.white}
+                                    style={checkIconStyle}
+                                />
                             </>
                         ) : null}
-                    </Pressable>
+                    </PressHighlight>
                 );
             })}
         </Flex>
@@ -87,12 +105,12 @@ export default function Selector(props: SelectProps) {
 }
 
 const styles = StyleSheet.create({
-    wrapper: {},
     option: {
         backgroundColor: COLOR.selector_option_background,
         borderRadius: SIZE.radius_md,
         overflow: 'hidden',
-        padding: SIZE.space_md,
+        paddingHorizontal: SIZE.space_lg,
+        paddingVertical: SIZE.space_md,
         position: 'relative',
     },
     active: {
@@ -101,7 +119,7 @@ const styles = StyleSheet.create({
     disabled: {
         opacity: COLOR.opacity_disabled_controller,
     },
-    iconBackground: {
+    corner: {
         borderBottomColor: COLOR.primary,
         borderLeftColor: 'transparent',
         borderRightColor: COLOR.primary,
