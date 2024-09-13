@@ -1,46 +1,52 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { default as CarouselX } from 'react-native-reanimated-carousel';
 import { LayoutChangeEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 import PaginationDot from 'react-native-animated-pagination-dot';
 import { SIZE } from '@/lib/scripts/const';
-import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
+import { ICarouselProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
 
-export interface CarouselProps {
-    dotConfig?: IDotContainerProps; // 指示器配置项
-    dotStyle?: ViewStyle; // 指示器样式
-    items: ReactNode[]; // 内容项
-    itemsConfig?: TCarouselProps; // 内容配置项
-    showDot?: boolean; // 是否显示指示器
-    style?: ViewStyle; // 样式
-}
-
-export default function Carousel(props: CarouselProps) {
-    const { dotConfig, itemsConfig, items, showDot, style, dotStyle } = props;
+export default function Carousel(props: ICarouselProps) {
+    const { dotConfig, rootConfig, items, showDot, style, height } = props;
 
     const [carouselWidth, setCarouselWidth] = useState(1);
     const [currentPage, setCurrentPage] = useState(0);
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root, { height }],
+    });
+
+    // 点样式
+    const dotContainerStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.dotContainer],
+        extraStyle: [style?.dotContainer],
+    });
 
     const handleWrapperLayout = (event: LayoutChangeEvent) => {
         setCarouselWidth(event.nativeEvent.layout.width);
     };
 
     return (
-        <View style={StyleSheet.flatten([styles.wrapper, style])} onLayout={handleWrapperLayout}>
+        <View style={rootStyle} onLayout={handleWrapperLayout}>
             <CarouselX
-                {...itemsConfig}
                 width={carouselWidth}
                 data={items}
-                onScrollEnd={index => setCurrentPage(index)}
                 renderItem={({ item, index }) => (
                     <View key={index} style={styles.content}>
                         {item}
                     </View>
                 )}
+                {...rootConfig}
+                onScrollEnd={index => {
+                    setCurrentPage(index);
+                    rootConfig?.onScrollEnd?.(index);
+                }}
             />
             {showDot ? (
-                <View style={StyleSheet.flatten([styles.dots, dotStyle])}>
+                <View style={dotContainerStyle}>
                     <PaginationDot activeDotColor="white" curPage={currentPage} maxPage={items.length || 0} {...dotConfig} />
                 </View>
             ) : null}
@@ -49,13 +55,13 @@ export default function Carousel(props: CarouselProps) {
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         position: 'relative',
     },
     content: {
         flex: 1,
     },
-    dots: {
+    dotContainer: {
         bottom: SIZE.space_sm,
         position: 'absolute',
         right: SIZE.space_md,

@@ -109,8 +109,6 @@ export const SIZE = {
     navigator_height: 50,
     // 动作面板
     action_sheet_option_height: 58,
-    // 卡片
-    card_header_height: 46,
     // 输入框（关联button）
     input_height_lg: 50,
     input_height_md: 40,

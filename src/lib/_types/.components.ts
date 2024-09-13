@@ -3,6 +3,8 @@ import { ImageSourcePropType, ImageStyle, PressableProps, TextInputProps, TextSt
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '@/lib/components/Icon';
+import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
+import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 
 /**
  * Pressable
@@ -496,5 +498,21 @@ export interface ICardProps {
         header?: ViewStyle; // 头部样式
         root?: ViewStyle; // 根节点样式
         title?: TextStyle; // 标题样式
+    }; // 样式
+}
+
+/**
+ * Carousel
+ */
+export interface ICarouselProps {
+    dotConfig?: IDotContainerProps; // 指示器配置项
+    height: ViewStyle['height']; // 高度
+    items: ReactNode[]; // 内容项
+    rootConfig?: TCarouselProps; // 内容配置项
+    showDot?: boolean; // 是否显示指示器
+
+    style?: {
+        dotContainer?: ViewStyle; // 指示器样式
+        root?: ViewStyle; // 根节点样式
     }; // 样式
 }
