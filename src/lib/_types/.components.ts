@@ -1,5 +1,5 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { ImageSourcePropType, ImageStyle, PressableProps, TextInputProps, TextStyle, ViewStyle } from 'react-native';
+import { ImageSourcePropType, ImageStyle, PressableProps, ScrollViewProps, TextInputProps, TextStyle, ViewStyle } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '@/lib/components/Icon';
@@ -550,4 +550,35 @@ export interface IDefaultLayoutProps {
         scrollView?: ViewStyle; // 滚动区域样式
         contentContainer?: ViewStyle; // 主要内容区域样式
     }; // 样式
+}
+
+/**
+ * Tabs
+ */
+export type ITabsItemValue = string;
+
+export interface ITabsItem {
+    disabled?: boolean; // 禁用
+    children?: ReactNode; // 内容插槽
+    label?: ReactNode; // 主文本
+    value: ITabsItemValue; // 选项值
+}
+
+export interface ITabsProps {
+    defaultValue?: ITabsItemValue; // 默认值
+    items?: ITabsItem[]; // 内容项
+    scrollable?: boolean; // 可滚动
+    headerConfig?: ScrollViewProps; // 头部滚动配置项
+    value?: ITabsItemValue; // 受控值
+
+    style?: {
+        header?: ViewStyle; // 头部样式
+        body?: ViewStyle; // 内容区域样式
+        tabItem?: ViewStyle; // 选项卡样式
+        label?: TextStyle; // 选项卡文本样式
+        underline?: ViewStyle; // 下划线样式
+        divider?: ViewStyle; // 分割线样式
+    }; // 样式
+
+    onChange?: (val: ITabsItemValue) => void; // 切换选项事件回调
 }
