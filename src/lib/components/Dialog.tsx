@@ -3,7 +3,7 @@ import { StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useUpdateEffect } from 'ahooks';
-import { Button, Flex, Overlay, PressHighlight, Separator, Text } from '@/lib/components';
+import { Button, Flex, Overlay, PressHighlight, Text } from '@/lib/components';
 
 export interface DialogProps {
     actions?: { text: string; onPress?: () => void; style?: { wrapper?: ViewStyle; text?: TextStyle } }[]; // 动作列表
@@ -56,7 +56,7 @@ function Dialog(props: DialogProps) {
                     // 分割线
                     const separator = (
                         <>
-                            <Separator style={styles.buttonTopSeparator} />
+                            {/*<Separator style={styles.buttonTopSeparator} />*/}
                             {index > 0 && buttonLen <= 2 ? <View style={styles.buttonCenterSeparator} /> : null}
                         </>
                     );
