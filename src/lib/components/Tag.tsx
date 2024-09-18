@@ -16,10 +16,10 @@ export default function Tag(props: ITagProps) {
         bordered = true,
     } = props;
 
-    // 头部样式
+    // 根节点样式
     const rootStyle = useStyle<TextStyle>({
         defaultStyle: [styles.root],
-        extraStyle: [style?.root, { borderWidth: bordered ? SIZE.border_default : 0, color, backgroundColor, borderColor }],
+        extraStyle: [{ borderWidth: bordered ? SIZE.border_default : 0, color, backgroundColor, borderColor }, style?.root],
     });
 
     return (

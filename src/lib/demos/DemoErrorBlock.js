@@ -1,5 +1,6 @@
 import { DefaultLayout, ErrorBlock, Group, Card } from '../components';
-import { DEFAULT_IMAGE } from '@/lib/scripts/const';
+import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
+import { Button, Flex } from '@/lib/components';
 
 function DemoResult() {
     return (
@@ -10,9 +11,14 @@ function DemoResult() {
                         <ErrorBlock
                             title="结果标题"
                             subtitle="副标题"
-                            buttons={[{ text: '返回' }, { text: '确定', type: 'primary' }]}
                             image={{ uri: DEFAULT_IMAGE }}
                             fullscreen
+                            extra={
+                                <Flex gap={SIZE.space_lg}>
+                                    <Button>返回</Button>
+                                    <Button type="primary">确定</Button>
+                                </Flex>
+                            }
                         />
                     </Card>
                 </Group>
@@ -21,8 +27,8 @@ function DemoResult() {
                         <ErrorBlock
                             title="结果标题"
                             subtitle="副标题"
-                            buttons={[{ text: '返回' }, { text: '确定', type: 'primary' }]}
                             image={{ uri: DEFAULT_IMAGE }}
+                            extra={<Button size="sm">我知道了</Button>}
                         />
                     </Card>
                 </Group>

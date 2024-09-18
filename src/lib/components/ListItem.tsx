@@ -45,7 +45,7 @@ export default function ListItem(props: IListItemProps) {
     // 额外区域样式
     const extraStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.extra],
-        extraStyle: [style?.extra, { marginRight: showArrow ? SIZE.space_md : SIZE.space_lg }],
+        extraStyle: [{ marginRight: showArrow ? SIZE.space_md : SIZE.space_lg }, style?.extra],
     });
 
     // 额外区域标题样式

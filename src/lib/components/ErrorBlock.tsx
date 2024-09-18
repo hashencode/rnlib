@@ -1,88 +1,71 @@
-import { isValidElement, ReactElement, ReactNode } from 'react';
-import { ImageStyle, StyleSheet, ViewStyle } from 'react-native';
+import { isValidElement } from 'react';
+import { ImageStyle, StyleSheet, View } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import Button from './Button';
-import { Flex, Image, Text } from '@/lib/components';
+import { Flex, Image, TextBox } from '@/lib/components';
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
-import { IButtonProps } from '@/lib/_types/.components';
+import { IErrorBlockProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export interface ErrorBlockProps {
-    buttons?: IButtonProps[]; // 按钮列表
-    fullscreen?: boolean; // 全屏显示
-    image?: ReactElement | ImageSourcePropType; // 主图
-    imageStyle?: ImageStyle; // 主图样式
-    style?: ViewStyle; // 样式
-    subtitle?: ReactNode; // 副标题
-    title?: ReactNode; // 标题
-}
+export default function ErrorBlock(props: IErrorBlockProps) {
+    const { title, subtitle, extra, fullscreen, image, style } = props;
+    const imageSize = fullscreen ? SIZE.error_block_fullscreen_icon_size : SIZE.error_block_icon_size;
 
-export default function ErrorBlock(props: ErrorBlockProps) {
-    const { title, subtitle, buttons, fullscreen, image, imageStyle = {}, style } = props;
-    const imageWidth = fullscreen ? SIZE.error_block_fullscreen_icon_size : SIZE.error_block_icon_size;
+    // 根节点样式
+    const rootStyle = useStyle<TextStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
 
-    const renderIcon = () => {
+    // 图片样式
+    const imageStyle = useStyle<ImageStyle>({
+        defaultStyle: [styles.image],
+        extraStyle: [{ width: imageSize, height: imageSize }, style?.image],
+    });
+
+    const renderImage = () => {
         if (!image) {
             return null;
         }
         if (isValidElement(image)) {
             return image;
         }
-        return (
-            <Image
-                source={image as ImageSourcePropType}
-                width={imageWidth}
-                height={imageWidth}
-                style={StyleSheet.flatten([styles.image, imageStyle])}
-            />
-        );
+        return <Image source={image as ImageSourcePropType} style={imageStyle} />;
     };
 
     return (
-        <Flex justifyContent="center" alignItems="center" column style={StyleSheet.flatten([styles.wrapper, style])}>
+        <Flex justifyContent="center" alignItems="center" column style={rootStyle}>
             {/* 图标 */}
-            {renderIcon()}
+            {renderImage()}
 
             {fullscreen ? (
-                <>
-                    <Text size={SIZE.font_h1} style={styles.title}>
+                <Flex column rowGap={SIZE.space_md} alignItems="center">
+                    <TextBox size={SIZE.font_h1} style={style?.title}>
                         {title}
-                    </Text>
-                    <Text size={SIZE.font_secondary} color={COLOR.text_desc} style={styles.subtitle}>
+                    </TextBox>
+                    <TextBox size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
                         {subtitle}
-                    </Text>
-                </>
+                    </TextBox>
+                </Flex>
             ) : (
-                <Text size={SIZE.font_h5} color={COLOR.text_desc} style={styles.title}>
+                <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={style?.title}>
                     {title}
-                </Text>
+                </TextBox>
             )}
 
-            {buttons ? (
-                <Flex columnGap={SIZE.space_lg}>
-                    {buttons.map(({ children, ...rest }, index) => {
-                        return (
-                            <Button size="sm" key={index} {...rest}>
-                                {children}
-                            </Button>
-                        );
-                    })}
-                </Flex>
-            ) : null}
+            {extra ? <View style={styles.extra}>{extra}</View> : extra}
         </Flex>
     );
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         paddingHorizontal: SIZE.space_xl,
     },
     image: {
         marginBottom: SIZE.space_lg,
     },
-    title: {
-        marginBottom: SIZE.space_md,
-    },
-    subtitle: {
-        marginBottom: SIZE.space_2xl,
+    extra: {
+        marginTop: SIZE.space_lg,
     },
 });

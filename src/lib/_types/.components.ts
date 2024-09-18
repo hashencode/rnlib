@@ -587,15 +587,34 @@ export interface ITabsProps {
  * Tag
  */
 export interface ITagProps {
-    bordered?: boolean; // 显示边框
-    children?: ReactNode; // 内容插槽
-    icon?: ReactElement; // 图标
-    color?: TextStyle['color']; // 文本和图标颜色
     backgroundColor?: ViewStyle['backgroundColor']; // 背景色
     borderColor?: ViewStyle['borderColor']; // 边框色
+    bordered?: boolean; // 显示边框
+    children?: ReactNode; // 内容插槽
+    color?: TextStyle['color']; // 文本和图标颜色
+    icon?: ReactElement; // 图标
 
     style?: {
         root?: ViewStyle; // 根节点样式
         text?: TextStyle; // 文本样式
+    }; // 样式
+}
+
+/**
+ * Error Block
+ */
+export interface IErrorBlockProps {
+    extra?: ReactNode; // 操作区域
+    fullscreen?: boolean; // 全屏显示
+    image?: ReactElement | ImageSourcePropType; // 主图
+    imageStyle?: ImageStyle; // 主图样式
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
+
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        image?: ImageStyle; // 图片样式
+        title?: TextStyle; // 标题样式
+        subtitle?: TextStyle; // 副标题样式
     }; // 样式
 }
