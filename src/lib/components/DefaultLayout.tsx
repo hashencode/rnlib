@@ -1,15 +1,34 @@
-import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
 import { Flex, Head } from '@/lib/components';
 import { SCROLL_BASIC_CONFIG, SIZE } from '@/lib/scripts/const';
 import useTheme from '../hooks/useTheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import _ from 'lodash';
 import { IDefaultLayoutProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
 
 export default function DefaultLayout(props: IDefaultLayoutProps) {
     const { scrollable = true, statusBarConfig, head, footer, style } = props;
 
     const { theme } = useTheme();
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.fullSize],
+        extraStyle: [style?.root],
+    });
+
+    // 滚动区域样式
+    const scrollViewStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.fullSize],
+        extraStyle: [style?.scrollView],
+    });
+
+    // 滚动内容样式
+    const scrollContentStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.contentContainer],
+        extraStyle: [style?.contentContainer],
+    });
 
     return (
         <SafeAreaView style={styles.fullSize}>
@@ -21,13 +40,10 @@ export default function DefaultLayout(props: IDefaultLayoutProps) {
                 barStyle={statusBarConfig?.whiteText ? 'light-content' : 'dark-content'}
                 {...statusBarConfig}
             />
-            <Flex column style={StyleSheet.flatten([styles.fullSize, style?.wrapper])}>
+            <Flex column style={rootStyle}>
                 {_.isString(head) ? <Head title={head} /> : head}
                 {scrollable ? (
-                    <ScrollView
-                        {...SCROLL_BASIC_CONFIG}
-                        style={StyleSheet.flatten([styles.fullSize, style?.scrollView])}
-                        contentContainerStyle={StyleSheet.flatten([styles.contentContainer, style?.contentContainer])}>
+                    <ScrollView {...SCROLL_BASIC_CONFIG} style={scrollViewStyle} contentContainerStyle={scrollContentStyle}>
                         {props?.children}
                     </ScrollView>
                 ) : (
