@@ -1,8 +1,8 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 
 export interface SeparatorProps {
-    color?: string; // 颜色
+    color?: TextStyle['color']; // 颜色
     style?: ViewStyle; // 样式
 }
 

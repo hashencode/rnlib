@@ -114,7 +114,7 @@ export interface ISwipeableRowProps extends SwipeableProps {
  * Text
  */
 export interface ITextProps extends TextOriginProps, PropsWithChildren {
-    color?: string; // 颜色
+    color?: TextStyle['color']; // 颜色
     size?: number; // 字体大小
     weight?: TextStyle['fontWeight']; // 字重
     style?: TextStyle; // 样式
@@ -146,7 +146,7 @@ export interface IHeadProps {
  * Icon
  */
 export interface IIconProps {
-    color?: string; // 颜色
+    color?: TextStyle['color']; // 颜色
     fill?: string; // 填充颜色
     name: IconNames; // 名称
     size?: number; // 尺寸
@@ -581,4 +581,21 @@ export interface ITabsProps {
     }; // 样式
 
     onChange?: (val: ITabsItemValue) => void; // 切换选项事件回调
+}
+
+/**
+ * Tag
+ */
+export interface ITagProps {
+    bordered?: boolean; // 显示边框
+    children?: ReactNode; // 内容插槽
+    icon?: ReactElement; // 图标
+    color?: TextStyle['color']; // 文本和图标颜色
+    backgroundColor?: ViewStyle['backgroundColor']; // 背景色
+    borderColor?: ViewStyle['borderColor']; // 边框色
+
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        text?: TextStyle; // 文本样式
+    }; // 样式
 }

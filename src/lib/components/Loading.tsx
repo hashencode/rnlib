@@ -1,14 +1,14 @@
 import { ReactElement, useEffect } from 'react';
 import { COLOR } from '@/lib/scripts/const';
 import Icon from './Icon';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, Easing, withRepeat, withTiming } from 'react-native-reanimated';
 import { mergeElement } from '@/lib/scripts/utils';
 
 export interface LoadingProps {
     icon?: ReactElement; // 自定义图标
-    color?: string; // 颜色
+    color?: TextStyle['color']; // 颜色
     size?: number; // 尺寸
     style?: ViewStyle; // 样式
 }

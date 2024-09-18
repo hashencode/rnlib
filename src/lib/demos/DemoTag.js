@@ -15,22 +15,15 @@ export default function DemoTag() {
             <Group header="颜色">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Tag borderColor="#91caff">边框</Tag>
-                        <Tag borderColor="#91caff" textColor={COLOR.primary}>
-                            文本
-                        </Tag>
-                        <Tag borderColor="#91caff" textColor={COLOR.primary} icon={<Icon name="tag"></Icon>}>
+                        <Tag borderColor={COLOR.primary} backgroundColor={COLOR.white} color={COLOR.primary} icon={<Icon name="tag" />}>
                             图标
-                        </Tag>
-                        <Tag borderColor="#91caff" backgroundColor="#e6f4ff" textColor={COLOR.primary} icon={<Icon name="tag"></Icon>}>
-                            背景色
                         </Tag>
                         <Tag
                             borderColor={COLOR.primary}
                             backgroundColor={COLOR.primary}
-                            textColor={COLOR.white}
+                            color={COLOR.white}
                             icon={<Icon name="tag"></Icon>}>
-                            反色
+                            背景色
                         </Tag>
                     </Flex>
                 </Card>
@@ -38,9 +31,7 @@ export default function DemoTag() {
             <Group header="无边框">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Tag borderColor="#91caff" backgroundColor="#e6f4ff" textColor={COLOR.primary} bordered={false}>
-                            无边框
-                        </Tag>
+                        <Tag bordered={false}>无边框</Tag>
                     </Flex>
                 </Card>
             </Group>
