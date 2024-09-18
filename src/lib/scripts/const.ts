@@ -88,6 +88,7 @@ export const SIZE = {
     icon_xs: 20,
     icon_xxs: 16,
     // 图标粗细
+    icon_stroke_xs: 1,
     icon_stroke_sm: 1.5,
     icon_stroke_md: 2,
     icon_stroke_lg: 3,

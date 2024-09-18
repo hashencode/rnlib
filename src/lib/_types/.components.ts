@@ -618,3 +618,20 @@ export interface IErrorBlockProps {
         subtitle?: TextStyle; // 副标题样式
     }; // 样式
 }
+
+/**
+ * Result
+ */
+export interface IResultProps {
+    extra?: ReactNode; // 额外元素
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
+    type: 'success' | 'info' | 'waiting' | 'error' | 'warning'; // 类型
+
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        icon?: TextStyle; // 图标样式
+        title?: TextStyle; // 标题样式
+        subtitle?: TextStyle; // 副标题样式
+    }; // 样式
+}
