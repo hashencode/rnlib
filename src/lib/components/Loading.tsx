@@ -1,19 +1,13 @@
-import { ReactElement, useEffect } from 'react';
+import { useEffect } from 'react';
 import { COLOR } from '@/lib/scripts/const';
 import Icon from './Icon';
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, Easing, withRepeat, withTiming } from 'react-native-reanimated';
 import { mergeElement } from '@/lib/scripts/utils';
+import { ILoadingProps } from '@/lib/_types/.components';
 
-export interface LoadingProps {
-    icon?: ReactElement; // 自定义图标
-    color?: TextStyle['color']; // 颜色
-    size?: number; // 尺寸
-    style?: ViewStyle; // 样式
-}
-
-export default function Loading(props: LoadingProps) {
+export default function Loading(props: ILoadingProps) {
     const { icon = <Icon name="loader"></Icon>, color = COLOR.icon_touchable, size = SIZE.icon_md, style } = props;
 
     const angle = useSharedValue(0);
@@ -31,11 +25,11 @@ export default function Loading(props: LoadingProps) {
         };
     });
 
-    return <Animated.View style={[styles.wrapper, animatedStyle, style]}>{mergeElement(icon, { size, color })}</Animated.View>;
+    return <Animated.View style={[styles.root, animatedStyle, style]}>{mergeElement(icon, { size, color })}</Animated.View>;
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         alignItems: 'center',
         display: 'flex',
         justifyContent: 'center',
