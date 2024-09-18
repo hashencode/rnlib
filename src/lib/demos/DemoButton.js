@@ -30,7 +30,7 @@ export default function DemoButton() {
                 </Card>
             </Group>
             <Group header="幽灵按钮">
-                <Card style={{ wrapper: { backgroundColor: COLOR.gray } }}>
+                <Card style={{ root: { backgroundColor: COLOR.gray } }}>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Button type="default" ghost>
                             默认

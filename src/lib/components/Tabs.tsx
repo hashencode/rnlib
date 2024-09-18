@@ -12,7 +12,7 @@ export default function Tabs(props: ITabsProps) {
     const { value, defaultValue, scrollable, items = [], style, headerConfig, onChange } = props;
 
     const [isLayoutEnd, setIsLayoutEnd] = useState(false);
-    const wrapperWidth = useRef<number>(0);
+    const rootWidth = useRef<number>(0);
     const parentRects = useRef<{ [key: ITabsItemValue]: any }>({});
     const childRects = useRef<{ [key: ITabsItemValue]: any }>({});
     const underlineX = useRef<number>(0);
@@ -46,7 +46,7 @@ export default function Tabs(props: ITabsProps) {
 
     // 获取最外层的宽度
     const getWrapperWidth = (ev: LayoutChangeEvent) => {
-        wrapperWidth.current = ev.nativeEvent.layout.width;
+        rootWidth.current = ev.nativeEvent.layout.width;
         setIsLayoutEnd(true);
     };
 
@@ -79,14 +79,14 @@ export default function Tabs(props: ITabsProps) {
             });
             // translateX
             const lineX = underlineX.current;
-            const wrapperCenter = wrapperWidth.current / 2;
+            const rootCenter = rootWidth.current / 2;
             const tabCenter = parentRects.current[innerValue]?.width / 2;
             translateXAnim.value = withTiming(lineX, {
                 duration: 200,
             });
             if (scrollable && scrollViewRef) {
-                if (lineX > wrapperCenter) {
-                    scrollViewRef?.current?.scrollTo({ x: lineX - wrapperCenter + tabCenter, animated: true });
+                if (lineX > rootCenter) {
+                    scrollViewRef?.current?.scrollTo({ x: lineX - rootCenter + tabCenter, animated: true });
                 } else {
                     scrollViewRef?.current?.scrollTo({ x: 0, animated: true });
                 }
