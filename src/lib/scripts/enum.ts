@@ -35,3 +35,11 @@ export enum AvatarStatusMap {
     '加载中',
     '加载失败',
 }
+
+/**
+ * Toast
+ */
+export enum ToastIconMap {
+    'success' = 'check',
+    'error' = 'x',
+}

@@ -653,18 +653,34 @@ export interface IDialogProps {
     afterClose?: () => void; // 遮罩销毁事件回调
     backCloseable?: boolean; // 允许返回操作关闭
     buttons?: IButtonProps[]; // 按钮列表
-    content?: string; // 描述文本
-    id?: number | string;
+    content?: ReactNode; // 描述文本
+    id?: string; // 唯一id
     overlayClosable?: boolean; // 允许点击蒙层关闭
     title?: string; // 标题文本
     visible?: boolean; // 显隐
 
     style?: {
-        body?: ViewStyle;
-        content?: TextStyle;
-        header?: TextStyle;
-        root?: ViewStyle;
+        body?: ViewStyle; // 主体样式
+        content?: TextStyle; // 内容样式
+        header?: TextStyle; // 头部样式
+        root?: ViewStyle; // 根节点样式
     }; // 样式
 
     onCancel?: () => void; // 取消事件回调
+}
+
+/**
+ * Toast
+ */
+export interface IToastProps {
+    afterClose?: () => void; // 关闭回调函数
+    content?: ReactNode; // 内容文本
+    id?: string; // 唯一id
+    type?: 'success' | 'error' | 'loading' | 'info'; // 提示类型
+    duration?: number; // 显示时长
+
+    style?: {
+        root?: ViewStyle; // 根节点样式
+        content?: TextStyle; // 内容样式
+    }; // 样式
 }

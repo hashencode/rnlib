@@ -1,64 +1,73 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { useUpdateEffect } from 'ahooks';
-import { Flex, Icon, Loading, Overlay, Text } from '@/lib/components';
+import { Flex, Icon, Loading, Overlay, TextBox } from '@/lib/components';
 import { IconNames } from './Icon';
+import { IToastProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
+import { useEffect, useRef, useState } from 'react';
+import { ToastIconMap } from '@/lib/scripts/enum';
 
-export interface ToastProps {
-    afterClose?: () => void; // 关闭回调函数
-    content?: string; // 内容文本
-    style?: ViewStyle; // 样式
-    type?: 'success' | 'error' | 'loading' | 'info'; // 提示类型
-    visible?: boolean; // 显隐
-}
+export default function Toast(props: IToastProps) {
+    const { content, type = 'info', duration = 2500, style, afterClose } = props;
 
-enum IconMap {
-    'success' = 'check',
-    'error' = 'x',
-}
-
-export default function Toast(props: ToastProps) {
-    const { visible, content, type = 'info', style, afterClose } = props;
-
-    const isInfo = type === 'info';
+    const [visible, setVisible] = useState(true);
+    const timer = useRef<NodeJS.Timeout | null>();
 
     // 关闭回调
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (!visible) {
             afterClose?.();
+        } else if (duration) {
+            timer.current = setTimeout(() => {
+                clearTimer();
+            }, duration);
         }
+        return () => {
+            clearTimer();
+        };
     }, [visible]);
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [type === 'info' ? styles.noIcon : styles.hasIcon, style?.root],
+    });
+
+    const clearTimer = () => {
+        if (timer.current) {
+            clearTimeout(timer.current);
+        }
+        setVisible(false);
+        timer.current = null;
+    };
 
     // 渲染图标
     const renderIcon = () => {
-        if (!type || isInfo) {
-            return null;
+        switch (type) {
+            case 'loading':
+                return <Loading size={SIZE.toast_icon_size} color={COLOR.white} />;
+            case 'error':
+            case 'success':
+                return <Icon name={ToastIconMap[type] as IconNames} size={SIZE.toast_icon_size} color={COLOR.white} />;
+            default:
+                return null;
         }
-        if (type === 'loading') {
-            return <Loading size={SIZE.toast_icon_size} color={COLOR.white} />;
-        }
-        return <Icon name={IconMap[type] as IconNames} size={SIZE.toast_icon_size} color={COLOR.white} />;
     };
 
     return (
         <Overlay visible={visible} backgroundColor="transparent" afterDestroy={afterClose}>
-            <Flex
-                alignItems="center"
-                justifyContent="center"
-                column
-                rowGap={SIZE.space_md}
-                style={StyleSheet.flatten([styles.wrapper, isInfo ? styles.noIcon : styles.hasIcon, style])}>
+            <Flex alignItems="center" justifyContent="center" column rowGap={SIZE.space_md} style={rootStyle}>
                 {renderIcon()}
-                <Text size={SIZE.font_h4} color={COLOR.text_white}>
+                <TextBox size={SIZE.font_h4} color={COLOR.text_white} style={style?.content}>
                     {content}
-                </Text>
+                </TextBox>
             </Flex>
         </Overlay>
     );
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         backgroundColor: COLOR.toast_background,
         borderRadius: SIZE.radius_lg,
         padding: SIZE.space_lg,
