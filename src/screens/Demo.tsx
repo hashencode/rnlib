@@ -10,55 +10,82 @@ export default function Demo() {
         navigation.navigate(path);
     };
 
-    const common = [
-        { title: '按钮 Button', onPress: () => goTo(SCREENS.BUTTON) },
-        { title: '分割线 Divider', onPress: () => goTo(SCREENS.DIVIDER) },
-    ];
-    const navigations = [{ title: '头部导航 Head', onPress: () => goTo(SCREENS.HEAD) }];
-    const entry = [
-        { title: '动作面板 ActionSheet', onPress: () => goTo(SCREENS.ACTION_SHEET) },
-        { title: '多选 Checkbox', onPress: () => goTo(SCREENS.CHECKBOX) },
-        { title: '勾选列表 CheckList', onPress: () => goTo(SCREENS.CHECK_LIST) },
-        { title: '输入框 Input', onPress: () => goTo(SCREENS.INPUT) },
-        { title: '单选 Radio', onPress: () => goTo(SCREENS.RADIO) },
-        { title: '选择 Picker', onPress: () => goTo(SCREENS.PICKER) },
-        { title: '选择组 Selector', onPress: () => goTo(SCREENS.SELECTOR) },
-        { title: '开关 Switch', onPress: () => goTo(SCREENS.SWITCH) },
-    ];
-    const display = [
-        { title: '头像 Avatar', onPress: () => goTo(SCREENS.AVATAR) },
-        { title: '徽标数 Badge', onPress: () => goTo(SCREENS.BADGE) },
-        { title: '卡片 Card', onPress: () => goTo(SCREENS.CARD) },
-        { title: '走马灯 Carousel', onPress: () => goTo(SCREENS.CAROUSEL) },
-        { title: '分组 Group', onPress: () => goTo(SCREENS.GROUP) },
-        { title: '列表 List', onPress: () => goTo(SCREENS.LIST) },
-        { title: '选项卡 Tabs', onPress: () => goTo(SCREENS.TABS) },
-        { title: '标签 Tag', onPress: () => goTo(SCREENS.TAG) },
-    ];
-    const feedback = [
-        { title: '错误块 ErrorBlock', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
-        { title: '对话框 Dialog', onPress: () => goTo(SCREENS.DIALOG) },
-        { title: '结果 Result', onPress: () => goTo(SCREENS.RESULT) },
-        { title: '轻提示 Toast', onPress: () => goTo(SCREENS.TOAST) },
+    const list = [
+        {
+            group: '通用',
+            items: [
+                { title: '按钮 Button', onPress: () => goTo(SCREENS.BUTTON) },
+                { title: '分割线 Divider', onPress: () => goTo(SCREENS.DIVIDER) },
+            ],
+        },
+        {
+            group: '导航',
+            items: [{ title: '头部导航 Head', onPress: () => goTo(SCREENS.HEAD) }],
+        },
+        {
+            group: '数据录入',
+            items: [
+                { title: '动作面板 ActionSheet', onPress: () => goTo(SCREENS.ACTION_SHEET) },
+                { title: '多选 Checkbox', onPress: () => goTo(SCREENS.CHECKBOX) },
+                { title: '勾选列表 CheckList', onPress: () => goTo(SCREENS.CHECK_LIST) },
+                { title: '输入框 Input', onPress: () => goTo(SCREENS.INPUT) },
+                { title: '单选 Radio', onPress: () => goTo(SCREENS.RADIO) },
+                { title: '选择 Picker', onPress: () => goTo(SCREENS.PICKER) },
+                { title: '选择组 Selector', onPress: () => goTo(SCREENS.SELECTOR) },
+                { title: '开关 Switch', onPress: () => goTo(SCREENS.SWITCH) },
+            ],
+        },
+        {
+            group: '数据展示',
+            items: [
+                { title: '头像 Avatar', onPress: () => goTo(SCREENS.AVATAR) },
+                { title: '徽标数 Badge', onPress: () => goTo(SCREENS.BADGE) },
+                { title: '卡片 Card', onPress: () => goTo(SCREENS.CARD) },
+                { title: '走马灯 Carousel', onPress: () => goTo(SCREENS.CAROUSEL) },
+                { title: '分组 Group', onPress: () => goTo(SCREENS.GROUP) },
+                { title: '列表 List', onPress: () => goTo(SCREENS.LIST) },
+                { title: '选项卡 Tabs', onPress: () => goTo(SCREENS.TABS) },
+                { title: '标签 Tag', onPress: () => goTo(SCREENS.TAG) },
+            ],
+        },
+        {
+            group: '反馈',
+            items: [
+                { title: '错误块 ErrorBlock', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '对话框 Dialog', onPress: () => goTo(SCREENS.DIALOG) },
+                { title: '结果 Result', onPress: () => goTo(SCREENS.RESULT) },
+                { title: '轻提示 Toast', onPress: () => goTo(SCREENS.TOAST) },
+            ],
+        },
+        {
+            group: '原子',
+            items: [
+                { title: '布局 DefaultLayout', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '弹性布局 Flex', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '抓手 Grabber', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '图标 Icon', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '图片 Image', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '防遮挡滚动 KeyboardScrollView', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '加载中 Loading', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '遮罩 Overlay', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '高亮点击 PressHighlight', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '滑动条 Slider', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '滑动拓展 SwipeableRow', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '文本 Text', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+                { title: '文本盒子 TextBox', onPress: () => goTo(SCREENS.ERROR_BLOCK) },
+            ],
+        },
     ];
 
     return (
         <DefaultLayout>
-            <Group header="通用" first>
-                <List items={common}></List>
-            </Group>
-            <Group header="导航">
-                <List items={navigations}></List>
-            </Group>
-            <Group header="数据录入">
-                <List items={entry}></List>
-            </Group>
-            <Group header="数据展示">
-                <List items={display}></List>
-            </Group>
-            <Group header="反馈">
-                <List items={feedback}></List>
-            </Group>
+            {list.map((item, index) => {
+                return (
+                    <Group header={item.group} first={index === 0} key={index}>
+                        <List items={item.items}></List>
+                    </Group>
+                );
+            })}
         </DefaultLayout>
     );
 }

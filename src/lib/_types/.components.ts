@@ -7,9 +7,8 @@ import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
 import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 
 /**
- * Pressable
+ * PressHighlight
  */
-
 export interface IPressHighlightProps extends Omit<PressableProps, 'style'> {
     children?: ReactNode | string; // 插槽
     underlayColor?: string; // 遮罩颜色
@@ -546,7 +545,7 @@ export interface IDefaultLayoutProps {
     }; // 状态栏配置
     scrollable?: boolean; // 是否使用scrollView
     style?: {
-        wrapper?: ViewStyle; // 最外层样式
+        root?: ViewStyle; // 最外层样式
         scrollView?: ViewStyle; // 滚动区域样式
         contentContainer?: ViewStyle; // 主要内容区域样式
     }; // 样式
@@ -629,9 +628,43 @@ export interface IResultProps {
     type: 'success' | 'info' | 'waiting' | 'error' | 'warning'; // 类型
 
     style?: {
-        root?: ViewStyle; // 根节点样式
         icon?: TextStyle; // 图标样式
-        title?: TextStyle; // 标题样式
+        root?: ViewStyle; // 根节点样式
         subtitle?: TextStyle; // 副标题样式
+        title?: TextStyle; // 标题样式
     }; // 样式
+}
+
+/**
+ * Loading
+ */
+export interface ILoadingProps {
+    color?: TextStyle['color']; // 颜色
+    icon?: ReactElement; // 自定义图标
+    size?: number; // 尺寸
+    style?: ViewStyle; // 样式
+}
+
+/**
+ * Dialog
+ */
+export interface IDialogProps {
+    actions?: IButtonProps[]; // 动作列表
+    afterClose?: () => void; // 遮罩销毁事件回调
+    backCloseable?: boolean; // 允许返回操作关闭
+    buttons?: IButtonProps[]; // 按钮列表
+    content?: string; // 描述文本
+    id?: number | string;
+    overlayClosable?: boolean; // 允许点击蒙层关闭
+    title?: string; // 标题文本
+    visible?: boolean; // 显隐
+
+    style?: {
+        body?: ViewStyle;
+        content?: TextStyle;
+        header?: TextStyle;
+        root?: ViewStyle;
+    }; // 样式
+
+    onCancel?: () => void; // 取消事件回调
 }

@@ -35,7 +35,7 @@ export const COLOR = {
     border_light: '#f5f5f5',
     border_disabled: '#d9d9d9',
     // 底色
-    underlay_touchable: 'rgba(0,0,0,.1)',
+    underlay_touchable: 'rgba(0,0,0,.05)',
     underlay_danger: 'rgba(255,49,67,.1)',
     underlay_primary: 'rgba(22,119,255,.1)',
     // 图标

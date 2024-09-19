@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, DefaultLayout, Dialog, Flex, Input, Group, Card } from '../components';
 import { useDialog } from '../hooks';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoDialog() {
     const [openId, setOpenId] = useState('');
@@ -10,26 +10,31 @@ export default function DemoDialog() {
     const defaultPressFunc = () => {
         setOpenId('');
     };
+
     const config = {
         title: '弹窗提示',
         content: '点击按钮或遮罩关闭弹窗',
         onRequestClose: defaultPressFunc,
         onCancel: defaultPressFunc,
     };
+
     const okButton = {
-        text: '确定',
+        children: '确定',
         onPress: defaultPressFunc,
     };
+
     const cancelButton = {
-        text: '取消',
+        children: '取消',
         onPress: defaultPressFunc,
     };
+
     const primaryButton = {
-        text: '主操作',
+        children: '主操作',
         onPress: defaultPressFunc,
     };
+
     const createDialogByMethod = () => {
-        createDialog({ ...config, buttons: [{ text: '我知道了', onPress: () => destroyDialog('cn') }], id: 'cn' });
+        createDialog({ ...config, buttons: [{ children: '我知道了', onPress: () => destroyDialog('cn') }], id: 'cn' });
     };
 
     return (
@@ -57,23 +62,15 @@ export default function DemoDialog() {
                 <Dialog {...config} visible={openId === 'actions_main'} actions={[{ ...primaryButton }]} />
                 <Dialog {...config} visible={openId === 'actions_all'} actions={[{ ...primaryButton }, cancelButton]} />
             </Group>
-            <Group header="按钮文本颜色">
-                <Card columnGap={SIZE.space_md}>
-                    <Button onPress={() => setOpenId('danger')}>危险</Button>
-                </Card>
-                <Dialog
-                    {...config}
-                    visible={openId === 'danger'}
-                    buttons={[cancelButton, { ...okButton, style: { text: { color: COLOR.text_danger } } }]}
-                />
-            </Group>
             <Group header="自定义插槽">
                 <Card columnGap={SIZE.space_md}>
                     <Button onPress={() => setOpenId('extra')}>输入框</Button>
                 </Card>
-                <Dialog {...config} visible={openId === 'extra'} buttons={[okButton]}>
-                    <Input placeholder="输入一些文字" />
-                </Dialog>
+                <Dialog
+                    {...config}
+                    content={<Input placeholder="输入一些文字" />}
+                    visible={openId === 'extra'}
+                    buttons={[cancelButton]}></Dialog>
             </Group>
             <Group header="静态方法创建">
                 <Card columnGap={SIZE.space_md}>

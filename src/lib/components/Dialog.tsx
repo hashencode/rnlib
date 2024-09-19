@@ -1,36 +1,45 @@
-import { ReactNode } from 'react';
-import { StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import { useUpdateEffect } from 'ahooks';
-import { Button, Flex, Overlay, PressHighlight, Text } from '@/lib/components';
+import { Button, Flex, Overlay, TextBox } from '@/lib/components';
+import { IDialogProps } from '@/lib/_types/.components';
+import { Fragment, useEffect } from 'react';
+import useStyle from '@/lib/hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export interface DialogProps {
-    actions?: { text: string; onPress?: () => void; style?: { wrapper?: ViewStyle; text?: TextStyle } }[]; // 动作列表
-    afterClose?: () => void; // 遮罩销毁事件回调
-    backCloseable?: boolean; // 允许返回操作关闭
-    buttons?: { text: string; onPress?: () => void; style?: { wrapper?: ViewStyle; text?: TextStyle } }[]; // 按钮列表
-    children?: ReactNode; // 内容插槽
-    content?: string; // 描述文本
-    overlayClosable?: boolean; // 允许点击蒙层关闭
-    style?: {
-        wrapper?: ViewStyle;
-        body?: ViewStyle;
-        title?: TextStyle;
-        content?: TextStyle;
-    }; // 样式
-    title?: string; // 标题文本
-    visible?: boolean; // 显隐
-    onCancel?: () => void; // 取消事件回调
-}
-
-function Dialog(props: DialogProps) {
+function Dialog(props: IDialogProps) {
     const { backCloseable, content, title, buttons, actions, visible, overlayClosable = true, onCancel, afterClose, style } = props;
 
     // 关闭回调
     useUpdateEffect(() => {
         !visible && afterClose?.();
     }, [visible]);
+
+    // 通过hooks调用的关闭回调
+    useEffect(() => {
+        return () => {
+            visible && afterClose?.();
+        };
+    }, []);
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
+
+    // 内容样式
+    const contentStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.content],
+        extraStyle: [style?.content],
+    });
+
+    // 头部样式
+    const headerStyle = useStyle<TextStyle>({
+        defaultStyle: [styles.header],
+        extraStyle: [style?.header],
+    });
 
     // 遮罩点击
     const handleOverlayPress = () => {
@@ -47,45 +56,27 @@ function Dialog(props: DialogProps) {
         if (!_.isArray(buttons) || buttons.length <= 0) {
             return null;
         }
-        const buttonLen = buttons.length;
 
+        const buttonLen = buttons.length;
         return (
             // 控制flex方向
-            <Flex block column={buttonLen > 2}>
-                {buttons.map((buttonItem, index) => {
-                    // 分割线
-                    const separator = (
-                        <>
-                            {/*<Separator style={styles.buttonTopSeparator} />*/}
-                            {index > 0 && buttonLen <= 2 ? <View style={styles.buttonCenterSeparator} /> : null}
-                        </>
-                    );
-
-                    let defaultColor = COLOR.text_title;
-                    switch (true) {
-                        case buttonLen === 1:
-                            defaultColor = COLOR.text_primary;
-                            break;
-                        case buttonLen === 2 && index === 1:
-                        case buttonLen > 2 && index === 0:
-                            defaultColor = COLOR.text_primary;
-                            break;
-                    }
+            <Flex block column={buttonLen > 2} style={styles.buttonContainer}>
+                {buttons.map((button, index) => {
+                    const isPrimary = buttonLen === 1 || (buttonLen === 2 && index === 1) || (buttonLen > 2 && index === 0);
                     return (
-                        <PressHighlight
-                            style={{ width: buttonLen === 2 ? '50%' : '100%' }}
-                            onPress={() => buttonItem?.onPress?.()}
-                            key={index}>
-                            <Flex
-                                block
-                                justifyContent="center"
-                                alignItems="center"
-                                style={StyleSheet.flatten([styles.button, buttonItem?.style?.wrapper])}>
-                                <Text size={SIZE.font_h2} color={defaultColor} style={buttonItem?.style?.text}>
-                                    {buttonItem?.text}
-                                </Text>
-                            </Flex>
-                        </PressHighlight>
+                        <Fragment key={index}>
+                            {buttonLen > 2 && index > 0 ? <View style={styles.buttonTopDivider} /> : null}
+                            {index > 0 && buttonLen <= 2 ? <View style={styles.buttonCenterDivider} /> : null}
+                            <Button
+                                type="text"
+                                size="lg"
+                                {...button}
+                                style={{
+                                    root: { width: buttonLen === 2 ? '50%' : '100%', borderRadius: 0 },
+                                    text: { color: isPrimary ? COLOR.text_primary : COLOR.text_subtitle },
+                                    ...(button.style || {}),
+                                }}></Button>
+                        </Fragment>
                     );
                 })}
             </Flex>
@@ -99,33 +90,18 @@ function Dialog(props: DialogProps) {
         }
 
         return (
-            // 控制flex方向
-            <Flex block column style={styles.actionsContainer}>
-                {actions.map((actionItem, index) => {
+            <Flex block column rowGap={SIZE.space_md} alignItems="center" style={styles.actionContainer}>
+                {actions.map((action, index) => {
                     if (index === 0) {
-                        return (
-                            <View style={StyleSheet.flatten([styles.primaryAction, actionItem?.style?.wrapper])} key={index}>
-                                <Button
-                                    type="primary"
-                                    onPress={actionItem?.onPress}
-                                    size="lg"
-                                    block
-                                    style={{ text: actionItem?.style?.text }}>
-                                    {actionItem.text}
-                                </Button>
-                            </View>
-                        );
+                        return <Button block type="primary" size="lg" {...action} key={index}></Button>;
                     }
-
                     return (
-                        <PressHighlight onPress={() => actionItem?.onPress?.()} key={index} style={styles.action}>
-                            {/* 按钮 */}
-                            <Flex block justifyContent="center" alignItems="center" style={actionItem?.style?.wrapper}>
-                                <Text size={SIZE.font_h2} color={COLOR.text_primary} style={actionItem?.style?.text}>
-                                    {actionItem.text}
-                                </Text>
-                            </Flex>
-                        </PressHighlight>
+                        <Button
+                            block
+                            type="text"
+                            {...action}
+                            style={{ text: { color: COLOR.text_subtitle }, ...(action.style || {}) }}
+                            key={index}></Button>
                     );
                 })}
             </Flex>
@@ -135,18 +111,15 @@ function Dialog(props: DialogProps) {
     return (
         <Overlay visible={visible} onPress={handleOverlayPress} afterDestroy={afterClose} onRequestClose={handleBackClose}>
             {/*主容器*/}
-            <Flex column alignItems="center" style={StyleSheet.flatten([styles.wrapper, style?.wrapper])}>
-                {/*头部*/}
-                <Flex column block alignItems="center" rowGap={SIZE.space_md} style={StyleSheet.flatten([styles.body, style?.body])}>
-                    <Text size={SIZE.font_h2} style={StyleSheet.flatten([styles.title, style?.title])}>
+            <Flex column alignItems="center" style={rootStyle}>
+                <Flex column block alignItems="center" rowGap={SIZE.space_md} style={contentStyle}>
+                    <TextBox size={SIZE.font_h2} style={headerStyle}>
                         {title}
-                    </Text>
-                    <Text size={SIZE.font_h5} style={style?.content}>
+                    </TextBox>
+                    <TextBox size={SIZE.font_h5} style={style?.body}>
                         {content}
-                    </Text>
-                    {props.children}
+                    </TextBox>
                 </Flex>
-                {/*尾部*/}
                 {renderButtons()}
                 {renderActions()}
             </Flex>
@@ -157,52 +130,42 @@ function Dialog(props: DialogProps) {
 export default Dialog;
 
 const styles = StyleSheet.create({
-    wrapper: {
+    root: {
         backgroundColor: COLOR.white,
         borderRadius: SIZE.radius_lg,
         overflow: 'hidden',
         width: SIZE.dialog_width,
         zIndex: 99,
     },
-    body: {
+    content: {
         paddingHorizontal: SIZE.space_lg,
         paddingVertical: SIZE.space_2xl,
     },
-    title: {
+    header: {
         fontWeight: SIZE.weight_title,
         marginBottom: SIZE.space_md,
     },
     buttonContainer: {
         borderColor: COLOR.border_controller,
         borderTopWidth: SIZE.border_default,
-        position: 'relative',
     },
     button: {
         backgroundColor: COLOR.white,
         borderColor: COLOR.border_controller,
         height: SIZE.button_height_lg,
     },
-    buttonTopSeparator: {
-        bottom: 'auto',
-        top: 0,
+    buttonTopDivider: {
+        borderColor: COLOR.border_controller,
+        borderTopWidth: SIZE.border_default,
+        width: '100%',
     },
-    buttonCenterSeparator: {
-        backgroundColor: COLOR.border_default,
+    buttonCenterDivider: {
+        borderColor: COLOR.border_controller,
+        borderLeftWidth: SIZE.border_default,
         height: '100%',
-        left: 0,
-        position: 'absolute',
-        top: 0,
-        width: SIZE.border_default,
     },
-    actionsContainer: {
-        paddingBottom: SIZE.space_lg,
-    },
-    primaryAction: {
-        paddingHorizontal: SIZE.space_lg,
-        width: '100%',
-    },
-    action: {
-        marginTop: SIZE.space_xl,
-        width: '100%',
+    actionContainer: {
+        padding: SIZE.space_lg,
+        paddingTop: 0,
     },
 });
