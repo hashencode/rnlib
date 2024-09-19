@@ -1,27 +1,14 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
-import { useUpdateEffect } from 'ahooks';
 import { Button, Flex, Overlay, TextBox } from '@/lib/components';
 import { IDialogProps } from '@/lib/_types/.components';
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import useStyle from '@/lib/hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 function Dialog(props: IDialogProps) {
     const { backCloseable, content, title, buttons, actions, visible, overlayClosable = true, onCancel, afterClose, style } = props;
-
-    // 关闭回调
-    useUpdateEffect(() => {
-        !visible && afterClose?.();
-    }, [visible]);
-
-    // 通过hooks调用的关闭回调
-    useEffect(() => {
-        return () => {
-            visible && afterClose?.();
-        };
-    }, []);
 
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({

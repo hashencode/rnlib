@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
+import { useUpdateEffect } from 'ahooks';
 
 export interface OverlayProps {
     afterDestroy?: () => void; // 蒙层销毁回调
@@ -13,7 +14,19 @@ export interface OverlayProps {
 }
 
 function Overlay(props: OverlayProps) {
-    const { visible, position = 'middle', backgroundColor = COLOR.bg_overlay, onPress, onRequestClose } = props;
+    const { visible, position = 'middle', backgroundColor = COLOR.bg_overlay, afterDestroy, onPress, onRequestClose } = props;
+
+    // 关闭回调
+    useUpdateEffect(() => {
+        !visible && afterDestroy?.();
+    }, [visible]);
+
+    // 通过hooks调用的关闭回调
+    useEffect(() => {
+        return () => {
+            visible && afterDestroy?.();
+        };
+    }, []);
 
     return (
         <Modal visible={visible} transparent={true} statusBarTranslucent={true} animationType="fade" onRequestClose={onRequestClose}>

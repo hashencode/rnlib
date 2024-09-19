@@ -14,7 +14,6 @@ export default function DemoDialog() {
     const config = {
         title: '弹窗提示',
         content: '点击按钮或遮罩关闭弹窗',
-        onRequestClose: defaultPressFunc,
         onCancel: defaultPressFunc,
     };
 

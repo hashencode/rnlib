@@ -1,4 +1,4 @@
-import { createDialog, destroyDialog, destroyAllDialog } from '@/lib/store/uiSlice';
+import { createDialog, destroyDialog, destroyAllDialog } from '@/lib/store/libSlice';
 import { useDispatch } from 'react-redux';
 import { IDialogQueueItem } from '@/lib/_types/.store';
 
