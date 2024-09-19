@@ -1,5 +1,15 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { ImageSourcePropType, ImageStyle, PressableProps, ScrollViewProps, TextInputProps, TextStyle, ViewStyle } from 'react-native';
+import {
+    FlexAlignType,
+    ImageSourcePropType,
+    ImageStyle,
+    PressableProps,
+    ScrollViewProps,
+    TextInputProps,
+    TextStyle,
+    ViewProps,
+    ViewStyle,
+} from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '@/lib/components/Icon';
@@ -683,4 +693,23 @@ export interface IToastProps {
         root?: ViewStyle; // 根节点样式
         content?: TextStyle; // 内容样式
     }; // 样式
+}
+
+/**
+ * Flex
+ */
+export interface IFlexProps extends ViewProps {
+    alignItems?: FlexAlignType; // alignItems
+    alignSelf?: 'auto' | FlexAlignType; // alignSelf
+    block?: boolean; // 占满整行
+    children?: ReactNode; // 插槽
+    column?: boolean; // 垂直排列
+    columnGap?: number; // columnGap
+    gap?: number; // gap
+    grow?: number; // flexGrow
+    justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'; // justifyContent
+    rowGap?: number; // rowGap
+    shrink?: number; // flexShrink
+    style?: ViewStyle; // 样式
+    wrap?: 'wrap' | 'nowrap' | 'wrap-reverse'; // flexWrap
 }
