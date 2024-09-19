@@ -7,7 +7,7 @@ interface Props extends React.ComponentProps<typeof ScrollView> {
 
 const offsetY = 20;
 
-const KeyboardScrollView = ({ children, additionalScrollHeight, contentContainerStyle, ...props }: Props) => {
+const _KeyboardScrollView = ({ children, additionalScrollHeight, contentContainerStyle, ...props }: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const scrollPositionRef = useRef<number>(0);
     const scrollContentSizeRef = useRef<number>(0);
@@ -112,4 +112,4 @@ const KeyboardScrollView = ({ children, additionalScrollHeight, contentContainer
     );
 };
 
-export default KeyboardScrollView;
+export default _KeyboardScrollView;

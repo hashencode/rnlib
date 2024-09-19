@@ -1,6 +1,7 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import {
     FlexAlignType,
+    ImageResizeMode,
     ImageSourcePropType,
     ImageStyle,
     PressableProps,
@@ -15,6 +16,7 @@ import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable
 import { IconNames } from '@/lib/components/Icon';
 import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
 import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
+import { ImageProps as ImageOriginProps } from 'react-native/Libraries/Image/Image';
 
 /**
  * PressHighlight
@@ -712,4 +714,16 @@ export interface IFlexProps extends ViewProps {
     shrink?: number; // flexShrink
     style?: ViewStyle; // 样式
     wrap?: 'wrap' | 'nowrap' | 'wrap-reverse'; // flexWrap
+}
+
+/**
+ * Image
+ */
+export interface IImageProps extends ImageOriginProps {
+    height?: number; // 高度
+    radius?: number; // 圆角
+    resizeMode?: ImageResizeMode; // 图片裁剪模式
+    size?: number; // 宽高尺寸
+    style?: ImageStyle; // 样式
+    width?: number; // 宽度
 }

@@ -3,24 +3,28 @@ import { StyleSheet, Text as TextOrigin } from 'react-native';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { ITextProps } from '@/lib/_types/.components';
+import useStyle from '@/lib/hooks/useStyle';
 
 export default function Text(props: ITextProps) {
-    const { style, weight = 'regular', size = SIZE.font_basic, color = COLOR.text_title, children, ...rest } = props;
+    const { style, weight = 'normal', size = SIZE.font_basic, color = COLOR.text_title, children, ...rest } = props;
 
-    const defaultStyle: TextStyle = useMemo(() => {
-        return {
-            fontSize: size,
-            color,
-            weight,
-        };
-    }, [size, color, weight]);
+    const rootStyle = useStyle<TextStyle>({
+        defaultStyle: [
+            {
+                fontSize: size,
+                color,
+                fontWeight: weight,
+            },
+        ],
+        extraStyle: [style],
+    });
 
     if (!children) {
         return null;
     }
 
     return (
-        <TextOrigin style={StyleSheet.flatten([defaultStyle, style])} {...rest}>
+        <TextOrigin style={rootStyle} {...rest}>
             {children}
         </TextOrigin>
     );
