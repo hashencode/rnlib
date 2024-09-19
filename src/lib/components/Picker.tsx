@@ -2,7 +2,7 @@ import { ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
-import { useMergedState } from '../hooks';
+import { useMergedState } from '@/lib/hooks';
 import Button from './Button';
 import { Flex, Grabber, Icon, PressHighlight, TextBox } from '@/lib/components';
 import useStyle from '@/lib/hooks/useStyle';

@@ -1,7 +1,7 @@
 import { forwardRef, Ref, useImperativeHandle, useMemo, useRef } from 'react';
 import { Pressable, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { useMergedState, useToggle } from '../hooks';
+import { useMergedState, useToggle } from '@/lib/hooks';
 import { Flex, Icon, TextBox } from '@/lib/components';
 import { IInputProps, IInputRef } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';

@@ -1,5 +1,5 @@
 import { Button, DefaultLayout, Flex, Group, Card } from '../components';
-import { useToast } from '../hooks';
+import { useToast } from '@/lib/hooks';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoToast() {

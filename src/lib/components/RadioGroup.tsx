@@ -1,6 +1,6 @@
 import { SIZE } from '@/lib/scripts/const';
 import Radio from './Radio';
-import { useMergedState } from '../hooks';
+import { useMergedState } from '@/lib/hooks';
 import { Flex } from '@/lib/components';
 import { IRadioGroupOptions, IRadioGroupOptionValue, IRadioGroupProps, IRadioValue } from '@/lib/_types/.components';
 

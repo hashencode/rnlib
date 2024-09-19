@@ -4,7 +4,7 @@ import { COLOR, SIZE } from '@/lib/scripts/const';
 import _ from 'lodash';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Flex, PressHighlight, TextBox } from '@/lib/components';
-import { useMergedState } from '../hooks';
+import { useMergedState } from '@/lib/hooks';
 import { ITabsItemValue, ITabsProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
 

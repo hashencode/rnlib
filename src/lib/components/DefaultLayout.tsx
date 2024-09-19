@@ -1,7 +1,7 @@
 import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
 import { Flex, Head } from '@/lib/components';
 import { SCROLL_BASIC_CONFIG, SIZE } from '@/lib/scripts/const';
-import useTheme from '../hooks/useTheme';
+import useTheme from '@/lib/hooks/useTheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import _ from 'lodash';
 import { IDefaultLayoutProps } from '@/lib/_types/.components';

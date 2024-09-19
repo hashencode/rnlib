@@ -28,7 +28,7 @@ export { default as DefaultLayout } from './DefaultLayout';
 export { default as Flex } from './Flex';
 export { default as Grabber } from './Grabber';
 export { default as Icon } from './Icon';
-export { default as Image } from './Image';
+export { default as ImageX } from './ImageX';
 export { default as Loading } from './Loading';
 export { default as Overlay } from './Overlay';
 export { default as PressHighlight } from './PressHighlight';

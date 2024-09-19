@@ -1,6 +1,6 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { useMergedState } from '../hooks';
+import { useMergedState } from '@/lib/hooks';
 import { Flex, PressHighlight } from '@/lib/components';
 import { ISwitchProProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';

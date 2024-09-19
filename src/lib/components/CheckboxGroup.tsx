@@ -1,6 +1,6 @@
 import { SIZE } from '@/lib/scripts/const';
 import Checkbox from './Checkbox';
-import { useMergedState } from '../hooks';
+import { useMergedState } from '@/lib/hooks';
 import { Flex } from '@/lib/components';
 import { ICheckboxGroupOptions, ICheckboxGroupProps, ICheckboxGroupValue, ICheckboxValue } from '@/lib/_types/.components';
 
