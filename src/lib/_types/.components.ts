@@ -81,8 +81,8 @@ export interface IListProps {
 export interface IListItemProps extends PropsWithChildren {
     disabled?: boolean; // 禁用
     extra?: ReactNode; // 右侧附加节点
-    extraSubtitle?: string; // 额外内容副标题
-    extraTitle?: string; // 额外内容标题
+    extraSubtitle?: ReactNode; // 额外内容副标题
+    extraTitle?: ReactNode; // 额外内容标题
     icon?: ReactElement; // 左侧图标
     leftActions?: ISwipeableRowProps['leftActions']; // 左侧操作按钮
     rightActions?: ISwipeableRowProps['rightActions']; // 右侧操作按钮
@@ -222,7 +222,7 @@ export interface ICheckboxProps {
     defaultValue?: ICheckboxValue; // 默认值
     disabled?: boolean; // 禁用
     indeterminate?: boolean; // 半选
-    label?: string; // 文本
+    label?: ReactNode; // 文本
     value?: ICheckboxValue; // 受控值
 
     style?: {
@@ -331,7 +331,7 @@ export type IRadioValue = boolean;
 export interface IRadioProps {
     defaultValue?: IRadioValue; // 默认值
     disabled?: boolean; // 禁用
-    label?: string; // 文本
+    label?: ReactNode; // 文本
     value?: IRadioValue; // 受控值
 
     style?: {

@@ -2,7 +2,7 @@ import { Image as ImageOrigin } from 'react-native';
 import { SIZE } from '@/lib/scripts/const';
 import { IImageProps } from '@/lib/_types/.components';
 
-export default function Image(props: IImageProps) {
+export default function ImageX(props: IImageProps) {
     const {
         defaultSource = require('../assets/images/imagePlaceholder.jpg'),
         height = props.size,

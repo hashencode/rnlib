@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import { Pressable, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { useMergedState } from '../hooks';
-import { Flex, Icon, Text } from '@/lib/components';
 import { ICheckboxProps, ICheckboxValue } from '@/lib/_types/.components';
+import { Flex, Icon, TextBox } from '@/lib/components';
 
 export default function Checkbox(props: ICheckboxProps) {
     const { indeterminate = false, label, defaultValue, disabled, value, style, onChange } = props;
@@ -69,9 +69,9 @@ export default function Checkbox(props: ICheckboxProps) {
                 <Flex alignItems="center" justifyContent="center" style={containerStyle}>
                     {renderIcon()}
                 </Flex>
-                <Text size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
+                <TextBox size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
                     {label}
-                </Text>
+                </TextBox>
             </Flex>
         </Pressable>
     );

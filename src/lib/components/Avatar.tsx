@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Image, TextBox } from '@/lib/components';
+import { Flex, ImageX, TextBox } from '@/lib/components';
 import _ from 'lodash';
 import { AvatarStatusMap, TextSizeMap } from '@/lib/scripts/enum';
 import { IAvatarProps } from '@/lib/_types/.components';
@@ -32,7 +32,7 @@ export default function Avatar(props: IAvatarProps) {
     return (
         <Flex alignItems="center" justifyContent="center" style={rootStyle}>
             {source ? (
-                <Image
+                <ImageX
                     source={source}
                     width={sizeStyle.width}
                     height={sizeStyle.height}

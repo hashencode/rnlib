@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Icon, Text } from '@/lib/components';
 import { IResultProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { Flex, Icon, TextBox } from '@/lib/components';
 
 const IconMap = {
     success: {
@@ -49,12 +49,12 @@ export default function Result(props: IResultProps) {
                 style={style?.icon}
             />
             <Flex column rowGap={SIZE.space_md} alignItems="center">
-                <Text size={SIZE.font_h2} style={style?.title}>
+                <TextBox size={SIZE.font_h2} style={style?.title}>
                     {title}
-                </Text>
-                <Text size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
+                </TextBox>
+                <TextBox size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
                     {subtitle}
-                </Text>
+                </TextBox>
             </Flex>
 
             {extra}

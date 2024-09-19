@@ -1,11 +1,11 @@
 import { isValidElement } from 'react';
 import { ImageStyle, StyleSheet, View } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Image, TextBox } from '@/lib/components';
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
 import { IErrorBlockProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { Flex, ImageX, TextBox } from '@/lib/components';
 
 export default function ErrorBlock(props: IErrorBlockProps) {
     const { title, subtitle, extra, fullscreen, image, style } = props;
@@ -30,7 +30,7 @@ export default function ErrorBlock(props: IErrorBlockProps) {
         if (isValidElement(image)) {
             return image;
         }
-        return <Image source={image as ImageSourcePropType} style={imageStyle} />;
+        return <ImageX source={image as ImageSourcePropType} style={imageStyle} />;
     };
 
     return (

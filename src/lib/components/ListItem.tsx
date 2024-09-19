@@ -1,11 +1,11 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Icon, PressHighlight, SwipeableRow, Text } from '@/lib/components';
 import { mergeElement } from '@/lib/scripts/utils';
 import { IListItemProps } from '@/lib/_types/.components';
 import useStyle from '@/lib/hooks/useStyle';
 import { useMemo } from 'react';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { Flex, Icon, PressHighlight, SwipeableRow, TextBox } from '@/lib/components';
 
 export default function ListItem(props: IListItemProps) {
     const {
@@ -75,22 +75,22 @@ export default function ListItem(props: IListItemProps) {
 
             <Flex alignItems="stretch" style={bodyStyle}>
                 <Flex column justifyContent="center" grow={1} shrink={0} style={style?.main}>
-                    <Text size={SIZE.font_h3} style={style?.title}>
+                    <TextBox size={SIZE.font_h3} style={style?.title}>
                         {title}
-                    </Text>
-                    <Text size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subTitle}>
+                    </TextBox>
+                    <TextBox size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subTitle}>
                         {subtitle}
-                    </Text>
+                    </TextBox>
                     {children}
                 </Flex>
 
                 <Flex column alignItems="flex-end" justifyContent="center" style={extraStyle}>
-                    <Text size={SIZE.font_h3} style={extraTitleStyle}>
+                    <TextBox size={SIZE.font_h3} style={extraTitleStyle}>
                         {extraTitle}
-                    </Text>
-                    <Text size={SIZE.font_h5} color={COLOR.text_desc} style={extraSubtitleStyle}>
+                    </TextBox>
+                    <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={extraSubtitleStyle}>
                         {extraSubtitle}
-                    </Text>
+                    </TextBox>
                     {extra}
                 </Flex>
                 {showArrow ? <Icon name="chevron-right" size={SIZE.icon_sm} color={COLOR.icon_touchable} style={styles.arrow} /> : null}
