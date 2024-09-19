@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import uiSlice from '@/lib/store/uiSlice';
+import libSlice from '@/lib/store/libSlice';
 
 const store = configureStore({
     reducer: {
-        uiSlice,
+        libSlice,
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
