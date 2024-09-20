@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, CheckList, DefaultLayout, Group, Image, Icon } from '../components';
+import { Button, CheckList, DefaultLayout, Group, Image, Icon } from '../lib/components';
 import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 
 export default function DemoCheckList() {

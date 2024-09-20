@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, DefaultLayout, Flex, Group, Switch } from '../components';
+import { Button, Card, DefaultLayout, Flex, Group, Switch } from '../lib/components';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoSwitch() {

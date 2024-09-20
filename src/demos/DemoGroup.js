@@ -1,4 +1,4 @@
-import { DefaultLayout, Group, Card } from '../components';
+import { DefaultLayout, Group, Card } from '../lib/components';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
 
 export default function DemoGroup() {

@@ -1,6 +1,6 @@
 import { COLOR, DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
-import { Card, DefaultLayout, Flex, Icon, Text, Group, Image } from '../components';
+import { Card, DefaultLayout, Flex, Icon, Text, Group, Image } from '../lib/components';
 
 export default function DemoCard() {
     return (

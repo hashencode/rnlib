@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActionSheet, Button, Card, DefaultLayout, Group, Text, Icon, Flex } from '../components';
+import { ActionSheet, Button, Card, DefaultLayout, Group, Text, Icon, Flex } from '../lib/components';
 import { COLOR } from '@/lib/scripts/const';
 
 export default function DemoActionSheet() {

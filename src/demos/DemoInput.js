@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Button, DefaultLayout, Flex, Group, Input } from '../components';
+import { Button, DefaultLayout, Flex, Group, Input } from '../lib/components';
 import { SIZE } from '@/lib/scripts/const';
 
 export default function DemoInput() {

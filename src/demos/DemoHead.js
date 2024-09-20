@@ -1,4 +1,4 @@
-import { DefaultLayout, Head, Icon, Group, Text } from '../components';
+import { DefaultLayout, Head, Icon, Group, Text } from '../lib/components';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 
 export default function DemoHead() {

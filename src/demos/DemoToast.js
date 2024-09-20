@@ -1,4 +1,4 @@
-import { Button, DefaultLayout, Flex, Group, Card } from '../components';
+import { Button, DefaultLayout, Flex, Group, Card } from '../lib/components';
 import { useToast } from '@/lib/hooks';
 import { SIZE } from '@/lib/scripts/const';
 

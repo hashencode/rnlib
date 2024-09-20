@@ -1,4 +1,4 @@
-import { Card, DefaultLayout, Group, Tabs, Text } from '../components';
+import { Card, DefaultLayout, Group, Tabs, Text } from '../lib/components';
 
 export default function DemoTabs() {
     const basicItems = [

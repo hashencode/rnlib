@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, DefaultLayout, Flex, Group, Picker } from '../components';
+import { Button, Card, DefaultLayout, Flex, Group, Picker } from '../lib/components';
 import { COLOR, SIZE } from '@/lib/scripts/const';
 import { Icon } from '@/lib/components';
 

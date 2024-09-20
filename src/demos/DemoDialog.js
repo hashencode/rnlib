@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, DefaultLayout, Dialog, Flex, Input, Group, Card } from '../components';
+import { Button, DefaultLayout, Dialog, Flex, Input, Group, Card } from '../lib/components';
 import { useDialog } from '@/lib/hooks';
 import { SIZE } from '@/lib/scripts/const';
 
