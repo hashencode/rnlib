@@ -1,17 +1,16 @@
-import 'react-native-gesture-handler';
 import Router from './src/route/Router';
 import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
-import LibProviders from './src/lib/providers';
 import store from './src/lib/store';
+import LibProvider from './src/lib/providers/LibProvider';
 
 function App() {
     return (
         <Provider store={store}>
             <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-                <LibProviders>
+                <LibProvider>
                     <Router />
-                </LibProviders>
+                </LibProvider>
             </SafeAreaProvider>
         </Provider>
     );
