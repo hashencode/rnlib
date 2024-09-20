@@ -1,5 +1,7 @@
-export * from './lib/components';
-export * from './lib/hooks';
-export * from './lib/scripts/const';
-export { default as libSlice } from './lib/store/libSlice';
-export { default as LibProvider } from './lib/providers/LibProvider';
+export * from './components';
+export * from './hooks';
+export * from './scripts/const';
+export { default as libSlice } from './store/libSlice';
+export { default as LibProvider } from './providers/LibProvider';
+
+export * from './_types/components';
