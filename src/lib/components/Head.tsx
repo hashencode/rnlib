@@ -1,9 +1,9 @@
 import { View, StyleSheet, ViewStyle, Pressable } from 'react-native';
-import { SIZE } from '@/lib/scripts/const';
+import { SIZE } from '../scripts/const';
 import { useNavigation } from '@react-navigation/native';
-import { Flex, Icon, TextBox } from '@/lib/components';
-import { IHeadProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { Flex, Icon, TextBox } from '../components';
+import { IHeadProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 function Head(props: IHeadProps) {
     const { backText, backIcon, title, subtitle, extra, style, onBack } = props;

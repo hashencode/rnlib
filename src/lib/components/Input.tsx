@@ -1,10 +1,10 @@
 import { forwardRef, Ref, useImperativeHandle, useMemo, useRef } from 'react';
 import { Pressable, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { useMergedState, useToggle } from '@/lib/hooks';
-import { Flex, Icon, TextBox } from '@/lib/components';
-import { IInputProps, IInputRef } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { useMergedState, useToggle } from '../hooks';
+import { Flex, Icon, TextBox } from '../components';
+import { IInputProps, IInputRef } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 const defaultProps: Partial<TextInputProps> = {

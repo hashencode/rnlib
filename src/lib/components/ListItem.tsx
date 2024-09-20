@@ -1,11 +1,11 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { mergeElement } from '@/lib/scripts/utils';
-import { IListItemProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { mergeElement } from '../scripts/utils';
+import { IListItemProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 import { useMemo } from 'react';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, Icon, PressHighlight, SwipeableRow, TextBox } from '@/lib/components';
+import { Flex, Icon, PressHighlight, SwipeableRow, TextBox } from '../components';
 
 export default function ListItem(props: IListItemProps) {
     const {

@@ -1,10 +1,10 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
-import { Button, Flex, Overlay, TextBox } from '@/lib/components';
-import { IDialogProps } from '@/lib/_types/.components';
+import { Button, Flex, Overlay, TextBox } from '../components';
+import { IDialogProps } from '../_types/.components';
 import { Fragment } from 'react';
-import useStyle from '@/lib/hooks/useStyle';
+import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 function Dialog(props: IDialogProps) {

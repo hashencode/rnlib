@@ -1,8 +1,8 @@
-import { SIZE } from '@/lib/scripts/const';
+import { SIZE } from '../scripts/const';
 import Radio from './Radio';
-import { useMergedState } from '@/lib/hooks';
-import { Flex } from '@/lib/components';
-import { IRadioGroupOptions, IRadioGroupOptionValue, IRadioGroupProps, IRadioValue } from '@/lib/_types/.components';
+import { useMergedState } from '../hooks';
+import { Flex } from '../components';
+import { IRadioGroupOptions, IRadioGroupOptionValue, IRadioGroupProps, IRadioValue } from '../_types/.components';
 
 export default function RadioGroup(props: IRadioGroupProps) {
     const { defaultValue, value, onChange, options = [], style } = props;

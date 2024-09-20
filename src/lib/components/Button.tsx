@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, PressHighlight, TextBox } from '@/lib/components';
-import { mergeElement } from '@/lib/scripts/utils';
-import { IButtonProps } from '@/lib/_types/.components';
-import { ButtonIconSize, ButtonLabelSize } from '@/lib/scripts/enum';
-import useStyle from '@/lib/hooks/useStyle';
+import { Flex, PressHighlight, TextBox } from '../components';
+import { mergeElement } from '../scripts/utils';
+import { IButtonProps } from '../_types/.components';
+import { ButtonIconSize, ButtonLabelSize } from '../scripts/enum';
+import useStyle from '../hooks/useStyle';
 
 export default function Button(props: IButtonProps) {
     const { round, type = 'default', size = 'md', ghost, danger, block, disabled, icon, children, style, onPress } = props;

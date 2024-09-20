@@ -1,11 +1,11 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, Icon, Loading, Overlay, TextBox } from '@/lib/components';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, Loading, Overlay, TextBox } from '../components';
 import { IconNames } from './Icon';
-import { IToastProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { IToastProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 import { useEffect, useRef, useState } from 'react';
-import { ToastIconMap } from '@/lib/scripts/enum';
+import { ToastIconMap } from '../scripts/enum';
 
 export default function Toast(props: IToastProps) {
     const { content, type = 'info', duration = 2500, style, afterClose } = props;

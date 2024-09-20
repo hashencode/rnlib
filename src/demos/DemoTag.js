@@ -1,5 +1,5 @@
 import { Card, DefaultLayout, Flex, Group, Icon, Tag } from '../lib/components';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../lib/scripts/const';
 
 export default function DemoTag() {
     return (

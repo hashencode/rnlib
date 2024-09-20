@@ -1,9 +1,9 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, TextBox } from '@/lib/components';
-import { mergeElement } from '@/lib/scripts/utils';
-import { ICardProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, TextBox } from '../components';
+import { mergeElement } from '../scripts/utils';
+import { ICardProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function Card(props: ICardProps) {
     const { title, extra, icon, style } = props;

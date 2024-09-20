@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { LayoutChangeEvent, ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Flex, PressHighlight, TextBox } from '@/lib/components';
-import { useMergedState } from '@/lib/hooks';
-import { ITabsItemValue, ITabsProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { Flex, PressHighlight, TextBox } from '../components';
+import { useMergedState } from '../hooks';
+import { ITabsItemValue, ITabsProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function Tabs(props: ITabsProps) {
     const { value, defaultValue, scrollable, items = [], style, headerConfig, onChange } = props;

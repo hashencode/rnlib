@@ -1,6 +1,6 @@
 import { DefaultLayout, ErrorBlock, Group, Card } from '../lib/components';
-import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
-import { Button, Flex } from '@/lib/components';
+import { DEFAULT_IMAGE, SIZE } from '../lib/scripts/const';
+import { Button, Flex } from '../lib/components';
 
 function DemoResult() {
     return (

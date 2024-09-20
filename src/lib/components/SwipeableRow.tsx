@@ -1,7 +1,7 @@
-import { ISwipeableRowActionItem, ISwipeableRowProps } from '@/lib/_types/.components';
+import { ISwipeableRowActionItem, ISwipeableRowProps } from '../_types/.components';
 import ReanimatedSwipeable, { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { RectButton } from 'react-native-gesture-handler';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import { useRef } from 'react';
 
 export default function SwipeableRow(props: ISwipeableRowProps) {

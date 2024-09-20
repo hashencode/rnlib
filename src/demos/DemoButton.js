@@ -1,6 +1,6 @@
 import { Button, DefaultLayout, Flex, Group, Card } from '../lib/components';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Icon } from '@/lib/components';
+import { COLOR, SIZE } from '../lib/scripts/const';
+import { Icon } from '../lib/components';
 
 export default function DemoButton() {
     return (

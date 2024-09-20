@@ -1,8 +1,8 @@
-import List from '@/lib/components/List';
-import Group from '@/lib/components/Group';
+import List from '../lib/components/List';
+import Group from '../lib/components/Group';
 import { useNavigation } from '@react-navigation/native';
-import { DefaultLayout } from '@/lib/components';
-import { SCREENS } from '@/route/Router';
+import { DefaultLayout } from '../lib/components';
+import { SCREENS } from '../route/Router';
 
 export default function Demo() {
     const navigation = useNavigation<any>();

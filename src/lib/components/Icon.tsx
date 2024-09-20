@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import _ from 'lodash';
 import * as icons from 'lucide-react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { IIconProps } from '@/lib/_types/.components';
+import { COLOR, SIZE } from '../scripts/const';
+import { IIconProps } from '../_types/.components';
 
 const nameMap = Object.keys(icons).map(key => {
     return key

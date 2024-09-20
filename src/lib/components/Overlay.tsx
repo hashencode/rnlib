@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import { useUpdateEffect } from 'ahooks';
 
 export interface OverlayProps {

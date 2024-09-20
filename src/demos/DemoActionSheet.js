@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ActionSheet, Button, Card, DefaultLayout, Group, Text, Icon, Flex } from '../lib/components';
-import { COLOR } from '@/lib/scripts/const';
+import { COLOR } from '../lib/scripts/const';
 
 export default function DemoActionSheet() {
     const [openId, setOpenId] = useState('');

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, DefaultLayout, Dialog, Flex, Input, Group, Card } from '../lib/components';
-import { useDialog } from '@/lib/hooks';
-import { SIZE } from '@/lib/scripts/const';
+import { useDialog } from '../lib/hooks';
+import { SIZE } from '../lib/scripts/const';
 
 export default function DemoDialog() {
     const [openId, setOpenId] = useState('');

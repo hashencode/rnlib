@@ -1,6 +1,6 @@
 import { Image as ImageOrigin } from 'react-native';
-import { SIZE } from '@/lib/scripts/const';
-import { IImageProps } from '@/lib/_types/.components';
+import { SIZE } from '../scripts/const';
+import { IImageProps } from '../_types/.components';
 
 export default function ImageX(props: IImageProps) {
     const {

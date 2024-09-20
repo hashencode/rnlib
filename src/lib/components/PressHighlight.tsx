@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native';
-import { COLOR } from '@/lib/scripts/const';
-import { IPressHighlightProps } from '@/lib/_types/.components';
+import { COLOR } from '../scripts/const';
+import { IPressHighlightProps } from '../_types/.components';
 
 export default function PressHighlight(props: IPressHighlightProps) {
     const { underlayColor = COLOR.underlay_touchable, style, disabled, ...rest } = props;

@@ -1,8 +1,8 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, TextBox } from '@/lib/components';
-import useStyle from '@/lib/hooks/useStyle';
-import { IBadgeProps } from '@/lib/_types/.components';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, TextBox } from '../components';
+import useStyle from '../hooks/useStyle';
+import { IBadgeProps } from '../_types/.components';
 
 export default function Badge(props: IBadgeProps) {
     const { dot, style } = props;

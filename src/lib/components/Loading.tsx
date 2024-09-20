@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { COLOR } from '@/lib/scripts/const';
-import { SIZE } from '@/lib/scripts/const';
+import { COLOR } from '../scripts/const';
+import { SIZE } from '../scripts/const';
 import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, Easing, withRepeat, withTiming } from 'react-native-reanimated';
-import { ILoadingProps } from '@/lib/_types/.components';
-import Icon from '@/lib/components/Icon';
+import { ILoadingProps } from '../_types/.components';
+import Icon from '../components/Icon';
 
 export default function Loading(props: ILoadingProps) {
     const { color = COLOR.icon_touchable, size = SIZE.icon_md, style } = props;

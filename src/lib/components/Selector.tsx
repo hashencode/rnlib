@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
-import { useMergedState } from '@/lib/hooks';
-import { Flex, Icon, PressHighlight, TextBox } from '@/lib/components';
-import { ISelectorRawValue, ISelectorValue, ISelectProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { useMergedState } from '../hooks';
+import { Flex, Icon, PressHighlight, TextBox } from '../components';
+import { ISelectorRawValue, ISelectorValue, ISelectProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 export default function Selector(props: ISelectProps) {

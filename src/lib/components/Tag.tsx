@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { Flex, TextBox } from '@/lib/components';
-import { mergeElement } from '@/lib/scripts/utils';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { ITagProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { Flex, TextBox } from '../components';
+import { mergeElement } from '../scripts/utils';
+import { COLOR, SIZE } from '../scripts/const';
+import { ITagProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 export default function Tag(props: ITagProps) {

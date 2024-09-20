@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Checkbox, CheckboxGroup, DefaultLayout, Flex, Group, Card } from '../lib/components';
-import { SIZE } from '@/lib/scripts/const';
+import { SIZE } from '../lib/scripts/const';
 
 export default function DemoCheckbox() {
     const [isChecked, setIsChecked] = useState(false);

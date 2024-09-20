@@ -1,5 +1,5 @@
 import { Avatar, DefaultLayout, Flex, Group, Card } from '../lib/components';
-import { DEFAULT_IMAGE, SIZE } from '@/lib/scripts/const';
+import { DEFAULT_IMAGE, SIZE } from '../lib/scripts/const';
 
 export default function DemoAvatar() {
     return (

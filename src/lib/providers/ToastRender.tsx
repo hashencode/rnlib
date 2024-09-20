@@ -1,7 +1,7 @@
-import { IStoreState, IToastQueueItem } from '@/lib/_types/.store';
+import { IStoreState, IToastQueueItem } from '../_types/.store';
 import { useDispatch, useSelector } from 'react-redux';
-import { Toast } from '@/lib/components';
-import { destroyToast } from '@/lib/store/libSlice';
+import { Toast } from '../components';
+import { destroyToast } from '../store/libSlice';
 
 export default function ToastRender() {
     const toastQueue = useSelector((state: IStoreState) => state.libSlice.toastQueue);

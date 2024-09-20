@@ -1,4 +1,4 @@
-import { IUseStyleProps } from '@/lib/_types/.hooks';
+import { IUseStyleProps } from '../_types/.hooks';
 import { StyleSheet } from 'react-native';
 
 export default function useStyle<T>(props: IUseStyleProps<T>) {

@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { useMergedState } from '@/lib/hooks';
-import { IRadioProps, IRadioValue } from '@/lib/_types/.components';
-import { Flex, Icon, TextBox } from '@/lib/components';
+import { COLOR, SIZE } from '../scripts/const';
+import { useMergedState } from '../hooks';
+import { IRadioProps, IRadioValue } from '../_types/.components';
+import { Flex, Icon, TextBox } from '../components';
 
 export default function Radio(props: IRadioProps) {
     const { label, defaultValue, disabled, value, style, onChange } = props;

@@ -1,8 +1,8 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { TextBox } from '@/lib/components';
-import { IGroupProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { TextBox } from '../components';
+import { IGroupProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function Group(props: IGroupProps) {
     const { header, footer, first, style } = props;

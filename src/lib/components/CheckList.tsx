@@ -1,12 +1,12 @@
 import { Fragment, Key, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { useMergedState } from '@/lib/hooks';
+import { COLOR, SIZE } from '../scripts/const';
+import { useMergedState } from '../hooks';
 import _ from 'lodash';
-import { Icon, ListItem } from '@/lib/components';
-import { mergeElement } from '@/lib/scripts/utils';
-import { ICheckListProps, ICheckListRawValue, ICheckListValue } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { Icon, ListItem } from '../components';
+import { mergeElement } from '../scripts/utils';
+import { ICheckListProps, ICheckListRawValue, ICheckListValue } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function CheckList(props: ICheckListProps) {
     const { options, rowKey, renderItem, checkedIcon = <Icon name="check" />, defaultValue, multiple, style, value, onChange } = props;

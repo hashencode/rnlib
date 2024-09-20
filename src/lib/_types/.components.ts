@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
-import { IconNames } from '@/lib/components/Icon';
+import { IconNames } from '../components/Icon';
 import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
 import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 import { ImageProps as ImageOriginProps } from 'react-native/Libraries/Image/Image';

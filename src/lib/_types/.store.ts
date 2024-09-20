@@ -1,4 +1,4 @@
-import { IDialogProps, IToastProps } from '@/lib/_types/.components';
+import { IDialogProps, IToastProps } from '../_types/.components';
 
 /**
  * Store

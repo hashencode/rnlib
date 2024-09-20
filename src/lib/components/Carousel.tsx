@@ -3,9 +3,9 @@ import { StyleSheet, View, ViewStyle } from 'react-native';
 import { default as CarouselX } from 'react-native-reanimated-carousel';
 import { LayoutChangeEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import PaginationDot from 'react-native-animated-pagination-dot';
-import { SIZE } from '@/lib/scripts/const';
-import { ICarouselProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { SIZE } from '../scripts/const';
+import { ICarouselProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function Carousel(props: ICarouselProps) {
     const { dotConfig, rootConfig, items, showDot, style, height } = props;

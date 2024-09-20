@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, ImageX, TextBox } from '@/lib/components';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, ImageX, TextBox } from '../components';
 import _ from 'lodash';
-import { AvatarStatusMap, TextSizeMap } from '@/lib/scripts/enum';
-import { IAvatarProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
+import { IAvatarProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function Avatar(props: IAvatarProps) {
     const { alt, shape = 'circle', source, size = 'md', style } = props;

@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { IResultProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { IResultProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, Icon, TextBox } from '@/lib/components';
+import { Flex, Icon, TextBox } from '../components';
 
 const IconMap = {
     success: {

@@ -1,8 +1,8 @@
-import { SIZE } from '@/lib/scripts/const';
+import { SIZE } from '../scripts/const';
 import Checkbox from './Checkbox';
-import { useMergedState } from '@/lib/hooks';
-import { Flex } from '@/lib/components';
-import { ICheckboxGroupOptions, ICheckboxGroupProps, ICheckboxGroupValue, ICheckboxValue } from '@/lib/_types/.components';
+import { useMergedState } from '../hooks';
+import { Flex } from '../components';
+import { ICheckboxGroupOptions, ICheckboxGroupProps, ICheckboxGroupValue, ICheckboxValue } from '../_types/.components';
 
 export default function CheckboxGroup(props: ICheckboxGroupProps) {
     const { defaultValue, value, onChange, options = [], style } = props;

@@ -1,8 +1,8 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { Flex, TextBox } from '@/lib/components';
-import { IDividerProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, TextBox } from '../components';
+import { IDividerProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 export default function Divider(props: IDividerProps) {

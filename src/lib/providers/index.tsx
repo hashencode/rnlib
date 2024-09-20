@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import DialogRender from './DialogRender';
-import ThemeProvider from '@/lib/providers/ThemeProvider';
-import ToastRender from '@/lib/providers/ToastRender';
+import ThemeProvider from '../providers/ThemeProvider';
+import ToastRender from '../providers/ToastRender';
 
 const LibProviders = ({ children }: PropsWithChildren) => {
     return (

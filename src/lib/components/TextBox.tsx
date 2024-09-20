@@ -1,5 +1,5 @@
-import { ITextProps } from '@/lib/_types/.components';
-import { Text } from '@/lib/components';
+import { ITextProps } from '../_types/.components';
+import { Text } from '../components';
 import _ from 'lodash';
 
 export default function TextBox(props: ITextProps) {

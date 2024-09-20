@@ -1,6 +1,6 @@
 import { View } from 'react-native';
-import { IFlexProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { IFlexProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function Flex(props: IFlexProps) {
     const {

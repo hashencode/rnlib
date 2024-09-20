@@ -1,9 +1,9 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { useMergedState } from '@/lib/hooks';
-import { Flex, PressHighlight } from '@/lib/components';
-import { ISwitchProProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { useMergedState } from '../hooks';
+import { Flex, PressHighlight } from '../components';
+import { ISwitchProProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function Switch(props: ISwitchProProps) {
     const { size = 'md', style, disabled, onPress, onChange, value, defaultValue } = props;

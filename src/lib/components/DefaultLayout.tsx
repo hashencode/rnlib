@@ -1,11 +1,11 @@
 import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
-import { Flex, Head } from '@/lib/components';
-import { SCROLL_BASIC_CONFIG, SIZE } from '@/lib/scripts/const';
-import useTheme from '@/lib/hooks/useTheme';
+import { Flex, Head } from '../components';
+import { SCROLL_BASIC_CONFIG, SIZE } from '../scripts/const';
+import useTheme from '../hooks/useTheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import _ from 'lodash';
-import { IDefaultLayoutProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { IDefaultLayoutProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function DefaultLayout(props: IDefaultLayoutProps) {
     const { scrollable = true, statusBarConfig, head, footer, style } = props;

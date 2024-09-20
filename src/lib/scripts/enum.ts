@@ -1,5 +1,5 @@
 // 按钮尺寸-字体大小映射表
-import { SIZE } from '@/lib/scripts/const';
+import { SIZE } from './const';
 
 /**
  * Button

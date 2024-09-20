@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { IGrabberProps } from '@/lib/_types/.components';
+import { IGrabberProps } from '../_types/.components';
 
 export default function Grabber(props: IGrabberProps) {
     const insets = useSafeAreaInsets();

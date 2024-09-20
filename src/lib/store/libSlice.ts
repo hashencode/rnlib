@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IStoreState } from '@/lib/_types/.store';
+import { IStoreState } from '../_types/.store';
 import _ from 'lodash';
-import { randomId } from '@/lib/scripts/utils';
+import { randomId } from '../scripts/utils';
 
 const initialState: IStoreState['libSlice'] = {
     dialogQueue: [],

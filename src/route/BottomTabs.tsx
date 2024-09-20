@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { SCREENS } from '@/route/Router';
-import { Icon } from '@/lib/components';
-import DEMO from '@/screens/Demo';
+import { COLOR, SIZE } from '../lib/scripts/const';
+import { Icon } from '../lib/components';
+import DEMO from '../screens/Demo';
+import { SCREENS } from './Router';
 
 const Tab = createBottomTabNavigator();
 

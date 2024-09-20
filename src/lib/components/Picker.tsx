@@ -1,14 +1,14 @@
 import { ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
-import { useMergedState } from '@/lib/hooks';
+import { useMergedState } from '../hooks';
 import Button from './Button';
-import { Flex, Grabber, Icon, PressHighlight, TextBox } from '@/lib/components';
-import useStyle from '@/lib/hooks/useStyle';
-import { IPickerProps, IPickerRawValue, IPickerValue, PickerOption } from '@/lib/_types/.components';
+import { Flex, Grabber, Icon, PressHighlight, TextBox } from '../components';
+import useStyle from '../hooks/useStyle';
+import { IPickerProps, IPickerRawValue, IPickerValue, PickerOption } from '../_types/.components';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
-import { mergeRefs } from '@/lib/scripts/utils';
+import { mergeRefs } from '../scripts/utils';
 
 function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
     const {

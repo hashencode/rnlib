@@ -1,11 +1,11 @@
 import { ForwardedRef, forwardRef, useEffect, useRef } from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import { TextBox, Flex, PressHighlight, Grabber } from '@/lib/components';
+import { COLOR, SIZE } from '../scripts/const';
+import { TextBox, Flex, PressHighlight, Grabber } from '../components';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
-import { mergeRefs } from '@/lib/scripts/utils';
-import useStyle from '@/lib/hooks/useStyle';
-import { IActionSheetOptionValue, IActionSheetProps } from '@/lib/_types/.components';
+import { mergeRefs } from '../scripts/utils';
+import useStyle from '../hooks/useStyle';
+import { IActionSheetOptionValue, IActionSheetProps } from '../_types/.components';
 
 function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>) {
     const {

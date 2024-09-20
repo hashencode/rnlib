@@ -1,9 +1,9 @@
 import { Fragment, Key, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '@/lib/scripts/const';
-import ListItem from '@/lib/components/ListItem';
-import { IListProps } from '@/lib/_types/.components';
-import useStyle from '@/lib/hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import ListItem from '../components/ListItem';
+import { IListProps } from '../_types/.components';
+import useStyle from '../hooks/useStyle';
 
 export default function List(props: IListProps) {
     const { items, renderItem, rowKey, style } = props;

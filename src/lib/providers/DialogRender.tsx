@@ -1,7 +1,7 @@
 import Dialog from '../components/Dialog';
-import { IDialogQueueItem, IStoreState } from '@/lib/_types/.store';
+import { IDialogQueueItem, IStoreState } from '../_types/.store';
 import { useDispatch, useSelector } from 'react-redux';
-import { destroyDialog } from '@/lib/store/libSlice';
+import { destroyDialog } from '../store/libSlice';
 
 export default function DialogRender() {
     const dialogQueue = useSelector((state: IStoreState) => state.libSlice.dialogQueue);
