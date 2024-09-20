@@ -1,6 +1,6 @@
 {
   "name": "@hashencode/rnlib",
-  "version": "0.0.10",
+  "version": "0.0.16",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -59,7 +59,7 @@
     "node": ">=18"
   },
   "source": "./src/index.ts",
-  "main": "./lib/commonjs/index.js",
+  "main": "./lib/module/index.js",
   "module": "./lib/module/index.js",
   "types": "./lib/typescript/commonjs/src/index.d.ts",
   "exports": {
