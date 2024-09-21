@@ -2,7 +2,7 @@ import { forwardRef, Ref, useImperativeHandle, useMemo, useRef } from 'react';
 import { Pressable, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState, useToggle } from '../hooks';
-import { Flex, Icon, TextBox } from './index';
+import { Flex, Icon, TextX } from './index';
 import { IInputProps, IInputRef } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -94,9 +94,9 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
     const renderPrefix = () => {
         if (prefix) {
             return (
-                <TextBox style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.prefix])}>
+                <TextX style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.prefix])}>
                     {prefix}
-                </TextBox>
+                </TextX>
             );
         }
         return null;
@@ -106,9 +106,9 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
     const renderSuffix = () => {
         if (suffix) {
             return (
-                <TextBox style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.suffix])}>
+                <TextX style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.suffix])}>
                     {suffix}
-                </TextBox>
+                </TextX>
             );
         }
         return null;

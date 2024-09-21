@@ -1,6 +1,6 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, TextBox } from './index';
+import { Flex, TextX } from './index';
 import { IDividerProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -38,9 +38,9 @@ export default function Divider(props: IDividerProps) {
             {isHorizontal ? (
                 <>
                     <View style={leftStyle} />
-                    <TextBox size={SIZE.font_h5} style={textStyle}>
+                    <TextX size={SIZE.font_h5} style={textStyle}>
                         {children}
-                    </TextBox>
+                    </TextX>
                     <View style={rightStyle} />
                 </>
             ) : (

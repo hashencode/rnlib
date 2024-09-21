@@ -6,7 +6,7 @@ import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Text } from 'react-native';
 
-export default function TextBox(props: ITextProps) {
+export default function TextX(props: ITextProps) {
     const { style, weight = 'normal', size = SIZE.font_basic, color = COLOR.text_title, children, ...rest } = props;
 
     const platformStyle = isAndroid() ? { lineHeight: 1.3 * (style?.fontSize || size) } : {};

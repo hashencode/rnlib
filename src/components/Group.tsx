@@ -1,6 +1,6 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { TextBox } from './index';
+import { TextX } from './index';
 import { IGroupProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 
@@ -28,17 +28,17 @@ export default function Group(props: IGroupProps) {
     return (
         <View style={rootStyle}>
             {header ? (
-                <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={headerStyle}>
+                <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={headerStyle}>
                     {header}
-                </TextBox>
+                </TextX>
             ) : (
                 <View style={styles.headerPlaceholder} />
             )}
             <View style={style?.body}>{props.children}</View>
             {footer ? (
-                <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={footerStyle}>
+                <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={footerStyle}>
                     {footer}
-                </TextBox>
+                </TextX>
             ) : null}
         </View>
     );

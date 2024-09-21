@@ -1,7 +1,7 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
-import { Button, Flex, Overlay, TextBox } from './index';
+import { Button, Flex, Overlay, TextX } from './index';
 import { IDialogProps } from '../_types/components';
 import { Fragment } from 'react';
 import useStyle from '../hooks/useStyle';
@@ -100,12 +100,12 @@ function Dialog(props: IDialogProps) {
             {/*主容器*/}
             <Flex column alignItems="center" style={rootStyle}>
                 <Flex column block alignItems="center" rowGap={SIZE.space_md} style={contentStyle}>
-                    <TextBox size={SIZE.font_h2} style={headerStyle}>
+                    <TextX size={SIZE.font_h2} style={headerStyle}>
                         {title}
-                    </TextBox>
-                    <TextBox size={SIZE.font_h5} style={style?.body}>
+                    </TextX>
+                    <TextX size={SIZE.font_h5} style={style?.body}>
                         {content}
-                    </TextBox>
+                    </TextX>
                 </Flex>
                 {renderButtons()}
                 {renderActions()}

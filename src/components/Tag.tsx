@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Flex, TextBox } from './index';
+import { Flex, TextX } from './index';
 import { mergeElement } from '../scripts/utils';
 import { COLOR, SIZE } from '../scripts/const';
 import { ITagProps } from '../_types/components';
@@ -25,9 +25,9 @@ export default function Tag(props: ITagProps) {
     return (
         <Flex alignItems="center" justifyContent="center" columnGap={SIZE.space_sm} style={rootStyle}>
             {mergeElement(icon, { size: SIZE.tag_icon_size, color })}
-            <TextBox size={SIZE.font_mini} color={color} style={style?.text}>
+            <TextX size={SIZE.font_mini} color={color} style={style?.text}>
                 {props.children}
-            </TextBox>
+            </TextX>
         </Flex>
     );
 }

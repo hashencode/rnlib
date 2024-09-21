@@ -5,7 +5,7 @@ import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
 import { IErrorBlockProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, ImageX, TextBox } from './index';
+import { Flex, ImageX, TextX } from './index';
 
 export default function ErrorBlock(props: IErrorBlockProps) {
     const { title, subtitle, extra, fullscreen, image, style } = props;
@@ -40,17 +40,17 @@ export default function ErrorBlock(props: IErrorBlockProps) {
 
             {fullscreen ? (
                 <Flex column rowGap={SIZE.space_md} alignItems="center">
-                    <TextBox size={SIZE.font_h1} style={style?.title}>
+                    <TextX size={SIZE.font_h1} style={style?.title}>
                         {title}
-                    </TextBox>
-                    <TextBox size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
+                    </TextX>
+                    <TextX size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
                         {subtitle}
-                    </TextBox>
+                    </TextX>
                 </Flex>
             ) : (
-                <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={style?.title}>
+                <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.title}>
                     {title}
-                </TextBox>
+                </TextX>
             )}
 
             {extra ? <View style={styles.extra}>{extra}</View> : extra}

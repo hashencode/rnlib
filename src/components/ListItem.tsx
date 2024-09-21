@@ -5,7 +5,7 @@ import { IListItemProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { useMemo } from 'react';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, Icon, PressHighlight, SwipeableRow, TextBox } from './index';
+import { Flex, Icon, PressHighlight, SwipeableRow, TextX } from './index';
 
 export default function ListItem(props: IListItemProps) {
     const {
@@ -75,22 +75,22 @@ export default function ListItem(props: IListItemProps) {
 
             <Flex alignItems="stretch" style={bodyStyle}>
                 <Flex column justifyContent="center" grow={1} shrink={0} style={style?.main}>
-                    <TextBox size={SIZE.font_h3} style={style?.title}>
+                    <TextX size={SIZE.font_h3} style={style?.title}>
                         {title}
-                    </TextBox>
-                    <TextBox size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subTitle}>
+                    </TextX>
+                    <TextX size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subTitle}>
                         {subtitle}
-                    </TextBox>
+                    </TextX>
                     {children}
                 </Flex>
 
                 <Flex column alignItems="flex-end" justifyContent="center" style={extraStyle}>
-                    <TextBox size={SIZE.font_h3} style={extraTitleStyle}>
+                    <TextX size={SIZE.font_h3} style={extraTitleStyle}>
                         {extraTitle}
-                    </TextBox>
-                    <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={extraSubtitleStyle}>
+                    </TextX>
+                    <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={extraSubtitleStyle}>
                         {extraSubtitle}
-                    </TextBox>
+                    </TextX>
                     {extra}
                 </Flex>
                 {showArrow ? <Icon name="chevron-right" size={SIZE.icon_sm} color={COLOR.icon_touchable} style={styles.arrow} /> : null}

@@ -3,7 +3,7 @@ import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
-import { Flex, Icon, PressHighlight, TextBox } from './index';
+import { Flex, Icon, PressHighlight, TextX } from './index';
 import { ISelectorRawValue, ISelectorValue, ISelectProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -68,21 +68,21 @@ export default function Selector(props: ISelectProps) {
                         key={option.value}
                         style={StyleSheet.flatten([optionStyle, isActive ? activeStyle : {}])}>
                         <Flex alignItems="center" column rowGap={SIZE.space_xs}>
-                            <TextBox
+                            <TextX
                                 size={SIZE.font_h5}
                                 color={isActive ? COLOR.text_primary : COLOR.text_title}
                                 numberOfLines={1}
                                 style={style?.title}>
                                 {option.title}
-                            </TextBox>
-                            <TextBox
+                            </TextX>
+                            <TextX
                                 size={SIZE.font_secondary}
                                 color={COLOR.text_desc}
                                 numberOfLines={1}
                                 ellipsizeMode="tail"
                                 style={style?.subtitle}>
                                 {option.subtitle}
-                            </TextBox>
+                            </TextX>
                             {option?.content}
                         </Flex>
                         {isActive ? (

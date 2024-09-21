@@ -1,6 +1,6 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Icon, Loading, Overlay, TextBox } from './index';
+import { Flex, Icon, Loading, Overlay, TextX } from './index';
 import { IconNames } from './Icon';
 import { IToastProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
@@ -58,9 +58,9 @@ export default function Toast(props: IToastProps) {
         <Overlay visible={visible} backgroundColor="transparent" afterDestroy={afterClose}>
             <Flex alignItems="center" justifyContent="center" column rowGap={SIZE.space_md} style={rootStyle}>
                 {renderIcon()}
-                <TextBox size={SIZE.font_h4} color={COLOR.text_white} style={style?.content}>
+                <TextX size={SIZE.font_h4} color={COLOR.text_white} style={style?.content}>
                     {content}
-                </TextBox>
+                </TextX>
             </Flex>
         </Overlay>
     );

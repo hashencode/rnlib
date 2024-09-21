@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, ImageX, TextBox } from './index';
+import { Flex, ImageX, TextX } from './index';
 import _ from 'lodash';
 import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
 import { IAvatarProps } from '../_types/components';
@@ -43,9 +43,9 @@ export default function Avatar(props: IAvatarProps) {
             ) : null}
             {(loadStatus === AvatarStatusMap['加载失败'] && alt) || props?.children ? (
                 <Flex justifyContent="center" alignItems="center">
-                    <TextBox size={_.isNumber(size) ? size : TextSizeMap[size]} style={style?.text}>
+                    <TextX size={_.isNumber(size) ? size : TextSizeMap[size]} style={style?.text}>
                         {props?.children || alt}
-                    </TextBox>
+                    </TextX>
                 </Flex>
             ) : null}
         </Flex>

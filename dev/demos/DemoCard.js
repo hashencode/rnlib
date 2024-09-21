@@ -1,6 +1,6 @@
 import { COLOR, DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
-import { Card, DefaultLayout, Flex, Icon, TextBox, Group, ImageX } from '../../src/components';
+import { Card, DefaultLayout, Flex, Icon, TextX, Group, ImageX } from '../../src/components';
 
 export default function DemoCard() {
     return (
@@ -20,11 +20,11 @@ export default function DemoCard() {
                     icon={<ImageX source={{ uri: DEFAULT_IMAGE }}></ImageX>}
                     extra={
                         <Flex alignItems="center">
-                            <TextBox color={COLOR.text_desc}>更多</TextBox>
+                            <TextX color={COLOR.text_desc}>更多</TextX>
                             <Icon name="chevron-right" size={SIZE.icon_xs} color={COLOR.icon_touchable} />
                         </Flex>
                     }
-                    footer={<TextBox>页脚内容</TextBox>}>
+                    footer={<TextX>页脚内容</TextX>}>
                     <Placeholder>
                         <PlaceholderLine width={80} />
                         <PlaceholderLine />

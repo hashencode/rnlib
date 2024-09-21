@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
 import { IRadioProps, IRadioValue } from '../_types/components';
-import { Flex, Icon, TextBox } from './index';
+import { Flex, Icon, TextX } from './index';
 
 export default function Radio(props: IRadioProps) {
     const { label, defaultValue, disabled, value, style, onChange } = props;
@@ -44,9 +44,9 @@ export default function Radio(props: IRadioProps) {
                         />
                     ) : null}
                 </Flex>
-                <TextBox size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
+                <TextX size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
                     {label}
-                </TextBox>
+                </TextX>
             </Flex>
         </Pressable>
     );

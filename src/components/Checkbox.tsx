@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
 import { ICheckboxProps, ICheckboxValue } from '../_types/components';
-import { Flex, Icon, TextBox } from './index';
+import { Flex, Icon, TextX } from './index';
 
 export default function Checkbox(props: ICheckboxProps) {
     const { indeterminate = false, label, defaultValue, disabled, value, style, onChange } = props;
@@ -69,9 +69,9 @@ export default function Checkbox(props: ICheckboxProps) {
                 <Flex alignItems="center" justifyContent="center" style={containerStyle}>
                     {renderIcon()}
                 </Flex>
-                <TextBox size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
+                <TextX size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
                     {label}
-                </TextBox>
+                </TextX>
             </Flex>
         </Pressable>
     );

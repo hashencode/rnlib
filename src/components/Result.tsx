@@ -3,7 +3,7 @@ import { COLOR, SIZE } from '../scripts/const';
 import { IResultProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, Icon, TextBox } from './index';
+import { Flex, Icon, TextX } from './index';
 
 const IconMap = {
     success: {
@@ -49,12 +49,12 @@ export default function Result(props: IResultProps) {
                 style={style?.icon}
             />
             <Flex column rowGap={SIZE.space_md} alignItems="center">
-                <TextBox size={SIZE.font_h2} style={style?.title}>
+                <TextX size={SIZE.font_h2} style={style?.title}>
                     {title}
-                </TextBox>
-                <TextBox size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
+                </TextX>
+                <TextX size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
                     {subtitle}
-                </TextBox>
+                </TextX>
             </Flex>
 
             {extra}

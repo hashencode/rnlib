@@ -1,7 +1,7 @@
 import { ForwardedRef, forwardRef, useEffect, useRef } from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { TextBox, Flex, PressHighlight, Grabber } from './index';
+import { TextX, Flex, PressHighlight, Grabber } from './index';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
 import { mergeRefs } from '../scripts/utils';
 import useStyle from '../hooks/useStyle';
@@ -83,9 +83,9 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
             onOpen={onOpen}
             onClose={onCancel}>
             <Flex alignItems="center" justifyContent="center" style={headerStyle}>
-                <TextBox size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
+                <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
                     {header}
-                </TextBox>
+                </TextX>
             </Flex>
 
             <ScrollView>
@@ -93,12 +93,12 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
                     return (
                         <PressHighlight disabled={item.disabled} onPress={() => handleOptionPress(item.value)} key={index}>
                             <View style={optionStyle}>
-                                <TextBox size={SIZE.font_h2} style={style?.title}>
+                                <TextX size={SIZE.font_h2} style={style?.title}>
                                     {item?.title}
-                                </TextBox>
-                                <TextBox color={COLOR.text_desc} style={style?.subtitle}>
+                                </TextX>
+                                <TextX color={COLOR.text_desc} style={style?.subtitle}>
                                     {item?.subtitle}
-                                </TextBox>
+                                </TextX>
                                 {item?.children}
                             </View>
                             <View style={dividerStyle}></View>
@@ -112,9 +112,9 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
                     <View style={styles.footerSpace} />
                     <PressHighlight onPress={handleCancel}>
                         <View style={cancelButtonStyle}>
-                            <TextBox size={SIZE.font_h2} style={style?.cancelText}>
+                            <TextX size={SIZE.font_h2} style={style?.cancelText}>
                                 {cancelText}
-                            </TextBox>
+                            </TextX>
                         </View>
                     </PressHighlight>
                 </>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         minHeight: SIZE.action_sheet_option_height,
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
-        position: 'relative'
+        position: 'relative',
     },
     divider: {
         borderBottomWidth: SIZE.border_default,

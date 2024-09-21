@@ -1,7 +1,7 @@
 import { View, StyleSheet, ViewStyle, Pressable } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useNavigation } from '@react-navigation/native';
-import { Flex, Icon, TextBox } from './index';
+import { Flex, Icon, TextX } from './index';
 import { IHeadProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 
@@ -35,19 +35,19 @@ function Head(props: IHeadProps) {
             <Pressable onPress={handleGoBack} style={{ zIndex: 2 }}>
                 <Flex alignItems="center" gap={SIZE.space_sm}>
                     {backIcon || <Icon name="chevron-left" size={SIZE.icon_lg} style={style?.backIcon} />}
-                    <TextBox size={SIZE.font_h2} style={style?.backText}>
+                    <TextX size={SIZE.font_h2} style={style?.backText}>
                         {backText}
-                    </TextBox>
+                    </TextX>
                 </Flex>
             </Pressable>
 
             <View style={bodyStyle}>
-                <TextBox size={SIZE.font_h2} weight={SIZE.weight_title} style={style?.title}>
+                <TextX size={SIZE.font_h2} weight={SIZE.weight_title} style={style?.title}>
                     {title}
-                </TextBox>
-                <TextBox size={SIZE.font_desc} style={style?.subtitle}>
+                </TextX>
+                <TextX size={SIZE.font_desc} style={style?.subtitle}>
                     {subtitle}
-                </TextBox>
+                </TextX>
             </View>
 
             <View>{extra}</View>

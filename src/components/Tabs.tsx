@@ -3,7 +3,7 @@ import { LayoutChangeEvent, ScrollView, StyleSheet, View, ViewStyle } from 'reac
 import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Flex, PressHighlight, TextBox } from './index';
+import { Flex, PressHighlight, TextX } from './index';
 import { useMergedState } from '../hooks';
 import { ITabsItemValue, ITabsProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
@@ -121,13 +121,13 @@ export default function Tabs(props: ITabsProps) {
                         onPress={() => handleChange(item.value)}
                         onLayout={ev => getHeaderRect(item.value, ev)}
                         key={item.value}>
-                        <TextBox
+                        <TextX
                             size={SIZE.font_h3}
                             color={isActive ? COLOR.text_primary : COLOR.text_title}
                             onLayout={ev => getTabItemRect(item.value, ev)}
                             style={style?.label}>
                             {item?.label}
-                        </TextBox>
+                        </TextX>
                     </PressHighlight>
                 );
             })}

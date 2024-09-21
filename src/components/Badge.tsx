@@ -1,6 +1,6 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, TextBox } from './index';
+import { Flex, TextX } from './index';
 import useStyle from '../hooks/useStyle';
 import { IBadgeProps } from '../_types/components';
 
@@ -19,9 +19,9 @@ export default function Badge(props: IBadgeProps) {
 
     return (
         <Flex alignItems="center" justifyContent="center" style={rootStyle}>
-            <TextBox size={SIZE.badge_font_size} color={COLOR.text_white} style={style?.text}>
+            <TextX size={SIZE.badge_font_size} color={COLOR.text_white} style={style?.text}>
                 {props.children}
-            </TextBox>
+            </TextX>
         </Flex>
     );
 }

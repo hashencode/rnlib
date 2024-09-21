@@ -4,7 +4,7 @@ import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
 import Button from './Button';
-import { Flex, Grabber, Icon, PressHighlight, TextBox } from './index';
+import { Flex, Grabber, Icon, PressHighlight, TextX } from './index';
 import useStyle from '../hooks/useStyle';
 import { IPickerProps, IPickerRawValue, IPickerValue, PickerOption } from '../_types/components';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
@@ -131,9 +131,9 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
                     </View>
                     {/* 标题文本 */}
                     <Flex justifyContent="center" alignItems="center" grow={1}>
-                        <TextBox size={SIZE.font_h2} weight={SIZE.weight_title}>
+                        <TextX size={SIZE.font_h2} weight={SIZE.weight_title}>
                             {title}
-                        </TextBox>
+                        </TextX>
                     </Flex>
                     {/*确定按钮*/}
                     <View style={styles.actionButton}>
@@ -152,12 +152,12 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
                             <Flex alignItems="center" justifyContent="space-between" style={optionStyle}>
                                 <Flex alignItems="center" grow={1}>
                                     <Flex column shrink={0}>
-                                        <TextBox size={SIZE.font_h2} style={style?.title}>
+                                        <TextX size={SIZE.font_h2} style={style?.title}>
                                             {option.title}
-                                        </TextBox>
-                                        <TextBox color={COLOR.text_desc} style={style?.subtitle}>
+                                        </TextX>
+                                        <TextX color={COLOR.text_desc} style={style?.subtitle}>
                                             {option.subtitle}
-                                        </TextBox>
+                                        </TextX>
                                     </Flex>
                                     <Flex grow={1}>{option?.children}</Flex>
                                 </Flex>

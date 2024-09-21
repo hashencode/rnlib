@@ -1,6 +1,6 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, TextBox } from './index';
+import { Flex, TextX } from './index';
 import { mergeElement } from '../scripts/utils';
 import { ICardProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
@@ -42,9 +42,9 @@ export default function Card(props: ICardProps) {
                         {/* 图标 */}
                         {mergeElement(icon, { size: SIZE.icon_xs })}
                         {/* 标题 */}
-                        <TextBox size={SIZE.font_h4} weight={SIZE.weight_title} style={style?.title}>
+                        <TextX size={SIZE.font_h4} weight={SIZE.weight_title} style={style?.title}>
                             {title}
-                        </TextBox>
+                        </TextX>
                     </Flex>
                     {/* 额外节点 */}
                     {props?.extra}

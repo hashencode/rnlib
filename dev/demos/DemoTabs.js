@@ -25,10 +25,10 @@ export default function DemoTabs() {
     ];
 
     const contentItems = [
-        { label: '选项A', value: 'A', children: <TextBox>A</TextBox> },
-        { label: '选项B', value: 'B', children: <TextBox>B</TextBox> },
-        { label: '选项C', value: 'C', children: <TextBox>C</TextBox> },
-        { label: '选项D', value: 'D', children: <TextBox>D</TextBox> },
+        { label: '选项A', value: 'A', children: <TextX>A</TextX> },
+        { label: '选项B', value: 'B', children: <TextX>B</TextX> },
+        { label: '选项C', value: 'C', children: <TextX>C</TextX> },
+        { label: '选项D', value: 'D', children: <TextX>D</TextX> },
     ];
 
     return (
