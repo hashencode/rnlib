@@ -1,6 +1,6 @@
 import { COLOR, DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
-import { Card, DefaultLayout, Flex, Icon, Text, Group, Image } from '../../src/components';
+import { Card, DefaultLayout, Flex, Icon, TextBox, Group, ImageX } from '../../src/components';
 
 export default function DemoCard() {
     return (
@@ -17,14 +17,14 @@ export default function DemoCard() {
             <Group header="自定义插槽">
                 <Card
                     title="标题"
-                    icon={<Image source={{ uri: DEFAULT_IMAGE }}></Image>}
+                    icon={<ImageX source={{ uri: DEFAULT_IMAGE }}></ImageX>}
                     extra={
                         <Flex alignItems="center">
-                            <Text color={COLOR.text_desc}>更多</Text>
+                            <TextBox color={COLOR.text_desc}>更多</TextBox>
                             <Icon name="chevron-right" size={SIZE.icon_xs} color={COLOR.icon_touchable} />
                         </Flex>
                     }
-                    footer={<Text>页脚内容</Text>}>
+                    footer={<TextBox>页脚内容</TextBox>}>
                     <Placeholder>
                         <PlaceholderLine width={80} />
                         <PlaceholderLine />

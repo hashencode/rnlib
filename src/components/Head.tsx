@@ -57,9 +57,9 @@ function Head(props: IHeadProps) {
 
 const styles = StyleSheet.create({
     root: {
+        backgroundColor: COLOR.white,
         height: SIZE.navigator_height,
         paddingHorizontal: SIZE.space_md,
-        backgroundColor: COLOR.white,
     },
     body: {
         alignItems: 'center',

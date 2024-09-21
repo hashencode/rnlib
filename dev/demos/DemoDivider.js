@@ -11,9 +11,9 @@ export default function DemoDivider() {
             <Group header="垂直分割线">
                 <Card>
                     <Flex alignItems="center">
-                        <Text>A</Text>
+                        <TextBox>A</TextBox>
                         <Divider type="vertical" />
-                        <Text>B</Text>
+                        <TextBox>B</TextBox>
                     </Flex>
                 </Card>
             </Group>

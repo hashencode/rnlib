@@ -33,5 +33,4 @@ export { default as Loading } from './Loading';
 export { default as Overlay } from './Overlay';
 export { default as PressHighlight } from './PressHighlight';
 export { default as SwipeableRow } from './SwipeableRow';
-export { default as Text } from './Text';
 export { default as TextBox } from './TextBox';

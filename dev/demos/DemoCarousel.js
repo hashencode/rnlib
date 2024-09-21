@@ -1,4 +1,4 @@
-import { Carousel, DefaultLayout, Flex, Text, Group, Card } from '../../src/components';
+import { Carousel, DefaultLayout, Flex, TextBox, Group, Card } from '../../src/components';
 
 export default function DemoCarousel() {
     return (
@@ -8,10 +8,10 @@ export default function DemoCarousel() {
                     <Carousel
                         items={[
                             <Flex justifyContent="center" alignItems="center" column grow={1}>
-                                <Text>View1</Text>
+                                <TextBox>View1</TextBox>
                             </Flex>,
                             <Flex justifyContent="center" alignItems="center" column grow={1}>
-                                <Text>View2</Text>
+                                <TextBox>View2</TextBox>
                             </Flex>,
                         ]}
                         height={200}

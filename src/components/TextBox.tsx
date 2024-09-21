@@ -1,12 +1,38 @@
 import { ITextProps } from '../_types/components';
-import { Text } from './index';
 import _ from 'lodash';
+import { COLOR, SIZE } from '../scripts/const';
+import { isAndroid } from '../scripts/utils';
+import useStyle from '../hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { Text } from 'react-native';
 
 export default function TextBox(props: ITextProps) {
-    const { children = null, ...rest } = props;
+    const { style, weight = 'normal', size = SIZE.font_basic, color = COLOR.text_title, children, ...rest } = props;
+
+    const platformStyle = isAndroid() ? { lineHeight: 1.3 * (style?.fontSize || size) } : {};
+
+    const rootStyle = useStyle<TextStyle>({
+        defaultStyle: [
+            {
+                fontSize: size,
+                color,
+                fontWeight: weight,
+            },
+            platformStyle,
+        ],
+        extraStyle: [style],
+    });
+
+    if (_.isNil(children)) {
+        return null;
+    }
 
     if (_.isString(children)) {
-        return <Text {...rest}>{children}</Text>;
+        return (
+            <Text style={rootStyle} {...rest}>
+                {children}
+            </Text>
+        );
     }
 
     return <>{children}</>;

@@ -1,4 +1,4 @@
-import { DefaultLayout, Icon, Switch, Group, List, ImageX, Text } from '../../src/components';
+import { DefaultLayout, Icon, Switch, Group, List, ImageX, TextBox } from '../../src/components';
 import { COLOR, DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
 
 export default function DemoList() {
@@ -34,8 +34,8 @@ export default function DemoList() {
                 { content: <Icon name="ban" size={SIZE.icon_xs} color={COLOR.white} />, backgroundColor: COLOR.danger, width: 60 },
             ],
             rightActions: [
-                { content: <Text color={COLOR.white}>次要</Text>, backgroundColor: COLOR.gray, width: 60 },
-                { content: <Text color={COLOR.white}>警告</Text>, backgroundColor: COLOR.warning, width: 60 },
+                { content: <TextBox color={COLOR.white}>次要</TextBox>, backgroundColor: COLOR.gray, width: 60 },
+                { content: <TextBox color={COLOR.white}>警告</TextBox>, backgroundColor: COLOR.warning, width: 60 },
             ],
         },
     ];

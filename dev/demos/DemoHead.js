@@ -12,7 +12,7 @@ export default function DemoHead() {
                     backText="按钮插槽"
                     backIcon={<Icon name="arrow-left" size={SIZE.icon_sm} color={COLOR.white} />}
                     title={<Icon name="earth" color={COLOR.white} strokeWidth={SIZE.icon_stroke_sm} />}
-                    extra={<Text color={COLOR.white}>额外插槽</Text>}
+                    extra={<TextBox color={COLOR.white}>额外插槽</TextBox>}
                     style={{
                         root: { backgroundColor: COLOR.primary },
                         backIcon: { color: COLOR.white },
