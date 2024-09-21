@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, CheckList, DefaultLayout, Group, Image, Icon } from '../../src/components';
+import { Button, CheckList, DefaultLayout, Group, ImageX, Icon } from '../../src/components';
 import { DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
 
 export default function DemoCheckList() {
@@ -13,13 +13,13 @@ export default function DemoCheckList() {
     const slotList = [
         {
             title: '标题文本',
-            icon: <Image source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_sm} />,
+            icon: <ImageX source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_sm} />,
             value: 'A',
         },
         {
             title: '标题文本',
             subtitle: '副标题',
-            icon: <Image source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_lg} />,
+            icon: <ImageX source={{ uri: DEFAULT_IMAGE }} size={SIZE.icon_lg} />,
             value: 'B',
         },
     ];

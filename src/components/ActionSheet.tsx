@@ -147,8 +147,7 @@ const styles = StyleSheet.create({
         minHeight: SIZE.action_sheet_option_height,
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
-        position: 'relative',
-        rowGap: SIZE.space_xs,
+        position: 'relative'
     },
     divider: {
         borderBottomWidth: SIZE.border_default,

@@ -1,4 +1,4 @@
-import { DefaultLayout, Icon, Switch, Group, List, Image, Text } from '../../src/components';
+import { DefaultLayout, Icon, Switch, Group, List, ImageX, Text } from '../../src/components';
 import { COLOR, DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
 
 export default function DemoList() {
@@ -7,7 +7,7 @@ export default function DemoList() {
         { title: '标题文本', extra: <Switch defaultValue={true} /> },
         {
             title: '标题文本',
-            icon: <Image source={{ uri: DEFAULT_IMAGE }} />,
+            icon: <ImageX source={{ uri: DEFAULT_IMAGE }} />,
             extraSubtitle: '额外描述文本',
             showArrow: true,
         },
@@ -19,7 +19,7 @@ export default function DemoList() {
         {
             title: '标题文本',
             subtitle: '二级标题',
-            icon: <Image source={{ uri: DEFAULT_IMAGE }} />,
+            icon: <ImageX source={{ uri: DEFAULT_IMAGE }} />,
             extraTitle: '额外标题',
             extraSubtitle: '额外描述文本',
             showArrow: true,
@@ -41,11 +41,11 @@ export default function DemoList() {
     ];
 
     const moreList = [
-        { title: '点击反馈', icon: <Image source={{ uri: DEFAULT_IMAGE }} />, showArrow: true, onPress: () => {} },
+        { title: '点击反馈', icon: <ImageX source={{ uri: DEFAULT_IMAGE }} />, showArrow: true, onPress: () => {} },
         {
             title: '禁用',
             disabled: true,
-            icon: <Image source={{ uri: DEFAULT_IMAGE }} />,
+            icon: <ImageX source={{ uri: DEFAULT_IMAGE }} />,
             extra: <Switch defaultValue={true} />,
         },
     ];

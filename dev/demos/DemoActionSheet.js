@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { ActionSheet, Button, Card, DefaultLayout, Group, Text, Icon, Flex } from '../../src/components';
-import { COLOR } from '../../src/scripts/const';
+import { ActionSheet, Button, Card, DefaultLayout, Group, Text } from '../../src/components';
 
 export default function DemoActionSheet() {
     const [openId, setOpenId] = useState('');
@@ -29,23 +28,6 @@ export default function DemoActionSheet() {
                     onCancel={resetOpenId}>
                     <Text>123</Text>
                 </ActionSheet>
-            </Group>
-            <Group header="自定义">
-                <Card>
-                    <Button onPress={() => setOpenId('slots')}>自定义头部/隐藏取消按钮</Button>
-                </Card>
-                <ActionSheet
-                    visible={openId === 'slots'}
-                    options={optionsBasic}
-                    header={
-                        <Flex justifyContent="center" style={{ backgroundColor: COLOR.primary, paddingVertical: 12 }}>
-                            <Icon name="earth" color={COLOR.white}></Icon>
-                        </Flex>
-                    }
-                    showCancel={false}
-                    onChange={resetOpenId}
-                    onCancel={resetOpenId}
-                />
             </Group>
         </DefaultLayout>
     );

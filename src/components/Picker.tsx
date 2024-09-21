@@ -151,7 +151,7 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
                         <PressHighlight disabled={option.disabled} onPress={() => handleOptionPress(option.value)} key={option.value}>
                             <Flex alignItems="center" justifyContent="space-between" style={optionStyle}>
                                 <Flex alignItems="center" grow={1}>
-                                    <Flex column shrink={0} rowGap={SIZE.space_xs}>
+                                    <Flex column shrink={0}>
                                         <TextBox size={SIZE.font_h2} style={style?.title}>
                                             {option.title}
                                         </TextBox>

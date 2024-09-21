@@ -1,5 +1,5 @@
 import { View, StyleSheet, ViewStyle, Pressable } from 'react-native';
-import { SIZE } from '../scripts/const';
+import { COLOR, SIZE } from '../scripts/const';
 import { useNavigation } from '@react-navigation/native';
 import { Flex, Icon, TextBox } from './index';
 import { IHeadProps } from '../_types/components';
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     root: {
         height: SIZE.navigator_height,
         paddingHorizontal: SIZE.space_md,
+        backgroundColor: COLOR.white,
     },
     body: {
         alignItems: 'center',
