@@ -1,4 +1,4 @@
-import { DefaultLayout, Divider, Flex, Text, Group, Card } from '../../src/components';
+import { DefaultLayout, Divider, Flex, TextX, Group, Card } from '../../src/components';
 
 export default function DemoDivider() {
     return (
