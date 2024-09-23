@@ -136,7 +136,7 @@ export default function Tabs(props: ITabsProps) {
     );
 
     return (
-        <>
+        <View style={style?.root}>
             {scrollable ? (
                 <ScrollView
                     ref={scrollViewRef}
@@ -154,7 +154,7 @@ export default function Tabs(props: ITabsProps) {
             )}
             <View style={dividerStyle}></View>
             <View style={style?.body}>{items.find(item => item.value === innerValue)?.children}</View>
-        </>
+        </View>
     );
 }
 

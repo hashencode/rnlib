@@ -138,6 +138,7 @@ export interface IHeadProps {
     backIcon?: ReactNode; // 返回按钮图标
     backText?: ReactNode; // 返回按钮文本
     extra?: ReactNode; // 额外节点
+    hideBack?: Boolean; // 隐藏返回按钮
     subtitle?: ReactNode; // 副标题
     title?: ReactNode; // 标题
 
@@ -583,12 +584,13 @@ export interface ITabsProps {
     value?: ITabsItemValue; // 受控值
 
     style?: {
-        header?: ViewStyle; // 头部样式
         body?: ViewStyle; // 内容区域样式
-        tabItem?: ViewStyle; // 选项卡样式
-        label?: TextStyle; // 选项卡文本样式
-        underline?: ViewStyle; // 下划线样式
         divider?: ViewStyle; // 分割线样式
+        header?: ViewStyle; // 头部样式
+        label?: TextStyle; // 选项卡文本样式
+        root?: ViewStyle; // 根节点样式
+        tabItem?: ViewStyle; // 选项卡样式
+        underline?: ViewStyle; // 下划线样式
     }; // 样式
 
     onChange?: (val: ITabsItemValue) => void; // 切换选项事件回调

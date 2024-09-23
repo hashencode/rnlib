@@ -6,7 +6,7 @@ import { IHeadProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 
 function Head(props: IHeadProps) {
-    const { backText, backIcon, title, subtitle, extra, style, onBack } = props;
+    const { backText, backIcon, hideBack, title, subtitle, extra, style, onBack } = props;
 
     const navigation = useNavigation();
 
@@ -32,14 +32,16 @@ function Head(props: IHeadProps) {
 
     return (
         <Flex justifyContent="space-between" alignItems="center" block style={rootStyle}>
-            <Pressable onPress={handleGoBack} style={{ zIndex: 2 }}>
-                <Flex alignItems="center" gap={SIZE.space_sm}>
-                    {backIcon || <Icon name="chevron-left" size={SIZE.icon_lg} style={style?.backIcon} />}
-                    <TextX size={SIZE.font_h2} style={style?.backText}>
-                        {backText}
-                    </TextX>
-                </Flex>
-            </Pressable>
+            {!hideBack ? (
+                <Pressable onPress={handleGoBack} style={{ zIndex: 2 }}>
+                    <Flex alignItems="center" gap={SIZE.space_sm}>
+                        {backIcon || <Icon name="chevron-left" size={SIZE.icon_lg} style={style?.backIcon} />}
+                        <TextX size={SIZE.font_h2} style={style?.backText}>
+                            {backText}
+                        </TextX>
+                    </Flex>
+                </Pressable>
+            ) : null}
 
             <View style={bodyStyle}>
                 <TextX size={SIZE.font_h2} weight={SIZE.weight_title} style={style?.title}>
