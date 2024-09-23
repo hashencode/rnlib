@@ -5,6 +5,6 @@
         "allowImportingTsExtensions": false,
         "moduleResolution": "Bundler"
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "dev/**/*.jsx", "./.eslintrc.js"], // 确保包含所有 TypeScript 文件
+    "include": ["src/**/*.ts", "src/**/*.tsx"], // 确保包含所有 TypeScript 文件
     "exclude": ["node_modules", "lib"] // 排除生成目录
 }

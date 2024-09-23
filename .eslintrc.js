@@ -2,7 +2,6 @@ module.exports = {
     root: true,
     extends: '@react-native',
     plugins: ['import'],
-    parser: '@typescript-eslint/parser',
     ignorePatterns: ['plugins/**/*', 'metro.config.js'],
     parserOptions: {
         ecmaFeatures: {

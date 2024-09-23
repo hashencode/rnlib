@@ -5,8 +5,8 @@ import { DefaultLayout } from '../../src/components';
 import { SCREENS } from '../route/Router';
 
 export default function Demo() {
-    const navigation = useNavigation<any>();
-    const goTo = (path: string) => {
+    const navigation = useNavigation();
+    const goTo = path => {
         navigation.navigate(path);
     };
 
