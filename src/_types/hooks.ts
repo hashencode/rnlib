@@ -1,4 +1,6 @@
+import { StyleProp } from 'react-native';
+
 export interface IUseStyleProps<T> {
-    defaultStyle?: T[];
-    extraStyle?: (T | undefined)[];
+    defaultStyle?: StyleProp<T>[];
+    extraStyle?: (StyleProp<T> | undefined)[];
 }

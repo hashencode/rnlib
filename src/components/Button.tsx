@@ -78,9 +78,9 @@ export default function Button(props: IButtonProps) {
 
     const renderButton = () => {
         return (
-            <Flex alignItems="center" justifyContent="center" style={StyleSheet.flatten([buttonStyle, style?.button])}>
+            <Flex alignItems="center" justifyContent="center" style={[buttonStyle, style?.button]}>
                 {iconEl}
-                <TextX style={StyleSheet.flatten([textStyle, style?.text])}>{children}</TextX>
+                <TextX style={[textStyle, style?.text]}>{children}</TextX>
             </Flex>
         );
     };

@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import _ from 'lodash';
 import * as icons from 'lucide-react-native';
 import { COLOR, SIZE } from '../scripts/const';
@@ -29,5 +28,5 @@ export default function Icon(props: IIconProps) {
     // @ts-ignore
     const LuIcon: any = icons[formatName];
 
-    return <LuIcon name={name} size={size} fill={fill} strokeWidth={strokeWidth} style={StyleSheet.flatten([{ color }, style])} />;
+    return <LuIcon name={name} size={size} fill={fill} strokeWidth={strokeWidth} style={[{ color }, style]} />;
 }

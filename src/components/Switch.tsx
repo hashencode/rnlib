@@ -38,7 +38,7 @@ export default function Switch(props: ISwitchProProps) {
     return (
         <PressHighlight underlayColor="transparent" disabled={disabled} style={rootStyle} onPress={handlePress}>
             <Flex alignItems="center" style={activeBodyStyle}>
-                <View style={StyleSheet.flatten([styles.handle, styles[`handle_${size}`]])} />
+                <View style={[styles.handle, styles[`handle_${size}`]]} />
             </Flex>
         </PressHighlight>
     );

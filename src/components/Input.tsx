@@ -93,11 +93,7 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
     // 渲染前缀
     const renderPrefix = () => {
         if (prefix) {
-            return (
-                <TextX style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.prefix])}>
-                    {prefix}
-                </TextX>
-            );
+            return <TextX style={[styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.prefix]}>{prefix}</TextX>;
         }
         return null;
     };
@@ -105,11 +101,7 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
     // 渲染后缀
     const renderSuffix = () => {
         if (suffix) {
-            return (
-                <TextX style={StyleSheet.flatten([styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.suffix])}>
-                    {suffix}
-                </TextX>
-            );
+            return <TextX style={[styles[`input_${size}`], { lineHeight: SIZE[`input_height_${size}`] }, style?.suffix]}>{suffix}</TextX>;
         }
         return null;
     };

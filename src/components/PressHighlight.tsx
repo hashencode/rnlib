@@ -8,17 +8,14 @@ export default function PressHighlight(props: IPressHighlightProps) {
     const renderContent = (pressed: boolean) => {
         return (
             <>
-                <View style={StyleSheet.flatten([styles.overlay, { backgroundColor: pressed ? underlayColor : 'transparent' }])} />
+                <View style={[styles.overlay, { backgroundColor: pressed ? underlayColor : 'transparent' }]} />
                 {props?.children}
             </>
         );
     };
 
     return (
-        <Pressable
-            disabled={disabled}
-            style={StyleSheet.flatten([{ opacity: disabled ? COLOR.opacity_disabled_controller : 1 }, style])}
-            {...rest}>
+        <Pressable disabled={disabled} style={[{ opacity: disabled ? COLOR.opacity_disabled_controller : 1 }, style]} {...rest}>
             {({ pressed }) => renderContent(pressed)}
         </Pressable>
     );

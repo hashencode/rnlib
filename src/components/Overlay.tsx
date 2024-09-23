@@ -30,8 +30,8 @@ function Overlay(props: OverlayProps) {
 
     return (
         <Modal visible={visible} transparent={true} statusBarTranslucent={true} animationType="fade" onRequestClose={onRequestClose}>
-            <Pressable onPress={() => onPress?.()} style={StyleSheet.flatten([styles.overlay, { backgroundColor }])} />
-            <View style={StyleSheet.flatten([styles.content, styles[`position_${position}`]])}>{props.children}</View>
+            <Pressable onPress={() => onPress?.()} style={[styles.overlay, { backgroundColor }]} />
+            <View style={[styles.content, styles[`position_${position}`]]}>{props.children}</View>
         </Modal>
     );
 }

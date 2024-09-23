@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
-import { Pressable, StyleSheet, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
 import { IRadioProps, IRadioValue } from '../_types/components';
 import { Flex, Icon, TextX } from './index';
+import { StyleProps } from 'react-native-reanimated';
 
 export default function Radio(props: IRadioProps) {
     const { label, defaultValue, disabled, value, style, onChange } = props;
@@ -21,7 +22,7 @@ export default function Radio(props: IRadioProps) {
 
     // 图标容器样式
     const containerStyle = useMemo(() => {
-        let styleArray: ViewStyle[] = [styles.iconContainer];
+        let styleArray: StyleProps[] = [styles.iconContainer];
         if (disabled) {
             // 禁用
             styleArray.push(styles.iconContainerDisabled);

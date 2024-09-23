@@ -66,7 +66,7 @@ export default function Selector(props: ISelectProps) {
                         disabled={option.disabled}
                         onPress={() => handleOptionPress(option.value)}
                         key={option.value}
-                        style={StyleSheet.flatten([optionStyle, isActive ? activeStyle : {}])}>
+                        style={[optionStyle, isActive ? activeStyle : {}]}>
                         <Flex alignItems="center" column rowGap={SIZE.space_xs}>
                             <TextX
                                 size={SIZE.font_h5}

@@ -1,22 +1,29 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import {
     FlexAlignType,
+    FlexStyle,
     ImageResizeMode,
     ImageSourcePropType,
     ImageStyle,
     PressableProps,
     ScrollViewProps,
+    StyleProp,
     TextInputProps,
-    TextStyle,
     ViewProps,
     ViewStyle,
+    TextStyle,
+    TextProps,
 } from 'react-native';
-import { TextProps as TextOriginProps } from 'react-native/Libraries/Text/Text';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '../components/Icon';
 import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
 import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 import { ImageProps as ImageOriginProps } from 'react-native/Libraries/Image/Image';
+
+type ViewStyleProps = StyleProp<ViewStyle>;
+type FlexStyleProps = StyleProp<FlexStyle>;
+type ImageStyleProps = StyleProp<ImageStyle>;
+type TextStyleProps = StyleProp<TextStyle>;
 
 /**
  * PressHighlight
@@ -24,7 +31,7 @@ import { ImageProps as ImageOriginProps } from 'react-native/Libraries/Image/Ima
 export interface IPressHighlightProps extends Omit<PressableProps, 'style'> {
     children?: ReactNode | string; // 插槽
     underlayColor?: string; // 遮罩颜色
-    style?: ViewStyle;
+    style?: ViewStyleProps;
 }
 
 /**
@@ -41,10 +48,10 @@ export interface IButtonProps extends PropsWithChildren {
     type?: 'primary' | 'text' | 'default'; // 类型
 
     style?: {
-        button?: ViewStyle; // 按钮主体样式
-        icon?: ViewStyle; // 图标样式
-        root?: ViewStyle; // 最外层样式
-        text?: TextStyle; // 文本样式
+        button?: ViewStyleProps; // 按钮主体样式
+        icon?: ViewStyleProps; // 图标样式
+        root?: ViewStyleProps; // 最外层样式
+        text?: TextStyleProps; // 文本样式
     }; // 样式
 
     onPress?: () => void; // 点击事件回调
@@ -58,9 +65,9 @@ export interface IDividerProps extends PropsWithChildren {
     type?: 'horizontal' | 'vertical'; // 水平还是垂直类型
 
     style?: {
-        divider?: ViewStyle;
-        root?: ViewStyle;
-        text?: TextStyle;
+        divider?: ViewStyleProps;
+        root?: ViewStyleProps;
+        text?: TextStyleProps;
     }; // 样式
 }
 
@@ -73,8 +80,8 @@ export interface IListProps {
     rowKey?: (item: IListItemProps) => Key; // 唯一键生成函数
 
     style?: {
-        divider?: ViewStyle; // 分割线样式
-        root?: ViewStyle; // 根节点样式
+        divider?: ViewStyleProps; // 分割线样式
+        root?: ViewStyleProps; // 根节点样式
     }; // 样式
 }
 
@@ -91,15 +98,15 @@ export interface IListItemProps extends PropsWithChildren {
     title?: ReactNode; // 主标题
 
     style?: {
-        body?: ViewStyle; // 内容区域样式
-        extra?: ViewStyle; // 额外内容区域样式
-        extraSubtitle?: TextStyle; // 额外内容副标题样式
-        extraTitle?: TextStyle; // 额外内容标题样式
-        icon?: ImageStyle; // 图标样式
-        main?: ViewStyle; // 主要内容区域样式
-        root?: ViewStyle; // 最外层样式
-        subTitle?: TextStyle; // 内容副标题样式
-        title?: TextStyle; // 内容标题样式
+        body?: ViewStyleProps; // 内容区域样式
+        extra?: ViewStyleProps; // 额外内容区域样式
+        extraSubtitle?: TextStyleProps; // 额外内容副标题样式
+        extraTitle?: TextStyleProps; // 额外内容标题样式
+        icon?: ImageStyleProps; // 图标样式
+        main?: ViewStyleProps; // 主要内容区域样式
+        root?: ViewStyleProps; // 最外层样式
+        subTitle?: TextStyleProps; // 内容副标题样式
+        title?: TextStyleProps; // 内容标题样式
     }; // 样式
 
     onPress?: () => void; // 点击事件回调
@@ -124,11 +131,11 @@ export interface ISwipeableRowProps extends SwipeableProps {
 /**
  * Text
  */
-export interface ITextProps extends TextOriginProps, PropsWithChildren {
+export interface ITextProps extends TextProps, PropsWithChildren {
     color?: TextStyle['color']; // 颜色
     size?: number; // 字体大小
     weight?: TextStyle['fontWeight']; // 字重
-    style?: TextStyle; // 样式
+    style?: TextStyleProps; // 样式
 }
 
 /**
@@ -143,12 +150,12 @@ export interface IHeadProps {
     title?: ReactNode; // 标题
 
     style?: {
-        backIcon?: TextStyle; // 返回图标样式
-        backText?: TextStyle; // 返回文本样式
-        body?: ViewStyle; // 主体节点样式
-        root?: ViewStyle; // 根节点样式
-        subtitle?: TextStyle; // 副标题样式
-        title?: TextStyle; // 标题样式
+        backIcon?: TextStyleProps; // 返回图标样式
+        backText?: TextStyleProps; // 返回文本样式
+        body?: ViewStyleProps; // 主体节点样式
+        root?: ViewStyleProps; // 根节点样式
+        subtitle?: TextStyleProps; // 副标题样式
+        title?: TextStyleProps; // 标题样式
     }; // 样式
 
     onBack?: () => void; // 返回按钮点击事件回调
@@ -163,7 +170,7 @@ export interface IIconProps {
     name: IconNames; // 名称
     size?: number; // 尺寸
     strokeWidth?: number; // 线条粗细
-    style?: TextStyle; // 样式
+    style?: TextStyleProps; // 样式
 }
 
 /**
@@ -190,16 +197,16 @@ export interface IActionSheetProps {
     visible?: boolean; // 显隐
 
     style?: {
-        cancelButton?: ViewStyle; // 取消按钮样式
-        cancelText?: TextStyle; // 取消按钮文本样式
-        divider?: ViewStyle; // 分割线样式
-        grabber?: ViewStyle; // 抓手样式
-        header?: ViewStyle; // 头部样式
-        headerText?: TextStyle; // 头部文本样式
-        option?: ViewStyle; // 选项样式
-        root: ViewStyle; // 根节点样式
-        subtitle?: TextStyle; // 副标题样式
-        title?: TextStyle; // 标题样式
+        cancelButton?: ViewStyleProps; // 取消按钮样式
+        cancelText?: TextStyleProps; // 取消按钮文本样式
+        divider?: ViewStyleProps; // 分割线样式
+        grabber?: ViewStyleProps; // 抓手样式
+        header?: ViewStyleProps; // 头部样式
+        headerText?: TextStyleProps; // 头部文本样式
+        option?: ViewStyleProps; // 选项样式
+        root: ViewStyleProps; // 根节点样式
+        subtitle?: TextStyleProps; // 副标题样式
+        title?: TextStyleProps; // 标题样式
     }; // 样式
 
     onCancel?: () => void; // 关闭事件回调
@@ -211,7 +218,7 @@ export interface IActionSheetProps {
  * Grabber
  */
 export interface IGrabberProps {
-    style?: ViewStyle;
+    style?: ViewStyleProps;
 }
 
 /**
@@ -227,10 +234,10 @@ export interface ICheckboxProps {
     value?: ICheckboxValue; // 受控值
 
     style?: {
-        icon?: TextStyle; // 图标样式
-        iconContainer?: ViewStyle; // 图标容器样式
-        label?: TextStyle; // 文本样式
-        root?: ViewStyle; // 根节点样式
+        icon?: TextStyleProps; // 图标样式
+        iconContainer?: ViewStyleProps; // 图标容器样式
+        label?: TextStyleProps; // 文本样式
+        root?: ViewStyleProps; // 根节点样式
     }; // 样式
 
     onChange?: (val: ICheckboxValue) => void; // 值变动事件回调
@@ -256,7 +263,7 @@ export interface ICheckboxGroupProps {
 
     style?: {
         option?: ICheckboxProps['style'];
-        root?: ViewStyle; // 根节点样式
+        root?: ViewStyleProps; // 根节点样式
     }; // 样式
 
     onChange?: (value: ICheckboxGroupValue) => void;
@@ -287,8 +294,8 @@ export interface ICheckListProps {
     value?: ICheckListValue; // 受控值
 
     style?: {
-        divider?: ViewStyle; // 分割线样式
-        root?: ViewStyle; // 最外层样式
+        divider?: ViewStyleProps; // 分割线样式
+        root?: ViewStyleProps; // 最外层样式
     }; // 样式
 
     onChange?: (val: ICheckListValue) => void; // 值变动事件回调
@@ -315,10 +322,10 @@ export interface IInputProps extends Omit<TextInputProps, 'onChange' | 'style'> 
     suffix?: ReactNode | string; // 后缀
 
     style?: {
-        main?: TextStyle; // 主体样式
-        prefix?: TextStyle; // 前缀样式
-        root?: ViewStyle; // 根节点样式
-        suffix?: TextStyle; // 后缀样式
+        main?: TextStyleProps; // 主体样式
+        prefix?: TextStyleProps; // 前缀样式
+        root?: ViewStyleProps; // 根节点样式
+        suffix?: TextStyleProps; // 后缀样式
     }; // 样式
 
     onChange?: (val?: string) => void; // 值变动事件回调
@@ -336,10 +343,10 @@ export interface IRadioProps {
     value?: IRadioValue; // 受控值
 
     style?: {
-        icon?: TextStyle; // 图标样式
-        iconContainer?: ViewStyle; // 图标容器样式
-        label?: TextStyle; // 文本样式
-        root?: ViewStyle; // 根节点样式
+        icon?: TextStyleProps; // 图标样式
+        iconContainer?: ViewStyleProps; // 图标容器样式
+        label?: TextStyleProps; // 文本样式
+        root?: ViewStyleProps; // 根节点样式
     }; // 样式
 
     onChange?: (val: IRadioValue) => void; // 值变动事件回调
@@ -363,7 +370,7 @@ export interface IRadioGroupProps {
 
     style?: {
         option?: ICheckboxProps['style'];
-        root?: ViewStyle; // 根节点样式
+        root?: ViewStyleProps; // 根节点样式
     }; // 样式
 
     onChange?: (value: IRadioGroupOptionValue) => void;
@@ -398,17 +405,17 @@ export interface IPickerProps {
     visible?: boolean; // 显隐
 
     style?: {
-        cancelButton?: ViewStyle; // 取消按钮样式
-        cancelText?: TextStyle; // 取消按钮文本样式
-        checkIcon?: TextStyle; // 选中图标样式
-        divider?: ViewStyle; // 分割线样式
-        grabber?: ViewStyle; // 抓手样式
-        header?: ViewStyle; // 头部样式
-        headerText?: TextStyle; // 头部文本样式
-        option?: ViewStyle; // 选项样式
-        root: ViewStyle; // 根节点样式
-        subtitle?: TextStyle; // 副标题样式
-        title?: TextStyle; // 标题样式
+        cancelButton?: ViewStyleProps; // 取消按钮样式
+        cancelText?: TextStyleProps; // 取消按钮文本样式
+        checkIcon?: TextStyleProps; // 选中图标样式
+        divider?: ViewStyleProps; // 分割线样式
+        grabber?: ViewStyleProps; // 抓手样式
+        header?: ViewStyleProps; // 头部样式
+        headerText?: TextStyleProps; // 头部文本样式
+        option?: ViewStyleProps; // 选项样式
+        root: ViewStyleProps; // 根节点样式
+        subtitle?: TextStyleProps; // 副标题样式
+        title?: TextStyleProps; // 标题样式
     }; // 样式
 
     onCancel?: () => void; // 取消按钮点击事件回调
@@ -435,13 +442,13 @@ export interface ISelectProps {
     value?: ISelectorValue; // 受控值
 
     style?: {
-        active?: ViewStyle; // 激活样式
-        checkIcon?: TextStyle; // 选中图标样式
-        corner?: ViewStyle; // 角落样式
-        option?: ViewStyle; // 选项样式
-        root: ViewStyle; // 根节点样式
-        subtitle?: TextStyle; // 副标题样式
-        title?: TextStyle; // 标题样式
+        active?: ViewStyleProps; // 激活样式
+        checkIcon?: TextStyleProps; // 选中图标样式
+        corner?: ViewStyleProps; // 角落样式
+        option?: ViewStyleProps; // 选项样式
+        root: ViewStyleProps; // 根节点样式
+        subtitle?: TextStyleProps; // 副标题样式
+        title?: TextStyleProps; // 标题样式
     }; // 样式
 
     onChange?: (val: ISelectorValue) => void; // 值变动事件回调
@@ -457,7 +464,7 @@ export interface ISwitchProProps {
     value?: boolean; // 受控值,
 
     style?: {
-        root?: ViewStyle; // 根节点样式
+        root?: ViewStyleProps; // 根节点样式
     };
 
     onChange?: (value: boolean) => void; // 值变动事件回调
@@ -475,9 +482,9 @@ export interface IAvatarProps {
     source?: ImageSourcePropType; // 图片来源
 
     style?: {
-        image?: ImageStyle; // 图片样式
-        root?: ViewStyle; // 根节点样式
-        text?: TextStyle; // 文本样式
+        image?: ImageStyleProps; // 图片样式
+        root?: ViewStyleProps; // 根节点样式
+        text?: TextStyleProps; // 文本样式
     }; // 样式
 }
 
@@ -489,8 +496,8 @@ export interface IBadgeProps {
     dot?: boolean; // 红点模式
 
     style?: {
-        root?: ViewStyle; // 根节点样式
-        text?: TextStyle; // 文本样式
+        root?: ViewStyleProps; // 根节点样式
+        text?: TextStyleProps; // 文本样式
     }; // 样式
 }
 
@@ -505,11 +512,11 @@ export interface ICardProps {
     title?: string; // 标题
 
     style?: {
-        body?: ViewStyle; // 主体样式
-        footer?: ViewStyle; // 页脚节点
-        header?: ViewStyle; // 头部样式
-        root?: ViewStyle; // 根节点样式
-        title?: TextStyle; // 标题样式
+        body?: ViewStyleProps; // 主体样式
+        footer?: ViewStyleProps; // 页脚节点
+        header?: ViewStyleProps; // 头部样式
+        root?: ViewStyleProps; // 根节点样式
+        title?: TextStyleProps; // 标题样式
     }; // 样式
 }
 
@@ -524,8 +531,8 @@ export interface ICarouselProps {
     showDot?: boolean; // 是否显示指示器
 
     style?: {
-        dotContainer?: ViewStyle; // 指示器样式
-        root?: ViewStyle; // 根节点样式
+        dotContainer?: ViewStyleProps; // 指示器样式
+        root?: ViewStyleProps; // 根节点样式
     }; // 样式
 }
 
@@ -538,10 +545,10 @@ export interface IGroupProps {
     footer?: ReactNode | string; // 底部插槽
     header?: ReactNode | string; // 头部插槽
     style?: {
-        root?: ViewStyle; // 最外层样式
-        header?: ViewStyle; // 头部样式
-        body?: ViewStyle; // 主要内容样式
-        footer?: ViewStyle; // 底部样式
+        root?: ViewStyleProps; // 最外层样式
+        header?: ViewStyleProps; // 头部样式
+        body?: ViewStyleProps; // 主要内容样式
+        footer?: ViewStyleProps; // 底部样式
     }; // 样式
 }
 
@@ -558,9 +565,9 @@ export interface IDefaultLayoutProps {
     }; // 状态栏配置
     scrollable?: boolean; // 是否使用scrollView
     style?: {
-        root?: ViewStyle; // 最外层样式
-        scrollView?: ViewStyle; // 滚动区域样式
-        contentContainer?: ViewStyle; // 主要内容区域样式
+        root?: ViewStyleProps; // 最外层样式
+        scrollView?: ViewStyleProps; // 滚动区域样式
+        contentContainer?: ViewStyleProps; // 主要内容区域样式
     }; // 样式
 }
 
@@ -584,13 +591,13 @@ export interface ITabsProps {
     value?: ITabsItemValue; // 受控值
 
     style?: {
-        body?: ViewStyle; // 内容区域样式
-        divider?: ViewStyle; // 分割线样式
-        header?: ViewStyle; // 头部样式
-        label?: TextStyle; // 选项卡文本样式
-        root?: ViewStyle; // 根节点样式
-        tabItem?: ViewStyle; // 选项卡样式
-        underline?: ViewStyle; // 下划线样式
+        body?: ViewStyleProps; // 内容区域样式
+        divider?: ViewStyleProps; // 分割线样式
+        header?: ViewStyleProps; // 头部样式
+        label?: TextStyleProps; // 选项卡文本样式
+        root?: ViewStyleProps; // 根节点样式
+        tabItem?: ViewStyleProps; // 选项卡样式
+        underline?: ViewStyleProps; // 下划线样式
     }; // 样式
 
     onChange?: (val: ITabsItemValue) => void; // 切换选项事件回调
@@ -608,8 +615,8 @@ export interface ITagProps {
     icon?: ReactElement; // 图标
 
     style?: {
-        root?: ViewStyle; // 根节点样式
-        text?: TextStyle; // 文本样式
+        root?: ViewStyleProps; // 根节点样式
+        text?: TextStyleProps; // 文本样式
     }; // 样式
 }
 
@@ -620,15 +627,15 @@ export interface IErrorBlockProps {
     extra?: ReactNode; // 操作区域
     fullscreen?: boolean; // 全屏显示
     image?: ReactElement | ImageSourcePropType; // 主图
-    imageStyle?: ImageStyle; // 主图样式
+    ImageStyleProps?: ImageStyleProps; // 主图样式
     subtitle?: ReactNode; // 副标题
     title?: ReactNode; // 标题
 
     style?: {
-        root?: ViewStyle; // 根节点样式
-        image?: ImageStyle; // 图片样式
-        title?: TextStyle; // 标题样式
-        subtitle?: TextStyle; // 副标题样式
+        root?: ViewStyleProps; // 根节点样式
+        image?: ImageStyleProps; // 图片样式
+        title?: TextStyleProps; // 标题样式
+        subtitle?: TextStyleProps; // 副标题样式
     }; // 样式
 }
 
@@ -642,10 +649,10 @@ export interface IResultProps {
     type: 'success' | 'info' | 'waiting' | 'error' | 'warning'; // 类型
 
     style?: {
-        icon?: TextStyle; // 图标样式
-        root?: ViewStyle; // 根节点样式
-        subtitle?: TextStyle; // 副标题样式
-        title?: TextStyle; // 标题样式
+        icon?: TextStyleProps; // 图标样式
+        root?: ViewStyleProps; // 根节点样式
+        subtitle?: TextStyleProps; // 副标题样式
+        title?: TextStyleProps; // 标题样式
     }; // 样式
 }
 
@@ -656,7 +663,7 @@ export interface ILoadingProps {
     color?: TextStyle['color']; // 颜色
     icon?: ReactElement; // 自定义图标
     size?: number; // 尺寸
-    style?: ViewStyle; // 样式
+    style?: ViewStyleProps; // 样式
 }
 
 /**
@@ -674,10 +681,10 @@ export interface IDialogProps {
     visible?: boolean; // 显隐
 
     style?: {
-        body?: ViewStyle; // 主体样式
-        content?: TextStyle; // 内容样式
-        header?: TextStyle; // 头部样式
-        root?: ViewStyle; // 根节点样式
+        body?: ViewStyleProps; // 主体样式
+        content?: TextStyleProps; // 内容样式
+        header?: TextStyleProps; // 头部样式
+        root?: ViewStyleProps; // 根节点样式
     }; // 样式
 
     onCancel?: () => void; // 取消事件回调
@@ -694,8 +701,8 @@ export interface IToastProps {
     duration?: number; // 显示时长
 
     style?: {
-        root?: ViewStyle; // 根节点样式
-        content?: TextStyle; // 内容样式
+        root?: ViewStyleProps; // 根节点样式
+        content?: TextStyleProps; // 内容样式
     }; // 样式
 }
 
@@ -714,7 +721,7 @@ export interface IFlexProps extends ViewProps {
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'; // justifyContent
     rowGap?: number; // rowGap
     shrink?: number; // flexShrink
-    style?: ViewStyle; // 样式
+    style?: FlexStyleProps; // 样式
     wrap?: 'wrap' | 'nowrap' | 'wrap-reverse'; // flexWrap
 }
 
@@ -726,6 +733,6 @@ export interface IImageProps extends ImageOriginProps {
     radius?: number; // 圆角
     resizeMode?: ImageResizeMode; // 图片裁剪模式
     size?: number; // 宽高尺寸
-    style?: ImageStyle; // 样式
+    style?: ImageStyleProps; // 样式
     width?: number; // 宽度
 }
