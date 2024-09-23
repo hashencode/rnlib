@@ -10,7 +10,7 @@ import { isValidElement } from 'react';
 export default function TextX(props: ITextProps) {
     const { style, weight = 'normal', size = SIZE.font_basic, color = COLOR.text_title, children, ...rest } = props;
 
-    const platformStyle = isAndroid() ? { lineHeight: 1.3 * (style?.fontSize || size) } : {};
+    const platformStyle = isAndroid() ? { lineHeight: 1.3 * ((style as TextStyle)?.fontSize || size) } : {};
 
     const rootStyle = useStyle<TextStyle>({
         defaultStyle: [
