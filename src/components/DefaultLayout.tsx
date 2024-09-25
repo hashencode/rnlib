@@ -11,7 +11,13 @@ export default function DefaultLayout(props: IDefaultLayoutProps) {
 
     const { theme } = useTheme();
 
-    // 内容区域样式
+    // 滚动区域样式
+    const scrollContentStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.scrollContent],
+        extraStyle: [style?.content],
+    });
+
+    // 非滚动区域样式
     const contentStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.content],
         extraStyle: [style?.content],
@@ -26,10 +32,10 @@ export default function DefaultLayout(props: IDefaultLayoutProps) {
                 {_.isString(head) ? <Head title={head} /> : head}
                 {defaultScroll ? (
                     <ScrollView {...SCROLL_BASIC_CONFIG} {...scrollConfig}>
-                        <View style={contentStyle}>{props?.children}</View>
+                        <View style={scrollContentStyle}>{props?.children}</View>
                     </ScrollView>
                 ) : (
-                    <>{props?.children}</>
+                    <View style={contentStyle}>{props?.children}</View>
                 )}
                 {footer}
             </View>
@@ -43,6 +49,9 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     content: {
+        flex: 1,
+    },
+    scrollContent: {
         padding: SIZE.space_lg,
     },
 });

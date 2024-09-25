@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.radius_md,
         borderWidth: SIZE.border_default,
         paddingHorizontal: SIZE.button_padding_horizontal,
-        position: 'relative',
     },
     icon: {
         marginRight: SIZE.space_sm,

@@ -1,6 +1,6 @@
 {
   "name": "@hashencode/rnlib",
-  "version": "0.0.35",
+  "version": "0.0.38",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
