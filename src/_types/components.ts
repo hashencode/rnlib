@@ -12,12 +12,14 @@ import {
     ViewStyle,
     TextStyle,
     TextProps,
+    StatusBarProps,
 } from 'react-native';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { IconNames } from '../components/Icon';
 import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
 import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 import { ImageProps as ImageOriginProps } from 'react-native/Libraries/Image/Image';
+import { SafeAreaViewProps } from 'react-native-safe-area-context';
 
 type ViewStyleProps = StyleProp<ViewStyle>;
 type ImageStyleProps = StyleProp<ImageStyle>;
@@ -557,15 +559,14 @@ export interface IDefaultLayoutProps {
     children?: ReactNode; // 插槽
     head?: ReactNode; // 头部插槽
     footer?: ReactNode; // 底部插槽
-    statusBarConfig?: {
-        whiteText?: boolean;
-        backgroundColor?: string;
-    }; // 状态栏配置
-    scrollable?: boolean; // 是否使用scrollView
+    safeAreaConfig?: SafeAreaViewProps; // 安全区域配置
+    statusBarConfig?: StatusBarProps; // 状态栏配置
+    scrollConfig?: ScrollViewProps; // 滚动区域配置
+    defaultScroll?: Boolean; // 是否可滚动
+
     style?: {
         root?: ViewStyleProps; // 最外层样式
-        scrollView?: ViewStyleProps; // 滚动区域样式
-        contentContainer?: ViewStyleProps; // 主要内容区域样式
+        content?: ViewStyleProps; // 内容区域样式
     }; // 样式
 }
 

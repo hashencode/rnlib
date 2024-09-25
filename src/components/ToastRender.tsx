@@ -2,6 +2,7 @@ import { IStoreState, IToastQueueItem } from '../_types/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Toast } from './index';
 import { destroyToast } from '../store/libSlice';
+import { View } from 'react-native';
 
 export default function ToastRender() {
     const toastQueue = useSelector((state: IStoreState) => state.libSlice.toastQueue);
@@ -12,11 +13,11 @@ export default function ToastRender() {
     };
 
     return (
-        <>
+        <View>
             {toastQueue?.map(queueItem => {
                 const { id: queueId, ...rest } = queueItem;
                 return <Toast {...rest} key={queueId} afterClose={() => destroy(queueId)} />;
             })}
-        </>
+        </View>
     );
 }
