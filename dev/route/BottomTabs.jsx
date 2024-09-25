@@ -2,13 +2,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLOR, SIZE } from '../../src/scripts/const';
 import { Icon } from '../../src/components';
 import DEMO from '../screens/Demo';
-import { SCREENS } from './Router';
 
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
     const tabs = {
-        [SCREENS.DEMO]: {
+        DEMO: {
             component: DEMO,
             label: '首页',
             icon: 'home',

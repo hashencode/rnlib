@@ -25,6 +25,7 @@ import DemoTag from '../demos/DemoTag';
 import DemoToast from '../demos/DemoToast';
 import Demo from '../screens/Demo';
 import { COLOR } from '../../src/scripts/const';
+import DemoVideoPlayer from '../demos/DemoVideoPlayer';
 
 const Stack = createStackNavigator();
 
@@ -53,40 +54,14 @@ const screens = [
     { name: 'TABS', component: DemoTabs },
     { name: 'TAG', component: DemoTag },
     { name: 'TOAST', component: DemoToast },
+    { name: 'VIDEO_PLAYER', component: DemoVideoPlayer },
     { name: 'DEMO', component: Demo, options: { navigationBarColor: COLOR.white } },
 ];
-
-export const SCREENS = {
-    ACTION_SHEET: 'ACTION_SHEET',
-    AVATAR: 'AVATAR',
-    BADGE: 'BADGE',
-    BUTTON: 'BUTTON',
-    CARD: 'CARD',
-    CAROUSEL: 'CAROUSEL',
-    CHECK_LIST: 'CHECK_LIST',
-    CHECKBOX: 'CHECKBOX',
-    DIALOG: 'DIALOG',
-    DIVIDER: 'DIVIDER',
-    ERROR_BLOCK: 'ERROR_BLOCK',
-    GROUP: 'GROUP',
-    HEAD: 'HEAD',
-    INPUT: 'INPUT',
-    LIST: 'LIST',
-    PICKER: 'PICKER',
-    RADIO: 'RADIO',
-    RESULT: 'RESULT',
-    SELECTOR: 'SELECTOR',
-    SWITCH: 'SWITCH',
-    TABS: 'TABS',
-    TAG: 'TAG',
-    TOAST: 'TOAST',
-    DEMO: 'DEMO',
-};
 
 export default function Router() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={SCREENS.DEMO}>
+            <Stack.Navigator initialRouteName="DEMO">
                 {screens.map(item => {
                     return <Stack.Screen {...item} key={item.name} options={{ ...defaultOptions, ...item.options }} />;
                 })}

@@ -1,7 +1,6 @@
 import { Key, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import {
     FlexAlignType,
-    FlexStyle,
     ImageResizeMode,
     ImageSourcePropType,
     ImageStyle,
@@ -21,7 +20,6 @@ import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 import { ImageProps as ImageOriginProps } from 'react-native/Libraries/Image/Image';
 
 type ViewStyleProps = StyleProp<ViewStyle>;
-type FlexStyleProps = StyleProp<FlexStyle>;
 type ImageStyleProps = StyleProp<ImageStyle>;
 type TextStyleProps = StyleProp<TextStyle>;
 
@@ -721,7 +719,7 @@ export interface IFlexProps extends ViewProps {
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'; // justifyContent
     rowGap?: number; // rowGap
     shrink?: number; // flexShrink
-    style?: FlexStyleProps; // 样式
+    style?: ViewStyleProps; // 样式
     wrap?: 'wrap' | 'nowrap' | 'wrap-reverse'; // flexWrap
 }
 
