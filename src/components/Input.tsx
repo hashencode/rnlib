@@ -1,7 +1,7 @@
-import { forwardRef, ReactNode, Ref, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, ReactNode, Ref, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { useMergedState, useToggle } from '../hooks';
+import { useMergedState } from '../hooks';
 import { Flex, Icon, TextX } from './index';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -60,10 +60,7 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
     } = props;
 
     const inputRef = useRef<TextInput>(null);
-    const [previewIcon, nodeIndex] = useToggle([
-        <Icon name="eye-off" size={SIZE.icon_xs} color={COLOR.icon_touchable} />,
-        <Icon name="eye" size={SIZE.icon_xs} color={COLOR.icon_touchable} />,
-    ]);
+    const [showPasswords, setShowPasswords] = useState(false);
 
     const [innerValue, handleChange] = useMergedState(undefined, {
         defaultValue,
@@ -150,7 +147,7 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
 
             <TextInput
                 ref={inputRef}
-                secureTextEntry={password && nodeIndex === 0}
+                secureTextEntry={password && !showPasswords}
                 style={mainStyle}
                 {...defaultProps}
                 {...rest}
@@ -160,7 +157,11 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
 
             {renderCloseIcon}
             {renderSuffix()}
-            {password ? previewIcon : null}
+            {password ? (
+                <Pressable onPress={() => setShowPasswords(!showPasswords)}>
+                    <Icon name={showPasswords ? 'eye' : 'eye-off'} size={SIZE.icon_xs} color={COLOR.icon_touchable} />
+                </Pressable>
+            ) : null}
         </Flex>
     );
 }
