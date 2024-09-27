@@ -1,11 +1,23 @@
-import { StyleSheet, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, Icon, Loading, Overlay, TextX } from './index';
 import { IconNames } from './Icon';
-import { IToastProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { ToastIconMap } from '../scripts/enum';
+
+export interface IToastProps {
+    afterClose?: () => void; // 关闭回调函数
+    content?: ReactNode; // 内容文本
+    id?: string; // 唯一id
+    type?: 'success' | 'error' | 'loading' | 'info'; // 提示类型
+    duration?: number; // 显示时长
+
+    style?: {
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        content?: StyleProp<TextStyle>; // 内容样式
+    }; // 样式
+}
 
 export default function Toast(props: IToastProps) {
     const { content, type = 'info', duration = 2500, style, afterClose } = props;

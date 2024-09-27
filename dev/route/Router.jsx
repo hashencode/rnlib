@@ -26,6 +26,7 @@ import DemoToast from '../demos/DemoToast';
 import Demo from '../screens/Demo';
 import { COLOR } from '../../src/scripts/const';
 import DemoVideoPlayer from '../demos/DemoVideoPlayer';
+import DemoSlider from '../demos/DemoSlider';
 
 const Stack = createStackNavigator();
 
@@ -39,23 +40,24 @@ const screens = [
     { name: 'CAROUSEL', component: DemoCarousel },
     { name: 'CHECK_LIST', component: DemoCheckList },
     { name: 'CHECKBOX', component: DemoCheckbox },
+    { name: 'DEMO', component: Demo, options: { navigationBarColor: COLOR.white } },
+    { name: 'DIALOG', component: DemoDialog },
     { name: 'DIVIDER', component: DemoDivider },
     { name: 'ERROR_BLOCK', component: DemoErrorBlock },
     { name: 'GROUP', component: DemoGroup },
     { name: 'HEAD', component: DemoHead },
     { name: 'INPUT', component: DemoInput },
     { name: 'LIST', component: DemoList },
-    { name: 'DIALOG', component: DemoDialog },
     { name: 'PICKER', component: DemoPicker },
     { name: 'RADIO', component: DemoRadio },
     { name: 'RESULT', component: DemoResult },
     { name: 'SELECTOR', component: DemoSelector },
+    { name: 'SLIDER', component: DemoSlider },
     { name: 'SWITCH', component: DemoSwitch },
     { name: 'TABS', component: DemoTabs },
     { name: 'TAG', component: DemoTag },
     { name: 'TOAST', component: DemoToast },
     { name: 'VIDEO_PLAYER', component: DemoVideoPlayer },
-    { name: 'DEMO', component: Demo, options: { navigationBarColor: COLOR.white } },
 ];
 
 export default function Router() {

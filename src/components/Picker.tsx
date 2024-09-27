@@ -1,14 +1,57 @@
-import { ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react';
-import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
+import { ForwardedRef, forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
+import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
-import Button from './Button';
+import Button, { IButtonProps } from './Button';
 import { Flex, Grabber, Icon, PressHighlight, TextX } from './index';
 import useStyle from '../hooks/useStyle';
-import { IPickerProps, IPickerRawValue, IPickerValue, PickerOption } from '../_types/components';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
 import { mergeRefs } from '../scripts/utils';
+
+export type IPickerRawValue = number | string;
+export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
+export interface PickerOption {
+    children?: ReactNode; // 内容插槽
+    disabled?: boolean; // 禁用
+    subtitle?: ReactNode; // 副标题
+    title: ReactNode; // 主文本
+    value: IPickerRawValue; // 选项值
+}
+export interface IPickerProps {
+    backCloseable?: boolean; // 允许返回操作关闭
+    cancelButtonProps?: IButtonProps; // 取消按钮属性
+    cancelText?: string; // 取消按钮文案
+    checkIcon?: ReactNode; // 自定义选中图标
+    defaultValue?: IPickerValue; // 默认值
+    maxHeight?: number; // 最大高度
+    multiple?: boolean; // 多选
+    okButtonProps?: IButtonProps; // 确定按钮属性
+    okText?: string; // 确认按钮文案（多选）
+    options: PickerOption[]; // 选项
+    overlayClosable?: boolean; // 允许点击蒙层关闭
+    title?: ReactNode; // 头部标题插槽
+    value?: IPickerValue; // 受控值
+    visible?: boolean; // 显隐
+
+    style?: {
+        cancelButton?: StyleProp<ViewStyle>; // 取消按钮样式
+        cancelText?: StyleProp<TextStyle>; // 取消按钮文本样式
+        checkIcon?: StyleProp<TextStyle>; // 选中图标样式
+        divider?: StyleProp<ViewStyle>; // 分割线样式
+        grabber?: StyleProp<ViewStyle>; // 抓手样式
+        header?: StyleProp<ViewStyle>; // 头部样式
+        headerText?: StyleProp<TextStyle>; // 头部文本样式
+        option?: StyleProp<ViewStyle>; // 选项样式
+        root: StyleProp<ViewStyle>; // 根节点样式
+        subtitle?: StyleProp<TextStyle>; // 副标题样式
+        title?: StyleProp<TextStyle>; // 标题样式
+    }; // 样式
+
+    onCancel?: () => void; // 取消按钮点击事件回调
+    onChange?: (val: IPickerValue) => void; // 值变动事件回调
+    onOpen?: () => void; // 开启事件回调
+}
 
 function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
     const {

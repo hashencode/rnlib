@@ -1,9 +1,16 @@
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { COLOR } from '../scripts/const';
 import { SIZE } from '../scripts/const';
 import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, Easing, withRepeat, withTiming } from 'react-native-reanimated';
-import { ILoadingProps } from '../_types/components';
 import Icon from './Icon';
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+
+export interface ILoadingProps {
+    color?: TextStyle['color']; // 颜色
+    icon?: ReactElement; // 自定义图标
+    size?: number; // 尺寸
+    style?: StyleProp<ViewStyle>; // 样式
+}
 
 export default function Loading(props: ILoadingProps) {
     const { color = COLOR.icon_touchable, size = SIZE.icon_md, style } = props;

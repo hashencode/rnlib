@@ -1,8 +1,31 @@
 import { SIZE } from '../scripts/const';
-import Checkbox from './Checkbox';
+import Checkbox, { ICheckboxProps, ICheckboxValue } from './Checkbox';
 import { useMergedState } from '../hooks';
 import { Flex } from './index';
-import { ICheckboxGroupOptions, ICheckboxGroupProps, ICheckboxGroupValue, ICheckboxValue } from '../_types/components';
+import { StyleProp, ViewStyle } from 'react-native';
+
+export type ICheckboxGroupOptionValue = string | number;
+
+export interface ICheckboxGroupOptions {
+    disabled?: boolean; // 禁用
+    label: string; // 文本
+    value: ICheckboxGroupOptionValue; // 选项值
+}
+
+export type ICheckboxGroupValue = ICheckboxGroupOptionValue[];
+
+export interface ICheckboxGroupProps {
+    defaultValue?: ICheckboxGroupValue; // 默认值
+    options?: ICheckboxGroupOptions[]; // 子项
+    value?: ICheckboxGroupValue; // 受控值
+
+    style?: {
+        option?: ICheckboxProps['style'];
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    }; // 样式
+
+    onChange?: (value: ICheckboxGroupValue) => void;
+}
 
 export default function CheckboxGroup(props: ICheckboxGroupProps) {
     const { defaultValue, value, onChange, options = [], style } = props;

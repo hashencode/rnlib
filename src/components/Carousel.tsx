@@ -1,11 +1,25 @@
-import { useState } from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { ReactNode, useState } from 'react';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { default as CarouselX } from 'react-native-reanimated-carousel';
 import { LayoutChangeEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import PaginationDot from 'react-native-animated-pagination-dot';
 import { SIZE } from '../scripts/const';
-import { ICarouselProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
+import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
+import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
+
+export interface ICarouselProps {
+    dotConfig?: IDotContainerProps; // 指示器配置项
+    height: ViewStyle['height']; // 高度
+    items: ReactNode[]; // 内容项
+    rootConfig?: TCarouselProps; // 内容配置项
+    showDot?: boolean; // 是否显示指示器
+
+    style?: {
+        dotContainer?: StyleProp<ViewStyle>; // 指示器样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    }; // 样式
+}
 
 export default function Carousel(props: ICarouselProps) {
     const { dotConfig, rootConfig, items, showDot, style, height } = props;

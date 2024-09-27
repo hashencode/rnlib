@@ -1,7 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IStoreState } from '../_types/store';
 import _ from 'lodash';
 import { randomId } from '../scripts/utils';
+import { IDialogProps } from '../components/Dialog';
+import { IToastProps } from '../components/Toast';
+
+export interface IDialogQueueItem extends Omit<IDialogProps, 'id'> {
+    id: string;
+}
+
+export interface IToastQueueItem extends Omit<IToastProps, 'id'> {
+    id: string;
+}
+
+export interface IStoreState {
+    libSlice: {
+        dialogQueue: IDialogQueueItem[];
+        toastQueue: IToastQueueItem[];
+    };
+}
 
 const initialState: IStoreState['libSlice'] = {
     dialogQueue: [],

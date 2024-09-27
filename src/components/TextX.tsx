@@ -1,10 +1,16 @@
-import { ITextProps } from '../_types/components';
 import _ from 'lodash';
 import { COLOR, SIZE } from '../scripts/const';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Text } from 'react-native';
-import { isValidElement } from 'react';
+import { StyleProp, Text, TextProps } from 'react-native';
+import { isValidElement, PropsWithChildren } from 'react';
+
+export interface ITextProps extends TextProps, PropsWithChildren {
+    color?: TextStyle['color']; // 颜色
+    size?: number; // 字体大小
+    weight?: TextStyle['fontWeight']; // 字重
+    style?: StyleProp<TextStyle>; // 样式
+}
 
 export default function TextX(props: ITextProps) {
     const { style, weight = 'normal', size = SIZE.font_basic, color = COLOR.text_title, children, ...rest } = props;

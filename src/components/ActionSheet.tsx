@@ -1,11 +1,48 @@
-import { ForwardedRef, forwardRef, useEffect, useRef } from 'react';
-import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
+import { ForwardedRef, forwardRef, ReactNode, useEffect, useRef } from 'react';
+import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { TextX, Flex, PressHighlight, Grabber } from './index';
 import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
 import { mergeRefs } from '../scripts/utils';
 import useStyle from '../hooks/useStyle';
-import { IActionSheetOptionValue, IActionSheetProps } from '../_types/components';
+
+export type IActionSheetOptionValue = string | number;
+
+export interface IActionSheetOption {
+    children?: ReactNode; // 内容插槽
+    disabled?: boolean; // 禁用
+    subtitle?: ReactNode; // 副标题
+    title: ReactNode; // 主文本
+    value: IActionSheetOptionValue; // 选项值
+}
+
+export interface IActionSheetProps {
+    backCloseable?: boolean; // 允许返回操作关闭
+    cancelText?: ReactNode; // 取消按钮文本
+    header?: ReactNode; // 头部插槽
+    maxHeight?: number; // 最大高度
+    options: IActionSheetOption[]; // 选项
+    overlayClosable?: boolean; // 允许点击蒙层关闭
+    showCancel?: boolean; // 显示取消按钮
+    visible?: boolean; // 显隐
+
+    style?: {
+        cancelButton?: StyleProp<ViewStyle>; // 取消按钮样式
+        cancelText?: StyleProp<TextStyle>; // 取消按钮文本样式
+        divider?: StyleProp<ViewStyle>; // 分割线样式
+        grabber?: StyleProp<ViewStyle>; // 抓手样式
+        header?: StyleProp<ViewStyle>; // 头部样式
+        headerText?: StyleProp<TextStyle>; // 头部文本样式
+        option?: StyleProp<ViewStyle>; // 选项样式
+        root: StyleProp<ViewStyle>; // 根节点样式
+        subtitle?: StyleProp<TextStyle>; // 副标题样式
+        title?: StyleProp<TextStyle>; // 标题样式
+    }; // 样式
+
+    onCancel?: () => void; // 关闭事件回调
+    onChange?: (val: IActionSheetOptionValue) => void; // 点击选项事件回调
+    onOpen?: () => void; // 开启事件回调
+}
 
 function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>) {
     const {

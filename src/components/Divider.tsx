@@ -1,9 +1,20 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
-import { IDividerProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { PropsWithChildren } from 'react';
+
+export interface IDividerProps extends PropsWithChildren {
+    orientation?: 'left' | 'center' | 'right'; // 文字位置
+    type?: 'horizontal' | 'vertical'; // 水平还是垂直类型
+
+    style?: {
+        divider?: StyleProp<ViewStyle>;
+        root?: StyleProp<ViewStyle>;
+        text?: StyleProp<TextStyle>;
+    }; // 样式
+}
 
 export default function Divider(props: IDividerProps) {
     const { type = 'horizontal', orientation = 'center', style, children } = props;

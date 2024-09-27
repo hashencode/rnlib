@@ -1,8 +1,30 @@
 import { SIZE } from '../scripts/const';
-import Radio from './Radio';
+import Radio, { IRadioValue } from './Radio';
 import { useMergedState } from '../hooks';
 import { Flex } from './index';
-import { IRadioGroupOptions, IRadioGroupOptionValue, IRadioGroupProps, IRadioValue } from '../_types/components';
+import { StyleProp, ViewStyle } from 'react-native';
+import { ICheckboxProps } from './Checkbox';
+
+export type IRadioGroupOptionValue = string | number | undefined;
+
+export interface IRadioGroupOptions {
+    disabled?: boolean; // 禁用
+    label: string; // 文本
+    value: IRadioGroupOptionValue; // 选项值
+}
+
+export interface IRadioGroupProps {
+    defaultValue?: IRadioGroupOptionValue; // 默认值
+    options?: IRadioGroupOptions[]; // 子项
+    value?: IRadioGroupOptionValue; // 受控值
+
+    style?: {
+        option?: ICheckboxProps['style'];
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    }; // 样式
+
+    onChange?: (value: IRadioGroupOptionValue) => void;
+}
 
 export default function RadioGroup(props: IRadioGroupProps) {
     const { defaultValue, value, onChange, options = [], style } = props;

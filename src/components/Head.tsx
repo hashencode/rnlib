@@ -1,9 +1,29 @@
-import { View, StyleSheet, ViewStyle, Pressable } from 'react-native';
+import { View, StyleSheet, ViewStyle, Pressable, StyleProp, TextStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useNavigation } from '@react-navigation/native';
 import { Flex, Icon, TextX } from './index';
-import { IHeadProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
+import { ReactNode } from 'react';
+
+export interface IHeadProps {
+    backIcon?: ReactNode; // 返回按钮图标
+    backText?: ReactNode; // 返回按钮文本
+    extra?: ReactNode; // 额外节点
+    hideBack?: Boolean; // 隐藏返回按钮
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
+
+    style?: {
+        backIcon?: StyleProp<TextStyle>; // 返回图标样式
+        backText?: StyleProp<TextStyle>; // 返回文本样式
+        body?: StyleProp<ViewStyle>; // 主体节点样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        subtitle?: StyleProp<TextStyle>; // 副标题样式
+        title?: StyleProp<TextStyle>; // 标题样式
+    }; // 样式
+
+    onBack?: () => void; // 返回按钮点击事件回调
+}
 
 function Head(props: IHeadProps) {
     const { backText, backIcon, hideBack, title, subtitle, extra, style, onBack } = props;

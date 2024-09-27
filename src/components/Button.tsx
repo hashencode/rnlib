@@ -1,12 +1,31 @@
-import { useMemo } from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { PropsWithChildren, ReactElement, useMemo } from 'react';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, PressHighlight, TextX } from './index';
 import { mergeElement } from '../scripts/utils';
-import { IButtonProps } from '../_types/components';
 import { ButtonIconSize, ButtonLabelSize } from '../scripts/enum';
 import useStyle from '../hooks/useStyle';
+
+export interface IButtonProps extends PropsWithChildren {
+    block?: boolean; // 占满整行
+    danger?: boolean; // 危险
+    disabled?: boolean; // 禁用
+    ghost?: boolean; // 幽灵按钮
+    icon?: ReactElement; // 图标
+    round?: boolean; // 圆形外观
+    size?: 'xs' | 'sm' | 'md' | 'lg'; // 尺寸
+    type?: 'primary' | 'text' | 'default'; // 类型
+
+    style?: {
+        button?: StyleProp<ViewStyle>; // 按钮主体样式
+        icon?: StyleProp<ViewStyle>; // 图标样式
+        root?: StyleProp<ViewStyle>; // 最外层样式
+        text?: StyleProp<TextStyle>; // 文本样式
+    }; // 样式
+
+    onPress?: () => void; // 点击事件回调
+}
 
 export default function Button(props: IButtonProps) {
     const { round, type = 'default', size = 'md', ghost, danger, block, disabled, icon, children, style, onPress } = props;

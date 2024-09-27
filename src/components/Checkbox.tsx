@@ -1,10 +1,28 @@
-import { useMemo } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { ReactNode, useMemo } from 'react';
+import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
-import { ICheckboxProps, ICheckboxValue } from '../_types/components';
 import { Flex, Icon, TextX } from './index';
 import { StyleProps } from 'react-native-reanimated';
+
+export type ICheckboxValue = boolean;
+
+export interface ICheckboxProps {
+    defaultValue?: ICheckboxValue; // 默认值
+    disabled?: boolean; // 禁用
+    indeterminate?: boolean; // 半选
+    label?: ReactNode; // 文本
+    value?: ICheckboxValue; // 受控值
+
+    style?: {
+        icon?: StyleProp<TextStyle>; // 图标样式
+        iconContainer?: StyleProp<ViewStyle>; // 图标容器样式
+        label?: StyleProp<TextStyle>; // 文本样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    }; // 样式
+
+    onChange?: (val: ICheckboxValue) => void; // 值变动事件回调
+}
 
 export default function Checkbox(props: ICheckboxProps) {
     const { indeterminate = false, label, defaultValue, disabled, value, style, onChange } = props;

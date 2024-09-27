@@ -1,13 +1,34 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import { Button, Flex, Overlay, TextX } from './index';
-import { IDialogProps } from '../_types/components';
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { IButtonProps } from './Button';
 
-function Dialog(props: IDialogProps) {
+export interface IDialogProps {
+    actions?: IButtonProps[]; // 动作列表
+    afterClose?: () => void; // 遮罩销毁事件回调
+    backCloseable?: boolean; // 允许返回操作关闭
+    buttons?: IButtonProps[]; // 按钮列表
+    content?: ReactNode; // 描述文本
+    id?: string; // 唯一id
+    overlayClosable?: boolean; // 允许点击蒙层关闭
+    title?: string; // 标题文本
+    visible?: boolean; // 显隐
+
+    style?: {
+        body?: StyleProp<ViewStyle>; // 主体样式
+        content?: StyleProp<TextStyle>; // 内容样式
+        header?: StyleProp<TextStyle>; // 头部样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    }; // 样式
+
+    onCancel?: () => void; // 取消事件回调
+}
+
+export default function Dialog(props: IDialogProps) {
     const { backCloseable, content, title, buttons, actions, visible, overlayClosable = true, onCancel, afterClose, style } = props;
 
     // 根节点样式
@@ -113,8 +134,6 @@ function Dialog(props: IDialogProps) {
         </Overlay>
     );
 }
-
-export default Dialog;
 
 const styles = StyleSheet.create({
     root: {

@@ -1,10 +1,24 @@
-import { StyleSheet } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { Flex, TextX } from './index';
 import { mergeElement } from '../scripts/utils';
 import { COLOR, SIZE } from '../scripts/const';
-import { ITagProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { ReactElement, ReactNode } from 'react';
+
+export interface ITagProps {
+    backgroundColor?: ViewStyle['backgroundColor']; // 背景色
+    borderColor?: ViewStyle['borderColor']; // 边框色
+    bordered?: boolean; // 显示边框
+    children?: ReactNode; // 内容插槽
+    color?: TextStyle['color']; // 文本和图标颜色
+    icon?: ReactElement; // 图标
+
+    style?: {
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        text?: StyleProp<TextStyle>; // 文本样式
+    }; // 样式
+}
 
 export default function Tag(props: ITagProps) {
     const {

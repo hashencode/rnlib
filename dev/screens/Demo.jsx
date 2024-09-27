@@ -32,6 +32,7 @@ export default function Demo() {
                 { title: '单选 Radio', onPress: () => goTo('RADIO') },
                 { title: '选择 Picker', onPress: () => goTo('PICKER') },
                 { title: '选择组 Selector', onPress: () => goTo('SELECTOR') },
+                { title: '滑动条 Slider', onPress: () => goTo('SLIDER') },
                 { title: '开关 Switch', onPress: () => goTo('SWITCH') },
             ],
         },

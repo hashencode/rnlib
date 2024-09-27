@@ -1,7 +1,16 @@
 import _ from 'lodash';
 import * as icons from 'lucide-react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { IIconProps } from '../_types/components';
+import { StyleProp, TextStyle } from 'react-native';
+
+export interface IIconProps {
+    color?: TextStyle['color']; // 颜色
+    fill?: string; // 填充颜色
+    name: IconNames; // 名称
+    size?: number; // 尺寸
+    strokeWidth?: number; // 线条粗细
+    style?: StyleProp<TextStyle>; // 样式
+}
 
 const nameMap = Object.keys(icons).map(key => {
     return key

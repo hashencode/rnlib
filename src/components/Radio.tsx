@@ -1,10 +1,27 @@
-import { useMemo } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { ReactNode, useMemo } from 'react';
+import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
-import { IRadioProps, IRadioValue } from '../_types/components';
 import { Flex, Icon, TextX } from './index';
 import { StyleProps } from 'react-native-reanimated';
+
+export type IRadioValue = boolean;
+
+export interface IRadioProps {
+    defaultValue?: IRadioValue; // 默认值
+    disabled?: boolean; // 禁用
+    label?: ReactNode; // 文本
+    value?: IRadioValue; // 受控值
+
+    style?: {
+        icon?: StyleProp<TextStyle>; // 图标样式
+        iconContainer?: StyleProp<ViewStyle>; // 图标容器样式
+        label?: StyleProp<TextStyle>; // 文本样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    }; // 样式
+
+    onChange?: (val: IRadioValue) => void; // 值变动事件回调
+}
 
 export default function Radio(props: IRadioProps) {
     const { label, defaultValue, disabled, value, style, onChange } = props;

@@ -1,9 +1,25 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
 import { mergeElement } from '../scripts/utils';
-import { ICardProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
+import { ReactElement, ReactNode } from 'react';
+
+export interface ICardProps {
+    children?: ReactNode; // 内容插槽
+    extra?: ReactElement; // 头部额外节点
+    footer?: ReactElement; // 页脚节点
+    icon?: ReactElement; // 头部图标
+    title?: string; // 标题
+
+    style?: {
+        body?: StyleProp<ViewStyle>; // 主体样式
+        footer?: StyleProp<ViewStyle>; // 页脚节点
+        header?: StyleProp<ViewStyle>; // 头部样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        title?: StyleProp<TextStyle>; // 标题样式
+    }; // 样式
+}
 
 export default function Card(props: ICardProps) {
     const { title, extra, icon, style } = props;

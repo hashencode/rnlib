@@ -1,8 +1,21 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { TextX } from './index';
-import { IGroupProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
+import { ReactNode } from 'react';
+
+export interface IGroupProps {
+    children?: ReactNode; // 内容插槽
+    first?: boolean; // 是否是首行
+    footer?: ReactNode | string; // 底部插槽
+    header?: ReactNode | string; // 头部插槽
+    style?: {
+        root?: StyleProp<ViewStyle>; // 最外层样式
+        header?: StyleProp<ViewStyle>; // 头部样式
+        body?: StyleProp<ViewStyle>; // 主要内容样式
+        footer?: StyleProp<ViewStyle>; // 底部样式
+    }; // 样式
+}
 
 export default function Group(props: IGroupProps) {
     const { header, footer, first, style } = props;

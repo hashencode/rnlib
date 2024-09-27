@@ -1,11 +1,24 @@
-import { useMemo, useState } from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { ReactNode, useMemo, useState } from 'react';
+import { ImageSourcePropType, ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, ImageX, TextX } from './index';
 import _ from 'lodash';
 import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
-import { IAvatarProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
+
+export interface IAvatarProps {
+    alt?: string; // 未加载完成时显示的文本
+    children?: ReactNode; // 内容插槽
+    shape?: 'circle' | 'square'; // 形状
+    size?: 'lg' | 'md' | 'sm' | number; // 尺寸
+    source?: ImageSourcePropType; // 图片来源
+
+    style?: {
+        image?: StyleProp<ImageStyle>; // 图片样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        text?: StyleProp<TextStyle>; // 文本样式
+    }; // 样式
+}
 
 export default function Avatar(props: IAvatarProps) {
     const { alt, shape = 'circle', source, size = 'md', style } = props;

@@ -1,12 +1,39 @@
-import { useState } from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { ReactNode, useState } from 'react';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import { useMergedState } from '../hooks';
 import { Flex, Icon, PressHighlight, TextX } from './index';
-import { ISelectorRawValue, ISelectorValue, ISelectProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
+export type ISelectorRawValue = number | string;
+export type ISelectorValue = ISelectorRawValue | ISelectorRawValue[] | undefined;
+export interface SelectorOption {
+    content?: ReactNode; // 内容插槽
+    disabled?: boolean; // 禁用
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 主文本
+    value: ISelectorRawValue; // 选项值
+}
+export interface ISelectProps {
+    defaultValue?: ISelectorValue; // 默认值
+    multiple?: boolean; // 多选
+    options: SelectorOption[]; // 选项
+    value?: ISelectorValue; // 受控值
+
+    style?: {
+        active?: StyleProp<ViewStyle>; // 激活样式
+        checkIcon?: StyleProp<TextStyle>; // 选中图标样式
+        corner?: StyleProp<ViewStyle>; // 角落样式
+        option?: StyleProp<ViewStyle>; // 选项样式
+        root: StyleProp<ViewStyle>; // 根节点样式
+        subtitle?: StyleProp<TextStyle>; // 副标题样式
+        title?: StyleProp<TextStyle>; // 标题样式
+    }; // 样式
+
+    onChange?: (val: ISelectorValue) => void; // 值变动事件回调
+}
 
 export default function Selector(props: ISelectProps) {
     const { defaultValue, multiple, options = [], style, value, onChange } = props;

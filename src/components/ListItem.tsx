@@ -1,11 +1,38 @@
-import { StyleSheet, ViewStyle } from 'react-native';
+import { ImageStyle, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { mergeElement } from '../scripts/utils';
-import { IListItemProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
-import { useMemo } from 'react';
+import { PropsWithChildren, ReactElement, ReactNode, useMemo } from 'react';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, Icon, PressHighlight, SwipeableRow, TextX } from './index';
+import { ISwipeableRowProps } from './SwipeableRow';
+
+export interface IListItemProps extends PropsWithChildren {
+    disabled?: boolean; // 禁用
+    extra?: ReactNode; // 右侧附加节点
+    extraSubtitle?: ReactNode; // 额外内容副标题
+    extraTitle?: ReactNode; // 额外内容标题
+    icon?: ReactElement; // 左侧图标
+    leftActions?: ISwipeableRowProps['leftActions']; // 左侧操作按钮
+    rightActions?: ISwipeableRowProps['rightActions']; // 右侧操作按钮
+    showArrow?: boolean; // 显示右侧箭头
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 主标题
+
+    style?: {
+        body?: StyleProp<ViewStyle>; // 内容区域样式
+        extra?: StyleProp<ViewStyle>; // 额外内容区域样式
+        extraSubtitle?: StyleProp<TextStyle>; // 额外内容副标题样式
+        extraTitle?: StyleProp<TextStyle>; // 额外内容标题样式
+        icon?: StyleProp<ImageStyle>; // 图标样式
+        main?: StyleProp<ViewStyle>; // 主要内容区域样式
+        root?: StyleProp<ViewStyle>; // 最外层样式
+        subTitle?: StyleProp<TextStyle>; // 内容副标题样式
+        title?: StyleProp<TextStyle>; // 内容标题样式
+    }; // 样式
+
+    onPress?: () => void; // 点击事件回调
+}
 
 export default function ListItem(props: IListItemProps) {
     const {

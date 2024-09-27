@@ -1,9 +1,19 @@
-import { Fragment, Key, useMemo } from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { Fragment, Key, ReactElement, useMemo } from 'react';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import ListItem from './ListItem';
-import { IListProps } from '../_types/components';
+import ListItem, { IListItemProps } from './ListItem';
 import useStyle from '../hooks/useStyle';
+
+export interface IListProps {
+    items: IListItemProps[]; // 数据源
+    renderItem?: (item: IListItemProps, index: number) => ReactElement; // 渲染函数
+    rowKey?: (item: IListItemProps) => Key; // 唯一键生成函数
+
+    style?: {
+        divider?: StyleProp<ViewStyle>; // 分割线样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    }; // 样式
+}
 
 export default function List(props: IListProps) {
     const { items, renderItem, rowKey, style } = props;

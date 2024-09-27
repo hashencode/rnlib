@@ -1,11 +1,26 @@
-import { isValidElement } from 'react';
-import { ImageStyle, StyleSheet, View } from 'react-native';
+import { isValidElement, ReactElement, ReactNode } from 'react';
+import { ImageStyle, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
-import { IErrorBlockProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, ImageX, TextX } from './index';
+
+export interface IErrorBlockProps {
+    extra?: ReactNode; // 操作区域
+    fullscreen?: boolean; // 全屏显示
+    image?: ReactElement | ImageSourcePropType; // 主图
+    ImageStyleProps?: StyleProp<ImageStyle>; // 主图样式
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
+
+    style?: {
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        image?: StyleProp<ImageStyle>; // 图片样式
+        title?: StyleProp<TextStyle>; // 标题样式
+        subtitle?: StyleProp<TextStyle>; // 副标题样式
+    }; // 样式
+}
 
 export default function ErrorBlock(props: IErrorBlockProps) {
     const { title, subtitle, extra, fullscreen, image, style } = props;

@@ -1,9 +1,23 @@
-import { StyleSheet } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { IResultProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, Icon, TextX } from './index';
+import { ReactNode } from 'react';
+
+export interface IResultProps {
+    extra?: ReactNode; // 额外元素
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
+    type: 'success' | 'info' | 'waiting' | 'error' | 'warning'; // 类型
+
+    style?: {
+        icon?: StyleProp<TextStyle>; // 图标样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        subtitle?: StyleProp<TextStyle>; // 副标题样式
+        title?: StyleProp<TextStyle>; // 标题样式
+    }; // 样式
+}
 
 const IconMap = {
     success: {

@@ -1,11 +1,37 @@
-import { forwardRef, Ref, useImperativeHandle, useMemo, useRef } from 'react';
-import { Pressable, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
+import { forwardRef, ReactNode, Ref, useImperativeHandle, useMemo, useRef } from 'react';
+import { Pressable, StyleProp, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState, useToggle } from '../hooks';
 import { Flex, Icon, TextX } from './index';
-import { IInputProps, IInputRef } from '../_types/components';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
+export interface IInputRef {
+    blur: () => void;
+    clear: () => void;
+    focus: () => void;
+    isFocused: () => boolean | undefined;
+}
+
+export interface IInputProps extends Omit<TextInputProps, 'onChange' | 'style'> {
+    allowClear?: boolean; // 允许清空输入
+    bordered?: boolean; // 显示边框
+    disabled?: boolean; // 禁用
+    password?: boolean; // 密码输入
+    prefix?: ReactNode | string; // 前缀
+    round?: boolean; // 圆形外观
+    size?: 'sm' | 'md' | 'lg'; // 尺寸
+    suffix?: ReactNode | string; // 后缀
+
+    style?: {
+        main?: StyleProp<TextStyle>; // 主体样式
+        prefix?: StyleProp<TextStyle>; // 前缀样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        suffix?: StyleProp<TextStyle>; // 后缀样式
+    }; // 样式
+
+    onChange?: (val?: string) => void; // 值变动事件回调
+}
 
 const defaultProps: Partial<TextInputProps> = {
     autoCapitalize: 'none',

@@ -1,12 +1,40 @@
-import { useEffect, useRef, useState } from 'react';
-import { LayoutChangeEvent, ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { LayoutChangeEvent, ScrollView, ScrollViewProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Flex, PressHighlight, TextX } from './index';
 import { useMergedState } from '../hooks';
-import { ITabsItemValue, ITabsProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
+
+export type ITabsItemValue = string;
+
+export interface ITabsItem {
+    disabled?: boolean; // 禁用
+    children?: ReactNode; // 内容插槽
+    label?: ReactNode; // 主文本
+    value: ITabsItemValue; // 选项值
+}
+
+export interface ITabsProps {
+    defaultValue?: ITabsItemValue; // 默认值
+    items?: ITabsItem[]; // 内容项
+    scrollable?: boolean; // 可滚动
+    headerConfig?: ScrollViewProps; // 头部滚动配置项
+    value?: ITabsItemValue; // 受控值
+
+    style?: {
+        body?: StyleProp<ViewStyle>; // 内容区域样式
+        divider?: StyleProp<ViewStyle>; // 分割线样式
+        header?: StyleProp<ViewStyle>; // 头部样式
+        label?: StyleProp<TextStyle>; // 选项卡文本样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        tabItem?: StyleProp<ViewStyle>; // 选项卡样式
+        underline?: StyleProp<ViewStyle>; // 下划线样式
+    }; // 样式
+
+    onChange?: (val: ITabsItemValue) => void; // 切换选项事件回调
+}
 
 export default function Tabs(props: ITabsProps) {
     const { value, defaultValue, scrollable, items = [], style, headerConfig, onChange } = props;

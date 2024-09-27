@@ -1,8 +1,18 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
 import useStyle from '../hooks/useStyle';
-import { IBadgeProps } from '../_types/components';
+import { ReactNode } from 'react';
+
+export interface IBadgeProps {
+    children?: ReactNode; // 内容插槽
+    dot?: boolean; // 红点模式
+
+    style?: {
+        root?: StyleProp<ViewStyle>; // 根节点样式
+        text?: StyleProp<TextStyle>; // 文本样式
+    }; // 样式
+}
 
 export default function Badge(props: IBadgeProps) {
     const { dot, style } = props;

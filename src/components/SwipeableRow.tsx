@@ -1,8 +1,21 @@
-import { ISwipeableRowActionItem, ISwipeableRowProps } from '../_types/components';
 import ReanimatedSwipeable, { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { RectButton } from 'react-native-gesture-handler';
 import { COLOR, SIZE } from '../scripts/const';
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
+import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
+
+export interface ISwipeableRowActionItem {
+    backgroundColor?: string; // 背景色
+    content?: ReactNode; // 内容插槽
+    width: number; // 操作按钮宽度
+
+    onPress?: () => void; // 点击回调函数
+}
+
+export interface ISwipeableRowProps extends SwipeableProps {
+    leftActions?: ISwipeableRowActionItem[];
+    rightActions?: ISwipeableRowActionItem[];
+}
 
 export default function SwipeableRow(props: ISwipeableRowProps) {
     const { leftActions, rightActions, children, ...rest } = props;

@@ -1,9 +1,22 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
 import { Flex, PressHighlight } from './index';
-import { ISwitchProProps } from '../_types/components';
 import useStyle from '../hooks/useStyle';
+
+export interface ISwitchProProps {
+    defaultValue?: boolean; // 默认值
+    disabled?: boolean; // 禁用
+    size?: 'sm' | 'md'; // 尺寸
+    value?: boolean; // 受控值,
+
+    style?: {
+        root?: StyleProp<ViewStyle>; // 根节点样式
+    };
+
+    onChange?: (value: boolean) => void; // 值变动事件回调
+    onPress?: () => void; // 点击事件回调
+}
 
 export default function Switch(props: ISwitchProProps) {
     const { size = 'md', style, disabled, onPress, onChange, value, defaultValue } = props;
