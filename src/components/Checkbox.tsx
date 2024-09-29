@@ -62,7 +62,7 @@ export default function Checkbox(props: ICheckboxProps) {
                 <Icon
                     name="minus"
                     size={SIZE.icon_xxs}
-                    strokeWidth={SIZE.icon_stroke_lg}
+                    strokeWidth={SIZE.icon_stroke_xl}
                     color={disabled ? COLOR.text_desc : COLOR.primary}
                     style={style?.icon}
                 />
@@ -73,7 +73,7 @@ export default function Checkbox(props: ICheckboxProps) {
                 <Icon
                     name="check"
                     size={SIZE.icon_xxs}
-                    strokeWidth={SIZE.icon_stroke_lg}
+                    strokeWidth={SIZE.icon_stroke_xl}
                     color={disabled ? COLOR.text_desc : COLOR.white}
                     style={style?.icon}
                 />

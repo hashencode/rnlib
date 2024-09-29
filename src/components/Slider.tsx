@@ -5,7 +5,7 @@ import { PureComponent } from 'react';
 import { Animated, StyleSheet, PanResponder, View, Easing, ViewStyle } from 'react-native';
 
 const TRACK_SIZE = 3;
-const THUMB_SIZE = 16;
+const THUMB_SIZE = 13;
 
 export interface SliderProps {
     value?: number;
@@ -17,13 +17,14 @@ export interface SliderProps {
     maximumTrackTintColor?: string;
     thumbTintColor?: string;
     thumbTouchSize?: { width: number; height: number };
-    onValueChange?: (value: number) => void;
+    onChange?: (value: number) => void;
     onSlidingStart?: (value: number) => void;
     onSlidingComplete?: (value: number) => void;
     style?: ViewStyle;
     trackStyle?: ViewStyle;
     thumbStyle?: ViewStyle;
     animateTransitions?: boolean;
+    orientation?: 'horizontal' | 'vertical';
 }
 
 export default class Slider extends PureComponent<SliderProps> {
@@ -36,6 +37,7 @@ export default class Slider extends PureComponent<SliderProps> {
         maximumTrackTintColor: '#b3b3b3',
         thumbTintColor: '#343434',
         thumbTouchSize: { width: 40, height: 40 },
+        orientation: 'horizontal',
     };
 
     state = {
@@ -146,7 +148,7 @@ export default class Slider extends PureComponent<SliderProps> {
         }
 
         this._setCurrentValue(this._getValue(gestureState));
-        this._fireChangeEvent('onValueChange');
+        this._fireChangeEvent('onChange');
     };
 
     _handlePanResponderRequestEnd = (): boolean => false;
@@ -204,7 +206,7 @@ export default class Slider extends PureComponent<SliderProps> {
 
     _getValue = (gestureState: any): number => {
         const length = this.state.containerSize.width - this.state.thumbSize.width;
-        const thumbLeft = this._previousLeft + gestureState.dx;
+        const thumbLeft = this._previousLeft + gestureState[this.props.orientation === 'horizontal' ? 'dx' : 'dy'];
 
         const ratio = thumbLeft / length;
 
@@ -245,7 +247,7 @@ export default class Slider extends PureComponent<SliderProps> {
         }).start();
     };
 
-    _fireChangeEvent = (event: 'onSlidingComplete' | 'onValueChange' | 'onSlidingStart'): void => {
+    _fireChangeEvent = (event: 'onSlidingComplete' | 'onChange' | 'onSlidingStart'): void => {
         this.props[event]?.(this._getCurrentValue());
     };
 

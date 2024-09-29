@@ -32,14 +32,14 @@ export function mergeRefs<T>(refs: Array<RefObject<T> | ForwardedRef<T> | undefi
     return refs.filter(ref => !!ref)[0] as RefObject<T>;
 }
 
-// 将毫秒时长转换成可读文本
+// 将秒时长转换成可读文本
 export const convertSecondsDisplay = (ms: number) => {
     if (!ms || ms <= 0) {
         return '-';
     }
 
     // 计算总秒数
-    const totalSeconds = Math.floor(ms / 1000);
+    const totalSeconds = Math.floor(ms);
     // 计算秒数
     const seconds = totalSeconds % 60;
     // 计算总分钟数

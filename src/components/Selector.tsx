@@ -118,7 +118,7 @@ export default function Selector(props: ISelectProps) {
                                 <Icon
                                     name="check"
                                     size={SIZE.selector_icon_size}
-                                    strokeWidth={SIZE.icon_stroke_lg}
+                                    strokeWidth={SIZE.icon_stroke_xl}
                                     color={COLOR.white}
                                     style={checkIconStyle}
                                 />

@@ -57,7 +57,7 @@ export default function Radio(props: IRadioProps) {
                         <Icon
                             name="check"
                             size={SIZE.icon_xxs}
-                            strokeWidth={SIZE.icon_stroke_lg}
+                            strokeWidth={SIZE.icon_stroke_xl}
                             color={disabled ? COLOR.text_desc : COLOR.white}
                         />
                     ) : null}

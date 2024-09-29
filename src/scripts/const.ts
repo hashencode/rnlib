@@ -91,7 +91,8 @@ export const SIZE = {
     icon_stroke_xs: 1,
     icon_stroke_sm: 1.5,
     icon_stroke_md: 2,
-    icon_stroke_lg: 3,
+    icon_stroke_lg: 2.5,
+    icon_stroke_xl: 3,
     // 字重
     weight_title: '500' as any,
     /**
