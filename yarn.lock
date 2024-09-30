@@ -1689,18 +1689,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gorhom/portal@npm:^1.0.14":
-  version: 1.0.14
-  resolution: "@gorhom/portal@npm:1.0.14"
-  dependencies:
-    nanoid: ^3.3.1
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 227bb96a2db854ab29bb9da8d4f3823c7f7448358de459709dd1b78522110da564c9a8734c6bc7d7153ed7c99320e0fb5d60b420c2ebb75ecaf2f0d757f410f9
-  languageName: node
-  linkType: hard
-
 "@hapi/hoek@npm:^9.0.0, @hapi/hoek@npm:^9.3.0":
   version: 9.3.0
   resolution: "@hapi/hoek@npm:9.3.0"
@@ -1724,8 +1712,6 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
-    "@gorhom/portal": ^1.0.14
-    "@react-native-community/slider": ^4.5.3
     "@react-native/babel-preset": 0.75.2
     "@react-native/eslint-config": ^0.75.2
     "@react-native/metro-config": 0.75.2
@@ -2410,13 +2396,6 @@ __metadata:
   bin:
     rnc-cli: build/bin.js
   checksum: f8504b587291caa773eb85bfe260a2a2aec85b0db4ae55c41f473bacbab368641ea06c6c96b756c13a28d37450f1e715991e23eec7b169db76d84a075856e13d
-  languageName: node
-  linkType: hard
-
-"@react-native-community/slider@npm:^4.5.3":
-  version: 4.5.3
-  resolution: "@react-native-community/slider@npm:4.5.3"
-  checksum: 4cd70b0e24fedf6152d5316b73266569ef2af83dabc713ed7c68330b7d9844ace131e32dd90919b6189fc9f041c528bf7b48eb5b6b2b6e36fb474ba861c7a9c3
   languageName: node
   linkType: hard
 
@@ -8294,7 +8273,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.23, nanoid@npm:^3.3.1":
+"nanoid@npm:^3.1.23":
   version: 3.3.7
   resolution: "nanoid@npm:3.3.7"
   bin:

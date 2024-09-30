@@ -1,7 +1,6 @@
 import Dialog from './Dialog';
-import { IDialogQueueItem, IStoreState } from '../_types/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { destroyDialog } from '../store/libSlice';
+import { destroyDialog, IDialogQueueItem, IStoreState } from '../store/libSlice';
 import { View } from 'react-native';
 
 export default function DialogRender() {

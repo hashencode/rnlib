@@ -1,7 +1,6 @@
-import { IStoreState, IToastQueueItem } from '../_types/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Toast } from './index';
-import { destroyToast } from '../store/libSlice';
+import { destroyToast, IStoreState, IToastQueueItem } from '../store/libSlice';
 import { View } from 'react-native';
 
 export default function ToastRender() {
