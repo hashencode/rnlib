@@ -1,17 +1,9 @@
-import Video, {
-    OnLoadStartData,
-    OnPlaybackStateChangedData,
-    OnProgressData,
-    OnVideoErrorData,
-    ReactVideoPoster,
-    VideoRef,
-} from 'react-native-video';
+import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
 import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Icon, Loading, Overlay, Slider, TextX } from './index';
+import { Button, Flex, Icon, Loading, Overlay, Slider, TextX } from './index';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Animated, { FadeIn, FadeOut, SlideInRight, SlideOutRight } from 'react-native-reanimated';
-import { ReactVideoSource } from 'react-native-video/src/types/video';
 import { OnLoadData } from 'react-native-video/src/types/events';
 import { convertSecondsDisplay } from '../scripts/utils';
 import _ from 'lodash';
@@ -22,49 +14,86 @@ import type { ReactVideoProps } from 'react-native-video/src/types';
 
 export interface IVideoPlayerProps extends ReactVideoProps {
     title?: string;
-    source: ReactVideoSource;
-    poster?: ReactVideoPoster;
-    onBack?: () => void;
+    prevTime?: number; // 上次播放的进度
+    autoplay?: boolean; // 自动播放
+    onBack?: () => void; // 返回回调
+    onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
 }
 
 const speedList = ['2', '1.5', '1.25', '1.0', '0.75', '0.5'];
+const fullScreenLeftSpace = 60;
 
 export default function VideoPlayer(props: IVideoPlayerProps) {
-    const { title, source, poster, onBack, onLoad, onLoadStart, onProgress, onError, onPlaybackStateChanged } = props;
+    const {
+        title,
+        source,
+        prevTime,
+        autoplay,
+        onBack,
+        onLoad,
+        onLoadStart,
+        onProgress,
+        onError,
+        onFullscreen,
+        onPlaybackStateChanged,
+        ...rest
+    } = props;
 
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
 
+    const [showPrevTimeBtn, setShowPrevTimeBtn] = useState(false);
     const [showControls, setShowControls] = useState(true); // 是否显示控制组件
-    const [isPaused, setIsPaused] = useState(false); // 视频暂停
+    const [isPaused, setIsPaused] = useState(!autoplay); // 视频暂停
     const [isFullscreen, setIsFullscreen] = useState(false); // 全屏
     const [currentTime, setCurrentTime] = useState(0); // 当前播放时间
     const [duration, setDuration] = useState(0); // 视频总时长
-    const [isLoading, setIsLoading] = useState(true); // 视频加载中
+    const [isLoading, setIsLoading] = useState(false); // 视频加载中
     const [errorMsg, setErrorMsg] = useState<string>(''); // 错误信息
     const [currentControl, setCurrentControl] = useState<'rate' | undefined>(undefined); // 当前活跃的控制器
     const [currentRate, setCurrentRate] = useState('1.0'); // 当前速率
+    const [hasLoaded, setHasLoaded] = useState(false); // 视频信息加载完成
 
     const videoRef = useRef<VideoRef>(null);
-    const hideTimer = useRef<NodeJS.Timeout | null>();
+    const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
+    const isPlaying = useRef(!!autoplay); // 是否处在播放状态。即用户没有手动暂停
 
     useEffect(() => {
+        if (_.isNumber(prevTime) && prevTime > 0) {
+            setShowPrevTimeBtn(true);
+        }
         return () => {
             clearHideTimer();
         };
     }, []);
 
     useUpdateEffect(() => {
+        if (_.isNumber(prevTime) && prevTime > 0) {
+            setShowPrevTimeBtn(true);
+        }
+
         setDuration(0);
         setCurrentTime(0);
     }, [source]);
 
+    useUpdateEffect(() => {
+        onFullscreen?.(isFullscreen);
+    }, [isFullscreen]);
+
+    // 隐藏跳转按钮
+    const hidePrevTimeEl = () => {
+        hidePrevTimeTimer.current = setTimeout(() => {
+            setShowPrevTimeBtn(false);
+        }, 5000);
+        return null;
+    };
+
     // 清除隐藏控制定时器
     const clearHideTimer = () => {
-        if (hideTimer.current) {
-            clearTimeout(hideTimer.current);
+        if (hidePrevTimeTimer.current) {
+            clearTimeout(hidePrevTimeTimer.current);
         }
-        hideTimer.current = null;
+        hidePrevTimeTimer.current = null;
     };
 
     // 根节点点击
@@ -90,6 +119,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     // 切换播放状态
     const togglePlayStatus = () => {
         setIsPaused(!isPaused);
+        isPlaying.current = !isPaused;
     };
 
     // 切换全屏状态
@@ -107,8 +137,10 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         if (duration) {
             videoRef?.current?.seek(value);
             setCurrentTime(value);
-            setIsPaused(false);
-            setIsLoading(true);
+            if (isPlaying.current) {
+                setIsLoading(true);
+                setIsPaused(false);
+            }
         }
     }, 500);
 
@@ -121,7 +153,10 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     // 处理视频开始加载
     const handleLoadStart = (data: OnLoadStartData) => {
         onLoadStart?.(data);
-        setIsLoading(true);
+        setHasLoaded(false);
+        if (isPlaying.current) {
+            setIsLoading(true);
+        }
     };
 
     // 处理视频加载完成
@@ -130,8 +165,12 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         if (currentTime) {
             videoRef?.current?.seek(currentTime);
         }
-        setIsPaused(false);
         onLoad?.(data);
+        setHasLoaded(true);
+        setIsLoading(false);
+        if (isPlaying.current) {
+            setIsPaused(false);
+        }
     };
 
     // 处理数据加载
@@ -153,6 +192,14 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     const handleChangeRate = (value: string) => {
         setCurrentRate(value);
         setCurrentControl(undefined);
+    };
+
+    // 跳转至原播放进度
+    const handleJumpToPrevTime = () => {
+        if (prevTime) {
+            videoRef?.current?.seek(prevTime);
+            setShowPrevTimeBtn(false);
+        }
     };
 
     // 返回按钮
@@ -209,10 +256,27 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
 
     // 当前时长/总时长
     const timeEl = (
-        <TextX color={COLOR.white} size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini}>
+        <TextX
+            color={COLOR.white}
+            size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini}
+            style={isFullscreen ? styles.bigTime : styles.time}>
             {convertSecondsDisplay(currentTime)} / {convertSecondsDisplay(duration)}
         </TextX>
     );
+
+    // 进度跳转
+    const prevTimeEl =
+        showPrevTimeBtn && prevTime && hasLoaded ? (
+            <Flex alignItems="center" gap={SIZE.space_md} style={[styles.prevTime, { marginLeft: isFullscreen ? fullScreenLeftSpace : 0 }]}>
+                <TextX size={SIZE.font_desc} color={COLOR.white}>
+                    上次观看至{convertSecondsDisplay(prevTime)}
+                </TextX>
+                <Button size="xs" style={{ button: { paddingHorizontal: SIZE.space_md } }} type="primary" onPress={handleJumpToPrevTime}>
+                    跳转播放
+                </Button>
+                {hidePrevTimeEl()}
+            </Flex>
+        ) : null;
 
     // 加载状态
     const loadingEl = isLoading ? <Loading color={COLOR.white} size={SIZE.icon_xl}></Loading> : null;
@@ -296,8 +360,12 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                     </Flex>
                     {/* 播放/暂停按钮 */}
                     <Flex grow={1} block alignItems="center" justifyContent="center" style={styles.body}>
+                        {/* 加载状态 */}
                         {loadingEl}
+                        {/* 错误信息 */}
                         {errorEl}
+                        {/* 上次播放进度 */}
+                        {prevTimeEl}
                     </Flex>
                     {/* 底部操作区 */}
                     <View style={styles.bigFooter}>
@@ -337,8 +405,12 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                 </Flex>
                 {/* 播放/暂停按钮 */}
                 <Flex grow={1} block alignItems="center" justifyContent="center" style={styles.body}>
+                    {/* 加载状态 */}
                     {loadingEl}
+                    {/* 错误信息 */}
                     {errorEl}
+                    {/* 上次播放进度 */}
+                    {prevTimeEl}
                 </Flex>
                 {/* 底部操作区 */}
                 <Flex alignItems="center" columnGap={SIZE.space_lg} block style={styles.footer}>
@@ -365,14 +437,14 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                 paused={isPaused}
                 resizeMode="contain"
                 source={source}
-                poster={poster}
                 onLoad={handleLoad}
                 onLoadStart={handleLoadStart}
                 onProgress={handleProgress}
                 onError={handleError}
                 onPlaybackStateChanged={handlePlaybackStateChanged}
                 rate={+currentRate}
-                style={{ height: '100%' }}></Video>
+                style={{ height: '100%' }}
+                {...rest}></Video>
         </Pressable>
     );
 
@@ -417,33 +489,39 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR.bg_overlay,
         paddingHorizontal: SIZE.space_lg,
         paddingVertical: SIZE.space_sm,
+        position: 'relative',
     },
     bigHeader: {
         backgroundColor: COLOR.bg_overlay,
-        paddingHorizontal: 50,
+        paddingHorizontal: fullScreenLeftSpace,
         paddingVertical: SIZE.space_md,
+        position: 'relative',
     },
     headerBackIcon: {
         marginLeft: -5,
     },
-    body: {},
+    body: {
+        position: 'relative',
+    },
     footer: {
         backgroundColor: COLOR.bg_overlay,
         paddingHorizontal: SIZE.space_lg,
         paddingVertical: SIZE.space_sm,
+        position: 'relative',
     },
     bigFooter: {
         backgroundColor: COLOR.bg_overlay,
         paddingBottom: SIZE.space_md,
-        paddingHorizontal: 60,
+        paddingHorizontal: fullScreenLeftSpace,
         paddingTop: SIZE.space_sm,
+        position: 'relative',
     },
     playBtn: {
         marginRight: SIZE.space_md,
     },
     slider: {
-        flexGrow: 1,
         flexShrink: 1,
+        width: '100%',
     },
     controlPanel: {
         backgroundColor: COLOR.black,
@@ -460,5 +538,21 @@ const styles = StyleSheet.create({
         paddingVertical: SIZE.space_md,
         textAlign: 'center',
         width: 80,
+    },
+    prevTime: {
+        backgroundColor: COLOR.bg_overlay,
+        borderRadius: SIZE.radius_md,
+        bottom: SIZE.space_md,
+        left: SIZE.space_md,
+        padding: SIZE.space_md,
+        position: 'absolute',
+    },
+    time: {
+        textAlign: 'center',
+        width: 100,
+    },
+    bigTime: {
+        textAlign: 'center',
+        width: 120,
     },
 });

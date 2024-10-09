@@ -11,7 +11,7 @@ import { IListItemProps } from './ListItem';
 export type ICheckListRawValue = number | string;
 export type ICheckListValue = ICheckListRawValue | ICheckListRawValue[] | undefined;
 
-export interface CheckListOptions {
+export interface ICheckListOptions {
     children?: ReactNode; // 内容插槽
     disabled?: boolean; // 禁用
     icon?: ReactElement; // 左侧图标
@@ -24,7 +24,7 @@ export interface ICheckListProps {
     checkedIcon?: ReactElement; // 选中图标
     defaultValue?: ICheckListValue; // 默认值
     multiple?: boolean; // 多选
-    options?: CheckListOptions[]; // 列表项
+    options?: ICheckListOptions[]; // 列表项
     renderItem?: (item: IListItemProps, index: number) => ReactElement; // 渲染函数
     rowKey?: (item: IListItemProps) => Key; // 唯一键生成函数
     value?: ICheckListValue; // 受控值

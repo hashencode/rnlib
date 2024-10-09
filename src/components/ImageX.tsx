@@ -2,7 +2,7 @@ import { Image as ImageOrigin, ImageResizeMode, ImageStyle, StyleProp } from 're
 import { SIZE } from '../scripts/const';
 import { ImageProps as ImageOriginProps } from 'react-native/Libraries/Image/Image';
 
-export interface IImageProps extends ImageOriginProps {
+export interface IImageXProps extends ImageOriginProps {
     height?: number; // 高度
     radius?: number; // 圆角
     resizeMode?: ImageResizeMode; // 图片裁剪模式
@@ -11,7 +11,7 @@ export interface IImageProps extends ImageOriginProps {
     width?: number; // 宽度
 }
 
-export default function ImageX(props: IImageProps) {
+export default function ImageX(props: IImageXProps) {
     const {
         defaultSource = require('../assets/images/imagePlaceholder.jpg'),
         height = props.size,

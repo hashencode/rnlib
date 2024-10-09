@@ -9,17 +9,17 @@ import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 export type ISelectorRawValue = number | string;
 export type ISelectorValue = ISelectorRawValue | ISelectorRawValue[] | undefined;
-export interface SelectorOption {
+export interface ISelectorOption {
     content?: ReactNode; // 内容插槽
     disabled?: boolean; // 禁用
     subtitle?: ReactNode; // 副标题
     title?: ReactNode; // 主文本
     value: ISelectorRawValue; // 选项值
 }
-export interface ISelectProps {
+export interface ISelectorProps {
     defaultValue?: ISelectorValue; // 默认值
     multiple?: boolean; // 多选
-    options: SelectorOption[]; // 选项
+    options: ISelectorOption[]; // 选项
     value?: ISelectorValue; // 受控值
 
     style?: {
@@ -35,7 +35,7 @@ export interface ISelectProps {
     onChange?: (val: ISelectorValue) => void; // 值变动事件回调
 }
 
-export default function Selector(props: ISelectProps) {
+export default function Selector(props: ISelectorProps) {
     const { defaultValue, multiple, options = [], style, value, onChange } = props;
 
     const [innerValue, handleChange] = useMergedState<ISelectorValue>(multiple ? [] : undefined, {

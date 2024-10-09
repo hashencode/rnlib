@@ -1,10 +1,10 @@
 import { ReactNode, useEffect } from 'react';
 import { Modal, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
+import { COLOR } from '../scripts/const';
 import { useUpdateEffect } from 'ahooks';
 import { useStyle } from '../hooks';
 
-export interface OverlayProps {
+export interface IOverlayProps {
     afterDestroy?: () => void; // 蒙层销毁回调
     children?: ReactNode; // 插槽
     backgroundColor?: string; // 底色
@@ -18,7 +18,7 @@ export interface OverlayProps {
     onRequestClose?: () => void; // 请求关闭回调
 }
 
-function Overlay(props: OverlayProps) {
+function Overlay(props: IOverlayProps) {
     const { visible, backgroundColor = COLOR.bg_overlay, afterDestroy, style, onPress, onRequestClose } = props;
 
     const { height, width } = useWindowDimensions();

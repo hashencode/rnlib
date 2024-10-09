@@ -4,7 +4,7 @@ import { useMergedState } from '../hooks';
 import { Flex, PressHighlight } from './index';
 import useStyle from '../hooks/useStyle';
 
-export interface ISwitchProProps {
+export interface ISwitchProps {
     defaultValue?: boolean; // 默认值
     disabled?: boolean; // 禁用
     size?: 'sm' | 'md'; // 尺寸
@@ -18,7 +18,7 @@ export interface ISwitchProProps {
     onPress?: () => void; // 点击事件回调
 }
 
-export default function Switch(props: ISwitchProProps) {
+export default function Switch(props: ISwitchProps) {
     const { size = 'md', style, disabled, onPress, onChange, value, defaultValue } = props;
 
     const [innerValue, handleChange] = useMergedState(false, {

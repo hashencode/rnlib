@@ -11,7 +11,7 @@ import { mergeRefs } from '../scripts/utils';
 
 export type IPickerRawValue = number | string;
 export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
-export interface PickerOption {
+export interface IPickerOption {
     children?: ReactNode; // 内容插槽
     disabled?: boolean; // 禁用
     subtitle?: ReactNode; // 副标题
@@ -28,7 +28,7 @@ export interface IPickerProps {
     multiple?: boolean; // 多选
     okButtonProps?: IButtonProps; // 确定按钮属性
     okText?: string; // 确认按钮文案（多选）
-    options: PickerOption[]; // 选项
+    options: IPickerOption[]; // 选项
     overlayClosable?: boolean; // 允许点击蒙层关闭
     title?: ReactNode; // 头部标题插槽
     value?: IPickerValue; // 受控值
@@ -148,7 +148,7 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
     }, [visible]);
 
     // 渲染选中图标
-    const renderCheckIcon = (option: PickerOption) => {
+    const renderCheckIcon = (option: IPickerOption) => {
         if ((multiple && valueCache?.includes(option.value)) || (!multiple && option?.value === innerValue)) {
             return checkIcon || <Icon name="check" color={COLOR.primary} size={SIZE.icon_xs} style={style?.checkIcon} />;
         }

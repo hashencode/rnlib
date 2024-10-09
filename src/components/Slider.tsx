@@ -7,7 +7,7 @@ import { Animated, StyleSheet, PanResponder, View, Easing, ViewStyle } from 'rea
 const TRACK_SIZE = 3;
 const THUMB_SIZE = 13;
 
-export interface SliderProps {
+export interface ISliderProps {
     value?: number;
     disabled?: boolean;
     minimumValue?: number;
@@ -27,7 +27,7 @@ export interface SliderProps {
     orientation?: 'horizontal' | 'vertical';
 }
 
-export default class Slider extends PureComponent<SliderProps> {
+export default class Slider extends PureComponent<ISliderProps> {
     static defaultProps = {
         value: 0,
         minimumValue: 0,
@@ -54,7 +54,7 @@ export default class Slider extends PureComponent<SliderProps> {
     _trackSize = undefined;
     _thumbSize = undefined;
 
-    constructor(props: SliderProps) {
+    constructor(props: ISliderProps) {
         super(props);
         this._panResponder = PanResponder.create({
             onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
@@ -67,7 +67,7 @@ export default class Slider extends PureComponent<SliderProps> {
         });
     }
 
-    componentDidUpdate(prevProps: SliderProps) {
+    componentDidUpdate(prevProps: ISliderProps) {
         if (this.props.value !== prevProps.value) {
             if (this.props.animateTransitions) {
                 this._setCurrentValueAnimated(this.props.value || 0);
@@ -177,7 +177,6 @@ export default class Slider extends PureComponent<SliderProps> {
     _handleMeasure = (name: string, x: any): void => {
         const { width, height } = x.nativeEvent.layout;
         const size = { width, height };
-
         const storeName = `_${name}`;
         // @ts-ignore
         const currentSize = this[storeName];
