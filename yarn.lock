@@ -1689,6 +1689,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gorhom/portal@npm:^1.0.14":
+  version: 1.0.14
+  resolution: "@gorhom/portal@npm:1.0.14"
+  dependencies:
+    nanoid: ^3.3.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 227bb96a2db854ab29bb9da8d4f3823c7f7448358de459709dd1b78522110da564c9a8734c6bc7d7153ed7c99320e0fb5d60b420c2ebb75ecaf2f0d757f410f9
+  languageName: node
+  linkType: hard
+
 "@hapi/hoek@npm:^9.0.0, @hapi/hoek@npm:^9.3.0":
   version: 9.3.0
   resolution: "@hapi/hoek@npm:9.3.0"
@@ -1712,6 +1724,8 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@gorhom/portal": ^1.0.14
+    "@react-native-community/hooks": ^3.0.0
     "@react-native/babel-preset": 0.75.2
     "@react-native/eslint-config": ^0.75.2
     "@react-native/metro-config": 0.75.2
@@ -1740,6 +1754,7 @@ __metadata:
     react-native-builder-bob: ^0.30.2
     react-native-gesture-handler: ^2.19.0
     react-native-haptic-feedback: ^2.3.3
+    react-native-orientation-locker-cn: ^1.7.2
     react-native-pager-view: ^6.4.1
     react-native-reanimated: ^3.15.1
     react-native-reanimated-carousel: ^3.5.1
@@ -2396,6 +2411,16 @@ __metadata:
   bin:
     rnc-cli: build/bin.js
   checksum: f8504b587291caa773eb85bfe260a2a2aec85b0db4ae55c41f473bacbab368641ea06c6c96b756c13a28d37450f1e715991e23eec7b169db76d84a075856e13d
+  languageName: node
+  linkType: hard
+
+"@react-native-community/hooks@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@react-native-community/hooks@npm:3.0.0"
+  peerDependencies:
+    react: ">=17.0.2"
+    react-native: ">=0.65"
+  checksum: 4fefcc22883ca7e21ad26e12830671e7287e29eed8fc51fdebebbccdd27b53f7743f64f55d640a74ea2dae4fed1f44b7be40410938564e736a2c3bbb9a770d3e
   languageName: node
   linkType: hard
 
@@ -8273,7 +8298,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.23":
+"nanoid@npm:^3.1.23, nanoid@npm:^3.3.1":
   version: 3.3.7
   resolution: "nanoid@npm:3.3.7"
   bin:
@@ -9122,6 +9147,20 @@ __metadata:
   peerDependencies:
     react-native: ">=0.60.0"
   checksum: 5ff12aaf44fa1cad8ab3d9c58046a11c631c6622955120294060efc51c625203ee4cd7ccb565663c12b27552ebbb7034a386000d9da738b9eea5ff62d58b14c0
+  languageName: node
+  linkType: hard
+
+"react-native-orientation-locker-cn@npm:^1.7.2":
+  version: 1.7.2
+  resolution: "react-native-orientation-locker-cn@npm:1.7.2"
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.2"
+    react-native-windows: ">=0.63.3"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: da44b83abcce575ca45658986451f73fbb773ee4f4a3e660b53696e3507b06cfa4ebc618ebace90a1556f86f171c3804e2c7722fb7f38109923b290fbca4ab5c
   languageName: node
   linkType: hard
 

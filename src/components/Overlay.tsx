@@ -11,6 +11,7 @@ export interface IOverlayProps {
     visible?: boolean; // 显隐
 
     style?: {
+        root?: StyleProp<ViewStyle>; // 根节点样式
         content?: StyleProp<ViewStyle>; // 内容样式
     };
 
@@ -41,7 +42,7 @@ function Overlay(props: IOverlayProps) {
     });
 
     return (
-        <Modal visible={visible} transparent={true} animationType="fade" onRequestClose={onRequestClose}>
+        <Modal visible={visible} transparent={true} animationType="fade" onRequestClose={onRequestClose} style={style?.root}>
             <Pressable onPress={() => onPress?.()} style={[styles.overlay, { backgroundColor }]} />
             <View style={contentStyle}>{props.children}</View>
         </Modal>
