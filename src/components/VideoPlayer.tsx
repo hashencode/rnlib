@@ -44,6 +44,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         onError,
         onFullscreen,
         onPlaybackStateChanged,
+        onEnd,
         style,
         ...rest
     } = props;
@@ -160,6 +161,9 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
 
     // 切换播放状态
     const togglePlayStatus = () => {
+        if (duration - currentTime < 1) {
+            videoRef.current?.seek(0);
+        }
         setIsPaused(!isPaused);
     };
 
@@ -179,7 +183,6 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
             videoRef?.current?.seek(value);
             setCurrentTime(value);
             setIsLoading(true);
-            setIsPaused(false);
         }
     }, 500);
 
@@ -212,11 +215,17 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         onError?.(error);
     };
 
+    // 处理寻找
+    const handleSeek = () => {
+        setIsPaused(false); // 寻找之后立即播放
+    };
+
     // 处理播放状态变更
     const handlePlaybackStateChanged = (data: OnPlaybackStateChangedData) => {
         if (data.isPlaying) {
             setIsLoading(false);
         }
+        setIsPaused(!data.isPlaying);
         onPlaybackStateChanged?.(data);
     };
 
@@ -232,6 +241,12 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
             videoRef?.current?.seek(prevTime);
             setShowPrevTimeBtn(false);
         }
+    };
+
+    // 处理播放结束
+    const handleEnd = () => {
+        setIsPaused(true);
+        onEnd?.();
     };
 
     // 返回按钮
@@ -290,7 +305,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         <TextX
             color={COLOR.white}
             size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini}
-            style={isFullscreen ? styles.bigTime : styles.time}>
+            style={[styles.duration, isFullscreen ? styles.fullscreenDuration : styles.defaultDuration]}>
             {convertSecondsDisplay(currentTime)} / {convertSecondsDisplay(duration)}
         </TextX>
     );
@@ -382,7 +397,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
             return (
                 <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.mask}>
                     {/* 顶部操作区 */}
-                    <Flex block alignItems="center" columnGap={SIZE.space_lg} style={styles.bigHeader}>
+                    <Flex block alignItems="center" columnGap={SIZE.space_lg} style={[styles.header, styles.fullscreenHeader]}>
                         {/* 返回按钮 */}
                         {backButtonEl}
                         <TextX size={SIZE.font_h4} color={COLOR.white} numberOfLines={1}>
@@ -399,7 +414,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                         {prevTimeEl}
                     </Flex>
                     {/* 底部操作区 */}
-                    <View style={styles.bigFooter}>
+                    <View style={[styles.footer, styles.fullscreenFooter]}>
                         <Flex alignItems="center" columnGap={SIZE.space_xl}>
                             {/* 进度条 */}
                             {sliderEl}
@@ -430,7 +445,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         return (
             <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.mask}>
                 {/* 顶部操作区 */}
-                <Flex block justifyContent="space-between" alignItems="center" style={styles.header}>
+                <Flex block justifyContent="space-between" alignItems="center" style={[styles.header, styles.defaultHeader]}>
                     {/* 返回按钮 */}
                     {backButtonEl}
                 </Flex>
@@ -444,7 +459,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                     {prevTimeEl}
                 </Flex>
                 {/* 底部操作区 */}
-                <Flex alignItems="center" columnGap={SIZE.space_lg} block style={styles.footer}>
+                <Flex alignItems="center" columnGap={SIZE.space_lg} block style={[styles.footer, styles.defaultFooter]}>
                     {/* 播放/暂停按钮 */}
                     {playButtonEl}
                     {/* 进度条 */}
@@ -473,6 +488,8 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                 onProgress={handleProgress}
                 onError={handleError}
                 onPlaybackStateChanged={handlePlaybackStateChanged}
+                onSeek={handleSeek}
+                onEnd={handleEnd}
                 rate={+currentRate}
                 style={{ height: '100%' }}
                 {...rest}></Video>
@@ -489,6 +506,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
 const styles = StyleSheet.create({
     root: {
         backgroundColor: COLOR.black,
+        flexShrink: 0,
         position: 'relative',
         transformOrigin: 'center',
     },
@@ -520,33 +538,34 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: COLOR.bg_overlay,
+        flexShrink: 0,
         paddingHorizontal: SIZE.space_lg,
-        paddingVertical: SIZE.space_md,
         position: 'relative',
     },
-    bigHeader: {
-        backgroundColor: COLOR.bg_overlay,
+    defaultHeader: {
+        paddingVertical: SIZE.space_md,
+    },
+    fullscreenHeader: {
         paddingVertical: SIZE.space_lg,
-        position: 'relative',
     },
     headerBackIcon: {
         marginLeft: -5,
     },
     body: {
+        flexShrink: 1,
         position: 'relative',
     },
     footer: {
         backgroundColor: COLOR.bg_overlay,
+        flexShrink: 0,
         paddingHorizontal: SIZE.space_lg,
-        paddingVertical: SIZE.space_sm,
         position: 'relative',
     },
-    bigFooter: {
-        backgroundColor: COLOR.bg_overlay,
+    defaultFooter: {
+        paddingVertical: SIZE.space_sm,
+    },
+    fullscreenFooter: {
         paddingBottom: SIZE.space_lg,
-        paddingHorizontal: SIZE.space_lg,
-        paddingTop: SIZE.space_sm,
-        position: 'relative',
     },
     playBtn: {
         marginRight: SIZE.space_md,
@@ -579,12 +598,13 @@ const styles = StyleSheet.create({
         padding: SIZE.space_md,
         position: 'absolute',
     },
-    time: {
+    duration: {
         textAlign: 'right',
+    },
+    defaultDuration: {
         width: 100,
     },
-    bigTime: {
-        textAlign: 'right',
+    fullscreenDuration: {
         width: 120,
     },
 });
