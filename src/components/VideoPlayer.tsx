@@ -329,11 +329,11 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
 
     // 错误信息展示
     const errorEl = errorMsg ? (
-        <Flex column rowGap={SIZE.space_sm} style={{ paddingHorizontal: SIZE.space_lg }}>
-            <TextX color={COLOR.white} size={SIZE.font_h4}>
-                错误：
+        <Flex column rowGap={SIZE.space_sm} style={{ padding: SIZE.space_lg }}>
+            <TextX color={COLOR.white} size={SIZE.font_secondary}>
+                播放错误：
             </TextX>
-            <TextX color={COLOR.white} size={SIZE.font_desc}>
+            <TextX color={COLOR.white} size={SIZE.font_mini}>
                 {errorMsg}
             </TextX>
         </Flex>
@@ -448,6 +448,8 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                 <Flex block justifyContent="space-between" alignItems="center" style={[styles.header, styles.defaultHeader]}>
                     {/* 返回按钮 */}
                     {backButtonEl}
+                    {/*播放速率*/}
+                    {rateButtonEl}
                 </Flex>
                 {/* 播放/暂停按钮 */}
                 <Flex grow={1} block alignItems="center" justifyContent="center" style={styles.body}>
@@ -469,6 +471,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                     {/* 全屏 */}
                     {fullscreenButtonEl}
                 </Flex>
+                {controlPanelEl()}
             </Animated.View>
         );
     };
