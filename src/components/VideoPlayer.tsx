@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUpdateEffect } from 'ahooks';
 import type { ReactVideoProps } from 'react-native-video/src/types';
-import Orientation from 'react-native-orientation-locker-cn';
+import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
 import { Portal } from '@gorhom/portal';
 import { useStyle, useTheme } from '../hooks';
 import { useBackHandler } from '@react-native-community/hooks';
@@ -69,6 +69,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
 
     useEffect(() => {
+        Orientation.lockToPortrait();
         if (_.isNumber(prevTime) && prevTime > 0) {
             setShowPrevTimeBtn(true);
         }
@@ -91,13 +92,29 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     useUpdateEffect(() => {
         if (isFullscreen) {
             theme.hideStatusBar();
-            Orientation.lockToLandscapeLeft();
+            Orientation.getDeviceOrientation(ev => {
+                if (ev === 'LANDSCAPE-LEFT') {
+                    Orientation.lockToLandscapeLeft();
+                } else if (ev === 'LANDSCAPE-RIGHT') {
+                    Orientation.lockToLandscapeRight();
+                }
+            });
         } else {
             theme.showStatusBar();
             Orientation.lockToPortrait();
         }
         onFullscreen?.(isFullscreen);
     }, [isFullscreen]);
+
+    // 监听设备旋转
+    useDeviceOrientationChange(ev => {
+        if (ev.startsWith('PORTRAIT') && isFullscreen) {
+            setIsFullscreen(false);
+        }
+        if (ev.startsWith('LANDSCAPE') && !isFullscreen) {
+            setIsFullscreen(true);
+        }
+    });
 
     // 处理返回操作
     useBackHandler(() => {
@@ -244,10 +261,10 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     };
 
     // 处理播放结束
-    const handleEnd = () => {
+    const handleEnd = _.debounce(() => {
         setIsPaused(true);
         onEnd?.();
-    };
+    }, 1000);
 
     // 返回按钮
     const backButtonEl = (
