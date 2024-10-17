@@ -493,32 +493,29 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         );
     };
 
-    // 主节点
-    const rootEl = (
-        <Pressable onPress={handleRootPress} style={rootStyle}>
-            {controlsEl()}
-
-            <Video
-                ref={videoRef}
-                paused={isPaused}
-                resizeMode="contain"
-                source={source}
-                onLoad={handleLoad}
-                onLoadStart={handleLoadStart}
-                onProgress={handleProgress}
-                onError={handleError}
-                onPlaybackStateChanged={handlePlaybackStateChanged}
-                onSeek={handleSeek}
-                onEnd={handleEnd}
-                rate={+currentRate}
-                style={{ height: '100%' }}
-                {...rest}></Video>
-        </Pressable>
-    );
-
     return (
         <Portal hostName="videoPlayer">
-            <View style={isFullscreen ? fullscreenStyle : defaultStyle}>{rootEl}</View>
+            <View style={isFullscreen ? fullscreenStyle : defaultStyle}>
+                <Pressable onPress={handleRootPress} style={rootStyle}>
+                    {controlsEl()}
+
+                    <Video
+                        ref={videoRef}
+                        paused={isPaused}
+                        resizeMode="contain"
+                        source={source}
+                        onLoad={handleLoad}
+                        onLoadStart={handleLoadStart}
+                        onProgress={handleProgress}
+                        onError={handleError}
+                        onPlaybackStateChanged={handlePlaybackStateChanged}
+                        onSeek={handleSeek}
+                        onEnd={handleEnd}
+                        rate={+currentRate}
+                        style={{ height: '100%' }}
+                        {...rest}></Video>
+                </Pressable>
+            </View>
         </Portal>
     );
 }

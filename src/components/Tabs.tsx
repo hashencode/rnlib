@@ -18,13 +18,13 @@ export interface ITabsItem {
 
 export interface ITabsProps {
     defaultValue?: ITabsItemValue; // 默认值
+    destroyInactiveTabPane?: boolean; // 隐藏是是否销毁节点
     items?: ITabsItem[]; // 内容项
     scrollable?: boolean; // 可滚动
     headerConfig?: ScrollViewProps; // 头部滚动配置项
     value?: ITabsItemValue; // 受控值
 
     style?: {
-        body?: StyleProp<ViewStyle>; // 内容区域样式
         divider?: StyleProp<ViewStyle>; // 分割线样式
         header?: StyleProp<ViewStyle>; // 头部样式
         label?: StyleProp<TextStyle>; // 选项卡文本样式
@@ -37,7 +37,7 @@ export interface ITabsProps {
 }
 
 export default function Tabs(props: ITabsProps) {
-    const { value, defaultValue, scrollable, items = [], style, headerConfig, onChange } = props;
+    const { value, defaultValue, scrollable, items = [], style, headerConfig, destroyInactiveTabPane, onChange } = props;
 
     const [isLayoutEnd, setIsLayoutEnd] = useState(false);
     const rootWidth = useRef<number>(0);
@@ -164,25 +164,40 @@ export default function Tabs(props: ITabsProps) {
     );
 
     return (
-        <View style={style?.root}>
-            {scrollable ? (
-                <ScrollView
-                    ref={scrollViewRef}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal
-                    {...headerConfig}
-                    onLayout={ev => {
-                        getWrapperWidth(ev);
-                        headerConfig?.onLayout?.(ev);
-                    }}>
-                    {renderHeader}
-                </ScrollView>
+        <>
+            <View style={style?.root}>
+                {scrollable ? (
+                    <ScrollView
+                        ref={scrollViewRef}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                        {...headerConfig}
+                        onLayout={ev => {
+                            getWrapperWidth(ev);
+                            headerConfig?.onLayout?.(ev);
+                        }}>
+                        {renderHeader}
+                    </ScrollView>
+                ) : (
+                    <View onLayout={ev => getWrapperWidth(ev)}>{renderHeader}</View>
+                )}
+                <View style={dividerStyle}></View>
+            </View>
+            {destroyInactiveTabPane ? (
+                <>{items.find(item => item.value === innerValue)?.children}</>
             ) : (
-                <View onLayout={ev => getWrapperWidth(ev)}>{renderHeader}</View>
+                <>
+                    {items.map(item => {
+                        const isActive = item.value === innerValue;
+                        return (
+                            <View key={item.value} style={[{ width: rootWidth.current }, isActive ? {} : styles.hidden]}>
+                                {item?.children}
+                            </View>
+                        );
+                    })}
+                </>
             )}
-            <View style={dividerStyle}></View>
-            <View style={style?.body}>{items.find(item => item.value === innerValue)?.children}</View>
-        </View>
+        </>
     );
 }
 
@@ -209,6 +224,10 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.border_default,
         bottom: 0,
         height: SIZE.border_bold,
+        position: 'absolute',
+    },
+    hidden: {
+        left: -9999,
         position: 'absolute',
     },
 });
