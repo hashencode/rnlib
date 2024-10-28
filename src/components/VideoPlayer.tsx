@@ -20,6 +20,7 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style'> {
     title?: string;
     prevTime?: number; // 上次播放的进度
     autoplay?: boolean; // 自动播放
+    liveMode?: boolean; // 直播模式
     onBack?: () => void; // 返回回调
     onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
     style?: {
@@ -37,6 +38,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         source,
         prevTime,
         autoplay,
+        liveMode,
         onBack,
         onLoad,
         onLoadStart,
@@ -92,13 +94,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     useUpdateEffect(() => {
         if (isFullscreen) {
             theme.hideStatusBar();
-            Orientation.getDeviceOrientation(ev => {
-                if (ev === 'LANDSCAPE-LEFT') {
-                    Orientation.lockToLandscapeLeft();
-                } else if (ev === 'LANDSCAPE-RIGHT') {
-                    Orientation.lockToLandscapeRight();
-                }
-            });
+            Orientation.lockToLandscapeLeft();
         } else {
             theme.showStatusBar();
             Orientation.lockToPortrait();
@@ -303,6 +299,10 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
 
     // 滑动条
     const sliderEl = useMemo(() => {
+        // 直播模式不显示进度条
+        if (liveMode) {
+            return <View style={styles.sliderPlaceholder}></View>;
+        }
         return (
             <Slider
                 minimumValue={0}
@@ -315,17 +315,17 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                 onSlidingComplete={handleSlidingComplete}
                 style={styles.slider}></Slider>
         );
-    }, [duration, currentTime, isFullscreen]);
+    }, [duration, currentTime, isFullscreen, liveMode]);
 
     // 当前时长/总时长
-    const timeEl = (
+    const timeEl = !liveMode ? (
         <TextX
             color={COLOR.white}
             size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini}
             style={[styles.duration, isFullscreen ? styles.fullscreenDuration : styles.defaultDuration]}>
             {convertSecondsDisplay(currentTime)} / {convertSecondsDisplay(duration)}
         </TextX>
-    );
+    ) : null;
 
     // 进度跳转
     const prevTimeEl =
@@ -583,6 +583,10 @@ const styles = StyleSheet.create({
     },
     fullscreenFooter: {
         paddingBottom: SIZE.space_lg,
+    },
+    sliderPlaceholder: {
+        flexGrow: 1,
+        height: 40,
     },
     playBtn: {
         marginRight: SIZE.space_md,
