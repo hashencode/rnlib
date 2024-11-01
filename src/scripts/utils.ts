@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
 import _ from 'lodash';
+import { ms } from 'react-native-size-matters';
 
 export function isAndroid() {
     return Platform.OS === 'android';
@@ -57,4 +58,9 @@ export const convertSecondsDisplay = (ms: number) => {
     formattedTime += String(minutes).padStart(2, '0') + ':';
     formattedTime += String(seconds).padStart(2, '0');
     return formattedTime;
+};
+
+// 尺寸缩放
+export const scale = (size: number) => {
+    return ms(size, 0.1);
 };

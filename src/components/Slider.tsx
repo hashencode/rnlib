@@ -2,7 +2,7 @@
  * 改造自 https://github.com/jeanregisser/react-native-slider
  */
 import { PureComponent } from 'react';
-import { Animated, StyleSheet, PanResponder, View, Easing, ViewStyle } from 'react-native';
+import { Animated, StyleSheet, PanResponder, View, Easing, ViewStyle, StyleProp } from 'react-native';
 
 const TRACK_SIZE = 3;
 const THUMB_SIZE = 13;
@@ -20,9 +20,9 @@ export interface ISliderProps {
     onChange?: (value: number) => void;
     onSlidingStart?: (value: number) => void;
     onSlidingComplete?: (value: number) => void;
-    style?: ViewStyle;
-    trackStyle?: ViewStyle;
-    thumbStyle?: ViewStyle;
+    style?: StyleProp<ViewStyle>;
+    trackStyle?: StyleProp<ViewStyle>;
+    thumbStyle?: StyleProp<ViewStyle>;
     animateTransitions?: boolean;
     orientation?: 'horizontal' | 'vertical';
 }

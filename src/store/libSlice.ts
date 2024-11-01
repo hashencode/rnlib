@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { randomId } from '../scripts/utils';
-import { IDialogProps } from '../components/Dialog';
-import { IToastProps } from '../components/Toast';
+import { IDialogProps, IToastProps } from '../components';
 
 export interface IDialogQueueItem extends Omit<IDialogProps, 'id'> {
     id: string;

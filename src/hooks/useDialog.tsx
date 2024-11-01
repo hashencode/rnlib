@@ -1,6 +1,6 @@
 import { createDialog, destroyDialog, destroyAllDialog, IDialogQueueItem } from '../store/libSlice';
 import { useDispatch } from 'react-redux';
-import { IDialogProps } from '../components/Dialog';
+import { IDialogProps } from '../components';
 
 export default function useDialog() {
     const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { createToast, destroyToast, destroyAllToast, IToastQueueItem } from '../store/libSlice';
 import { useDispatch } from 'react-redux';
-import { IToastProps } from '../components/Toast';
+import { IToastProps } from '../components';
 
 export default function useToast() {
     const dispatch = useDispatch();

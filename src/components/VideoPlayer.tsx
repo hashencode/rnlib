@@ -1,11 +1,11 @@
 import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
-import { Pressable, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Button, Flex, Icon, Loading, Slider, TextX } from './index';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import Animated, { FadeIn, FadeOut, SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import { OnLoadData } from 'react-native-video/src/types/events';
-import { convertSecondsDisplay } from '../scripts/utils';
+import { convertSecondsDisplay, mergeRefs, scale } from '../scripts/utils';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,6 +15,7 @@ import Orientation, { useDeviceOrientationChange } from 'react-native-orientatio
 import { Portal } from '@gorhom/portal';
 import { useStyle, useTheme } from '../hooks';
 import { useBackHandler } from '@react-native-community/hooks';
+import { ScaledSheet } from 'react-native-size-matters';
 
 export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style'> {
     title?: string;
@@ -32,7 +33,7 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style'> {
 
 const speedList = ['2', '1.5', '1.25', '1.0', '0.75', '0.5'];
 
-export default function VideoPlayer(props: IVideoPlayerProps) {
+function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     const {
         title,
         source,
@@ -67,7 +68,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     const [currentRate, setCurrentRate] = useState('1.0'); // 当前速率
     const [hasLoaded, setHasLoaded] = useState(false); // 视频信息加载完成
 
-    const videoRef = useRef<VideoRef>(null);
+    const localRef = useRef<VideoRef>(null);
     const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
 
     useEffect(() => {
@@ -175,7 +176,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     // 切换播放状态
     const togglePlayStatus = () => {
         if (duration - currentTime < 1) {
-            videoRef.current?.seek(0);
+            localRef.current?.seek(0);
         }
         setIsPaused(!isPaused);
     };
@@ -193,7 +194,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     // 处理滑动条结束滑动
     const handleSlidingComplete = _.debounce((value: number) => {
         if (duration) {
-            videoRef?.current?.seek(value);
+            localRef?.current?.seek(value);
             setCurrentTime(value);
             setIsLoading(true);
         }
@@ -251,7 +252,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     // 跳转至原播放进度
     const handleJumpToPrevTime = () => {
         if (prevTime) {
-            videoRef?.current?.seek(prevTime);
+            localRef?.current?.seek(prevTime);
             setShowPrevTimeBtn(false);
         }
     };
@@ -357,7 +358,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     ) : null;
 
     // 播放速率控件开关
-    const rateButtonEl = (
+    const rateButtonEl = !liveMode ? (
         <Pressable hitSlop={SIZE.space_2xl / 2} onPress={() => setCurrentControl('rate')}>
             {currentRate ? (
                 <TextX color={COLOR.white}>{currentRate}X</TextX>
@@ -365,7 +366,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                 <Icon name="gauge" color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs}></Icon>
             )}
         </Pressable>
-    );
+    ) : null;
 
     // 播放速率控件
     const rateEl = (
@@ -500,7 +501,7 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
                     {controlsEl()}
 
                     <Video
-                        ref={videoRef}
+                        ref={mergeRefs([ref, localRef])}
                         paused={isPaused}
                         resizeMode="contain"
                         source={source}
@@ -520,7 +521,9 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
     );
 }
 
-const styles = StyleSheet.create({
+export default forwardRef(VideoPlayer);
+
+const styles = ScaledSheet.create({
     root: {
         backgroundColor: COLOR.black,
         flexShrink: 0,
@@ -586,7 +589,7 @@ const styles = StyleSheet.create({
     },
     sliderPlaceholder: {
         flexGrow: 1,
-        height: 40,
+        height: scale(40),
     },
     playBtn: {
         marginRight: SIZE.space_md,
@@ -598,9 +601,9 @@ const styles = StyleSheet.create({
     controlPanel: {
         backgroundColor: COLOR.black,
         height: '100%',
-        paddingLeft: 40,
-        paddingRight: 80,
-        paddingVertical: 40,
+        paddingLeft: scale(40),
+        paddingRight: scale(80),
+        paddingVertical: scale(40),
         position: 'absolute',
         right: 0,
         top: 0,
@@ -609,7 +612,7 @@ const styles = StyleSheet.create({
         marginBottom: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
         textAlign: 'center',
-        width: 80,
+        width: scale(80),
     },
     prevTime: {
         backgroundColor: COLOR.bg_overlay,
@@ -623,9 +626,9 @@ const styles = StyleSheet.create({
         textAlign: 'right',
     },
     defaultDuration: {
-        width: 100,
+        width: scale(100),
     },
     fullscreenDuration: {
-        width: 120,
+        width: scale(120),
     },
 });

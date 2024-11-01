@@ -54,6 +54,12 @@ export default function Tabs(props: ITabsProps) {
         onChange,
     });
 
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
+
     // 头部样式
     const headerStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.header],
@@ -165,7 +171,7 @@ export default function Tabs(props: ITabsProps) {
 
     return (
         <>
-            <View style={style?.root}>
+            <View style={rootStyle}>
                 {scrollable ? (
                     <ScrollView
                         ref={scrollViewRef}
@@ -202,6 +208,9 @@ export default function Tabs(props: ITabsProps) {
 }
 
 const styles = StyleSheet.create({
+    root: {
+        width: '100%',
+    },
     header: {
         position: 'relative',
     },
