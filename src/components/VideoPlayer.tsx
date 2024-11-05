@@ -69,6 +69,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     const [hasLoaded, setHasLoaded] = useState(false); // 视频信息加载完成
 
     const localRef = useRef<VideoRef>(null);
+    const videoRef = mergeRefs([ref, localRef]);
     const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
 
     useEffect(() => {
@@ -176,7 +177,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     // 切换播放状态
     const togglePlayStatus = () => {
         if (duration - currentTime < 1) {
-            localRef.current?.seek(0);
+            videoRef.current?.seek(0);
         }
         setIsPaused(!isPaused);
     };
@@ -194,7 +195,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     // 处理滑动条结束滑动
     const handleSlidingComplete = _.debounce((value: number) => {
         if (duration) {
-            localRef?.current?.seek(value);
+            videoRef?.current?.seek(value);
             setCurrentTime(value);
             setIsLoading(true);
         }
@@ -252,7 +253,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     // 跳转至原播放进度
     const handleJumpToPrevTime = () => {
         if (prevTime) {
-            localRef?.current?.seek(prevTime);
+            videoRef?.current?.seek(prevTime);
             setShowPrevTimeBtn(false);
         }
     };
@@ -501,7 +502,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                     {controlsEl()}
 
                     <Video
-                        ref={mergeRefs([ref, localRef])}
+                        ref={videoRef}
                         paused={isPaused}
                         resizeMode="contain"
                         source={source}
