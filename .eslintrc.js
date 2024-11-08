@@ -2,7 +2,7 @@ module.exports = {
     root: true,
     extends: '@react-native',
     plugins: ['import'],
-    ignorePatterns: ['plugins/**/*', 'metro.config.js', 'node_modules'],
+    ignorePatterns: ['plugins/**/*', 'metro.config.js'],
     parserOptions: {
         ecmaFeatures: {
             jsx: true,

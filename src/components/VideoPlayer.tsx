@@ -309,7 +309,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
             <Slider
                 minimumValue={0}
                 maximumValue={duration}
-                value={currentTime <= duration ? currentTime : duration}
+                value={currentTime}
                 thumbTintColor="#fff"
                 minimumTrackTintColor="#fff"
                 maximumTrackTintColor="rgba(255,255,255,.5)"
