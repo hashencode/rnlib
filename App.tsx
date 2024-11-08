@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 import LibProvider from './src/providers/LibProvider';
 
+import 'react-native-svg';
+
 function App() {
     return (
         <Provider store={store}>

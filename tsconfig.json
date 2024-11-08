@@ -3,7 +3,8 @@
     "compilerOptions": {
         "types": ["jest", "node"],
         "allowImportingTsExtensions": false,
-        "moduleResolution": "Bundler"
+        "moduleResolution": "Bundler",
+        "skipLibCheck": true
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"], // 确保包含所有 TypeScript 文件
     "exclude": ["node_modules", "lib"] // 排除生成目录

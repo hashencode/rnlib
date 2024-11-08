@@ -40,7 +40,7 @@ export default function Checkbox(props: ICheckboxProps) {
 
     // 图标容器样式
     const containerStyle = useMemo(() => {
-        let styleArray: StyleProps[] = [styles.iconContainer];
+        let styleArray: any[] = [styles.iconContainer];
         if (disabled) {
             // 禁用
             styleArray.push(styles.iconContainerDisabled);
@@ -50,7 +50,7 @@ export default function Checkbox(props: ICheckboxProps) {
         }
         // 如果存在自定义样式
         if (style?.iconContainer) {
-            styleArray.push(style?.iconContainer);
+            styleArray.push(style.iconContainer);
         }
         return StyleSheet.flatten(styleArray);
     }, [disabled, innerValue, indeterminate, style?.iconContainer]);
