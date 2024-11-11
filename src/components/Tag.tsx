@@ -49,7 +49,7 @@ export default function Tag(props: ITagProps) {
 const styles = StyleSheet.create({
     root: {
         borderRadius: SIZE.radius_md,
-        height: SIZE.tag_height,
         paddingHorizontal: SIZE.space_md,
+        paddingVertical: SIZE.space_xs,
     },
 });

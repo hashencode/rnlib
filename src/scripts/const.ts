@@ -117,7 +117,6 @@ export const SIZE = {
     input_height_md: scale(40),
     input_height_sm: scale(30),
     // 标签（关联mini button）
-    tag_height: scale(26),
     tag_icon_size: scale(12),
     // 选择
     picker_item_height: scale(50),
