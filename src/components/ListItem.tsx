@@ -101,7 +101,7 @@ export default function ListItem(props: IListItemProps) {
             {iconEl}
 
             <Flex alignItems="stretch" style={bodyStyle}>
-                <Flex column justifyContent="center" grow={1} shrink={0} style={style?.main}>
+                <Flex column justifyContent="center" grow={1} style={style?.main}>
                     <TextX size={SIZE.font_h3} style={style?.title}>
                         {title}
                     </TextX>
