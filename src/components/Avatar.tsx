@@ -1,17 +1,18 @@
 import { ReactNode, useMemo, useState } from 'react';
-import { ImageSourcePropType, ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, ImageX, TextX } from './index';
 import _ from 'lodash';
 import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
 import useStyle from '../hooks/useStyle';
+import { Source } from 'react-native-turbo-image';
 
 export interface IAvatarProps {
     alt?: string; // 未加载完成时显示的文本
     children?: ReactNode; // 内容插槽
     shape?: 'circle' | 'square'; // 形状
     size?: 'lg' | 'md' | 'sm' | number; // 尺寸
-    source?: ImageSourcePropType; // 图片来源
+    source?: Source; // 图片来源
 
     style?: {
         image?: StyleProp<ImageStyle>; // 图片样式

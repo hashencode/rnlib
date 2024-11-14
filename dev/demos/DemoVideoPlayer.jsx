@@ -5,7 +5,8 @@ import { SIZE } from '../../src/scripts/const';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PortalHost } from '@gorhom/portal';
 
-const source = { uri: 'https://samplelib.com/lib/preview/mp4/sample-30s.mp4' };
+const source = { uri: 'https://media.w3.org/2010/05/sintel/trailer.mp4' };
+const posterSource = { uri: 'https://pic.netbian.com/uploads/allimg/241009/002252-17284045726426.jpg' };
 
 export default function DemoVideoPlayer() {
     const insets = useSafeAreaInsets();
@@ -19,6 +20,7 @@ export default function DemoVideoPlayer() {
                         title="mov_bbb.mp4"
                         prevTime={1}
                         autoplay
+                        poster={posterSource}
                         style={{ default: { top: SIZE.navigator_height + insets.top } }}></VideoPlayer>
                 </View>
             </DefaultLayout>

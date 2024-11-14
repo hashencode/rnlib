@@ -5,6 +5,7 @@ import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, ImageX, TextX } from './index';
+import { Source } from 'react-native-turbo-image';
 
 export interface IErrorBlockProps {
     extra?: ReactNode; // 操作区域
@@ -45,7 +46,7 @@ export default function ErrorBlock(props: IErrorBlockProps) {
         if (isValidElement(image)) {
             return image;
         }
-        return <ImageX source={image as ImageSourcePropType} style={imageStyle} />;
+        return <ImageX source={image as Source} style={imageStyle} />;
     };
 
     return (
