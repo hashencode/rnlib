@@ -2,10 +2,10 @@ import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnV
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Button, Flex, Icon, Loading, Slider, TextX } from './index';
-import { ForwardedRef, forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import Animated, { FadeIn, FadeOut, SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import { OnLoadData } from 'react-native-video/src/types/events';
-import { convertSecondsDisplay, mergeRefs, scale } from '../scripts/utils';
+import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,6 +22,8 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style'> {
     prevTime?: number; // 上次播放的进度
     autoplay?: boolean; // 自动播放
     liveMode?: boolean; // 直播模式
+    messageItems?: ReactNode[]; // 消息列表
+    progressBarDisabled?: boolean; // 禁用进度条
     onBack?: () => void; // 返回回调
     onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
     style?: {
@@ -35,6 +37,7 @@ const speedList = ['2', '1.5', '1.25', '1.0', '0.75', '0.5'];
 
 function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     const {
+        messageItems,
         title,
         source,
         prevTime,
@@ -329,6 +332,20 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         </TextX>
     ) : null;
 
+    // 提示组
+    const messageGroupEl = (children?: ReactNode[]) => {
+        if (children && children.length > 0) {
+            return (
+                <Flex column rowGap={SIZE.space_md} style={styles.messageGroup}>
+                    {children.map(item => {
+                        return <Fragment key={randomId()}>{item}</Fragment>;
+                    })}
+                </Flex>
+            );
+        }
+        return null;
+    };
+
     // 进度跳转
     const prevTimeEl =
         showPrevTimeBtn && prevTime && hasLoaded ? (
@@ -430,7 +447,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                         {/* 错误信息 */}
                         {errorEl}
                         {/* 上次播放进度 */}
-                        {prevTimeEl}
+                        {messageGroupEl([messageItems, prevTimeEl])}
                     </Flex>
                     {/* 底部操作区 */}
                     <View style={[styles.footer, styles.fullscreenFooter]}>
@@ -477,7 +494,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                     {/* 错误信息 */}
                     {errorEl}
                     {/* 上次播放进度 */}
-                    {prevTimeEl}
+                    {messageGroupEl([messageItems, prevTimeEl])}
                 </Flex>
                 {/* 底部操作区 */}
                 <Flex alignItems="center" columnGap={SIZE.space_lg} block style={[styles.footer, styles.defaultFooter]}>
@@ -615,13 +632,15 @@ const styles = ScaledSheet.create({
         textAlign: 'center',
         width: scale(80),
     },
+    messageGroup: {
+        position: 'absolute',
+        bottom: SIZE.space_md,
+        left: SIZE.space_md,
+    },
     prevTime: {
         backgroundColor: COLOR.bg_overlay,
         borderRadius: SIZE.radius_md,
-        bottom: SIZE.space_md,
-        left: SIZE.space_md,
         padding: SIZE.space_md,
-        position: 'absolute',
     },
     duration: {
         textAlign: 'right',

@@ -5,7 +5,7 @@ import { SIZE } from '../../src/scripts/const';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PortalHost } from '@gorhom/portal';
 
-const source = { uri: 'https://media.w3.org/2010/05/sintel/trailer.mp4' };
+const source = { uri: 'https://samplelib.com/lib/preview/mp4/sample-30s.mp4' };
 
 export default function DemoVideoPlayer() {
     const insets = useSafeAreaInsets();
