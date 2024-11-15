@@ -47,6 +47,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         autoplay,
         liveMode,
         poster,
+        progressBarDisabled,
         onBack,
         onLoad,
         onLoadStart,
@@ -302,17 +303,15 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                 fill={COLOR.white}
                 size={isFullscreen ? SIZE.icon_md : SIZE.icon_xs}
                 strokeWidth={SIZE.icon_stroke_xs}
-                style={styles.playBtn}></Icon>
+                style={styles.playBtn}
+            />
         </Pressable>
     );
 
     // 全屏按钮
     const fullscreenButtonEl = (
         <Pressable hitSlop={SIZE.space_2xl / 2} onPress={toggleFullscreen}>
-            <Icon
-                name={isFullscreen ? 'minimize' : 'maximize'}
-                color={COLOR.white}
-                size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs}></Icon>
+            <Icon name={isFullscreen ? 'minimize' : 'maximize'} color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs} />
         </Pressable>
     );
 
@@ -324,6 +323,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         }
         return (
             <Slider
+                disabled={progressBarDisabled}
                 minimumValue={0}
                 maximumValue={duration}
                 value={currentTime <= duration ? currentTime : duration}
@@ -447,12 +447,14 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
             return (
                 <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.mask}>
                     {/* 顶部操作区 */}
-                    <LinearGradient colors={['#00000080', '#00000000']} style={[styles.header, styles.fullscreenHeader]}>
-                        {/* 返回按钮 */}
-                        {backButtonEl}
-                        <TextX size={SIZE.font_h4} color={COLOR.white} numberOfLines={1}>
-                            {title}
-                        </TextX>
+                    <LinearGradient colors={['#00000080', '#00000000']}>
+                        <Flex block alignItems="center" columnGap={SIZE.space_lg} style={styles.fullscreenHeader}>
+                            {/* 返回按钮 */}
+                            {backButtonEl}
+                            <TextX size={SIZE.font_h4} color={COLOR.white} numberOfLines={1}>
+                                {title}
+                            </TextX>
+                        </Flex>
                     </LinearGradient>
                     {/* 播放/暂停按钮 */}
                     <Flex grow={1} block alignItems="center" justifyContent="center" style={styles.body}>
@@ -464,25 +466,27 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                         {messageGroupEl([messageItems, prevTimeEl])}
                     </Flex>
                     {/* 底部操作区 */}
-                    <LinearGradient colors={['#00000000', '#00000080']} style={[styles.footer, styles.fullscreenFooter]}>
-                        <Flex alignItems="center" columnGap={SIZE.space_xl}>
-                            {/* 进度条 */}
-                            {sliderEl}
-                            {/* 当前时长/总时长 */}
-                            {timeEl}
-                        </Flex>
-
-                        <Flex alignItems="center" justifyContent="space-between" block>
-                            <Flex alignItems="center" columnGap={SIZE.space_lg}>
-                                {/* 播放/暂停按钮 */}
-                                {playButtonEl}
+                    <LinearGradient colors={['#00000000', '#00000080']}>
+                        <Flex column block rowGap={SIZE.space_md} style={styles.fullscreenFooter}>
+                            <Flex alignItems="center" columnGap={SIZE.space_xl}>
+                                {/* 进度条 */}
+                                {sliderEl}
+                                {/* 当前时长/总时长 */}
+                                {timeEl}
                             </Flex>
 
-                            <Flex alignItems="center" columnGap={SIZE.space_2xl}>
-                                {/*播放速率*/}
-                                {rateButtonEl}
-                                {/* 全屏 */}
-                                {fullscreenButtonEl}
+                            <Flex alignItems="center" justifyContent="space-between" block>
+                                <Flex alignItems="center" columnGap={SIZE.space_lg}>
+                                    {/* 播放/暂停按钮 */}
+                                    {playButtonEl}
+                                </Flex>
+
+                                <Flex alignItems="center" columnGap={SIZE.space_2xl}>
+                                    {/*播放速率*/}
+                                    {rateButtonEl}
+                                    {/* 全屏 */}
+                                    {fullscreenButtonEl}
+                                </Flex>
                             </Flex>
                         </Flex>
                     </LinearGradient>
@@ -495,11 +499,13 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         return (
             <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.mask}>
                 {/* 顶部操作区 */}
-                <LinearGradient colors={['#00000080', '#00000000']} style={[styles.header, styles.defaultHeader]}>
-                    {/* 返回按钮 */}
-                    {backButtonEl}
-                    {/*播放速率*/}
-                    {rateButtonEl}
+                <LinearGradient colors={['#00000080', '#00000000']}>
+                    <Flex block alignItems="center" justifyContent="space-between" columnGap={SIZE.space_lg} style={styles.defaultHeader}>
+                        {/* 返回按钮 */}
+                        {backButtonEl}
+                        {/*播放速率*/}
+                        {rateButtonEl}
+                    </Flex>
                 </LinearGradient>
                 {/* 播放/暂停按钮 */}
                 <Flex grow={1} block alignItems="center" justifyContent="center" style={styles.body}>
@@ -511,15 +517,17 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                     {messageGroupEl([messageItems, prevTimeEl])}
                 </Flex>
                 {/* 底部操作区 */}
-                <LinearGradient colors={['#00000000', '#00000080']} style={[styles.footer, styles.defaultFooter]}>
-                    {/* 播放/暂停按钮 */}
-                    {playButtonEl}
-                    {/* 进度条 */}
-                    {sliderEl}
-                    {/* 当前时长/总时长 */}
-                    {timeEl}
-                    {/* 全屏 */}
-                    {fullscreenButtonEl}
+                <LinearGradient colors={['#00000000', '#00000080']}>
+                    <Flex alignItems="center" block columnGap={SIZE.space_lg} style={styles.defaultFooter}>
+                        {/* 播放/暂停按钮 */}
+                        {playButtonEl}
+                        {/* 进度条 */}
+                        {sliderEl}
+                        {/* 当前时长/总时长 */}
+                        {timeEl}
+                        {/* 全屏 */}
+                        {fullscreenButtonEl}
+                    </Flex>
                 </LinearGradient>
                 {controlPanelEl()}
             </Animated.View>
@@ -602,21 +610,14 @@ const styles = ScaledSheet.create({
         height: '100%',
         zIndex: 10,
     },
-    header: {
-        flexShrink: 0,
-        paddingHorizontal: SIZE.space_xl,
-        position: 'relative',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        columnGap: SIZE.space_lg,
-    },
     defaultHeader: {
+        position: 'relative',
+        paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
-        justifyContent: 'space-between',
     },
     fullscreenHeader: {
+        position: 'relative',
+        paddingHorizontal: SIZE.space_2xl,
         paddingVertical: SIZE.space_lg,
     },
     headerBackIcon: {
@@ -626,22 +627,15 @@ const styles = ScaledSheet.create({
         flexShrink: 1,
         position: 'relative',
     },
-    footer: {
-        flexShrink: 0,
-        paddingHorizontal: SIZE.space_xl,
-        position: 'relative',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        columnGap: SIZE.space_lg,
-    },
     defaultFooter: {
+        position: 'relative',
+        paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_sm,
     },
     fullscreenFooter: {
+        position: 'relative',
+        paddingHorizontal: SIZE.space_2xl,
         paddingBottom: SIZE.space_lg,
-        flexDirection: 'column',
     },
     sliderPlaceholder: {
         flexGrow: 1,

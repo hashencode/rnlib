@@ -34,7 +34,9 @@ const libSlice = createSlice({
             if (_.isNil(action.payload.id)) {
                 action.payload.id = randomId();
             }
-            state.dialogQueue.push(action.payload);
+            if (!state.dialogQueue.find(item => item.id === action.payload.id)) {
+                state.dialogQueue.push(action.payload);
+            }
         },
         destroyDialog(state, action) {
             state.dialogQueue = state.dialogQueue.filter(item => item.id !== action.payload);
@@ -49,7 +51,9 @@ const libSlice = createSlice({
             if (_.isNil(action.payload.id)) {
                 action.payload.id = randomId();
             }
-            state.toastQueue.push(action.payload);
+            if (!state.toastQueue.find(item => item.id === action.payload.id)) {
+                state.toastQueue.push(action.payload);
+            }
         },
         destroyToast(state, action) {
             state.toastQueue = state.toastQueue.filter(item => item.id !== action.payload);
