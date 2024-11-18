@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native'
 import { COLOR, SIZE } from '../scripts/const';
 import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
 import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import Animated, { FadeIn, FadeOut, SlideInRight, SlideOutRight } from 'react-native-reanimated';
+import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import { OnLoadData } from 'react-native-video/src/types/events';
 import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
 import _ from 'lodash';
@@ -27,6 +27,7 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'post
     messageItems?: ReactNode[]; // 消息列表
     progressBarDisabled?: boolean; // 禁用进度条
     poster?: Source; // 海报资源
+    hostName?: string; // portalHostName
     onBack?: () => void; // 返回回调
     onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
     style?: {
@@ -48,6 +49,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         liveMode,
         poster,
         progressBarDisabled,
+        hostName = 'videoPlayer',
         onBack,
         onLoad,
         onLoadStart,
@@ -445,7 +447,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         // 全屏模式
         if (isFullscreen) {
             return (
-                <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.mask}>
+                <View style={styles.mask}>
                     {/* 顶部操作区 */}
                     <LinearGradient colors={['#00000080', '#00000000']}>
                         <Flex block alignItems="center" columnGap={SIZE.space_lg} style={styles.fullscreenHeader}>
@@ -491,13 +493,13 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                         </Flex>
                     </LinearGradient>
                     {controlPanelEl()}
-                </Animated.View>
+                </View>
             );
         }
 
         // 默认模式
         return (
-            <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.mask}>
+            <View style={styles.mask}>
                 {/* 顶部操作区 */}
                 <LinearGradient colors={['#00000080', '#00000000']}>
                     <Flex block alignItems="center" justifyContent="space-between" columnGap={SIZE.space_lg} style={styles.defaultHeader}>
@@ -530,12 +532,12 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                     </Flex>
                 </LinearGradient>
                 {controlPanelEl()}
-            </Animated.View>
+            </View>
         );
     };
 
     return (
-        <Portal hostName="videoPlayer">
+        <Portal hostName={hostName}>
             <View style={isFullscreen ? fullscreenStyle : defaultStyle}>
                 <Pressable onPress={handleRootPress} style={rootStyle}>
                     {controlsEl()}
