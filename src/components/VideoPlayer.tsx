@@ -3,7 +3,6 @@ import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native'
 import { COLOR, SIZE } from '../scripts/const';
 import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
 import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import { OnLoadData } from 'react-native-video/src/types/events';
 import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
 import _ from 'lodash';
@@ -21,7 +20,8 @@ import { Source } from 'react-native-turbo-image';
 
 export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'poster'> {
     title?: string;
-    prevTime?: number; // 上次播放的进度
+    prevTime?: number; // 上次播放的进度（秒数）
+    prevProgress?: number; // 上次播放的进度（百分比）
     autoplay?: boolean; // 自动播放
     liveMode?: boolean; // 直播模式
     messageItems?: ReactNode[]; // 消息列表
@@ -45,6 +45,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         title,
         source,
         prevTime,
+        prevProgress,
         autoplay,
         liveMode,
         poster,
@@ -66,7 +67,6 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     const theme = useTheme();
     const insets = useSafeAreaInsets();
 
-    const [showPrevTimeBtn, setShowPrevTimeBtn] = useState(false); // 是否显示之前的播放进度跳转按钮
     const [showPoster, setShowPoster] = useState(true); // 是否显示海报
     const [showControls, setShowControls] = useState(true); // 是否显示控制组件
     const [isPaused, setIsPaused] = useState(!autoplay); // 视频暂停
@@ -78,16 +78,25 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     const [currentControl, setCurrentControl] = useState<'rate' | undefined>(undefined); // 当前活跃的控制器
     const [currentRate, setCurrentRate] = useState('1.0'); // 当前速率
     const [hasLoaded, setHasLoaded] = useState(false); // 视频信息加载完成
+    const [innerPrevTime, setInnerPrevTime] = useState(0); // 上次观看的秒数，用来兼容prevTime和prevProgress两种不同传入
 
     const localRef = useRef<VideoRef>(null);
     const videoRef = mergeRefs([ref, localRef]);
     const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
 
     useEffect(() => {
-        Orientation.lockToPortrait();
         if (_.isNumber(prevTime) && prevTime > 0) {
-            setShowPrevTimeBtn(true);
+            setInnerPrevTime(prevTime);
+        } else if (duration > 0 && _.isNumber(prevProgress) && prevProgress > 0) {
+            const seconds = prevProgress * duration;
+            if (seconds > 1) {
+                setInnerPrevTime(prevProgress * duration);
+            }
         }
+    }, [prevTime, prevProgress, duration]);
+
+    useEffect(() => {
+        Orientation.lockToPortrait();
         return () => {
             clearHideTimer();
             setIsFullscreen(false);
@@ -97,9 +106,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     }, []);
 
     useUpdateEffect(() => {
-        if (_.isNumber(prevTime) && prevTime > 0) {
-            setShowPrevTimeBtn(true);
-        }
+        setInnerPrevTime(0);
         setDuration(0);
         setCurrentTime(0);
     }, [source]);
@@ -155,7 +162,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     // 隐藏跳转按钮
     const hidePrevTimeEl = () => {
         hidePrevTimeTimer.current = setTimeout(() => {
-            setShowPrevTimeBtn(false);
+            setInnerPrevTime(0);
         }, 5000);
         return null;
     };
@@ -168,12 +175,12 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         hidePrevTimeTimer.current = null;
     };
 
-    // 根节点点击
-    const handleRootPress = () => {
+    // 隐藏控制器
+    const hideControls = () => {
         if (currentControl) {
             setCurrentControl(undefined);
         } else {
-            setShowControls(!showControls);
+            setShowControls(false);
         }
     };
 
@@ -272,9 +279,9 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
 
     // 跳转至原播放进度
     const handleJumpToPrevTime = () => {
-        if (prevTime) {
-            videoRef?.current?.seek(prevTime);
-            setShowPrevTimeBtn(false);
+        if (innerPrevTime) {
+            videoRef?.current?.seek(innerPrevTime);
+            setInnerPrevTime(0);
         }
     };
 
@@ -364,10 +371,10 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
 
     // 进度跳转
     const prevTimeEl =
-        showPrevTimeBtn && prevTime && hasLoaded ? (
+        innerPrevTime && hasLoaded ? (
             <Flex alignItems="center" gap={SIZE.space_md} style={styles.prevTime}>
                 <TextX size={SIZE.font_desc} color={COLOR.white}>
-                    上次观看至{convertSecondsDisplay(prevTime)}
+                    上次观看至{convertSecondsDisplay(innerPrevTime)}
                 </TextX>
                 <Button size="xs" style={{ button: { paddingHorizontal: SIZE.space_md } }} type="primary" onPress={handleJumpToPrevTime}>
                     跳转播放
@@ -430,11 +437,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                 break;
         }
         if (currentControl) {
-            return (
-                <Animated.View entering={SlideInRight} exiting={SlideOutRight} style={styles.controlPanel}>
-                    {controlEl}
-                </Animated.View>
-            );
+            return <View style={styles.controlPanel}>{controlEl}</View>;
         }
         return null;
     };
@@ -458,15 +461,15 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                             </TextX>
                         </Flex>
                     </LinearGradient>
-                    {/* 播放/暂停按钮 */}
-                    <Flex grow={1} block alignItems="center" justifyContent="center" style={styles.body}>
+                    {/* 中间区域 */}
+                    <Pressable onPress={hideControls} style={styles.body}>
                         {/* 加载状态 */}
                         {loadingEl}
                         {/* 错误信息 */}
                         {errorEl}
                         {/* 上次播放进度 */}
                         {messageGroupEl([messageItems, prevTimeEl])}
-                    </Flex>
+                    </Pressable>
                     {/* 底部操作区 */}
                     <LinearGradient colors={['#00000000', '#00000080']}>
                         <Flex column block rowGap={SIZE.space_md} style={styles.fullscreenFooter}>
@@ -509,15 +512,15 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                         {rateButtonEl}
                     </Flex>
                 </LinearGradient>
-                {/* 播放/暂停按钮 */}
-                <Flex grow={1} block alignItems="center" justifyContent="center" style={styles.body}>
+                {/* 中间区域 */}
+                <Pressable onPress={hideControls} style={styles.body}>
                     {/* 加载状态 */}
                     {loadingEl}
                     {/* 错误信息 */}
                     {errorEl}
                     {/* 上次播放进度 */}
                     {messageGroupEl([messageItems, prevTimeEl])}
-                </Flex>
+                </Pressable>
                 {/* 底部操作区 */}
                 <LinearGradient colors={['#00000000', '#00000080']}>
                     <Flex alignItems="center" block columnGap={SIZE.space_lg} style={styles.defaultFooter}>
@@ -539,7 +542,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     return (
         <Portal hostName={hostName}>
             <View style={isFullscreen ? fullscreenStyle : defaultStyle}>
-                <Pressable onPress={handleRootPress} style={rootStyle}>
+                <Pressable onPress={() => setShowControls(true)} style={rootStyle}>
                     {controlsEl()}
 
                     {showPoster && poster ? <ImageX source={poster} resizeMode="cover" style={styles.poster} /> : null}
@@ -628,6 +631,10 @@ const styles = ScaledSheet.create({
     body: {
         flexShrink: 1,
         position: 'relative',
+        flexGrow: 1,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     defaultFooter: {
         position: 'relative',

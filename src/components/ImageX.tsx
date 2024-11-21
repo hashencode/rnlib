@@ -1,10 +1,10 @@
-import { ImageStyle, NativeSyntheticEvent, StyleProp } from 'react-native';
+import { DimensionValue, ImageStyle, NativeSyntheticEvent, StyleProp } from 'react-native';
 import TurboImage, { Failure, TurboImageProps } from 'react-native-turbo-image';
 
 export interface IImageXProps extends Omit<TurboImageProps, 'style'> {
     height?: number; // 高度
     radius?: number; // 圆角
-    size?: number; // 宽高尺寸
+    size?: DimensionValue; // 宽高尺寸
     style?: StyleProp<ImageStyle>; // 样式
     width?: number; // 宽度
     onError?: (error: NativeSyntheticEvent<Failure>) => void;

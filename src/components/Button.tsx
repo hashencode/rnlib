@@ -1,5 +1,5 @@
 import { PropsWithChildren, ReactElement, useMemo } from 'react';
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, PressHighlight, TextX } from './index';
@@ -24,7 +24,7 @@ export interface IButtonProps extends PropsWithChildren {
         text?: StyleProp<TextStyle>; // 文本样式
     }; // 样式
 
-    onPress?: () => void; // 点击事件回调
+    onPress?: (ev?: GestureResponderEvent) => void; // 点击事件回调
 }
 
 export default function Button(props: IButtonProps) {

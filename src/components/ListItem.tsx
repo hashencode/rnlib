@@ -125,18 +125,24 @@ export default function ListItem(props: IListItemProps) {
         </Flex>
     );
 
-    // 无反馈效果
-    return (
-        <PressHighlight disabled={disabled} onPress={onPress}>
-            {leftActions || rightActions ? (
-                <SwipeableRow leftActions={leftActions} rightActions={rightActions}>
-                    {itemElement}
-                </SwipeableRow>
-            ) : (
-                itemElement
-            )}
-        </PressHighlight>
-    );
+    const content =
+        leftActions || rightActions ? (
+            <SwipeableRow leftActions={leftActions} rightActions={rightActions}>
+                {itemElement}
+            </SwipeableRow>
+        ) : (
+            itemElement
+        );
+
+    if (onPress) {
+        return (
+            <PressHighlight disabled={disabled} onPress={onPress}>
+                {content}
+            </PressHighlight>
+        );
+    }
+
+    return <>{content}</>;
 }
 
 const styles = StyleSheet.create({
