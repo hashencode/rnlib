@@ -65,10 +65,10 @@ function Head(props: IHeadProps) {
             ) : null}
 
             <View style={bodyStyle}>
-                <TextX size={SIZE.font_h2} weight={SIZE.weight_title} style={style?.title}>
+                <TextX size={SIZE.font_h2} weight={SIZE.weight_title} numberOfLines={1} ellipsizeMode="tail" style={style?.title}>
                     {title}
                 </TextX>
-                <TextX size={SIZE.font_desc} style={style?.subtitle}>
+                <TextX size={SIZE.font_desc} numberOfLines={1} ellipsizeMode="tail" style={style?.subtitle}>
                     {subtitle}
                 </TextX>
             </View>

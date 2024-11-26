@@ -106,6 +106,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     }, []);
 
     useUpdateEffect(() => {
+        clearHideTimer();
         setInnerPrevTime(0);
         setDuration(0);
         setCurrentTime(0);
@@ -267,7 +268,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         if (data.isPlaying) {
             setIsLoading(false);
         }
-        setIsPaused(!data.isPlaying);
+        // setIsPaused(!data.isPlaying);
         onPlaybackStateChanged?.(data);
     };
 
@@ -280,6 +281,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     // 跳转至原播放进度
     const handleJumpToPrevTime = () => {
         if (innerPrevTime) {
+            setIsPaused(true);
             videoRef?.current?.seek(innerPrevTime);
             setInnerPrevTime(0);
         }
@@ -660,9 +662,9 @@ const styles = ScaledSheet.create({
     controlPanel: {
         backgroundColor: COLOR.black,
         height: '100%',
-        paddingLeft: scale(40),
-        paddingRight: scale(80),
-        paddingVertical: scale(40),
+        paddingLeft: scale(20),
+        paddingRight: scale(40),
+        paddingVertical: scale(20),
         position: 'absolute',
         right: 0,
         top: 0,
