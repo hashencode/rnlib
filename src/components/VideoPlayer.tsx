@@ -18,6 +18,8 @@ import { ScaledSheet } from 'react-native-size-matters';
 import { LinearGradient } from 'react-native-linear-gradient';
 import { Source } from 'react-native-turbo-image';
 
+type pluginItem = 'back' | 'rate' | 'play' | 'time' | 'fullscreen' | 'progressBar';
+
 export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'poster'> {
     title?: string;
     prevTime?: number; // 上次播放的进度（秒数）
@@ -28,6 +30,7 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'post
     progressBarDisabled?: boolean; // 禁用进度条
     poster?: Source; // 海报资源
     hostName?: string; // portalHostName
+    plugins?: pluginItem[]; // 使用的插件
     onBack?: () => void; // 返回回调
     onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
     style?: {
@@ -51,6 +54,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         poster,
         progressBarDisabled,
         hostName = 'videoPlayer',
+        plugins = ['back', 'rate', 'play', 'time', 'fullscreen', 'progressBar'],
         onBack,
         onLoad,
         onLoadStart,
@@ -268,7 +272,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         if (data.isPlaying) {
             setIsLoading(false);
         }
-        // setIsPaused(!data.isPlaying);
+        setIsPaused(!data.isPlaying); // 主动暂停的时候会用到
         onPlaybackStateChanged?.(data);
     };
 
@@ -294,7 +298,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     }, 1000);
 
     // 返回按钮
-    const backButtonEl = (
+    const backButtonEl = plugins.includes('back') ? (
         <Pressable onPress={handleBack} hitSlop={20}>
             <Icon
                 name="chevron-left"
@@ -303,10 +307,10 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                 strokeWidth={SIZE.icon_stroke_lg}
                 style={styles.headerBackIcon}></Icon>
         </Pressable>
-    );
+    ) : null;
 
     // 播放按钮
-    const playButtonEl = (
+    const playButtonEl = plugins.includes('play') ? (
         <Pressable onPress={togglePlayStatus}>
             <Icon
                 name={isPaused ? 'play' : 'pause'}
@@ -317,17 +321,20 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                 style={styles.playBtn}
             />
         </Pressable>
-    );
+    ) : null;
 
     // 全屏按钮
-    const fullscreenButtonEl = (
+    const fullscreenButtonEl = plugins.includes('fullscreen') ? (
         <Pressable hitSlop={SIZE.space_2xl / 2} onPress={toggleFullscreen}>
             <Icon name={isFullscreen ? 'minimize' : 'maximize'} color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs} />
         </Pressable>
-    );
+    ) : null;
 
     // 滑动条
-    const sliderEl = useMemo(() => {
+    const progressBarEl = useMemo(() => {
+        if (!plugins.includes('progressBar')) {
+            return null;
+        }
         // 直播模式不显示进度条
         if (liveMode) {
             return <View style={styles.sliderPlaceholder}></View>;
@@ -345,17 +352,18 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                 onSlidingComplete={handleSlidingComplete}
                 style={styles.slider}></Slider>
         );
-    }, [duration, currentTime, isFullscreen, liveMode]);
+    }, [duration, currentTime, isFullscreen, liveMode, plugins]);
 
     // 当前时长/总时长
-    const timeEl = !liveMode ? (
-        <TextX
-            color={COLOR.white}
-            size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini}
-            style={[styles.duration, isFullscreen ? styles.fullscreenDuration : styles.defaultDuration]}>
-            {convertSecondsDisplay(currentTime)} / {convertSecondsDisplay(duration)}
-        </TextX>
-    ) : null;
+    const timeEl =
+        !liveMode && plugins.includes('time') ? (
+            <TextX
+                color={COLOR.white}
+                size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini}
+                style={[styles.duration, isFullscreen ? styles.fullscreenDuration : styles.defaultDuration]}>
+                {convertSecondsDisplay(currentTime)} / {convertSecondsDisplay(duration)}
+            </TextX>
+        ) : null;
 
     // 提示组
     const messageGroupEl = (children?: ReactNode[]) => {
@@ -401,15 +409,16 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     ) : null;
 
     // 播放速率控件开关
-    const rateButtonEl = !liveMode ? (
-        <Pressable hitSlop={SIZE.space_2xl / 2} onPress={() => setCurrentControl('rate')}>
-            {currentRate ? (
-                <TextX color={COLOR.white}>{currentRate}X</TextX>
-            ) : (
-                <Icon name="gauge" color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs}></Icon>
-            )}
-        </Pressable>
-    ) : null;
+    const rateButtonEl =
+        !liveMode && plugins.includes('rate') ? (
+            <Pressable hitSlop={SIZE.space_2xl / 2} onPress={() => setCurrentControl('rate')}>
+                {currentRate ? (
+                    <TextX color={COLOR.white}>{currentRate}X</TextX>
+                ) : (
+                    <Icon name="gauge" color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs}></Icon>
+                )}
+            </Pressable>
+        ) : null;
 
     // 播放速率控件
     const rateEl = (
@@ -477,7 +486,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                         <Flex column block rowGap={SIZE.space_md} style={styles.fullscreenFooter}>
                             <Flex alignItems="center" columnGap={SIZE.space_xl}>
                                 {/* 进度条 */}
-                                {sliderEl}
+                                {progressBarEl}
                                 {/* 当前时长/总时长 */}
                                 {timeEl}
                             </Flex>
@@ -529,7 +538,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
                         {/* 播放/暂停按钮 */}
                         {playButtonEl}
                         {/* 进度条 */}
-                        {sliderEl}
+                        {progressBarEl}
                         {/* 当前时长/总时长 */}
                         {timeEl}
                         {/* 全屏 */}
@@ -620,12 +629,12 @@ const styles = ScaledSheet.create({
     defaultHeader: {
         position: 'relative',
         paddingHorizontal: SIZE.space_xl,
-        paddingVertical: SIZE.space_md,
+        minHeight: scale(44),
     },
     fullscreenHeader: {
         position: 'relative',
         paddingHorizontal: SIZE.space_2xl,
-        paddingVertical: SIZE.space_lg,
+        minHeight: scale(60),
     },
     headerBackIcon: {
         marginLeft: -5,
@@ -642,6 +651,7 @@ const styles = ScaledSheet.create({
         position: 'relative',
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_sm,
+        minHeight: scale(46),
     },
     fullscreenFooter: {
         position: 'relative',
@@ -650,7 +660,6 @@ const styles = ScaledSheet.create({
     },
     sliderPlaceholder: {
         flexGrow: 1,
-        height: scale(40),
     },
     playBtn: {
         marginRight: SIZE.space_md,
