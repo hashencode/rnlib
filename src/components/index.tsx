@@ -110,4 +110,4 @@ export { default as Toast } from './Toast';
 export type { IToastProps } from './Toast';
 
 export { default as VideoPlayer } from './VideoPlayer';
-export type { IVideoPlayerProps } from './VideoPlayer';
+export type { IVideoPlayerProps, IVideoUtils } from './VideoPlayer';

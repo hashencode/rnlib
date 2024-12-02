@@ -2,18 +2,18 @@ import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnV
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
-import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { OnLoadData } from 'react-native-video/src/types/events';
 import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
 import _ from 'lodash';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUpdateEffect } from 'ahooks';
 import type { ReactVideoProps } from 'react-native-video/src/types';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
 import { Portal } from '@gorhom/portal';
 import { useStyle, useTheme } from '../hooks';
-import { useBackHandler } from '@react-native-community/hooks';
+import { useAppState, useBackHandler } from '@react-native-community/hooks';
 import { ScaledSheet } from 'react-native-size-matters';
 import { LinearGradient } from 'react-native-linear-gradient';
 import { Source } from 'react-native-turbo-image';
@@ -31,6 +31,7 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'post
     poster?: Source; // 海报资源
     hostName?: string; // portalHostName
     plugins?: pluginItem[]; // 使用的插件
+    utils?: Ref<IVideoUtils>; // 工具
     onBack?: () => void; // 返回回调
     onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
     style?: {
@@ -40,9 +41,13 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'post
     };
 }
 
+export interface IVideoUtils {
+    exitFullscreen: () => void;
+}
+
 const speedList = ['2', '1.5', '1.25', '1.0', '0.75', '0.5'];
 
-function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
+function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const {
         messageItems,
         title,
@@ -55,6 +60,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         progressBarDisabled,
         hostName = 'videoPlayer',
         plugins = ['back', 'rate', 'play', 'time', 'fullscreen', 'progressBar'],
+        utils,
         onBack,
         onLoad,
         onLoadStart,
@@ -70,6 +76,8 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
     const navigation = useNavigation();
     const theme = useTheme();
     const insets = useSafeAreaInsets();
+    const isFocused = useIsFocused();
+    const currentAppState = useAppState();
 
     const [showPoster, setShowPoster] = useState(true); // 是否显示海报
     const [showControls, setShowControls] = useState(true); // 是否显示控制组件
@@ -103,11 +111,14 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         Orientation.lockToPortrait();
         return () => {
             clearHideTimer();
-            setIsFullscreen(false);
-            theme.showStatusBar();
-            Orientation.lockToPortrait(); // 恢复竖向显示
         };
     }, []);
+
+    useUpdateEffect(() => {
+        if (!isFocused || currentAppState === 'inactive') {
+            setIsFullscreen(false);
+        }
+    }, [isFocused, currentAppState]);
 
     useUpdateEffect(() => {
         clearHideTimer();
@@ -145,6 +156,14 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         }
         return false;
     });
+
+    useImperativeHandle(utils, () => ({
+        exitFullscreen: () => {
+            if (isFullscreen) {
+                setIsFullscreen(false);
+            }
+        },
+    }));
 
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
@@ -272,7 +291,9 @@ function VideoPlayer(props: IVideoPlayerProps, ref: ForwardedRef<VideoRef>) {
         if (data.isPlaying) {
             setIsLoading(false);
         }
-        setIsPaused(!data.isPlaying); // 主动暂停的时候会用到
+        if (!data.isPlaying) {
+            setIsPaused(true); // 主动暂停的时候会用到
+        }
         onPlaybackStateChanged?.(data);
     };
 

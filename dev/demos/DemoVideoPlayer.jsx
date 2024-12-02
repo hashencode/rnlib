@@ -4,7 +4,7 @@ import { SIZE } from '../../src/scripts/const';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PortalHost } from '@gorhom/portal';
 
-const source = { uri: 'http://mirror.aarnet.edu.au/pub/TED-talks/911Mothers_2010W-480p.mp4' };
+const source = { uri: 'https://mirror.aarnet.edu.au/pub/TED-talks/911Mothers_2010W-480p.mp4' };
 const posterSource = { uri: 'https://pic.netbian.com/uploads/allimg/241009/002252-17284045726426.jpg' };
 
 export default function DemoVideoPlayer() {
