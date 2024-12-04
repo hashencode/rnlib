@@ -5,7 +5,7 @@ import { Flex, ImageX, TextX } from './index';
 import _ from 'lodash';
 import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
 import useStyle from '../hooks/useStyle';
-import { Source } from 'react-native-turbo-image';
+import { Source } from '@d11/react-native-fast-image';
 
 export interface IAvatarProps {
     alt?: string; // 未加载完成时显示的文本

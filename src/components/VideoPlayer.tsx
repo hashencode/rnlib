@@ -16,7 +16,7 @@ import { useStyle, useTheme } from '../hooks';
 import { useAppState, useBackHandler } from '@react-native-community/hooks';
 import { ScaledSheet } from 'react-native-size-matters';
 import { LinearGradient } from 'react-native-linear-gradient';
-import { Source } from 'react-native-turbo-image';
+import { Source } from '@d11/react-native-fast-image';
 
 type pluginItem = 'back' | 'rate' | 'play' | 'time' | 'fullscreen' | 'progressBar';
 
@@ -97,12 +97,12 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
 
     useEffect(() => {
-        if (_.isNumber(prevTime) && prevTime > 0) {
-            setInnerPrevTime(prevTime);
+        if (_.isNumber(prevTime) && prevTime > 5) {
+            setInnerPrevTime(prevTime - 2);
         } else if (duration > 0 && _.isNumber(prevProgress) && prevProgress > 0) {
             const seconds = prevProgress * duration;
-            if (seconds > 1) {
-                setInnerPrevTime(prevProgress * duration);
+            if (seconds > 5) {
+                setInnerPrevTime(prevProgress * duration - 2);
             }
         }
     }, [prevTime, prevProgress, duration]);
