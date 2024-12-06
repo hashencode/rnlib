@@ -31,6 +31,7 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'post
     poster?: Source; // 海报资源
     hostName?: string; // portalHostName
     plugins?: pluginItem[]; // 使用的插件
+    ignorePlugins?: pluginItem[]; // 禁用的插件
     utils?: Ref<IVideoUtils>; // 工具
     onBack?: () => void; // 返回回调
     onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
@@ -42,6 +43,7 @@ export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'post
 }
 
 export interface IVideoUtils {
+    seek: (time: number, getPrevPauseStatus?: boolean) => void;
     exitFullscreen: () => void;
 }
 
@@ -59,7 +61,8 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         poster,
         progressBarDisabled,
         hostName = 'videoPlayer',
-        plugins = ['back', 'rate', 'play', 'time', 'fullscreen', 'progressBar'],
+        plugins,
+        ignorePlugins,
         utils,
         onBack,
         onLoad,
@@ -91,10 +94,24 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const [currentRate, setCurrentRate] = useState('1.0'); // 当前速率
     const [hasLoaded, setHasLoaded] = useState(false); // 视频信息加载完成
     const [innerPrevTime, setInnerPrevTime] = useState(0); // 上次观看的秒数，用来兼容prevTime和prevProgress两种不同传入
+    const isPauseBySeek = useRef(false); // 是否是因为seek导致的暂停播放
+    const isPausedBeforeSeek = useRef(false); // 在seek之前是否是暂停状态
 
     const localRef = useRef<VideoRef>(null);
     const videoRef = mergeRefs([ref, localRef]);
     const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
+
+    const innerPlugins = useMemo(() => {
+        let defaultPlugins: pluginItem[] = ['back', 'rate', 'play', 'time', 'fullscreen', 'progressBar'];
+        if (_.isUndefined(plugins)) {
+            if (ignorePlugins) {
+                return defaultPlugins.filter(item => !ignorePlugins.includes(item));
+            }
+            return defaultPlugins;
+        } else {
+            return plugins;
+        }
+    }, [plugins, ignorePlugins]);
 
     useEffect(() => {
         if (_.isNumber(prevTime) && prevTime > 5) {
@@ -157,7 +174,9 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         return false;
     });
 
+    // 对外暴露的方法
     useImperativeHandle(utils, () => ({
+        seek: (time, getPrevPauseStatus) => videoSeek(time, getPrevPauseStatus),
         exitFullscreen: () => {
             if (isFullscreen) {
                 setIsFullscreen(false);
@@ -222,7 +241,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     // 切换播放状态
     const togglePlayStatus = () => {
         if (duration - currentTime < 1) {
-            videoRef.current?.seek(0);
+            videoRef.current?.resume();
         }
         setIsPaused(!isPaused);
     };
@@ -234,13 +253,14 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 处理滑动条开始滑动
     const handleSlidingStart = () => {
+        isPausedBeforeSeek.current = isPaused; // 记录当前播放状态
         setIsPaused(true);
     };
 
     // 处理滑动条结束滑动
     const handleSlidingComplete = _.debounce((value: number) => {
         if (duration) {
-            videoRef?.current?.seek(value);
+            videoSeek(value);
             setCurrentTime(value);
             setIsLoading(true);
         }
@@ -281,9 +301,23 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         onError?.(error);
     };
 
+    // 通用seek方法
+    const videoSeek = (time: number, getPrevPauseStatus?: boolean) => {
+        isPauseBySeek.current = true;
+        if (getPrevPauseStatus) {
+            isPausedBeforeSeek.current = isPaused;
+        }
+        setIsPaused(true);
+        videoRef?.current?.seek(time);
+    };
+
     // 处理寻找
     const handleSeek = () => {
-        setIsPaused(false); // 寻找之后立即播放
+        if (isPauseBySeek.current && !isPausedBeforeSeek.current) {
+            setIsPaused(false);
+            isPauseBySeek.current = false;
+        }
+        setIsLoading(false);
     };
 
     // 处理播放状态变更
@@ -306,8 +340,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     // 跳转至原播放进度
     const handleJumpToPrevTime = () => {
         if (innerPrevTime) {
-            setIsPaused(true);
-            videoRef?.current?.seek(innerPrevTime);
+            videoSeek(innerPrevTime, true);
             setInnerPrevTime(0);
         }
     };
@@ -319,19 +352,22 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     }, 1000);
 
     // 返回按钮
-    const backButtonEl = plugins.includes('back') ? (
-        <Pressable onPress={handleBack} hitSlop={20}>
-            <Icon
-                name="chevron-left"
-                color={COLOR.white}
-                size={isFullscreen ? SIZE.icon_lg : SIZE.icon_md}
-                strokeWidth={SIZE.icon_stroke_lg}
-                style={styles.headerBackIcon}></Icon>
-        </Pressable>
-    ) : null;
+    const backButtonEl =
+        (!isFullscreen && innerPlugins.includes('back')) || isFullscreen ? (
+            <Pressable onPress={handleBack} hitSlop={20}>
+                <Icon
+                    name="chevron-left"
+                    color={COLOR.white}
+                    size={isFullscreen ? SIZE.icon_lg : SIZE.icon_md}
+                    strokeWidth={SIZE.icon_stroke_lg}
+                    style={styles.headerBackIcon}></Icon>
+            </Pressable>
+        ) : (
+            <View />
+        );
 
     // 播放按钮
-    const playButtonEl = plugins.includes('play') ? (
+    const playButtonEl = innerPlugins.includes('play') ? (
         <Pressable onPress={togglePlayStatus}>
             <Icon
                 name={isPaused ? 'play' : 'pause'}
@@ -345,7 +381,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     ) : null;
 
     // 全屏按钮
-    const fullscreenButtonEl = plugins.includes('fullscreen') ? (
+    const fullscreenButtonEl = innerPlugins.includes('fullscreen') ? (
         <Pressable hitSlop={SIZE.space_2xl / 2} onPress={toggleFullscreen}>
             <Icon name={isFullscreen ? 'minimize' : 'maximize'} color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs} />
         </Pressable>
@@ -353,7 +389,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 滑动条
     const progressBarEl = useMemo(() => {
-        if (!plugins.includes('progressBar')) {
+        if (!innerPlugins.includes('progressBar')) {
             return null;
         }
         // 直播模式不显示进度条
@@ -373,15 +409,12 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 onSlidingComplete={handleSlidingComplete}
                 style={styles.slider}></Slider>
         );
-    }, [duration, currentTime, isFullscreen, liveMode, plugins]);
+    }, [duration, currentTime, isFullscreen, liveMode, innerPlugins]);
 
     // 当前时长/总时长
     const timeEl =
-        !liveMode && plugins.includes('time') ? (
-            <TextX
-                color={COLOR.white}
-                size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini}
-                style={[styles.duration, isFullscreen ? styles.fullscreenDuration : styles.defaultDuration]}>
+        !liveMode && innerPlugins.includes('time') ? (
+            <TextX color={COLOR.white} size={isFullscreen ? SIZE.font_secondary : SIZE.font_mini} style={styles.duration}>
                 {convertSecondsDisplay(currentTime)} / {convertSecondsDisplay(duration)}
             </TextX>
         ) : null;
@@ -431,7 +464,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 播放速率控件开关
     const rateButtonEl =
-        !liveMode && plugins.includes('rate') ? (
+        !liveMode && innerPlugins.includes('rate') ? (
             <Pressable hitSlop={SIZE.space_2xl / 2} onPress={() => setCurrentControl('rate')}>
                 {currentRate ? (
                     <TextX color={COLOR.white}>{currentRate}X</TextX>
@@ -717,11 +750,6 @@ const styles = ScaledSheet.create({
     },
     duration: {
         textAlign: 'right',
-    },
-    defaultDuration: {
-        width: scale(100),
-    },
-    fullscreenDuration: {
         width: scale(120),
     },
 });

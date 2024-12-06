@@ -20,16 +20,14 @@ export interface IToastProps {
 }
 
 export default function Toast(props: IToastProps) {
-    const { content, type = 'info', duration = 1500, style, afterClose } = props;
+    const { content, type = 'info', duration = 1200, style, afterClose } = props;
 
     const [visible, setVisible] = useState(true);
     const timer = useRef<NodeJS.Timeout | null>();
 
     // 关闭回调
     useEffect(() => {
-        if (!visible) {
-            afterClose?.();
-        } else if (duration) {
+        if (visible && duration) {
             timer.current = setTimeout(() => {
                 clearTimer();
             }, duration);

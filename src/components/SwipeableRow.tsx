@@ -36,7 +36,6 @@ export default function SwipeableRow(props: ISwipeableRowProps) {
                             style={{
                                 width,
                                 backgroundColor,
-                                paddingHorizontal: SIZE.space_md,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}

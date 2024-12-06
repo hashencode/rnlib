@@ -121,10 +121,10 @@ export default function Dialog(props: IDialogProps) {
             {/*主容器*/}
             <Flex column alignItems="center" style={rootStyle}>
                 <Flex column block alignItems="center" rowGap={SIZE.space_md} style={contentStyle}>
-                    <TextX size={SIZE.font_h2} style={headerStyle}>
+                    <TextX size={SIZE.font_h3} style={headerStyle}>
                         {title}
                     </TextX>
-                    <TextX size={SIZE.font_h5} style={style?.body}>
+                    <TextX size={SIZE.font_h5} style={[styles.body, style?.body]}>
                         {content}
                     </TextX>
                 </Flex>
@@ -150,6 +150,11 @@ const styles = StyleSheet.create({
     header: {
         fontWeight: SIZE.weight_title,
         marginBottom: SIZE.space_md,
+    },
+    body: {
+        color: COLOR.text_subtitle,
+        lineHeight: SIZE.font_h5 * 1.5,
+        textAlign: 'center',
     },
     buttonContainer: {
         borderColor: COLOR.border_controller,

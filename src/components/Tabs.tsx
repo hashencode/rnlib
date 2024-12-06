@@ -28,6 +28,7 @@ export interface ITabsProps {
         divider?: StyleProp<ViewStyle>; // 分割线样式
         header?: StyleProp<ViewStyle>; // 头部样式
         label?: StyleProp<TextStyle>; // 选项卡文本样式
+        labelActive?: StyleProp<TextStyle>; // 激活选项卡文本样式
         root?: StyleProp<ViewStyle>; // 根节点样式
         tabItem?: StyleProp<ViewStyle>; // 选项卡样式
         underline?: StyleProp<ViewStyle>; // 下划线样式
@@ -158,8 +159,9 @@ export default function Tabs(props: ITabsProps) {
                         <TextX
                             size={SIZE.font_h3}
                             color={isActive ? COLOR.text_primary : COLOR.text_title}
+                            weight={isActive ? '500' : '400'}
                             onLayout={ev => getTabItemRect(item.value, ev)}
-                            style={style?.label}>
+                            style={[style?.label, isActive ? style?.labelActive : {}]}>
                             {item?.label}
                         </TextX>
                     </PressHighlight>

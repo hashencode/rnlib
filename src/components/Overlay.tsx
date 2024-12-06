@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { Modal, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
 import { COLOR } from '../scripts/const';
 import { useUpdateEffect } from 'ahooks';
@@ -28,13 +28,6 @@ function Overlay(props: IOverlayProps) {
     useUpdateEffect(() => {
         !visible && afterDestroy?.();
     }, [visible]);
-
-    // 通过hooks调用的关闭回调
-    useEffect(() => {
-        return () => {
-            visible && afterDestroy?.();
-        };
-    }, []);
 
     const contentStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.content],

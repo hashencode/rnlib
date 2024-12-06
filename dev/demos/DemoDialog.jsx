@@ -33,7 +33,11 @@ export default function DemoDialog() {
     };
 
     const createDialogByMethod = () => {
-        createDialog({ ...config, buttons: [{ children: '我知道了', onPress: () => destroyDialog('cn') }], id: 'cn' });
+        createDialog({
+            ...config,
+            buttons: [{ children: '我知道了', onPress: () => destroyDialog('cn') }],
+            id: 'cn',
+        });
     };
 
     return (
@@ -73,7 +77,7 @@ export default function DemoDialog() {
             </Group>
             <Group header="静态方法创建">
                 <Card columnGap={SIZE.space_md}>
-                    <Button onPress={() => createDialogByMethod()}>非组件形式创建</Button>
+                    <Button onPress={createDialogByMethod}>非组件形式创建</Button>
                 </Card>
             </Group>
         </DefaultLayout>

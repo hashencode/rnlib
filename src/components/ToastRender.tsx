@@ -1,5 +1,4 @@
 import { IToastProps, Toast } from './index';
-import { View } from 'react-native';
 import { useState } from 'react';
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
@@ -11,11 +10,13 @@ export interface IToastQueueItem extends Omit<IToastProps, 'id'> {
 }
 
 export default function ToastRender() {
-    const destroy = (id: string) => {
-        setToastQueue([...toastQueue.filter(item => item.id !== id)]);
-    };
-
     const [toastQueue, setToastQueue] = useState<IToastQueueItem[]>([]);
+
+    const destroy = (id: string) => {
+        setToastQueue(prev => {
+            return [...prev.filter(item => item.id !== id)];
+        });
+    };
 
     useEventEmitter(EMITTER_MAP['打开提示'], (config: IToastProps) => {
         if (_.isNil(config.id)) {
@@ -35,11 +36,20 @@ export default function ToastRender() {
     });
 
     return (
-        <View>
+        <>
             {toastQueue?.map(queueItem => {
-                const { id: queueId, ...rest } = queueItem;
-                return <Toast {...rest} key={queueId} afterClose={() => destroy(queueId)} />;
+                const { id: queueId, afterClose, ...rest } = queueItem;
+                return (
+                    <Toast
+                        {...rest}
+                        key={queueId}
+                        afterClose={() => {
+                            destroy(queueId);
+                            afterClose?.();
+                        }}
+                    />
+                );
             })}
-        </View>
+        </>
     );
 }

@@ -1,33 +1,41 @@
 import Dialog, { IDialogProps } from './Dialog';
-import { View } from 'react-native';
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
 import _ from 'lodash';
 import { randomId } from '../scripts/utils';
 import { useState } from 'react';
+import { View } from 'react-native';
 
 export interface IDialogQueueItem extends Omit<IDialogProps, 'id'> {
     id: string;
 }
 
 export default function DialogRender() {
-    const destroy = (id: string) => {
-        setDialogQueue([...dialogQueue.filter(item => item.id !== id)]);
-    };
-
     const [dialogQueue, setDialogQueue] = useState<IDialogQueueItem[]>([]);
+
+    const destroy = (id: string) => {
+        setDialogQueue(prev => [...prev.filter(item => item.id !== id)]);
+    };
 
     useEventEmitter(EMITTER_MAP['打开对话框'], (config: IDialogProps) => {
         if (_.isNil(config.id)) {
             config.id = randomId();
         }
+        config.visible = true;
         if (!dialogQueue.find(item => item.id === config.id)) {
             setDialogQueue([...dialogQueue, config as IDialogQueueItem]);
         }
     });
 
     useEventEmitter(EMITTER_MAP['关闭对话框'], (id: string) => {
-        destroy(id);
+        setDialogQueue(prev => [
+            ...prev.map(item => {
+                if (item.id === id) {
+                    item.visible = false;
+                }
+                return item;
+            }),
+        ]);
     });
 
     useEventEmitter(EMITTER_MAP['关闭所有对话框'], () => {
@@ -37,8 +45,18 @@ export default function DialogRender() {
     return (
         <View>
             {dialogQueue?.map(queueItem => {
-                const { id: queueId, ...rest } = queueItem;
-                return <Dialog {...rest} visible={true} key={queueId} onCancel={() => destroy(queueId)} />;
+                const { id: queueId, afterClose, visible, ...rest } = queueItem;
+                return (
+                    <Dialog
+                        {...rest}
+                        visible={visible}
+                        key={queueId}
+                        afterClose={() => {
+                            destroy(queueId);
+                            afterClose?.();
+                        }}
+                    />
+                );
             })}
         </View>
     );
