@@ -15,7 +15,7 @@ export interface IDialogProps {
     content?: ReactNode; // 描述文本
     id?: string; // 唯一id
     overlayClosable?: boolean; // 允许点击蒙层关闭
-    title?: string; // 标题文本
+    title?: ReactNode; // 标题文本
     visible?: boolean; // 显隐
 
     style?: {
@@ -121,7 +121,7 @@ export default function Dialog(props: IDialogProps) {
             {/*主容器*/}
             <Flex column alignItems="center" style={rootStyle}>
                 <Flex column block alignItems="center" rowGap={SIZE.space_md} style={contentStyle}>
-                    <TextX size={SIZE.font_h3} style={headerStyle}>
+                    <TextX size={SIZE.font_h2} style={headerStyle}>
                         {title}
                     </TextX>
                     <TextX size={SIZE.font_h5} style={[styles.body, style?.body]}>

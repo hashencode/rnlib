@@ -1,6 +1,6 @@
 {
   "name": "@hashencode/rnlib",
-  "version": "0.1.72",
+  "version": "0.1.84",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -11,7 +11,7 @@
     "prepare": "bob build"
   },
   "dependencies": {
-    "@d11/react-native-fast-image": "^8.8.1",
+    "@d11/react-native-fast-image": "^8.9.0",
     "@gorhom/portal": "^1.0.14",
     "@react-native-community/hooks": "^3.0.0",
     "@react-navigation/bottom-tabs": "^6.6.1",
@@ -25,16 +25,16 @@
     "react-native": "0.75.4",
     "react-native-actions-sheet": "^0.9.7",
     "react-native-animated-pagination-dot": "^0.4.0",
-    "react-native-gesture-handler": "^2.19.0",
+    "react-native-gesture-handler": "^2.21.2",
     "react-native-haptic-feedback": "^2.3.3",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-orientation-locker-cn": "^1.7.2",
-    "react-native-reanimated": "^3.16.1",
+    "react-native-reanimated": "^3.16.5",
     "react-native-reanimated-carousel": "^3.5.1",
-    "react-native-safe-area-context": "4.14.0",
+    "react-native-safe-area-context": "5.0.0",
     "react-native-size-matters": "^0.4.2",
-    "react-native-svg": "^15.7.1",
-    "react-native-video": "^6.6.4",
+    "react-native-svg": "^15.10.1",
+    "react-native-video": "^6.8.2",
     "rn-placeholder": "^3.0.3"
   },
   "devDependencies": {

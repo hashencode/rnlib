@@ -119,11 +119,13 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
             closable={overlayClosable}
             onOpen={onOpen}
             onClose={onCancel}>
-            <Flex alignItems="center" justifyContent="center" style={headerStyle}>
-                <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
-                    {header}
-                </TextX>
-            </Flex>
+            {header ? (
+                <Flex alignItems="center" justifyContent="center" style={headerStyle}>
+                    <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
+                        {header}
+                    </TextX>
+                </Flex>
+            ) : null}
 
             <ScrollView>
                 {options.map((item, index) => {
