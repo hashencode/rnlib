@@ -1,85 +1,87 @@
-import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
-import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
-import { forwardRef, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { OnLoadData } from 'react-native-video/src/types/events';
-import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
-import _ from 'lodash';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useUpdateEffect } from 'ahooks';
 import type { ReactVideoProps } from 'react-native-video/src/types';
-import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
-import { Portal } from '@gorhom/portal';
-import { useStyle, useTheme } from '../hooks';
-import { useAppState, useBackHandler } from '@react-native-community/hooks';
-import { ScaledSheet } from 'react-native-size-matters';
-import { LinearGradient } from 'react-native-linear-gradient';
+
 import { Source } from '@d11/react-native-fast-image';
+import { Portal } from '@gorhom/portal';
+import { useAppState, useBackHandler } from '@react-native-community/hooks';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useUpdateEffect } from 'ahooks';
+import _ from 'lodash';
+import { forwardRef, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
+import { LinearGradient } from 'react-native-linear-gradient';
+import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ScaledSheet } from 'react-native-size-matters';
+import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
+import { OnLoadData } from 'react-native-video/src/types/events';
 
-type pluginItem = 'back' | 'rate' | 'play' | 'time' | 'fullscreen' | 'progressBar';
+import { useStyle, useTheme } from '../hooks';
+import { COLOR, SIZE } from '../scripts/const';
+import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
+import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
 
-export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'style' | 'poster'> {
-    title?: string;
-    prevTime?: number; // 上次播放的进度（秒数）
-    prevProgress?: number; // 上次播放的进度（百分比）
+export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'poster' | 'style'> {
     autoplay?: boolean; // 自动播放
+    hostName?: string; // portalHostName
+    ignorePlugins?: pluginItem[]; // 禁用的插件
     liveMode?: boolean; // 直播模式
     messageItems?: ReactNode[]; // 消息列表
-    progressBarDisabled?: boolean; // 禁用进度条
-    poster?: Source; // 海报资源
-    hostName?: string; // portalHostName
-    plugins?: pluginItem[]; // 使用的插件
-    ignorePlugins?: pluginItem[]; // 禁用的插件
-    utils?: Ref<IVideoUtils>; // 工具
     onBack?: () => void; // 返回回调
     onFullscreen?: (isFullscreen: boolean) => void; // 全屏切换
+    plugins?: pluginItem[]; // 使用的插件
+    poster?: Source; // 海报资源
+    prevProgress?: number; // 上次播放的进度（百分比）
+    prevTime?: number; // 上次播放的进度（秒数）
+    progressBarDisabled?: boolean; // 禁用进度条
     style?: {
-        root?: StyleProp<ViewStyle>; // 根节点样式
         default?: StyleProp<ViewStyle>; // 默认位置样式
         fullscreen?: StyleProp<ViewStyle>; // 全屏后的样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
     };
+    title?: string;
+    utils?: Ref<IVideoUtils>; // 工具
 }
 
 export interface IVideoUtils {
-    seek: (time: number, getPrevPauseStatus?: boolean) => void;
     exitFullscreen: () => void;
+    seek: (time: number, getPrevPauseStatus?: boolean) => void;
 }
+
+type pluginItem = 'back' | 'fullscreen' | 'play' | 'progressBar' | 'rate' | 'time';
 
 const speedList = ['2', '1.5', '1.25', '1.0', '0.75', '0.5'];
 
 function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const {
-        messageItems,
-        title,
-        source,
-        prevTime,
-        prevProgress,
         autoplay,
-        liveMode,
-        poster,
-        progressBarDisabled,
         hostName = 'videoPlayer',
-        plugins,
         ignorePlugins,
-        utils,
+        liveMode,
+        messageItems,
         onBack,
-        onLoad,
-        onLoadStart,
-        onProgress,
+        onEnd,
         onError,
         onFullscreen,
+        onLoad,
+        onLoadStart,
         onPlaybackStateChanged,
-        onEnd,
+        onProgress,
+        plugins,
+        poster,
+        prevProgress,
+        prevTime,
+        progressBarDisabled,
+        source,
         style,
+        title,
+        utils,
         ...rest
     } = props;
 
     const navigation = useNavigation();
-    const theme = useTheme();
     const insets = useSafeAreaInsets();
     const isFocused = useIsFocused();
+    const theme = useTheme();
     const currentAppState = useAppState();
 
     const [showPoster, setShowPoster] = useState(true); // 是否显示海报
@@ -125,9 +127,11 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     }, [prevTime, prevProgress, duration]);
 
     useEffect(() => {
+        Orientation.init();
         Orientation.lockToPortrait();
         return () => {
             clearHideTimer();
+            Orientation.removeInit();
         };
     }, []);
 
@@ -142,6 +146,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         setInnerPrevTime(0);
         setDuration(0);
         setCurrentTime(0);
+        setErrorMsg('');
     }, [source]);
 
     useUpdateEffect(() => {
@@ -176,12 +181,12 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 对外暴露的方法
     useImperativeHandle(utils, () => ({
-        seek: (time, getPrevPauseStatus) => videoSeek(time, getPrevPauseStatus),
         exitFullscreen: () => {
             if (isFullscreen) {
                 setIsFullscreen(false);
             }
         },
+        seek: (time, getPrevPauseStatus) => videoSeek(time, getPrevPauseStatus),
     }));
 
     // 根节点样式
@@ -192,7 +197,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 默认样式
     const defaultStyle = useStyle<ViewStyle>({
-        defaultStyle: [{ position: 'absolute', left: 0 }],
+        defaultStyle: [{ left: 0, position: 'absolute' }],
         extraStyle: [style?.default],
     });
 
@@ -354,10 +359,10 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     // 返回按钮
     const backButtonEl =
         (!isFullscreen && innerPlugins.includes('back')) || isFullscreen ? (
-            <Pressable onPress={handleBack} hitSlop={20}>
+            <Pressable hitSlop={20} onPress={handleBack}>
                 <Icon
-                    name="chevron-left"
                     color={COLOR.white}
+                    name="chevron-left"
                     size={isFullscreen ? SIZE.icon_lg : SIZE.icon_md}
                     strokeWidth={SIZE.icon_stroke_lg}
                     style={styles.headerBackIcon}></Icon>
@@ -370,9 +375,9 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const playButtonEl = innerPlugins.includes('play') ? (
         <Pressable onPress={togglePlayStatus}>
             <Icon
-                name={isPaused ? 'play' : 'pause'}
                 color={COLOR.white}
                 fill={COLOR.white}
+                name={isPaused ? 'play' : 'pause'}
                 size={isFullscreen ? SIZE.icon_md : SIZE.icon_xs}
                 strokeWidth={SIZE.icon_stroke_xs}
                 style={styles.playBtn}
@@ -383,7 +388,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     // 全屏按钮
     const fullscreenButtonEl = innerPlugins.includes('fullscreen') ? (
         <Pressable hitSlop={SIZE.space_2xl / 2} onPress={toggleFullscreen}>
-            <Icon name={isFullscreen ? 'minimize' : 'maximize'} color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs} />
+            <Icon color={COLOR.white} name={isFullscreen ? 'minimize' : 'maximize'} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs} />
         </Pressable>
     ) : null;
 
@@ -399,15 +404,15 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         return (
             <Slider
                 disabled={progressBarDisabled}
-                minimumValue={0}
-                maximumValue={duration}
-                value={currentTime <= duration ? currentTime : duration}
-                thumbTintColor="#fff"
-                minimumTrackTintColor="#fff"
                 maximumTrackTintColor="rgba(255,255,255,.5)"
-                onSlidingStart={handleSlidingStart}
+                maximumValue={duration}
+                minimumTrackTintColor="#fff"
+                minimumValue={0}
                 onSlidingComplete={handleSlidingComplete}
-                style={styles.slider}></Slider>
+                onSlidingStart={handleSlidingStart}
+                style={styles.slider}
+                thumbTintColor="#fff"
+                value={currentTime <= duration ? currentTime : duration}></Slider>
         );
     }, [duration, currentTime, isFullscreen, liveMode, innerPlugins]);
 
@@ -437,10 +442,10 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const prevTimeEl =
         innerPrevTime && hasLoaded ? (
             <Flex alignItems="center" gap={SIZE.space_md} style={styles.prevTime}>
-                <TextX size={SIZE.font_desc} color={COLOR.white}>
+                <TextX color={COLOR.white} size={SIZE.font_desc}>
                     上次观看至{convertSecondsDisplay(innerPrevTime)}
                 </TextX>
-                <Button size="xs" style={{ button: { paddingHorizontal: SIZE.space_md } }} type="primary" onPress={handleJumpToPrevTime}>
+                <Button onPress={handleJumpToPrevTime} size="xs" style={{ button: { paddingHorizontal: SIZE.space_md } }} type="primary">
                     跳转播放
                 </Button>
                 {hidePrevTimeEl()}
@@ -469,7 +474,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 {currentRate ? (
                     <TextX color={COLOR.white}>{currentRate}X</TextX>
                 ) : (
-                    <Icon name="gauge" color={COLOR.white} size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs}></Icon>
+                    <Icon color={COLOR.white} name="gauge" size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs}></Icon>
                 )}
             </Pressable>
         ) : null;
@@ -480,11 +485,11 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
             {speedList.map(item => {
                 const isActive = currentRate === item;
                 return (
-                    <Pressable onPress={() => handleChangeRate(item)} key={item}>
+                    <Pressable key={item} onPress={() => handleChangeRate(item)}>
                         <TextX
                             color={COLOR.white}
-                            weight={isActive ? '500' : '400'}
-                            style={[styles.speedControlItem, { opacity: isActive ? 1 : 0.5 }]}>
+                            style={[styles.speedControlItem, { opacity: isActive ? 1 : 0.5 }]}
+                            weight={isActive ? '500' : '400'}>
                             {item}X
                         </TextX>
                     </Pressable>
@@ -518,10 +523,10 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 <View style={styles.mask}>
                     {/* 顶部操作区 */}
                     <LinearGradient colors={['#00000080', '#00000000']}>
-                        <Flex block alignItems="center" columnGap={SIZE.space_lg} style={styles.fullscreenHeader}>
+                        <Flex alignItems="center" block columnGap={SIZE.space_lg} style={styles.fullscreenHeader}>
                             {/* 返回按钮 */}
                             {backButtonEl}
-                            <TextX size={SIZE.font_h4} color={COLOR.white} numberOfLines={1}>
+                            <TextX color={COLOR.white} numberOfLines={1} size={SIZE.font_h4}>
                                 {title}
                             </TextX>
                         </Flex>
@@ -537,7 +542,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                     </Pressable>
                     {/* 底部操作区 */}
                     <LinearGradient colors={['#00000000', '#00000080']}>
-                        <Flex column block rowGap={SIZE.space_md} style={styles.fullscreenFooter}>
+                        <Flex block column rowGap={SIZE.space_md} style={styles.fullscreenFooter}>
                             <Flex alignItems="center" columnGap={SIZE.space_xl}>
                                 {/* 进度条 */}
                                 {progressBarEl}
@@ -545,7 +550,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                                 {timeEl}
                             </Flex>
 
-                            <Flex alignItems="center" justifyContent="space-between" block>
+                            <Flex alignItems="center" block justifyContent="space-between">
                                 <Flex alignItems="center" columnGap={SIZE.space_lg}>
                                     {/* 播放/暂停按钮 */}
                                     {playButtonEl}
@@ -570,7 +575,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
             <View style={styles.mask}>
                 {/* 顶部操作区 */}
                 <LinearGradient colors={['#00000080', '#00000000']}>
-                    <Flex block alignItems="center" justifyContent="space-between" columnGap={SIZE.space_lg} style={styles.defaultHeader}>
+                    <Flex alignItems="center" block columnGap={SIZE.space_lg} justifyContent="space-between" style={styles.defaultHeader}>
                         {/* 返回按钮 */}
                         {backButtonEl}
                         {/*播放速率*/}
@@ -610,21 +615,21 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 <Pressable onPress={() => setShowControls(true)} style={rootStyle}>
                     {controlsEl()}
 
-                    {showPoster && poster ? <ImageX source={poster} resizeMode="cover" style={styles.poster} /> : null}
+                    {showPoster && poster ? <ImageX resizeMode="cover" source={poster} style={styles.poster} /> : null}
 
                     <Video
-                        ref={videoRef}
-                        paused={isPaused}
-                        resizeMode="contain"
-                        source={source}
+                        onEnd={handleEnd}
+                        onError={handleError}
                         onLoad={handleLoad}
                         onLoadStart={handleLoadStart}
-                        onProgress={handleProgress}
-                        onError={handleError}
                         onPlaybackStateChanged={handlePlaybackStateChanged}
+                        onProgress={handleProgress}
                         onSeek={handleSeek}
-                        onEnd={handleEnd}
+                        paused={isPaused}
                         rate={+currentRate}
+                        ref={videoRef}
+                        resizeMode="contain"
+                        source={source}
                         style={{ height: '100%' }}
                         {...rest}></Video>
                 </Pressable>
@@ -636,90 +641,12 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 export default forwardRef(VideoPlayer);
 
 const styles = ScaledSheet.create({
-    root: {
-        backgroundColor: COLOR.black,
-        flexShrink: 0,
-        position: 'relative',
-        transformOrigin: 'center',
-    },
-    defaultRoot: {
-        aspectRatio: 16 / 9,
-        width: '100%',
-    },
-    fullscreenRoot: {
-        height: '100%',
-        width: '100%',
-    },
-    safeArea: {
-        backgroundColor: COLOR.black,
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
-        right: 0,
-        top: 0,
-    },
-    poster: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 20,
-    },
-    mask: {
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        left: 0,
-        position: 'absolute',
-        top: 0,
-        width: '100%',
-        zIndex: 30,
-    },
-    player: {
-        height: '100%',
-        zIndex: 10,
-    },
-    defaultHeader: {
-        position: 'relative',
-        paddingHorizontal: SIZE.space_xl,
-        minHeight: scale(44),
-    },
-    fullscreenHeader: {
-        position: 'relative',
-        paddingHorizontal: SIZE.space_2xl,
-        minHeight: scale(60),
-    },
-    headerBackIcon: {
-        marginLeft: -5,
-    },
     body: {
-        flexShrink: 1,
-        position: 'relative',
-        flexGrow: 1,
-        width: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
-    },
-    defaultFooter: {
-        position: 'relative',
-        paddingHorizontal: SIZE.space_xl,
-        paddingVertical: SIZE.space_sm,
-        minHeight: scale(46),
-    },
-    fullscreenFooter: {
-        position: 'relative',
-        paddingHorizontal: SIZE.space_2xl,
-        paddingBottom: SIZE.space_lg,
-    },
-    sliderPlaceholder: {
         flexGrow: 1,
-    },
-    playBtn: {
-        marginRight: SIZE.space_md,
-    },
-    slider: {
         flexShrink: 1,
+        justifyContent: 'center',
+        position: 'relative',
         width: '100%',
     },
     controlPanel: {
@@ -732,24 +659,102 @@ const styles = ScaledSheet.create({
         right: 0,
         top: 0,
     },
-    speedControlItem: {
-        marginBottom: SIZE.space_xl,
-        paddingVertical: SIZE.space_md,
-        textAlign: 'center',
-        width: scale(80),
+    defaultFooter: {
+        minHeight: scale(46),
+        paddingHorizontal: SIZE.space_xl,
+        paddingVertical: SIZE.space_sm,
+        position: 'relative',
+    },
+    defaultHeader: {
+        minHeight: scale(44),
+        paddingHorizontal: SIZE.space_xl,
+        position: 'relative',
+    },
+    defaultRoot: {
+        aspectRatio: 16 / 9,
+        width: '100%',
+    },
+    duration: {
+        textAlign: 'right',
+        width: scale(120),
+    },
+    fullscreenFooter: {
+        paddingBottom: SIZE.space_lg,
+        paddingHorizontal: SIZE.space_2xl,
+        position: 'relative',
+    },
+    fullscreenHeader: {
+        minHeight: scale(60),
+        paddingHorizontal: SIZE.space_2xl,
+        position: 'relative',
+    },
+    fullscreenRoot: {
+        height: '100%',
+        width: '100%',
+    },
+    headerBackIcon: {
+        marginLeft: -5,
+    },
+    mask: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        left: 0,
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        zIndex: 30,
     },
     messageGroup: {
-        position: 'absolute',
         bottom: SIZE.space_md,
         left: SIZE.space_xl,
+        position: 'absolute',
+    },
+    playBtn: {
+        marginRight: SIZE.space_md,
+    },
+    player: {
+        height: '100%',
+        zIndex: 10,
+    },
+    poster: {
+        height: '100%',
+        left: 0,
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        zIndex: 20,
     },
     prevTime: {
         backgroundColor: COLOR.bg_overlay,
         borderRadius: SIZE.radius_md,
         padding: SIZE.space_md,
     },
-    duration: {
-        textAlign: 'right',
-        width: scale(120),
+    root: {
+        backgroundColor: COLOR.black,
+        flexShrink: 0,
+        position: 'relative',
+        transformOrigin: 'center',
+    },
+    safeArea: {
+        backgroundColor: COLOR.black,
+        bottom: 0,
+        left: 0,
+        position: 'absolute',
+        right: 0,
+        top: 0,
+    },
+    slider: {
+        flexShrink: 1,
+        width: '100%',
+    },
+    sliderPlaceholder: {
+        flexGrow: 1,
+    },
+    speedControlItem: {
+        marginBottom: SIZE.space_xl,
+        paddingVertical: SIZE.space_md,
+        textAlign: 'center',
+        width: scale(80),
     },
 });

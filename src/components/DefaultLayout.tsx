@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { ScrollView, ScrollViewProps, StatusBar, StatusBarProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaView, SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import useTheme from '../hooks/useTheme';
 import { SCROLL_BASIC_CONFIG, SIZE } from '../scripts/const';
 import { Head } from './index';
 
@@ -36,13 +37,15 @@ export default function DefaultLayout(props: IDefaultLayoutProps) {
         statusBarConfig,
         style,
     } = props;
+
+    const { theme } = useTheme();
     const insets = useSafeAreaInsets();
 
     return (
         <SafeAreaView {...safeAreaConfig} style={[styles.root, style?.root]}>
             {/*顶部安全区域*/}
             <View style={[styles.safeTop, { backgroundColor: safeTopColor, height: insets.top }]} />
-            <StatusBar {...statusBarConfig} />
+            <StatusBar hidden={theme.statusBar.hidden} {...statusBarConfig} />
             <View style={[styles.body, style?.body]}>
                 {/*头部*/}
                 {_.isString(head) ? <Head title={head} /> : head}
