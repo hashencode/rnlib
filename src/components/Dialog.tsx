@@ -3,7 +3,6 @@ import { COLOR, SIZE } from '../scripts/const';
 import _ from 'lodash';
 import { Button, Flex, Overlay, TextX } from './index';
 import { Fragment, ReactNode } from 'react';
-import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { IButtonProps } from './Button';
 
@@ -31,24 +30,6 @@ export interface IDialogProps {
 export default function Dialog(props: IDialogProps) {
     const { backCloseable, content, title, buttons, actions, visible, overlayClosable = true, onCancel, afterClose, style } = props;
 
-    // 根节点样式
-    const rootStyle = useStyle<ViewStyle>({
-        defaultStyle: [styles.root],
-        extraStyle: [style?.root],
-    });
-
-    // 内容样式
-    const contentStyle = useStyle<ViewStyle>({
-        defaultStyle: [styles.content],
-        extraStyle: [style?.content],
-    });
-
-    // 头部样式
-    const headerStyle = useStyle<TextStyle>({
-        defaultStyle: [styles.header],
-        extraStyle: [style?.header],
-    });
-
     // 遮罩点击
     const handleOverlayPress = () => {
         overlayClosable && onCancel?.();
@@ -56,7 +37,12 @@ export default function Dialog(props: IDialogProps) {
 
     // 返回操作回调
     const handleBackClose = () => {
-        backCloseable && onCancel?.();
+        if (backCloseable) {
+            return false;
+        } else {
+            onCancel?.();
+            return true;
+        }
     };
 
     // 渲染按钮
@@ -117,19 +103,21 @@ export default function Dialog(props: IDialogProps) {
     };
 
     return (
-        <Overlay visible={visible} onPress={handleOverlayPress} afterDestroy={afterClose} onRequestClose={handleBackClose}>
-            {/*主容器*/}
-            <Flex column alignItems="center" style={rootStyle}>
-                <Flex column block alignItems="center" rowGap={SIZE.space_md} style={contentStyle}>
-                    <TextX size={SIZE.font_h2} style={headerStyle}>
-                        {title}
-                    </TextX>
-                    <TextX size={SIZE.font_h5} style={[styles.body, style?.body]}>
-                        {content}
-                    </TextX>
+        <Overlay afterDestroy={afterClose} onPress={handleOverlayPress} onRequestClose={handleBackClose} visible={visible}>
+            <Flex alignItems="center" column grow={1} justifyContent="center">
+                {/*主容器*/}
+                <Flex alignItems="center" column style={[styles.root, style?.root]}>
+                    <Flex alignItems="center" block column rowGap={SIZE.space_md} style={[styles.content, style?.content]}>
+                        <TextX size={SIZE.font_h2} style={[styles.header, style?.header]}>
+                            {title}
+                        </TextX>
+                        <TextX size={SIZE.font_h5} style={[styles.body, style?.body]}>
+                            {content}
+                        </TextX>
+                    </Flex>
+                    {renderButtons()}
+                    {renderActions()}
                 </Flex>
-                {renderButtons()}
-                {renderActions()}
             </Flex>
         </Overlay>
     );

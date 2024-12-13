@@ -27,12 +27,6 @@ export default function Switch(props: ISwitchProps) {
         onChange,
     });
 
-    // 根节点样式
-    const rootStyle = useStyle<ViewStyle>({
-        defaultStyle: [styles.root],
-        extraStyle: [style?.root],
-    });
-
     // 激活样式
     const activeBodyStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.body],
@@ -49,7 +43,7 @@ export default function Switch(props: ISwitchProps) {
     };
 
     return (
-        <PressHighlight underlayColor="transparent" disabled={disabled} style={rootStyle} onPress={handlePress}>
+        <PressHighlight underlayColor="transparent" disabled={disabled} style={[styles.root, style?.root]} onPress={handlePress}>
             <Flex alignItems="center" style={activeBodyStyle}>
                 <View style={[styles.handle, styles[`handle_${size}`]]} />
             </Flex>
@@ -88,9 +82,6 @@ const styles = StyleSheet.create({
     },
     handle: {
         backgroundColor: COLOR.white,
-    },
-    handleShadow: {
-        borderRadius: handleMd,
     },
     handle_sm: {
         borderRadius: handleSm,

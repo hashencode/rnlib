@@ -16,15 +16,6 @@ export default function DemoToast() {
                         </Flex>
                     </Card>
                 </Group>
-                <Group header="带状态图标提示">
-                    <Card>
-                        <Flex columnGap={SIZE.space_md} wrap="wrap">
-                            <Button onPress={() => createToast({ content: '成功提示', type: 'success' })}>成功提示</Button>
-                            <Button onPress={() => createToast({ content: '错误提示', type: 'error' })}>错误提示</Button>
-                            <Button onPress={() => createToast({ content: '加载中', type: 'loading' })}>加载提示</Button>
-                        </Flex>
-                    </Card>
-                </Group>
             </DefaultLayout>
         </>
     );

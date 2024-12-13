@@ -26,6 +26,7 @@ import DemoTabs from '../demos/DemoTabs';
 import DemoTag from '../demos/DemoTag';
 import DemoToast from '../demos/DemoToast';
 import DemoVideoPlayer from '../demos/DemoVideoPlayer';
+import DemoMessage from '../demos/DemoMessage';
 import Demo from '../screens/Demo';
 
 const Stack = createStackNavigator();
@@ -56,6 +57,7 @@ const screens: any[] = [
     { component: DemoTag, name: 'TAG' },
     { component: DemoToast, name: 'TOAST' },
     { component: DemoVideoPlayer, name: 'VIDEO_PLAYER' },
+    { component: DemoMessage, name: 'MESSAGE' },
 ];
 
 export default function Router() {

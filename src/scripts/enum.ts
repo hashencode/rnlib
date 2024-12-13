@@ -37,21 +37,16 @@ export enum AvatarStatusMap {
 }
 
 /**
- * Toast
- */
-export enum ToastIconMap {
-    'success' = 'check',
-    'error' = 'x',
-}
-
-/**
  * Emitter
  */
 export enum EMITTER_MAP {
-    '打开对话框' = '_OPEN_DIALOG',
     '关闭对话框' = '_CLOSE_DIALOG',
     '关闭所有对话框' = '_CLOSE_ALL_DIALOG',
-    '打开提示' = '_OPEN_TOAST',
-    '关闭提示' = '_CLOSE_TOAST',
     '关闭所有提示' = '_CLOSE_ALL_TOAST',
+    '关闭所有消息' = '_CLOSE_ALL_MESSAGE',
+    '关闭提示' = '_CLOSE_TOAST',
+    '关闭消息' = '_CLOSE_MESSAGE',
+    '打开对话框' = '_OPEN_DIALOG',
+    '打开提示' = '_OPEN_TOAST',
+    '打开消息' = '_OPEN_MESSAGE',
 }
