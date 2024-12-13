@@ -1,5 +1,5 @@
 module.exports = {
-    extends: ['@react-native', 'plugin:perfectionist/recommended-natural-legacy'],
+    extends: ['@react-native'],
     ignorePatterns: ['plugins/**/*', 'metro.config.js'],
     parserOptions: {
         ecmaFeatures: {
