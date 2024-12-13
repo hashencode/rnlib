@@ -1,9 +1,10 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { StyleProp, StyleSheet, TextStyle, useWindowDimensions, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle } from 'react-native';
 
 import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Overlay, TextX } from './index';
+import { Flex, TextX } from './index';
+import Animated, { FadeIn, FadeOut, runOnJS } from 'react-native-reanimated';
 
 export interface IMessageProps {
     afterClose?: () => void; // 关闭回调函数
@@ -17,7 +18,7 @@ export interface IMessageProps {
 }
 
 export default function Message(props: IMessageProps) {
-    const { afterClose, content, duration = 5000, style } = props;
+    const { afterClose, content, duration = 3000, style } = props;
 
     const [visible, setVisible] = useState(true);
     const timer = useRef<NodeJS.Timeout | null>();
@@ -38,7 +39,7 @@ export default function Message(props: IMessageProps) {
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root],
-        extraStyle: [style?.root, { width: deviceWidth - SIZE.space_lg * 2 }],
+        extraStyle: [style?.root, { width: deviceWidth - SIZE.space_md * 2 }],
     });
 
     const clearTimer = () => {
@@ -49,20 +50,39 @@ export default function Message(props: IMessageProps) {
         timer.current = null;
     };
 
+    const handleAfterClose = () => {
+        setVisible(false);
+        afterClose?.();
+    };
+
     return (
-        <Overlay afterDestroy={afterClose} backgroundColor="transparent" visible={visible}>
-            <Flex alignItems="center" column grow={1}>
-                <Flex style={rootStyle}>
-                    <TextX size={SIZE.font_h5} style={style?.content}>
-                        {content}
-                    </TextX>
-                </Flex>
-            </Flex>
-        </Overlay>
+        <View style={styles.container}>
+            {visible ? (
+                <Animated.View
+                    entering={FadeIn}
+                    exiting={FadeOut.withCallback(finished => {
+                        if (finished) {
+                            runOnJS(handleAfterClose)();
+                        }
+                    })}>
+                    <Flex style={rootStyle}>
+                        <TextX size={SIZE.font_h5} style={style?.content}>
+                            {content}
+                        </TextX>
+                    </Flex>
+                </Animated.View>
+            ) : null}
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        left: 0,
+        position: 'absolute',
+        top: 0,
+        zIndex: 99,
+    },
     root: {
         backgroundColor: COLOR.white,
         borderColor: COLOR.border_controller,

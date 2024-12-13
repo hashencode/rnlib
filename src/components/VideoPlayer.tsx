@@ -631,7 +631,8 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                         resizeMode="contain"
                         source={source}
                         style={{ height: '100%' }}
-                        {...rest}></Video>
+                        {...rest}
+                    />
                 </Pressable>
             </View>
         </Portal>
