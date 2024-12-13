@@ -1,10 +1,9 @@
-import _ from 'lodash';
+import { IToastProps, Toast } from './index';
 import { useState } from 'react';
-
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
+import _ from 'lodash';
 import { randomId } from '../scripts/utils';
-import { IToastProps, Toast } from './index';
 
 export interface IToastQueueItem extends Omit<IToastProps, 'id'> {
     id: string;
@@ -39,15 +38,15 @@ export default function ToastRender() {
     return (
         <>
             {toastQueue?.map(queueItem => {
-                const { afterClose, id: queueId, ...rest } = queueItem;
+                const { id: queueId, afterClose, ...rest } = queueItem;
                 return (
                     <Toast
                         {...rest}
+                        key={queueId}
                         afterClose={() => {
                             destroy(queueId);
                             afterClose?.();
                         }}
-                        key={queueId}
                     />
                 );
             })}

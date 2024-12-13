@@ -1,11 +1,10 @@
-import { ReactElement, ReactNode } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-
-import useStyle from '../hooks/useStyle';
-import { COLOR, SIZE } from '../scripts/const';
-import { mergeElement } from '../scripts/utils';
 import { Flex, TextX } from './index';
+import { mergeElement } from '../scripts/utils';
+import { COLOR, SIZE } from '../scripts/const';
+import useStyle from '../hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { ReactElement, ReactNode } from 'react';
 
 export interface ITagProps {
     backgroundColor?: ViewStyle['backgroundColor']; // 背景色
@@ -23,24 +22,24 @@ export interface ITagProps {
 
 export default function Tag(props: ITagProps) {
     const {
-        backgroundColor = COLOR.bg_controller,
-        borderColor = COLOR.border_default,
-        bordered = true,
-        color = COLOR.text_title,
         icon,
+        borderColor = COLOR.border_default,
+        backgroundColor = COLOR.bg_controller,
+        color = COLOR.text_title,
         style,
+        bordered = true,
     } = props;
 
     // 根节点样式
     const rootStyle = useStyle<TextStyle>({
         defaultStyle: [styles.root],
-        extraStyle: [{ backgroundColor, borderColor, borderWidth: bordered ? SIZE.border_default : 0, color }, style?.root],
+        extraStyle: [{ borderWidth: bordered ? SIZE.border_default : 0, color, backgroundColor, borderColor }, style?.root],
     });
 
     return (
-        <Flex alignItems="center" columnGap={SIZE.space_sm} justifyContent="center" style={rootStyle}>
-            {mergeElement(icon, { color, size: SIZE.tag_icon_size })}
-            <TextX color={color} size={SIZE.font_mini} style={style?.text}>
+        <Flex alignItems="center" justifyContent="center" columnGap={SIZE.space_sm} style={rootStyle}>
+            {mergeElement(icon, { size: SIZE.tag_icon_size, color })}
+            <TextX size={SIZE.font_mini} color={color} style={style?.text}>
                 {props.children}
             </TextX>
         </Flex>

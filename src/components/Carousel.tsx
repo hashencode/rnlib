@@ -1,13 +1,12 @@
 import { ReactNode, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import PaginationDot from 'react-native-animated-pagination-dot';
-import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
 import { default as CarouselX } from 'react-native-reanimated-carousel';
-import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 import { LayoutChangeEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-
-import useStyle from '../hooks/useStyle';
+import PaginationDot from 'react-native-animated-pagination-dot';
 import { SIZE } from '../scripts/const';
+import useStyle from '../hooks/useStyle';
+import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
+import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
 
 export interface ICarouselProps {
     dotConfig?: IDotContainerProps; // 指示器配置项
@@ -23,7 +22,7 @@ export interface ICarouselProps {
 }
 
 export default function Carousel(props: ICarouselProps) {
-    const { dotConfig, height, items, rootConfig, showDot, style } = props;
+    const { dotConfig, rootConfig, items, showDot, style, height } = props;
 
     const [carouselWidth, setCarouselWidth] = useState(1);
     const [currentPage, setCurrentPage] = useState(0);
@@ -45,15 +44,15 @@ export default function Carousel(props: ICarouselProps) {
     };
 
     return (
-        <View onLayout={handleWrapperLayout} style={rootStyle}>
+        <View style={rootStyle} onLayout={handleWrapperLayout}>
             <CarouselX
+                width={carouselWidth}
                 data={items}
-                renderItem={({ index, item }) => (
+                renderItem={({ item, index }) => (
                     <View key={index} style={styles.content}>
                         {item}
                     </View>
                 )}
-                width={carouselWidth}
                 {...rootConfig}
                 onScrollEnd={index => {
                     setCurrentPage(index);
@@ -70,6 +69,9 @@ export default function Carousel(props: ICarouselProps) {
 }
 
 const styles = StyleSheet.create({
+    root: {
+        position: 'relative',
+    },
     content: {
         flex: 1,
     },
@@ -77,8 +79,5 @@ const styles = StyleSheet.create({
         bottom: SIZE.space_sm,
         position: 'absolute',
         right: SIZE.space_md,
-    },
-    root: {
-        position: 'relative',
     },
 });

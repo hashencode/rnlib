@@ -1,13 +1,15 @@
-import _ from 'lodash';
 import { Fragment, Key, ReactElement, ReactNode, useMemo } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-
-import { useMergedState } from '../hooks';
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
-import { mergeElement } from '../scripts/utils';
+import { useMergedState } from '../hooks';
+import _ from 'lodash';
 import { Icon, ListItem } from './index';
+import { mergeElement } from '../scripts/utils';
+import useStyle from '../hooks/useStyle';
 import { IListItemProps } from './ListItem';
+
+export type ICheckListRawValue = number | string;
+export type ICheckListValue = ICheckListRawValue | ICheckListRawValue[] | undefined;
 
 export interface ICheckListOptions {
     children?: ReactNode; // 内容插槽
@@ -17,34 +19,31 @@ export interface ICheckListOptions {
     title?: ReactNode; // 主标题,
     value: ICheckListRawValue; // 列表项值
 }
+
 export interface ICheckListProps {
     checkedIcon?: ReactElement; // 选中图标
     defaultValue?: ICheckListValue; // 默认值
     multiple?: boolean; // 多选
-    onChange?: (val: ICheckListValue) => void; // 值变动事件回调
     options?: ICheckListOptions[]; // 列表项
     renderItem?: (item: IListItemProps, index: number) => ReactElement; // 渲染函数
     rowKey?: (item: IListItemProps) => Key; // 唯一键生成函数
+    value?: ICheckListValue; // 受控值
 
     style?: {
         divider?: StyleProp<ViewStyle>; // 分割线样式
         root?: StyleProp<ViewStyle>; // 最外层样式
     }; // 样式
 
-    value?: ICheckListValue; // 受控值
+    onChange?: (val: ICheckListValue) => void; // 值变动事件回调
 }
 
-export type ICheckListRawValue = number | string;
-
-export type ICheckListValue = ICheckListRawValue | ICheckListRawValue[] | undefined;
-
 export default function CheckList(props: ICheckListProps) {
-    const { checkedIcon = <Icon name="check" />, defaultValue, multiple, onChange, options, renderItem, rowKey, style, value } = props;
+    const { options, rowKey, renderItem, checkedIcon = <Icon name="check" />, defaultValue, multiple, style, value, onChange } = props;
 
     const [innerValue, handleChange] = useMergedState<ICheckListValue>(multiple ? [] : undefined, {
         defaultValue,
-        onChange,
         value,
+        onChange,
     });
 
     // 根节点样式
@@ -85,8 +84,8 @@ export default function CheckList(props: ICheckListProps) {
     // 渲染右侧区域
     const renderExtra = (itemValue: ICheckListValue) => {
         const iconEl = mergeElement(checkedIcon, {
-            color: COLOR.primary,
             size: SIZE.icon_xs,
+            color: COLOR.primary,
         });
         if (multiple && _.isArray(innerValue) && innerValue.includes(itemValue as ICheckListRawValue)) {
             return iconEl;
@@ -128,8 +127,8 @@ export default function CheckList(props: ICheckListProps) {
 }
 
 const styles = StyleSheet.create({
-    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_lg, marginVertical: 0 },
     root: {
         backgroundColor: COLOR.white,
     },
+    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_lg, marginVertical: 0 },
 });

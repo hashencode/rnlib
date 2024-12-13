@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import { Button, Card, Checkbox, CheckboxGroup, DefaultLayout, Flex, Group } from '../../src/components';
+import { Button, Checkbox, CheckboxGroup, DefaultLayout, Flex, Group, Card } from '../../src/components';
 import { SIZE } from '../../src/scripts/const';
 
 export default function DemoCheckbox() {
@@ -8,7 +7,7 @@ export default function DemoCheckbox() {
 
     return (
         <DefaultLayout head="多选 Checkbox">
-            <Group first header="基本用法">
+            <Group header="基本用法" first>
                 <Card>
                     <Checkbox label="选项" />
                 </Card>
@@ -16,26 +15,26 @@ export default function DemoCheckbox() {
             <Group header="禁用">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Checkbox disabled label="未选中" />
-                        <Checkbox defaultValue={true} disabled label="已选中" />
-                        <Checkbox disabled indeterminate label="半选" />
+                        <Checkbox label="未选中" disabled />
+                        <Checkbox label="已选中" disabled defaultValue={true} />
+                        <Checkbox label="半选" disabled indeterminate />
                     </Flex>
                 </Card>
             </Group>
             <Group header="半选">
                 <Card>
-                    <Checkbox indeterminate label="特殊状态" />
+                    <Checkbox label="特殊状态" indeterminate />
                 </Card>
             </Group>
             <Group header="默认值">
                 <Card>
-                    <Checkbox defaultValue={true} label="默认勾选" />
+                    <Checkbox label="默认勾选" defaultValue={true} />
                 </Card>
             </Group>
             <Group header="受控">
                 <Card>
                     <Flex column rowGap={SIZE.space_md} wrap="wrap">
-                        <Checkbox label="受控组件" onChange={val => setIsChecked(val)} value={isChecked} />
+                        <Checkbox label="受控组件" value={isChecked} onChange={val => setIsChecked(val)} />
                         <Button onPress={() => setIsChecked(!isChecked)}>切换状态</Button>
                     </Flex>
                 </Card>
@@ -43,12 +42,12 @@ export default function DemoCheckbox() {
             <Group header="多选组合">
                 <Card columnGap={SIZE.space_md} wrap="wrap">
                     <CheckboxGroup
-                        defaultValue={['A']}
                         options={[
                             { label: '选项A', value: 'A' },
                             { label: '选项A', value: 'B' },
-                            { disabled: true, label: '禁用', value: 'C' },
+                            { label: '禁用', value: 'C', disabled: true },
                         ]}
+                        defaultValue={['A']}
                     />
                 </Card>
             </Group>

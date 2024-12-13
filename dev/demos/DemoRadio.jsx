@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import { Button, Card, DefaultLayout, Flex, Group, Radio, RadioGroup } from '../../src/components';
+import { Button, DefaultLayout, Flex, Group, RadioGroup, Radio, Card } from '../../src/components';
 import { SIZE } from '../../src/scripts/const';
 
 export default function DemoRadio() {
@@ -8,7 +7,7 @@ export default function DemoRadio() {
 
     return (
         <DefaultLayout head="单选 Radio">
-            <Group first header="基本用法">
+            <Group header="基本用法" first>
                 <Card>
                     <Radio label="选项" />
                 </Card>
@@ -16,20 +15,20 @@ export default function DemoRadio() {
             <Group header="禁用">
                 <Card>
                     <Flex columnGap={SIZE.space_lg} wrap="wrap">
-                        <Radio disabled label="未选中" />
-                        <Radio defaultValue={true} disabled label="已选中" />
+                        <Radio label="未选中" disabled />
+                        <Radio label="已选中" disabled defaultValue={true} />
                     </Flex>
                 </Card>
             </Group>
             <Group header="默认值">
                 <Card>
-                    <Radio defaultValue={true} label="默认勾选" />
+                    <Radio label="默认勾选" defaultValue={true} />
                 </Card>
             </Group>
             <Group header="受控">
                 <Card>
                     <Flex column rowGap={SIZE.space_lg} wrap="wrap">
-                        <Radio label="受控组件" onChange={val => setIsChecked(val)} value={isChecked} />
+                        <Radio label="受控组件" value={isChecked} onChange={val => setIsChecked(val)} />
                         <Button onPress={() => setIsChecked(!isChecked)}>切换状态</Button>
                     </Flex>
                 </Card>
@@ -37,12 +36,12 @@ export default function DemoRadio() {
             <Group header="多选组合">
                 <Card>
                     <RadioGroup
-                        defaultValue="A"
                         options={[
                             { label: '选项A', value: 'A' },
                             { label: '选项A', value: 'B' },
-                            { disabled: true, label: '禁用', value: 'C' },
+                            { label: '禁用', value: 'C', disabled: true },
                         ]}
+                        defaultValue="A"
                     />
                 </Card>
             </Group>

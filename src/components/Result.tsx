@@ -1,50 +1,49 @@
-import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
+import useStyle from '../hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, Icon, TextX } from './index';
+import { ReactNode } from 'react';
 
 export interface IResultProps {
     extra?: ReactNode; // 额外元素
+    subtitle?: ReactNode; // 副标题
+    title?: ReactNode; // 标题
+    type: 'success' | 'info' | 'waiting' | 'error' | 'warning'; // 类型
+
     style?: {
         icon?: StyleProp<TextStyle>; // 图标样式
         root?: StyleProp<ViewStyle>; // 根节点样式
         subtitle?: StyleProp<TextStyle>; // 副标题样式
         title?: StyleProp<TextStyle>; // 标题样式
     }; // 样式
-    subtitle?: ReactNode; // 副标题
-    title?: ReactNode; // 标题
-
-    type: 'error' | 'info' | 'success' | 'waiting' | 'warning'; // 类型
 }
 
 const IconMap = {
-    error: {
-        color: COLOR.danger,
-        icon: 'x-circle',
+    success: {
+        icon: 'check-circle-2',
+        color: COLOR.primary,
     },
     info: {
-        color: COLOR.primary,
         icon: 'info',
-    },
-    success: {
         color: COLOR.primary,
-        icon: 'check-circle-2',
+    },
+    error: {
+        icon: 'x-circle',
+        color: COLOR.danger,
     },
     waiting: {
-        color: COLOR.success,
         icon: 'clock-4',
+        color: COLOR.success,
     },
     warning: {
-        color: COLOR.warning,
         icon: 'alert-circle',
+        color: COLOR.warning,
     },
 };
 
 export default function Result(props: IResultProps) {
-    const { extra, style, subtitle, title, type = 'info' } = props;
+    const { title, type = 'info', subtitle, extra, style } = props;
 
     // 根节点样式
     const rootStyle = useStyle<TextStyle>({
@@ -53,21 +52,21 @@ export default function Result(props: IResultProps) {
     });
 
     return (
-        <Flex alignItems="center" column justifyContent="center" rowGap={SIZE.space_2xl} style={rootStyle}>
+        <Flex justifyContent="center" alignItems="center" column style={rootStyle} rowGap={SIZE.space_2xl}>
             {/* 图标 */}
             <Icon
-                color={COLOR.white}
-                fill={IconMap[type].color}
                 name={IconMap[type].icon}
                 size={SIZE.result_icon_size}
+                fill={IconMap[type].color}
+                color={COLOR.white}
                 strokeWidth={SIZE.icon_stroke_sm}
                 style={style?.icon}
             />
-            <Flex alignItems="center" column rowGap={SIZE.space_md}>
+            <Flex column rowGap={SIZE.space_md} alignItems="center">
                 <TextX size={SIZE.font_h2} style={style?.title}>
                     {title}
                 </TextX>
-                <TextX color={COLOR.text_desc} size={SIZE.font_secondary} style={style?.subtitle}>
+                <TextX size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subtitle}>
                     {subtitle}
                 </TextX>
             </Flex>

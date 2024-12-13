@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import { Icon } from '../../src/components';
 import { COLOR, SIZE } from '../../src/scripts/const';
+import { Icon } from '../../src/components';
 import DEMO from '../screens/Demo';
 
 const Tab = createBottomTabNavigator();
@@ -10,8 +9,8 @@ function BottomTabs() {
     const tabs = {
         DEMO: {
             component: DEMO,
-            icon: 'home',
             label: '首页',
+            icon: 'home',
         },
     };
 
@@ -19,17 +18,17 @@ function BottomTabs() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
-                tabBarActiveTintColor: COLOR.primary,
                 tabBarHideOnKeyboard: true,
-                tabBarIcon: ({ color }) => {
-                    return <Icon color={color} name={tabs[route.name].icon} size={SIZE.icon_sm} />;
-                },
                 tabBarInactiveTintColor: COLOR.text_subtitle,
+                tabBarActiveTintColor: COLOR.primary,
+                tabBarIcon: ({ color }) => {
+                    return <Icon name={tabs[route.name].icon} color={color} size={SIZE.icon_sm} />;
+                },
                 tabBarStyle: { backgroundColor: COLOR.white },
             })}>
             {Object.keys(tabs)?.map(key => {
                 const { component, label } = tabs[key];
-                return <Tab.Screen component={component} key={label} name={key} options={{ tabBarLabel: label }} />;
+                return <Tab.Screen key={label} name={key} component={component} options={{ tabBarLabel: label }} />;
             })}
         </Tab.Navigator>
     );

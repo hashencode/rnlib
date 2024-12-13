@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { TextX } from './index';
+import useStyle from '../hooks/useStyle';
+import { ReactNode } from 'react';
 
 export interface IGroupProps {
     children?: ReactNode; // 内容插槽
@@ -11,15 +10,15 @@ export interface IGroupProps {
     footer?: ReactNode | string; // 底部插槽
     header?: ReactNode | string; // 头部插槽
     style?: {
+        root?: StyleProp<ViewStyle>; // 最外层样式
+        header?: StyleProp<ViewStyle>; // 头部样式
         body?: StyleProp<ViewStyle>; // 主要内容样式
         footer?: StyleProp<ViewStyle>; // 底部样式
-        header?: StyleProp<ViewStyle>; // 头部样式
-        root?: StyleProp<ViewStyle>; // 最外层样式
     }; // 样式
 }
 
 export default function Group(props: IGroupProps) {
-    const { first, footer, header, style } = props;
+    const { header, footer, first, style } = props;
 
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
@@ -42,7 +41,7 @@ export default function Group(props: IGroupProps) {
     return (
         <View style={rootStyle}>
             {header ? (
-                <TextX color={COLOR.text_desc} size={SIZE.font_h5} style={headerStyle}>
+                <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={headerStyle}>
                     {header}
                 </TextX>
             ) : (
@@ -50,7 +49,7 @@ export default function Group(props: IGroupProps) {
             )}
             <View style={style?.body}>{props.children}</View>
             {footer ? (
-                <TextX color={COLOR.text_desc} size={SIZE.font_h5} style={footerStyle}>
+                <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={footerStyle}>
                     {footer}
                 </TextX>
             ) : null}
@@ -59,8 +58,8 @@ export default function Group(props: IGroupProps) {
 }
 
 const styles = StyleSheet.create({
-    footer: {
-        paddingVertical: SIZE.space_md,
+    root: {
+        width: '100%',
     },
     header: {
         paddingVertical: SIZE.space_md,
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     headerPlaceholder: {
         height: SIZE.space_lg,
     },
-    root: {
-        width: '100%',
+    footer: {
+        paddingVertical: SIZE.space_md,
     },
 });

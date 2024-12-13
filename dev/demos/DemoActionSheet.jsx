@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { ActionSheet, Button, Card, DefaultLayout, Group, TextX } from '../../src/components';
 
 export default function DemoActionSheet() {
@@ -7,8 +6,8 @@ export default function DemoActionSheet() {
 
     const optionsBasic = [
         { title: '选项 A', value: 'A' },
-        { subtitle: '自定义副标题', title: '选项 B', value: 'B' },
-        { disabled: true, title: '选项禁用', value: 'C' },
+        { title: '选项 B', value: 'B', subtitle: '自定义副标题' },
+        { title: '选项禁用', value: 'C', disabled: true },
     ];
 
     const resetOpenId = () => {
@@ -17,16 +16,16 @@ export default function DemoActionSheet() {
 
     return (
         <DefaultLayout head="动作面板 ActionSheet">
-            <Group first header="选项">
+            <Group header="选项" first>
                 <Card>
                     <Button onPress={() => setOpenId('basic')}>基础</Button>
                 </Card>
                 <ActionSheet
                     header="基础"
-                    onCancel={resetOpenId}
-                    onChange={resetOpenId}
+                    visible={openId === 'basic'}
                     options={optionsBasic}
-                    visible={openId === 'basic'}>
+                    onChange={resetOpenId}
+                    onCancel={resetOpenId}>
                     <TextX>123</TextX>
                 </ActionSheet>
             </Group>

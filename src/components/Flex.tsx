@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
 import { FlexAlignType, StyleProp, View, ViewProps, ViewStyle } from 'react-native';
-
 import useStyle from '../hooks/useStyle';
+import { ReactNode } from 'react';
 
 export interface IFlexProps extends ViewProps {
     alignItems?: FlexAlignType; // alignItems
@@ -12,11 +11,11 @@ export interface IFlexProps extends ViewProps {
     columnGap?: number; // columnGap
     gap?: number; // gap
     grow?: number; // flexGrow
-    justifyContent?: 'center' | 'flex-end' | 'flex-start' | 'space-around' | 'space-between' | 'space-evenly'; // justifyContent
+    justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'; // justifyContent
     rowGap?: number; // rowGap
     shrink?: number; // flexShrink
     style?: StyleProp<ViewStyle>; // 样式
-    wrap?: 'nowrap' | 'wrap' | 'wrap-reverse'; // flexWrap
+    wrap?: 'wrap' | 'nowrap' | 'wrap-reverse'; // flexWrap
 }
 
 export default function Flex(props: IFlexProps) {
@@ -39,18 +38,18 @@ export default function Flex(props: IFlexProps) {
     const rootStyle = useStyle({
         defaultStyle: [
             {
-                alignItems,
-                alignSelf,
-                columnGap,
                 display: 'flex',
-                flexDirection: column ? 'column' : 'row',
+                flexWrap: wrap,
                 flexGrow: grow,
                 flexShrink: shrink,
-                flexWrap: wrap,
-                gap,
-                justifyContent,
-                rowGap,
                 width: block ? '100%' : 'auto',
+                flexDirection: column ? 'column' : 'row',
+                justifyContent,
+                alignItems,
+                alignSelf,
+                rowGap,
+                columnGap,
+                gap,
             },
         ],
         extraStyle: [style],

@@ -5,7 +5,7 @@ export default function DemoTabs() {
         { label: '选项A', value: 'A' },
         { label: '选项B', value: 'B' },
         { label: '选项C', value: 'C' },
-        { disabled: true, label: '禁用选项', value: 'D' },
+        { label: '禁用选项', value: 'D', disabled: true },
     ];
 
     const manyItems = [
@@ -25,15 +25,15 @@ export default function DemoTabs() {
     ];
 
     const contentItems = [
-        { children: <TextX>A</TextX>, label: '选项A', value: 'A' },
-        { children: <TextX>B</TextX>, label: '选项B', value: 'B' },
-        { children: <TextX>C</TextX>, label: '选项C', value: 'C' },
-        { children: <TextX>D</TextX>, label: '选项D', value: 'D' },
+        { label: '选项A', value: 'A', children: <TextX>A</TextX> },
+        { label: '选项B', value: 'B', children: <TextX>B</TextX> },
+        { label: '选项C', value: 'C', children: <TextX>C</TextX> },
+        { label: '选项D', value: 'D', children: <TextX>D</TextX> },
     ];
 
     return (
         <DefaultLayout head="选项卡 Tabs">
-            <Group first header="基础">
+            <Group header="基础" first>
                 <Card>
                     <Tabs items={basicItems} />
                 </Card>
@@ -45,17 +45,17 @@ export default function DemoTabs() {
             </Group>
             <Group header="默认值">
                 <Card>
-                    <Tabs defaultValue="B" items={basicItems} />
+                    <Tabs items={basicItems} defaultValue="B" />
                 </Card>
             </Group>
             <Group>
                 <Card>
-                    <Tabs defaultValue="G" items={manyItems} scrollable />
+                    <Tabs items={manyItems} scrollable defaultValue="G" />
                 </Card>
             </Group>
             <Group header="内容联动">
                 <Card>
-                    <Tabs defaultValue="A" items={contentItems} />
+                    <Tabs items={contentItems} defaultValue="A" />
                 </Card>
             </Group>
         </DefaultLayout>

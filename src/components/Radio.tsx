@@ -1,16 +1,17 @@
 import { ReactNode, useMemo } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { COLOR, SIZE } from '../scripts/const';
+import { useMergedState } from '../hooks';
+import { Flex, Icon, TextX } from './index';
 import { StyleProps } from 'react-native-reanimated';
 
-import { useMergedState } from '../hooks';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Icon, TextX } from './index';
+export type IRadioValue = boolean;
 
 export interface IRadioProps {
     defaultValue?: IRadioValue; // 默认值
     disabled?: boolean; // 禁用
     label?: ReactNode; // 文本
-    onChange?: (val: IRadioValue) => void; // 值变动事件回调
+    value?: IRadioValue; // 受控值
 
     style?: {
         icon?: StyleProp<TextStyle>; // 图标样式
@@ -19,18 +20,16 @@ export interface IRadioProps {
         root?: StyleProp<ViewStyle>; // 根节点样式
     }; // 样式
 
-    value?: IRadioValue; // 受控值
+    onChange?: (val: IRadioValue) => void; // 值变动事件回调
 }
 
-export type IRadioValue = boolean;
-
 export default function Radio(props: IRadioProps) {
-    const { defaultValue, disabled, label, onChange, style, value } = props;
+    const { label, defaultValue, disabled, value, style, onChange } = props;
 
     const [innerValue, handleChange] = useMergedState<IRadioValue>(false, {
         defaultValue,
-        onChange,
         value,
+        onChange,
     });
 
     // 处理点击事件
@@ -51,19 +50,19 @@ export default function Radio(props: IRadioProps) {
     }, [disabled, innerValue]);
 
     return (
-        <Pressable disabled={disabled} onPress={handlePress}>
+        <Pressable onPress={handlePress} disabled={disabled}>
             <Flex alignItems="center" columnGap={SIZE.space_sm} style={style?.root}>
                 <Flex alignItems="center" justifyContent="center" style={containerStyle}>
                     {innerValue ? (
                         <Icon
-                            color={disabled ? COLOR.text_desc : COLOR.white}
                             name="check"
                             size={SIZE.icon_xxs}
                             strokeWidth={SIZE.icon_stroke_xl}
+                            color={disabled ? COLOR.text_desc : COLOR.white}
                         />
                     ) : null}
                 </Flex>
-                <TextX color={disabled ? COLOR.text_desc : COLOR.text_title} size={SIZE.font_h3} style={style?.label}>
+                <TextX size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
                     {label}
                 </TextX>
             </Flex>

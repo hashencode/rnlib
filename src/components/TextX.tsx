@@ -1,26 +1,25 @@
 import _ from 'lodash';
-import { isValidElement, PropsWithChildren } from 'react';
-import { StyleProp, Text, TextProps } from 'react-native';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
+import useStyle from '../hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { StyleProp, Text, TextProps } from 'react-native';
+import { isValidElement, PropsWithChildren } from 'react';
 
-export interface ITextXProps extends PropsWithChildren, TextProps {
+export interface ITextXProps extends TextProps, PropsWithChildren {
     color?: TextStyle['color']; // 颜色
     size?: number; // 字体大小
-    style?: StyleProp<TextStyle>; // 样式
     weight?: TextStyle['fontWeight']; // 字重
+    style?: StyleProp<TextStyle>; // 样式
 }
 
 export default function TextX(props: ITextXProps) {
-    const { children, color = COLOR.text_title, size = SIZE.font_basic, style, weight = 'normal', ...rest } = props;
+    const { style, weight = 'normal', size = SIZE.font_basic, color = COLOR.text_title, children, ...rest } = props;
 
     const rootStyle = useStyle<TextStyle>({
         defaultStyle: [
             {
-                color,
                 fontSize: (style as TextStyle)?.fontSize || size,
+                color,
                 fontWeight: weight,
             },
         ],

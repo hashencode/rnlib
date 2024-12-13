@@ -4,29 +4,29 @@ function DemoResult() {
     return (
         <>
             <DefaultLayout head="结果 Result">
-                <Group first header="成功">
+                <Group header="成功" first>
                     <Card>
-                        <Result subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" title="操作成功" type="success" />
+                        <Result type="success" title="操作成功" subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" />
                     </Card>
                 </Group>
                 <Group header="提示">
                     <Card>
-                        <Result subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" title="信息提示" type="info" />
+                        <Result type="info" title="信息提示" subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" />
                     </Card>
                 </Group>
                 <Group header="等待">
                     <Card>
-                        <Result subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" title="等待处理" type="waiting" />
+                        <Result type="waiting" title="等待处理" subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" />
                     </Card>
                 </Group>
                 <Group header="错误">
                     <Card>
-                        <Result subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" title="无法完成操作" type="error" />
+                        <Result type="error" title="无法完成操作" subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" />
                     </Card>
                 </Group>
                 <Group header="警告">
                     <Card>
-                        <Result subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" title="警告提示" type="warning" />
+                        <Result type="warning" title="警告提示" subtitle="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行" />
                     </Card>
                 </Group>
             </DefaultLayout>

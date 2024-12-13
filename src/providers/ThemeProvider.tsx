@@ -1,13 +1,13 @@
 import { createContext, PropsWithChildren, useMemo, useState } from 'react';
 
 type Context = {
-    hideStatusBar: () => void;
-    showStatusBar: () => void;
     theme: {
         statusBar: {
             hidden: boolean;
         };
     };
+    showStatusBar: () => void;
+    hideStatusBar: () => void;
 };
 
 export const ThemeContext = createContext<Context | undefined>(undefined);
@@ -35,7 +35,7 @@ function ThemeProvider(props: PropsWithChildren) {
     };
 
     const value = useMemo(() => {
-        return { hideStatusBar, showStatusBar, theme };
+        return { theme, showStatusBar, hideStatusBar };
     }, [theme, showStatusBar, hideStatusBar]);
 
     return <ThemeContext.Provider value={value}>{props.children}</ThemeContext.Provider>;

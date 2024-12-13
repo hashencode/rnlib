@@ -1,34 +1,34 @@
-import { Card, DefaultLayout, ErrorBlock, Group } from '../../src/components';
-import { Button, Flex } from '../../src/components';
+import { DefaultLayout, ErrorBlock, Group, Card } from '../../src/components';
 import { DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
+import { Button, Flex } from '../../src/components';
 
 function DemoResult() {
     return (
         <>
             <DefaultLayout head="错误块 ErrorBlock">
-                <Group first header="全屏">
+                <Group header="全屏" first>
                     <Card>
                         <ErrorBlock
+                            title="结果标题"
+                            subtitle="副标题"
+                            image={{ uri: DEFAULT_IMAGE }}
+                            fullscreen
                             extra={
                                 <Flex gap={SIZE.space_lg}>
                                     <Button>返回</Button>
                                     <Button type="primary">确定</Button>
                                 </Flex>
                             }
-                            fullscreen
-                            image={{ uri: DEFAULT_IMAGE }}
-                            subtitle="副标题"
-                            title="结果标题"
                         />
                     </Card>
                 </Group>
                 <Group header="局部">
                     <Card>
                         <ErrorBlock
-                            extra={<Button size="sm">我知道了</Button>}
-                            image={{ uri: DEFAULT_IMAGE }}
-                            subtitle="副标题"
                             title="结果标题"
+                            subtitle="副标题"
+                            image={{ uri: DEFAULT_IMAGE }}
+                            extra={<Button size="sm">我知道了</Button>}
                         />
                     </Card>
                 </Group>

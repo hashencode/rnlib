@@ -1,9 +1,10 @@
-import { StyleProp, ViewStyle } from 'react-native';
-
-import { useMergedState } from '../hooks';
 import { SIZE } from '../scripts/const';
 import Checkbox, { ICheckboxProps, ICheckboxValue } from './Checkbox';
+import { useMergedState } from '../hooks';
 import { Flex } from './index';
+import { StyleProp, ViewStyle } from 'react-native';
+
+export type ICheckboxGroupOptionValue = string | number;
 
 export interface ICheckboxGroupOptions {
     disabled?: boolean; // 禁用
@@ -11,30 +12,28 @@ export interface ICheckboxGroupOptions {
     value: ICheckboxGroupOptionValue; // 选项值
 }
 
-export type ICheckboxGroupOptionValue = number | string;
+export type ICheckboxGroupValue = ICheckboxGroupOptionValue[];
 
 export interface ICheckboxGroupProps {
     defaultValue?: ICheckboxGroupValue; // 默认值
-    onChange?: (value: ICheckboxGroupValue) => void;
     options?: ICheckboxGroupOptions[]; // 子项
+    value?: ICheckboxGroupValue; // 受控值
 
     style?: {
         option?: ICheckboxProps['style'];
         root?: StyleProp<ViewStyle>; // 根节点样式
     }; // 样式
 
-    value?: ICheckboxGroupValue; // 受控值
+    onChange?: (value: ICheckboxGroupValue) => void;
 }
 
-export type ICheckboxGroupValue = ICheckboxGroupOptionValue[];
-
 export default function CheckboxGroup(props: ICheckboxGroupProps) {
-    const { defaultValue, onChange, options = [], style, value } = props;
+    const { defaultValue, value, onChange, options = [], style } = props;
 
     const [innerValue, handleChange] = useMergedState<ICheckboxGroupValue>([], {
         defaultValue,
-        onChange,
         value,
+        onChange,
     });
 
     // 处理子项的变更
@@ -52,16 +51,16 @@ export default function CheckboxGroup(props: ICheckboxGroupProps) {
     };
 
     return (
-        <Flex columnGap={SIZE.space_2xl} rowGap={SIZE.space_md} style={style?.root}>
+        <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_2xl} style={style?.root}>
             {options.map(option => {
                 return (
                     <Checkbox
-                        disabled={option.disabled}
                         key={option.value}
                         label={option.label}
+                        value={innerValue.includes(option.value)}
+                        disabled={option.disabled}
                         onChange={val => handleOptionChange(val, option)}
                         style={style?.option}
-                        value={innerValue.includes(option.value)}
                     />
                 );
             })}

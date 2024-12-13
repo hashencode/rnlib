@@ -1,16 +1,15 @@
-import { ReactNode } from 'react';
 import { Pressable, PressableProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-
 import { COLOR } from '../scripts/const';
+import { ReactNode } from 'react';
 
 export interface IPressHighlightProps extends Omit<PressableProps, 'style'> {
     children?: ReactNode | string; // 插槽
-    style?: StyleProp<ViewStyle>;
     underlayColor?: string; // 遮罩颜色
+    style?: StyleProp<ViewStyle>;
 }
 
 export default function PressHighlight(props: IPressHighlightProps) {
-    const { disabled, style, underlayColor = COLOR.underlay_touchable, ...rest } = props;
+    const { underlayColor = COLOR.underlay_touchable, style, disabled, ...rest } = props;
 
     const renderContent = (pressed: boolean) => {
         return (

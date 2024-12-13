@@ -1,12 +1,12 @@
-import { useUpdateEffect } from 'ahooks';
-import _ from 'lodash';
 import { useState } from 'react';
+import _ from 'lodash';
+import { useUpdateEffect } from 'ahooks';
 
 export default function useMergedState<T>(
     defaultStateValue: T,
-    options?: { defaultValue?: T; onChange?: (val: T) => void; value?: T },
+    options?: { defaultValue?: T; value?: T; onChange?: (val: T) => void },
 ): [T, (val: T) => void] {
-    const { defaultValue, onChange, value } = options || {};
+    const { defaultValue, value, onChange } = options || {};
 
     const [innerValue, setInnerValue] = useState(() => {
         if (!_.isUndefined(value)) {

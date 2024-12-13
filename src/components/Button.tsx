@@ -1,12 +1,11 @@
 import { PropsWithChildren, ReactElement, useMemo } from 'react';
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
-import { ButtonIconSize, ButtonLabelSize } from '../scripts/enum';
-import { mergeElement } from '../scripts/utils';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, PressHighlight, TextX } from './index';
+import { mergeElement } from '../scripts/utils';
+import { ButtonIconSize, ButtonLabelSize } from '../scripts/enum';
+import useStyle from '../hooks/useStyle';
 
 export interface IButtonProps extends PropsWithChildren {
     block?: boolean; // 占满整行
@@ -14,9 +13,9 @@ export interface IButtonProps extends PropsWithChildren {
     disabled?: boolean; // 禁用
     ghost?: boolean; // 幽灵按钮
     icon?: ReactElement; // 图标
-    onPress?: (ev?: GestureResponderEvent) => void; // 点击事件回调
     round?: boolean; // 圆形外观
-    size?: 'lg' | 'md' | 'sm' | 'xs'; // 尺寸
+    size?: 'xs' | 'sm' | 'md' | 'lg'; // 尺寸
+    type?: 'primary' | 'text' | 'default'; // 类型
 
     style?: {
         button?: StyleProp<ViewStyle>; // 按钮主体样式
@@ -25,18 +24,18 @@ export interface IButtonProps extends PropsWithChildren {
         text?: StyleProp<TextStyle>; // 文本样式
     }; // 样式
 
-    type?: 'default' | 'primary' | 'text'; // 类型
+    onPress?: (ev?: GestureResponderEvent) => void; // 点击事件回调
 }
 
 export default function Button(props: IButtonProps) {
-    const { block, children, danger, disabled, ghost, icon, onPress, round, size = 'md', style, type = 'default' } = props;
+    const { round, type = 'default', size = 'md', ghost, danger, block, disabled, icon, children, style, onPress } = props;
     const isPrimary = type === 'primary';
     const borderRadius = round ? SIZE[`button_height_${size}`] / 2 : SIZE.radius_md; // 按钮圆角
 
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.root],
-        extraStyle: [{ borderRadius, width: block ? '100%' : 'auto' }, style?.root],
+        extraStyle: [{ width: block ? '100%' : 'auto', borderRadius }, style?.root],
     });
 
     // 图标样式
@@ -88,7 +87,7 @@ export default function Button(props: IButtonProps) {
         if (danger && !isPrimary) {
             color = COLOR.danger;
         }
-        return { color, fontSize: ButtonLabelSize[size], textAlignVertical: 'center' };
+        return { fontSize: ButtonLabelSize[size], color, textAlignVertical: 'center' };
     }, [ghost, isPrimary, danger, size, style]);
 
     // 图标节点
@@ -106,38 +105,24 @@ export default function Button(props: IButtonProps) {
     };
 
     return (
-        <PressHighlight disabled={disabled} onPress={onPress} style={rootStyle} underlayColor={underlayStyle}>
+        <PressHighlight disabled={disabled} underlayColor={underlayStyle} onPress={onPress} style={rootStyle}>
             {renderButton()}
         </PressHighlight>
     );
 }
 
 const styles = StyleSheet.create({
+    root: {
+        overflow: 'hidden',
+    },
     button: {
         borderColor: 'transparent',
         borderRadius: SIZE.radius_md,
         borderWidth: SIZE.border_default,
         paddingHorizontal: SIZE.button_padding_horizontal,
     },
-    // 危险-按钮
-    button_danger_default: {
-        borderColor: COLOR.danger,
-    },
-    button_danger_primary: {
-        backgroundColor: COLOR.danger,
-        borderColor: COLOR.danger,
-    },
-    button_danger_text: {},
-    button_ghost_danger: {
-        borderColor: COLOR.danger,
-    },
-    button_ghost_default: {
-        backgroundColor: 'transparent',
-        borderColor: COLOR.white,
-    },
-    // 幽灵按钮
-    button_ghost_primary: {
-        borderColor: COLOR.primary,
+    icon: {
+        marginRight: SIZE.space_sm,
     },
     // 类型-按钮
     button_type_default: {
@@ -148,10 +133,24 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR.primary,
     },
     button_type_text: {},
-    icon: {
-        marginRight: SIZE.space_sm,
+    // 危险-按钮
+    button_danger_default: {
+        borderColor: COLOR.danger,
     },
-    root: {
-        overflow: 'hidden',
+    button_danger_primary: {
+        backgroundColor: COLOR.danger,
+        borderColor: COLOR.danger,
+    },
+    button_danger_text: {},
+    // 幽灵按钮
+    button_ghost_primary: {
+        borderColor: COLOR.primary,
+    },
+    button_ghost_danger: {
+        borderColor: COLOR.danger,
+    },
+    button_ghost_default: {
+        backgroundColor: 'transparent',
+        borderColor: COLOR.white,
     },
 });

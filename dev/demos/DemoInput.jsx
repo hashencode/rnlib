@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-
 import { Button, DefaultLayout, Flex, Group, Input } from '../../src/components';
 import { SIZE } from '../../src/scripts/const';
 
@@ -9,47 +8,47 @@ export default function DemoInput() {
 
     return (
         <DefaultLayout head="输入框 Input">
-            <Group first header="尺寸">
+            <Group header="尺寸" first>
                 <Flex column rowGap={SIZE.space_md}>
-                    <Input placeholder="小尺寸" size="sm" />
+                    <Input size="sm" placeholder="小尺寸" />
                     <Input placeholder="中尺寸" />
-                    <Input placeholder="大尺寸" size="lg" />
+                    <Input size="lg" placeholder="大尺寸" />
                 </Flex>
             </Group>
             <Group header="圆润外观">
                 <Flex column rowGap={SIZE.space_md}>
-                    <Input placeholder="小尺寸" round size="sm" />
+                    <Input size="sm" placeholder="小尺寸" round />
                     <Input placeholder="中尺寸" round />
-                    <Input placeholder="大尺寸" round size="lg" />
+                    <Input size="lg" placeholder="大尺寸" round />
                 </Flex>
             </Group>
             <Group header="密码输入">
                 <Flex column rowGap={SIZE.space_md}>
-                    <Input defaultValue="abcd1234" password placeholder="请输入密码" />
+                    <Input placeholder="请输入密码" password defaultValue="abcd1234" />
                 </Flex>
             </Group>
             <Group header="清除按钮">
-                <Input allowClear defaultValue="存在输入值时显示清除按钮" placeholder="清除按钮" />
+                <Input placeholder="清除按钮" defaultValue="存在输入值时显示清除按钮" allowClear />
             </Group>
             <Group header="前后缀">
                 <Flex column rowGap={SIZE.space_md}>
-                    <Input placeholder="金额" prefix="$" suffix=".00" />
+                    <Input prefix="$" suffix=".00" placeholder="金额" />
                 </Flex>
             </Group>
             <Group header="无边框">
-                <Input bordered={false} placeholder="无边框" />
+                <Input placeholder="无边框" bordered={false} />
             </Group>
             <Group header="禁用">
-                <Input disabled placeholder="禁用" />
+                <Input placeholder="禁用" disabled />
             </Group>
             <Group header="受控">
                 <Flex column rowGap={SIZE.space_md}>
                     <Input
+                        placeholder="受控模式"
+                        value={inputValue}
                         onChange={val => {
                             setInputValue(val);
                         }}
-                        placeholder="受控模式"
-                        value={inputValue}
                     />
                     <Button block onPress={() => setInputValue('重置成功！')}>
                         重置

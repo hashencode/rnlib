@@ -1,11 +1,12 @@
 import { ForwardedRef, forwardRef, ReactNode, useEffect, useRef } from 'react';
 import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { default as ActionSheetOrigin, ActionSheetRef } from 'react-native-actions-sheet';
-
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
+import { TextX, Flex, PressHighlight, Grabber } from './index';
+import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
 import { mergeRefs } from '../scripts/utils';
-import { Flex, Grabber, PressHighlight, TextX } from './index';
+import useStyle from '../hooks/useStyle';
+
+export type IActionSheetOptionValue = string | number;
 
 export interface IActionSheetOption {
     children?: ReactNode; // 内容插槽
@@ -15,21 +16,16 @@ export interface IActionSheetOption {
     value: IActionSheetOptionValue; // 选项值
 }
 
-export type IActionSheetOptionValue = number | string;
-
 export interface IActionSheetProps {
     backCloseable?: boolean; // 允许返回操作关闭
     cancelText?: ReactNode; // 取消按钮文本
     header?: ReactNode; // 头部插槽
     maxHeight?: number; // 最大高度
-    onCancel?: () => void; // 关闭事件回调
-    onChange?: (val: IActionSheetOptionValue) => void; // 点击选项事件回调
-    onOpen?: () => void; // 开启事件回调
     options: IActionSheetOption[]; // 选项
-
     overlayClosable?: boolean; // 允许点击蒙层关闭
-
     showCancel?: boolean; // 显示取消按钮
+    visible?: boolean; // 显隐
+
     style?: {
         cancelButton?: StyleProp<ViewStyle>; // 取消按钮样式
         cancelText?: StyleProp<TextStyle>; // 取消按钮文本样式
@@ -42,22 +38,25 @@ export interface IActionSheetProps {
         subtitle?: StyleProp<TextStyle>; // 副标题样式
         title?: StyleProp<TextStyle>; // 标题样式
     }; // 样式
-    visible?: boolean; // 显隐
+
+    onCancel?: () => void; // 关闭事件回调
+    onChange?: (val: IActionSheetOptionValue) => void; // 点击选项事件回调
+    onOpen?: () => void; // 开启事件回调
 }
 
 function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>) {
     const {
-        backCloseable = true,
+        options = [],
+        showCancel = true,
         cancelText = '取消',
+        visible,
         header,
+        overlayClosable = true,
+        backCloseable = true,
+        style,
+        onOpen,
         onCancel,
         onChange,
-        onOpen,
-        options = [],
-        overlayClosable = true,
-        showCancel = true,
-        style,
-        visible,
     } = props;
 
     const localRef = useRef<ActionSheetRef>(null);
@@ -114,15 +113,15 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
 
     return (
         <ActionSheetOrigin
-            closable={overlayClosable}
+            ref={mergeRefs([ref, localRef])}
             containerStyle={rootStyle}
             enableRouterBackNavigation={backCloseable}
-            onClose={onCancel}
+            closable={overlayClosable}
             onOpen={onOpen}
-            ref={mergeRefs([ref, localRef])}>
+            onClose={onCancel}>
             {header ? (
                 <Flex alignItems="center" justifyContent="center" style={headerStyle}>
-                    <TextX color={COLOR.text_desc} size={SIZE.font_h5} style={style?.headerText}>
+                    <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
                         {header}
                     </TextX>
                 </Flex>
@@ -131,7 +130,7 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
             <ScrollView>
                 {options.map((item, index) => {
                     return (
-                        <PressHighlight disabled={item.disabled} key={index} onPress={() => handleOptionPress(item.value)}>
+                        <PressHighlight disabled={item.disabled} onPress={() => handleOptionPress(item.value)} key={index}>
                             <View style={optionStyle}>
                                 <TextX size={SIZE.font_h2} style={style?.title}>
                                     {item?.title}
@@ -168,13 +167,8 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
 export default forwardRef(ActionSheet);
 
 const styles = StyleSheet.create({
-    divider: {
-        borderBottomWidth: SIZE.border_default,
-        borderColor: COLOR.border_default,
-    },
-    footerSpace: {
-        backgroundColor: COLOR.bg_page,
-        height: SIZE.space_lg,
+    root: {
+        backgroundColor: COLOR.white,
     },
     header: {
         backgroundColor: COLOR.white,
@@ -194,7 +188,12 @@ const styles = StyleSheet.create({
         paddingVertical: SIZE.space_md,
         position: 'relative',
     },
-    root: {
-        backgroundColor: COLOR.white,
+    divider: {
+        borderBottomWidth: SIZE.border_default,
+        borderColor: COLOR.border_default,
+    },
+    footerSpace: {
+        backgroundColor: COLOR.bg_page,
+        height: SIZE.space_lg,
     },
 });

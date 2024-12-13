@@ -1,24 +1,23 @@
-import { PropsWithChildren } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
+import useStyle from '../hooks/useStyle';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { PropsWithChildren } from 'react';
 
 export interface IDividerProps extends PropsWithChildren {
-    orientation?: 'center' | 'left' | 'right'; // 文字位置
+    orientation?: 'left' | 'center' | 'right'; // 文字位置
+    type?: 'horizontal' | 'vertical'; // 水平还是垂直类型
+
     style?: {
         divider?: StyleProp<ViewStyle>;
         root?: StyleProp<ViewStyle>;
         text?: StyleProp<TextStyle>;
     }; // 样式
-
-    type?: 'horizontal' | 'vertical'; // 水平还是垂直类型
 }
 
 export default function Divider(props: IDividerProps) {
-    const { children, orientation = 'center', style, type = 'horizontal' } = props;
+    const { type = 'horizontal', orientation = 'center', style, children } = props;
     const isHorizontal = type === 'horizontal';
 
     // 根节点样式
@@ -66,23 +65,23 @@ const styles = StyleSheet.create({
     horizontal: {
         marginVertical: SIZE.divider_horizontal_height / 2,
     },
+    vertical: {
+        height: SIZE.divider_vertical_height,
+        marginHorizontal: SIZE.space_lg,
+    },
     horizontalSeparator: {
         backgroundColor: COLOR.border_default,
         flexGrow: 1,
         flexShrink: 0,
         height: SIZE.border_default,
     },
-    text: {
-        color: COLOR.text_subtitle,
-        marginHorizontal: SIZE.space_xl,
-    },
-    vertical: {
-        height: SIZE.divider_vertical_height,
-        marginHorizontal: SIZE.space_lg,
-    },
     verticalSeparator: {
         backgroundColor: COLOR.border_default,
         height: '100%',
         width: SIZE.border_default,
+    },
+    text: {
+        color: COLOR.text_subtitle,
+        marginHorizontal: SIZE.space_xl,
     },
 });

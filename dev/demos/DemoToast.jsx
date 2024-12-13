@@ -1,4 +1,4 @@
-import { Button, Card, DefaultLayout, Flex, Group } from '../../src/components';
+import { Button, DefaultLayout, Flex, Group, Card } from '../../src/components';
 import { useToast } from '../../src/hooks';
 import { SIZE } from '../../src/scripts/const';
 
@@ -8,7 +8,7 @@ export default function DemoToast() {
     return (
         <>
             <DefaultLayout head="轻提示 Toast">
-                <Group first header="文本提示">
+                <Group header="文本提示" first>
                     <Card>
                         <Flex columnGap={SIZE.space_md} wrap="wrap">
                             <Button onPress={() => createToast({ content: '提示内容' })}>纯文本提示</Button>

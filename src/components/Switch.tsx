@@ -1,31 +1,30 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-
-import { useMergedState } from '../hooks';
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
+import { useMergedState } from '../hooks';
 import { Flex, PressHighlight } from './index';
+import useStyle from '../hooks/useStyle';
 
 export interface ISwitchProps {
     defaultValue?: boolean; // 默认值
     disabled?: boolean; // 禁用
-    onChange?: (value: boolean) => void; // 值变动事件回调
-    onPress?: () => void; // 点击事件回调
-
-    size?: 'md' | 'sm'; // 尺寸
+    size?: 'sm' | 'md'; // 尺寸
+    value?: boolean; // 受控值,
 
     style?: {
         root?: StyleProp<ViewStyle>; // 根节点样式
     };
-    value?: boolean; // 受控值,
+
+    onChange?: (value: boolean) => void; // 值变动事件回调
+    onPress?: () => void; // 点击事件回调
 }
 
 export default function Switch(props: ISwitchProps) {
-    const { defaultValue, disabled, onChange, onPress, size = 'md', style, value } = props;
+    const { size = 'md', style, disabled, onPress, onChange, value, defaultValue } = props;
 
     const [innerValue, handleChange] = useMergedState(false, {
         defaultValue,
-        onChange,
         value,
+        onChange,
     });
 
     // 根节点样式
@@ -50,7 +49,7 @@ export default function Switch(props: ISwitchProps) {
     };
 
     return (
-        <PressHighlight disabled={disabled} onPress={handlePress} style={rootStyle} underlayColor="transparent">
+        <PressHighlight underlayColor="transparent" disabled={disabled} style={rootStyle} onPress={handlePress}>
             <Flex alignItems="center" style={activeBodyStyle}>
                 <View style={[styles.handle, styles[`handle_${size}`]]} />
             </Flex>
@@ -62,6 +61,10 @@ const handleMd = SIZE.switch_height_md - 2 * SIZE.switch_border_md;
 const handleSm = SIZE.switch_height_sm - 2 * SIZE.switch_border_sm;
 
 const styles = StyleSheet.create({
+    root: {
+        overflow: 'hidden',
+        position: 'relative',
+    },
     body: {
         alignItems: 'center',
         backgroundColor: COLOR.switch_close_background,
@@ -73,34 +76,30 @@ const styles = StyleSheet.create({
         borderColor: COLOR.primary,
         justifyContent: 'flex-end',
     },
-    body_md: {
-        borderWidth: SIZE.switch_border_md,
-        height: SIZE.switch_height_md,
-        width: SIZE.switch_width_md,
-    },
     body_sm: {
         borderWidth: SIZE.switch_border_sm,
         height: SIZE.switch_height_sm,
         width: SIZE.switch_width_sm,
     },
+    body_md: {
+        borderWidth: SIZE.switch_border_md,
+        height: SIZE.switch_height_md,
+        width: SIZE.switch_width_md,
+    },
     handle: {
         backgroundColor: COLOR.white,
     },
-    handle_md: {
+    handleShadow: {
         borderRadius: handleMd,
-        height: handleMd,
-        width: handleMd,
     },
     handle_sm: {
         borderRadius: handleSm,
         height: handleSm,
         width: handleSm,
     },
-    handleShadow: {
+    handle_md: {
         borderRadius: handleMd,
-    },
-    root: {
-        overflow: 'hidden',
-        position: 'relative',
+        height: handleMd,
+        width: handleMd,
     },
 });
