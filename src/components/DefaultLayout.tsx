@@ -1,66 +1,66 @@
-import { useStyle, useTheme } from '../hooks';
-import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
-import { ScrollView, ScrollViewProps, StatusBar, StatusBarProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { Head } from './index';
 import _ from 'lodash';
-import { SCROLL_BASIC_CONFIG, SIZE } from '../scripts/const';
 import { ReactNode } from 'react';
+import { ScrollView, ScrollViewProps, StatusBar, StatusBarProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { SafeAreaView, SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { SCROLL_BASIC_CONFIG, SIZE } from '../scripts/const';
+import { Head } from './index';
 
 export interface IDefaultLayoutProps {
     children?: ReactNode; // 插槽
-    head?: ReactNode; // 头部插槽
-    footer?: ReactNode; // 底部插槽
-    safeAreaConfig?: SafeAreaViewProps; // 安全区域配置
-    statusBarConfig?: StatusBarProps; // 状态栏配置
-    scrollConfig?: ScrollViewProps; // 滚动区域配置
     defaultScroll?: Boolean; // 是否可滚动
+    footer?: ReactNode; // 底部插槽
+    head?: ReactNode; // 头部插槽
+    safeAreaConfig?: SafeAreaViewProps; // 安全区域配置
+    safeBottomColor?: string; // 底部安全区域颜色
+    safeTopColor?: string; // 顶部安全区域颜色
+    scrollConfig?: ScrollViewProps; // 滚动区域配置
+    statusBarConfig?: StatusBarProps; // 状态栏配置
 
     style?: {
-        root?: StyleProp<ViewStyle>; // 最外层样式
         body?: StyleProp<ViewStyle>; // 主体样式
         content?: StyleProp<ViewStyle>; // 内容区域样式
+        root?: StyleProp<ViewStyle>; // 最外层样式
     }; // 样式
 }
 
 export default function DefaultLayout(props: IDefaultLayoutProps) {
-    const { statusBarConfig, safeAreaConfig, scrollConfig, defaultScroll = true, head, footer, style } = props;
-
-    const { theme } = useTheme();
-
-    // 滚动区域样式
-    const bodyStyle = useStyle<ViewStyle>({
-        defaultStyle: [styles.body],
-        extraStyle: [style?.body],
-    });
-
-    // 滚动区域样式
-    const scrollContentStyle = useStyle<ViewStyle>({
-        defaultStyle: [styles.scrollContent],
-        extraStyle: [style?.content],
-    });
-
-    // 非滚动区域样式
-    const contentStyle = useStyle<ViewStyle>({
-        defaultStyle: [styles.content],
-        extraStyle: [style?.content],
-    });
+    const {
+        defaultScroll = true,
+        footer,
+        head,
+        safeAreaConfig,
+        safeBottomColor = 'transparent',
+        safeTopColor = 'transparent',
+        scrollConfig,
+        statusBarConfig,
+        style,
+    } = props;
+    const insets = useSafeAreaInsets();
 
     return (
-        <SafeAreaView {...safeAreaConfig} style={style?.root}>
-            {/* 无传入背景色则使用白色背景，黑色字体，否则使用自定义颜色，白色字体 */}
-            {/* todo: 解决ios下无法设置状态栏颜色的bug */}
-            <StatusBar hidden={theme.statusBar.hidden} {...statusBarConfig} />
-            <View style={bodyStyle}>
+        <SafeAreaView {...safeAreaConfig} style={[styles.root, style?.root]}>
+            {/*顶部安全区域*/}
+            <View style={[styles.safeTop, { backgroundColor: safeTopColor, height: insets.top }]} />
+            <StatusBar {...statusBarConfig} />
+            <View style={[styles.body, style?.body]}>
+                {/*头部*/}
                 {_.isString(head) ? <Head title={head} /> : head}
+                {/*主体内容*/}
                 {defaultScroll ? (
+                    // 自带滑动区域
                     <ScrollView {...SCROLL_BASIC_CONFIG} {...scrollConfig}>
-                        <View style={scrollContentStyle}>{props?.children}</View>
+                        <View style={[styles.scrollContent, style?.content]}>{props?.children}</View>
                     </ScrollView>
                 ) : (
-                    <View style={contentStyle}>{props?.children}</View>
+                    // 无滑动区域
+                    <View style={[styles.content, style?.content]}>{props?.children}</View>
                 )}
+                {/*底部*/}
                 {footer}
             </View>
+            {/*底部安全区域*/}
+            <View style={[styles.safeBottom, { backgroundColor: safeBottomColor, height: insets.bottom }]} />
         </SafeAreaView>
     );
 }
@@ -72,6 +72,21 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
+    },
+    root: {
+        backgroundColor: '#f7f7f7',
+    },
+    safeBottom: {
+        bottom: 0,
+        left: 0,
+        position: 'absolute',
+        width: '100%',
+    },
+    safeTop: {
+        left: 0,
+        position: 'absolute',
+        top: 0,
+        width: '100%',
     },
     scrollContent: {
         padding: SIZE.space_lg,
