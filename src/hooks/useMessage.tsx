@@ -1,6 +1,6 @@
 import { DeviceEventEmitter } from 'react-native';
 
-import { IMessageProps } from '../components/Message';
+import { IMessageProps } from '../components';
 import { IMessageQueueItem } from '../components/MessageRender';
 import { EMITTER_MAP } from '../scripts/enum';
 

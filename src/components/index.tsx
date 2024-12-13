@@ -67,6 +67,9 @@ export type { IListItemProps } from './ListItem';
 export { default as Loading } from './Loading';
 export type { ILoadingProps } from './Loading';
 
+export { default as Message } from './Message';
+export type { IMessageProps } from './Message';
+
 export { default as Overlay } from './Overlay';
 export type { IOverlayProps } from './Overlay';
 

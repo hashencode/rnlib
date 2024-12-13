@@ -1,6 +1,6 @@
 import { useBackHandler } from '@react-native-community/hooks';
-import { ReactNode } from 'react';
-import { Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
+import { ReactNode, useEffect } from 'react';
+import { Keyboard, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
 import { Portal } from 'react-native-portalize';
 import Animated, { FadeIn, FadeOut, runOnJS } from 'react-native-reanimated';
 import { useStyle } from '../hooks';
@@ -34,6 +34,13 @@ function Overlay(props: IOverlayProps) {
         }
         return false;
     });
+
+    useEffect(() => {
+        Keyboard.dismiss();
+        return () => {
+            Keyboard.dismiss();
+        };
+    }, []);
 
     // 关闭回调
     useUpdateEffect(() => {
