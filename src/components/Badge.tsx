@@ -1,8 +1,9 @@
+import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+
+import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
-import useStyle from '../hooks/useStyle';
-import { ReactNode } from 'react';
 
 export interface IBadgeProps {
     children?: ReactNode; // 内容插槽
@@ -29,7 +30,7 @@ export default function Badge(props: IBadgeProps) {
 
     return (
         <Flex alignItems="center" justifyContent="center" style={rootStyle}>
-            <TextX size={SIZE.badge_font_size} color={COLOR.text_white} style={style?.text}>
+            <TextX color={COLOR.text_white} size={SIZE.badge_font_size} style={style?.text}>
                 {props.children}
             </TextX>
         </Flex>

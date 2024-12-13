@@ -1,19 +1,18 @@
-import { View, StyleSheet, ViewStyle, Pressable, StyleProp, TextStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { useNavigation } from '@react-navigation/native';
-import { Flex, Icon, TextX } from './index';
-import useStyle from '../hooks/useStyle';
-import { ReactNode } from 'react';
 import _ from 'lodash';
+import { ReactNode } from 'react';
+import { Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, TextX } from './index';
 
 export interface IHeadProps {
     backIcon?: ReactNode; // 返回按钮图标
     backText?: ReactNode; // 返回按钮文本
     extra?: ReactNode; // 额外节点
     hideBack?: Boolean; // 隐藏返回按钮
-    subtitle?: ReactNode; // 副标题
-    title?: ReactNode; // 标题
-
+    onBack?: () => void; // 返回按钮点击事件回调
     style?: {
         backIcon?: StyleProp<TextStyle>; // 返回图标样式
         backText?: StyleProp<TextStyle>; // 返回文本样式
@@ -23,11 +22,13 @@ export interface IHeadProps {
         title?: StyleProp<TextStyle>; // 标题样式
     }; // 样式
 
-    onBack?: () => void; // 返回按钮点击事件回调
+    subtitle?: ReactNode; // 副标题
+
+    title?: ReactNode; // 标题
 }
 
 function Head(props: IHeadProps) {
-    const { backText, backIcon, hideBack, title, subtitle, extra, style, onBack } = props;
+    const { backIcon, backText, extra, hideBack, onBack, style, subtitle, title } = props;
 
     const navigation = useNavigation();
 
@@ -52,7 +53,7 @@ function Head(props: IHeadProps) {
     }, 500);
 
     return (
-        <Flex justifyContent="space-between" alignItems="center" block style={rootStyle}>
+        <Flex alignItems="center" block justifyContent="space-between" style={rootStyle}>
             {!hideBack ? (
                 <Pressable onPress={handleGoBack} style={{ zIndex: 2 }}>
                     <Flex alignItems="center" gap={SIZE.space_sm}>
@@ -65,10 +66,10 @@ function Head(props: IHeadProps) {
             ) : null}
 
             <View style={bodyStyle}>
-                <TextX size={SIZE.font_h2} weight={SIZE.weight_title} numberOfLines={1} ellipsizeMode="tail" style={style?.title}>
+                <TextX ellipsizeMode="tail" numberOfLines={1} size={SIZE.font_h2} style={style?.title} weight={SIZE.weight_title}>
                     {title}
                 </TextX>
-                <TextX size={SIZE.font_desc} numberOfLines={1} ellipsizeMode="tail" style={style?.subtitle}>
+                <TextX ellipsizeMode="tail" numberOfLines={1} size={SIZE.font_desc} style={style?.subtitle}>
                     {subtitle}
                 </TextX>
             </View>
@@ -79,11 +80,6 @@ function Head(props: IHeadProps) {
 }
 
 const styles = StyleSheet.create({
-    root: {
-        backgroundColor: COLOR.white,
-        height: SIZE.navigator_height,
-        paddingHorizontal: SIZE.space_md,
-    },
     body: {
         alignItems: 'center',
         bottom: 0,
@@ -93,6 +89,11 @@ const styles = StyleSheet.create({
         right: 0,
         top: 0,
         zIndex: 1,
+    },
+    root: {
+        backgroundColor: COLOR.white,
+        height: SIZE.navigator_height,
+        paddingHorizontal: SIZE.space_md,
     },
 });
 

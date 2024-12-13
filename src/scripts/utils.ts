@@ -1,10 +1,25 @@
-import { Platform } from 'react-native';
-import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
 import _ from 'lodash';
+import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
+import { Platform } from 'react-native';
 import { ms } from 'react-native-size-matters';
 
 export function isAndroid() {
     return Platform.OS === 'android';
+}
+
+// 克隆节点，设置部分默认属性
+export function mergeElement(element?: ReactElement, defaultProps?: {}): null | ReactElement {
+    if (isValidElement(element) && defaultProps) {
+        return cloneElement(element, _.merge({}, defaultProps, element.props));
+    } else if (element) {
+        return element;
+    }
+    return null;
+}
+
+// 合并Ref
+export function mergeRefs<T>(refs: Array<ForwardedRef<T> | null | RefObject<T> | undefined>): RefObject<T> {
+    return refs.filter(ref => !!ref)[0] as RefObject<T>;
 }
 
 // 生成随机字符串
@@ -16,21 +31,6 @@ export function randomId() {
     }
     const timestamp = new Date().getTime().toString().slice(-4);
     return `${id}${timestamp}`;
-}
-
-// 克隆节点，设置部分默认属性
-export function mergeElement(element?: ReactElement, defaultProps?: {}): ReactElement | null {
-    if (isValidElement(element) && defaultProps) {
-        return cloneElement(element, _.merge({}, defaultProps, element.props));
-    } else if (element) {
-        return element;
-    }
-    return null;
-}
-
-// 合并Ref
-export function mergeRefs<T>(refs: Array<RefObject<T> | ForwardedRef<T> | undefined | null>): RefObject<T> {
-    return refs.filter(ref => !!ref)[0] as RefObject<T>;
 }
 
 // 将秒时长转换成可读文本

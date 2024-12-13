@@ -1,28 +1,29 @@
+import _ from 'lodash';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { LayoutChangeEvent, ScrollView, ScrollViewProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import _ from 'lodash';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Flex, PressHighlight, TextX } from './index';
+
 import { useMergedState } from '../hooks';
 import useStyle from '../hooks/useStyle';
-
-export type ITabsItemValue = string;
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, PressHighlight, TextX } from './index';
 
 export interface ITabsItem {
-    disabled?: boolean; // 禁用
     children?: ReactNode; // 内容插槽
+    disabled?: boolean; // 禁用
     label?: ReactNode; // 主文本
     value: ITabsItemValue; // 选项值
 }
 
+export type ITabsItemValue = string;
+
 export interface ITabsProps {
     defaultValue?: ITabsItemValue; // 默认值
     destroyInactiveTabPane?: boolean; // 隐藏是是否销毁节点
-    items?: ITabsItem[]; // 内容项
-    scrollable?: boolean; // 可滚动
     headerConfig?: ScrollViewProps; // 头部滚动配置项
-    value?: ITabsItemValue; // 受控值
+    items?: ITabsItem[]; // 内容项
+    onChange?: (val: ITabsItemValue) => void; // 切换选项事件回调
+    scrollable?: boolean; // 可滚动
 
     style?: {
         divider?: StyleProp<ViewStyle>; // 分割线样式
@@ -34,11 +35,11 @@ export interface ITabsProps {
         underline?: StyleProp<ViewStyle>; // 下划线样式
     }; // 样式
 
-    onChange?: (val: ITabsItemValue) => void; // 切换选项事件回调
+    value?: ITabsItemValue; // 受控值
 }
 
 export default function Tabs(props: ITabsProps) {
-    const { value, defaultValue, scrollable, items = [], style, headerConfig, destroyInactiveTabPane, onChange } = props;
+    const { defaultValue, destroyInactiveTabPane, headerConfig, items = [], onChange, scrollable, style, value } = props;
 
     const [isLayoutEnd, setIsLayoutEnd] = useState(false);
     const rootWidth = useRef<number>(0);
@@ -51,8 +52,8 @@ export default function Tabs(props: ITabsProps) {
     const widthAnim = useSharedValue(0);
     const [innerValue, handleChange] = useMergedState('', {
         defaultValue,
-        value,
         onChange,
+        value,
     });
 
     // 根节点样式
@@ -121,9 +122,9 @@ export default function Tabs(props: ITabsProps) {
             });
             if (scrollable && scrollViewRef) {
                 if (lineX > rootCenter) {
-                    scrollViewRef?.current?.scrollTo({ x: lineX - rootCenter + tabCenter, animated: true });
+                    scrollViewRef?.current?.scrollTo({ animated: true, x: lineX - rootCenter + tabCenter });
                 } else {
-                    scrollViewRef?.current?.scrollTo({ x: 0, animated: true });
+                    scrollViewRef?.current?.scrollTo({ animated: true, x: 0 });
                 }
             }
         }
@@ -145,23 +146,23 @@ export default function Tabs(props: ITabsProps) {
 
     // 渲染头部节点
     const renderHeader = (
-        <Flex block alignItems="center" justifyContent="space-around" style={headerStyle} columnGap={SIZE.space_2xl}>
+        <Flex alignItems="center" block columnGap={SIZE.space_2xl} justifyContent="space-around" style={headerStyle}>
             {items.map(item => {
                 const isActive = innerValue === item.value;
                 return (
                     <PressHighlight
-                        underlayColor="transparent"
                         disabled={item?.disabled}
-                        style={tabItemStyle}
-                        onPress={() => handleChange(item.value)}
+                        key={item.value}
                         onLayout={ev => getHeaderRect(item.value, ev)}
-                        key={item.value}>
+                        onPress={() => handleChange(item.value)}
+                        style={tabItemStyle}
+                        underlayColor="transparent">
                         <TextX
-                            size={SIZE.font_h3}
                             color={isActive ? COLOR.text_primary : COLOR.text_title}
-                            weight={isActive ? '500' : '400'}
                             onLayout={ev => getTabItemRect(item.value, ev)}
-                            style={[style?.label, isActive ? style?.labelActive : {}]}>
+                            size={SIZE.font_h3}
+                            style={[style?.label, isActive ? style?.labelActive : {}]}
+                            weight={isActive ? '500' : '400'}>
                             {item?.label}
                         </TextX>
                     </PressHighlight>
@@ -176,9 +177,9 @@ export default function Tabs(props: ITabsProps) {
             <View style={rootStyle}>
                 {scrollable ? (
                     <ScrollView
+                        horizontal
                         ref={scrollViewRef}
                         showsHorizontalScrollIndicator={false}
-                        horizontal
                         {...headerConfig}
                         onLayout={ev => {
                             getWrapperWidth(ev);
@@ -210,15 +211,19 @@ export default function Tabs(props: ITabsProps) {
 }
 
 const styles = StyleSheet.create({
-    root: {
-        width: '100%',
+    divider: {
+        borderBottomColor: COLOR.border_default,
+        borderBottomWidth: SIZE.border_default,
     },
     header: {
         position: 'relative',
     },
-    divider: {
-        borderBottomColor: COLOR.border_default,
-        borderBottomWidth: SIZE.border_default,
+    hidden: {
+        left: -9999,
+        position: 'absolute',
+    },
+    root: {
+        width: '100%',
     },
     tabItem: {
         alignItems: 'center',
@@ -235,10 +240,6 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.border_default,
         bottom: 0,
         height: SIZE.border_bold,
-        position: 'absolute',
-    },
-    hidden: {
-        left: -9999,
         position: 'absolute',
     },
 });

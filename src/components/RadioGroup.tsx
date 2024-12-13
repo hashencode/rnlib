@@ -1,11 +1,10 @@
-import { SIZE } from '../scripts/const';
-import Radio, { IRadioValue } from './Radio';
-import { useMergedState } from '../hooks';
-import { Flex } from './index';
 import { StyleProp, ViewStyle } from 'react-native';
-import { ICheckboxProps } from './Checkbox';
 
-export type IRadioGroupOptionValue = string | number | undefined;
+import { useMergedState } from '../hooks';
+import { SIZE } from '../scripts/const';
+import { ICheckboxProps } from './Checkbox';
+import { Flex } from './index';
+import Radio, { IRadioValue } from './Radio';
 
 export interface IRadioGroupOptions {
     disabled?: boolean; // 禁用
@@ -13,26 +12,28 @@ export interface IRadioGroupOptions {
     value: IRadioGroupOptionValue; // 选项值
 }
 
+export type IRadioGroupOptionValue = number | string | undefined;
+
 export interface IRadioGroupProps {
     defaultValue?: IRadioGroupOptionValue; // 默认值
+    onChange?: (value: IRadioGroupOptionValue) => void;
     options?: IRadioGroupOptions[]; // 子项
-    value?: IRadioGroupOptionValue; // 受控值
 
     style?: {
         option?: ICheckboxProps['style'];
         root?: StyleProp<ViewStyle>; // 根节点样式
     }; // 样式
 
-    onChange?: (value: IRadioGroupOptionValue) => void;
+    value?: IRadioGroupOptionValue; // 受控值
 }
 
 export default function RadioGroup(props: IRadioGroupProps) {
-    const { defaultValue, value, onChange, options = [], style } = props;
+    const { defaultValue, onChange, options = [], style, value } = props;
 
     const [innerValue, handleChange] = useMergedState<IRadioGroupOptionValue>(undefined, {
         defaultValue,
-        value,
         onChange,
+        value,
     });
 
     // 处理子项的变更
@@ -44,15 +45,15 @@ export default function RadioGroup(props: IRadioGroupProps) {
     };
 
     return (
-        <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_2xl} style={style?.root}>
+        <Flex columnGap={SIZE.space_2xl} rowGap={SIZE.space_md} style={style?.root}>
             {options.map(option => {
                 return (
                     <Radio
+                        disabled={option.disabled}
                         key={option.value}
                         label={option.label}
-                        value={innerValue === option.value}
-                        disabled={option.disabled}
                         onChange={val => handleOptionChange(val, option)}
+                        value={innerValue === option.value}
                     />
                 );
             })}

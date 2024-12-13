@@ -1,5 +1,6 @@
-import { DefaultLayout, Group, Card } from '../../src/components';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
+
+import { Card, DefaultLayout, Group } from '../../src/components';
 
 export default function DemoGroup() {
     const content = (
@@ -12,10 +13,10 @@ export default function DemoGroup() {
 
     return (
         <DefaultLayout head="分组 Group">
-            <Group header="组1" first>
+            <Group first header="组1">
                 <Card>{content}</Card>
             </Group>
-            <Group header="组2" footer="底部文本">
+            <Group footer="底部文本" header="组2">
                 <Card>{content}</Card>
             </Group>
         </DefaultLayout>

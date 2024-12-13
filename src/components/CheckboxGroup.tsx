@@ -1,10 +1,9 @@
-import { SIZE } from '../scripts/const';
-import Checkbox, { ICheckboxProps, ICheckboxValue } from './Checkbox';
-import { useMergedState } from '../hooks';
-import { Flex } from './index';
 import { StyleProp, ViewStyle } from 'react-native';
 
-export type ICheckboxGroupOptionValue = string | number;
+import { useMergedState } from '../hooks';
+import { SIZE } from '../scripts/const';
+import Checkbox, { ICheckboxProps, ICheckboxValue } from './Checkbox';
+import { Flex } from './index';
 
 export interface ICheckboxGroupOptions {
     disabled?: boolean; // 禁用
@@ -12,28 +11,30 @@ export interface ICheckboxGroupOptions {
     value: ICheckboxGroupOptionValue; // 选项值
 }
 
-export type ICheckboxGroupValue = ICheckboxGroupOptionValue[];
+export type ICheckboxGroupOptionValue = number | string;
 
 export interface ICheckboxGroupProps {
     defaultValue?: ICheckboxGroupValue; // 默认值
+    onChange?: (value: ICheckboxGroupValue) => void;
     options?: ICheckboxGroupOptions[]; // 子项
-    value?: ICheckboxGroupValue; // 受控值
 
     style?: {
         option?: ICheckboxProps['style'];
         root?: StyleProp<ViewStyle>; // 根节点样式
     }; // 样式
 
-    onChange?: (value: ICheckboxGroupValue) => void;
+    value?: ICheckboxGroupValue; // 受控值
 }
 
+export type ICheckboxGroupValue = ICheckboxGroupOptionValue[];
+
 export default function CheckboxGroup(props: ICheckboxGroupProps) {
-    const { defaultValue, value, onChange, options = [], style } = props;
+    const { defaultValue, onChange, options = [], style, value } = props;
 
     const [innerValue, handleChange] = useMergedState<ICheckboxGroupValue>([], {
         defaultValue,
-        value,
         onChange,
+        value,
     });
 
     // 处理子项的变更
@@ -51,16 +52,16 @@ export default function CheckboxGroup(props: ICheckboxGroupProps) {
     };
 
     return (
-        <Flex rowGap={SIZE.space_md} columnGap={SIZE.space_2xl} style={style?.root}>
+        <Flex columnGap={SIZE.space_2xl} rowGap={SIZE.space_md} style={style?.root}>
             {options.map(option => {
                 return (
                     <Checkbox
+                        disabled={option.disabled}
                         key={option.value}
                         label={option.label}
-                        value={innerValue.includes(option.value)}
-                        disabled={option.disabled}
                         onChange={val => handleOptionChange(val, option)}
                         style={style?.option}
+                        value={innerValue.includes(option.value)}
                     />
                 );
             })}

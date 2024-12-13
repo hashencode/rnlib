@@ -1,9 +1,9 @@
-import { DefaultLayout, Divider, Flex, TextX, Group, Card } from '../../src/components';
+import { Card, DefaultLayout, Divider, Flex, Group, TextX } from '../../src/components';
 
 export default function DemoDivider() {
     return (
         <DefaultLayout head="分割线 Divider">
-            <Group header="水平分割线" first>
+            <Group first header="水平分割线">
                 <Card>
                     <Divider />
                 </Card>

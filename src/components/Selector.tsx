@@ -1,14 +1,13 @@
+import _ from 'lodash';
 import { ReactNode, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import _ from 'lodash';
-import { useMergedState } from '../hooks';
-import { Flex, Icon, PressHighlight, TextX } from './index';
-import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export type ISelectorRawValue = number | string;
-export type ISelectorValue = ISelectorRawValue | ISelectorRawValue[] | undefined;
+import { useMergedState } from '../hooks';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, PressHighlight, TextX } from './index';
+
 export interface ISelectorOption {
     content?: ReactNode; // 内容插槽
     disabled?: boolean; // 禁用
@@ -19,8 +18,8 @@ export interface ISelectorOption {
 export interface ISelectorProps {
     defaultValue?: ISelectorValue; // 默认值
     multiple?: boolean; // 多选
+    onChange?: (val: ISelectorValue) => void; // 值变动事件回调
     options: ISelectorOption[]; // 选项
-    value?: ISelectorValue; // 受控值
 
     style?: {
         active?: StyleProp<ViewStyle>; // 激活样式
@@ -32,11 +31,13 @@ export interface ISelectorProps {
         title?: StyleProp<TextStyle>; // 标题样式
     }; // 样式
 
-    onChange?: (val: ISelectorValue) => void; // 值变动事件回调
+    value?: ISelectorValue; // 受控值
 }
+export type ISelectorRawValue = number | string;
+export type ISelectorValue = ISelectorRawValue | ISelectorRawValue[] | undefined;
 
 export default function Selector(props: ISelectorProps) {
-    const { defaultValue, multiple, options = [], style, value, onChange } = props;
+    const { defaultValue, multiple, onChange, options = [], style, value } = props;
 
     const [innerValue, handleChange] = useMergedState<ISelectorValue>(multiple ? [] : undefined, {
         defaultValue,
@@ -85,28 +86,28 @@ export default function Selector(props: ISelectorProps) {
     };
 
     return (
-        <Flex wrap="wrap" gap={SIZE.space_lg} style={style?.root}>
+        <Flex gap={SIZE.space_lg} style={style?.root} wrap="wrap">
             {options.map(option => {
                 const isActive = (multiple && valueCache?.includes(option.value)) || (!multiple && option?.value === innerValue);
                 return (
                     <PressHighlight
                         disabled={option.disabled}
-                        onPress={() => handleOptionPress(option.value)}
                         key={option.value}
+                        onPress={() => handleOptionPress(option.value)}
                         style={[optionStyle, isActive ? activeStyle : {}]}>
                         <Flex alignItems="center" column rowGap={SIZE.space_xs}>
                             <TextX
-                                size={SIZE.font_h5}
                                 color={isActive ? COLOR.text_primary : COLOR.text_title}
                                 numberOfLines={1}
+                                size={SIZE.font_h5}
                                 style={style?.title}>
                                 {option.title}
                             </TextX>
                             <TextX
-                                size={SIZE.font_secondary}
                                 color={COLOR.text_desc}
-                                numberOfLines={1}
                                 ellipsizeMode="tail"
+                                numberOfLines={1}
+                                size={SIZE.font_secondary}
                                 style={style?.subtitle}>
                                 {option.subtitle}
                             </TextX>
@@ -116,10 +117,10 @@ export default function Selector(props: ISelectorProps) {
                             <>
                                 <View style={cornerStyle} />
                                 <Icon
+                                    color={COLOR.white}
                                     name="check"
                                     size={SIZE.selector_icon_size}
                                     strokeWidth={SIZE.icon_stroke_xl}
-                                    color={COLOR.white}
                                     style={checkIconStyle}
                                 />
                             </>
@@ -132,19 +133,13 @@ export default function Selector(props: ISelectorProps) {
 }
 
 const styles = StyleSheet.create({
-    option: {
-        backgroundColor: COLOR.selector_option_background,
-        borderRadius: SIZE.radius_md,
-        overflow: 'hidden',
-        paddingHorizontal: SIZE.space_lg,
-        paddingVertical: SIZE.space_md,
-        position: 'relative',
-    },
     active: {
         backgroundColor: COLOR.underlay_primary,
     },
-    disabled: {
-        opacity: COLOR.opacity_disabled_controller,
+    checkIcon: {
+        bottom: 0,
+        position: 'absolute',
+        right: 0,
     },
     corner: {
         borderBottomColor: COLOR.primary,
@@ -158,9 +153,15 @@ const styles = StyleSheet.create({
         right: 0,
         width: 0,
     },
-    checkIcon: {
-        bottom: 0,
-        position: 'absolute',
-        right: 0,
+    disabled: {
+        opacity: COLOR.opacity_disabled_controller,
+    },
+    option: {
+        backgroundColor: COLOR.selector_option_background,
+        borderRadius: SIZE.radius_md,
+        overflow: 'hidden',
+        paddingHorizontal: SIZE.space_lg,
+        paddingVertical: SIZE.space_md,
+        position: 'relative',
     },
 });

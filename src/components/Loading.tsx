@@ -1,9 +1,10 @@
 import { ReactElement, useEffect } from 'react';
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import Animated, { cancelAnimation, Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+
 import { COLOR } from '../scripts/const';
 import { SIZE } from '../scripts/const';
-import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, Easing, withRepeat, withTiming } from 'react-native-reanimated';
 import Icon from './Icon';
-import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 export interface ILoadingProps {
     color?: TextStyle['color']; // 颜色
@@ -31,7 +32,7 @@ export default function Loading(props: ILoadingProps) {
 
     return (
         <Animated.View style={[animatedStyle, style]}>
-            <Icon name="loader-circle" color={color} size={size}></Icon>
+            <Icon color={color} name="loader-circle" size={size}></Icon>
         </Animated.View>
     );
 }

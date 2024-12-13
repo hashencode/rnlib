@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { Button, Card, DefaultLayout, Flex, Group, Switch } from '../../src/components';
 import { SIZE } from '../../src/scripts/const';
 
@@ -7,7 +8,7 @@ export default function DemoSwitch() {
 
     return (
         <DefaultLayout head="开关 Switch">
-            <Group header="尺寸" first>
+            <Group first header="尺寸">
                 <Card>
                     <Flex columnGap={SIZE.space_md}>
                         <Switch />
@@ -23,8 +24,8 @@ export default function DemoSwitch() {
             <Group header="受控">
                 <Card>
                     <Flex columnGap={SIZE.space_md}>
-                        <Switch value={switchValue} onChange={val => setSwitchValue(val)} />
-                        <Button size="sm" onPress={() => setSwitchValue(!switchValue)}>
+                        <Switch onChange={val => setSwitchValue(val)} value={switchValue} />
+                        <Button onPress={() => setSwitchValue(!switchValue)} size="sm">
                             切换
                         </Button>
                     </Flex>
@@ -34,9 +35,9 @@ export default function DemoSwitch() {
                 <Card>
                     <Flex columnGap={SIZE.space_md}>
                         <Switch disabled={true} />
-                        <Switch size="sm" disabled={true} />
-                        <Switch disabled defaultValue={true} />
-                        <Switch size="sm" disabled defaultValue={true} />
+                        <Switch disabled={true} size="sm" />
+                        <Switch defaultValue={true} disabled />
+                        <Switch defaultValue={true} disabled size="sm" />
                     </Flex>
                 </Card>
             </Group>

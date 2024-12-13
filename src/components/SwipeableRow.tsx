@@ -1,15 +1,16 @@
-import ReanimatedSwipeable, { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
-import { RectButton } from 'react-native-gesture-handler';
-import { COLOR, SIZE } from '../scripts/const';
 import { ReactNode, useRef } from 'react';
+import { RectButton } from 'react-native-gesture-handler';
+import ReanimatedSwipeable, { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
+
+import { COLOR, SIZE } from '../scripts/const';
 
 export interface ISwipeableRowActionItem {
     backgroundColor?: string; // 背景色
     content?: ReactNode; // 内容插槽
-    width: number; // 操作按钮宽度
-
     onPress?: () => void; // 点击回调函数
+
+    width: number; // 操作按钮宽度
 }
 
 export interface ISwipeableRowProps extends SwipeableProps {
@@ -18,7 +19,7 @@ export interface ISwipeableRowProps extends SwipeableProps {
 }
 
 export default function SwipeableRow(props: ISwipeableRowProps) {
-    const { leftActions, rightActions, children, ...rest } = props;
+    const { children, leftActions, rightActions, ...rest } = props;
     const swipeableRow = useRef<SwipeableMethods>(null);
 
     const Action = (actionProps: { actions?: ISwipeableRowActionItem[] }) => {
@@ -29,19 +30,19 @@ export default function SwipeableRow(props: ISwipeableRowProps) {
         return (
             <>
                 {actions.map((item, index) => {
-                    const { width, backgroundColor = COLOR.bg_controller, content, onPress } = item;
+                    const { backgroundColor = COLOR.bg_controller, content, onPress, width } = item;
                     return (
                         <RectButton
                             key={index}
-                            style={{
-                                width,
-                                backgroundColor,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
                             onPress={() => {
                                 swipeableRow.current!.close();
                                 onPress?.();
+                            }}
+                            style={{
+                                alignItems: 'center',
+                                backgroundColor,
+                                justifyContent: 'center',
+                                width,
                             }}>
                             {content}
                         </RectButton>
@@ -53,11 +54,11 @@ export default function SwipeableRow(props: ISwipeableRowProps) {
 
     return (
         <ReanimatedSwipeable
-            ref={swipeableRow}
-            friction={1.5}
-            overshootRight={false}
-            overshootLeft={false}
             enableTrackpadTwoFingerGesture
+            friction={1.5}
+            overshootLeft={false}
+            overshootRight={false}
+            ref={swipeableRow}
             renderLeftActions={() => <Action actions={leftActions} />}
             renderRightActions={() => <Action actions={rightActions} />}
             {...rest}>

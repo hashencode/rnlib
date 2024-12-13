@@ -1,9 +1,10 @@
+import { PropsWithChildren, ReactElement, ReactNode, useMemo } from 'react';
 import { ImageStyle, StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
+import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { mergeElement } from '../scripts/utils';
-import useStyle from '../hooks/useStyle';
-import { PropsWithChildren, ReactElement, ReactNode, useMemo } from 'react';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { Flex, Icon, PressHighlight, SwipeableRow, TextX } from './index';
 import { ISwipeableRowProps } from './SwipeableRow';
 
@@ -14,11 +15,9 @@ export interface IListItemProps extends PropsWithChildren {
     extraTitle?: ReactNode; // 额外内容标题
     icon?: ReactElement; // 左侧图标
     leftActions?: ISwipeableRowProps['leftActions']; // 左侧操作按钮
+    onPress?: () => void; // 点击事件回调
     rightActions?: ISwipeableRowProps['rightActions']; // 右侧操作按钮
     showArrow?: boolean; // 显示右侧箭头
-    subtitle?: ReactNode; // 副标题
-    title?: ReactNode; // 主标题
-
     style?: {
         body?: StyleProp<ViewStyle>; // 内容区域样式
         extra?: StyleProp<ViewStyle>; // 额外内容区域样式
@@ -31,24 +30,26 @@ export interface IListItemProps extends PropsWithChildren {
         title?: StyleProp<TextStyle>; // 内容标题样式
     }; // 样式
 
-    onPress?: () => void; // 点击事件回调
+    subtitle?: ReactNode; // 副标题
+
+    title?: ReactNode; // 主标题
 }
 
 export default function ListItem(props: IListItemProps) {
     const {
-        leftActions,
-        rightActions,
-        disabled,
-        icon,
-        style,
-        title,
-        subtitle,
-        extra,
-        extraTitle,
-        extraSubtitle,
-        showArrow,
         children,
+        disabled,
+        extra,
+        extraSubtitle,
+        extraTitle,
+        icon,
+        leftActions,
         onPress,
+        rightActions,
+        showArrow,
+        style,
+        subtitle,
+        title,
     } = props;
 
     // 根节点样式
@@ -97,30 +98,30 @@ export default function ListItem(props: IListItemProps) {
 
     // 主体节点
     const itemElement = (
-        <Flex block alignItems="center" style={rootStyle}>
+        <Flex alignItems="center" block style={rootStyle}>
             {iconEl}
 
             <Flex alignItems="stretch" style={bodyStyle}>
-                <Flex column justifyContent="center" grow={1} style={style?.main}>
+                <Flex column grow={1} justifyContent="center" style={style?.main}>
                     <TextX size={SIZE.font_h3} style={style?.title}>
                         {title}
                     </TextX>
-                    <TextX size={SIZE.font_secondary} color={COLOR.text_desc} style={style?.subTitle}>
+                    <TextX color={COLOR.text_desc} size={SIZE.font_secondary} style={style?.subTitle}>
                         {subtitle}
                     </TextX>
                     {children}
                 </Flex>
 
-                <Flex column alignItems="flex-end" justifyContent="center" shrink={0} style={extraStyle}>
+                <Flex alignItems="flex-end" column justifyContent="center" shrink={0} style={extraStyle}>
                     <TextX size={SIZE.font_h3} style={extraTitleStyle}>
                         {extraTitle}
                     </TextX>
-                    <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={extraSubtitleStyle}>
+                    <TextX color={COLOR.text_desc} size={SIZE.font_h5} style={extraSubtitleStyle}>
                         {extraSubtitle}
                     </TextX>
                     {extra}
                 </Flex>
-                {showArrow ? <Icon name="chevron-right" size={SIZE.icon_sm} color={COLOR.icon_touchable} style={styles.arrow} /> : null}
+                {showArrow ? <Icon color={COLOR.icon_touchable} name="chevron-right" size={SIZE.icon_sm} style={styles.arrow} /> : null}
             </Flex>
         </Flex>
     );
@@ -146,16 +147,9 @@ export default function ListItem(props: IListItemProps) {
 }
 
 const styles = StyleSheet.create({
-    root: {
-        backgroundColor: COLOR.white,
-        overflow: 'hidden',
-        paddingLeft: SIZE.space_lg,
-    },
-    icon: {
-        borderRadius: SIZE.radius_md,
-        flexShrink: 0,
-        marginRight: SIZE.space_lg,
-        overflow: 'hidden',
+    arrow: {
+        alignSelf: 'center',
+        marginRight: SIZE.space_md,
     },
     body: {
         minHeight: SIZE.list_item_min_height,
@@ -168,8 +162,15 @@ const styles = StyleSheet.create({
     extraText: {
         textAlign: 'right',
     },
-    arrow: {
-        alignSelf: 'center',
-        marginRight: SIZE.space_md,
+    icon: {
+        borderRadius: SIZE.radius_md,
+        flexShrink: 0,
+        marginRight: SIZE.space_lg,
+        overflow: 'hidden',
+    },
+    root: {
+        backgroundColor: COLOR.white,
+        overflow: 'hidden',
+        paddingLeft: SIZE.space_lg,
     },
 });

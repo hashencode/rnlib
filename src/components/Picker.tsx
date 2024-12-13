@@ -1,16 +1,15 @@
+import _ from 'lodash';
 import { ForwardedRef, forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import _ from 'lodash';
+import { default as ActionSheetOrigin, ActionSheetRef } from 'react-native-actions-sheet';
+
 import { useMergedState } from '../hooks';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { mergeRefs } from '../scripts/utils';
 import Button, { IButtonProps } from './Button';
 import { Flex, Grabber, Icon, PressHighlight, TextX } from './index';
-import useStyle from '../hooks/useStyle';
-import { ActionSheetRef, default as ActionSheetOrigin } from 'react-native-actions-sheet';
-import { mergeRefs } from '../scripts/utils';
 
-export type IPickerRawValue = number | string;
-export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
 export interface IPickerOption {
     children?: ReactNode; // 内容插槽
     disabled?: boolean; // 禁用
@@ -28,11 +27,11 @@ export interface IPickerProps {
     multiple?: boolean; // 多选
     okButtonProps?: IButtonProps; // 确定按钮属性
     okText?: string; // 确认按钮文案（多选）
+    onCancel?: () => void; // 取消按钮点击事件回调
+    onChange?: (val: IPickerValue) => void; // 值变动事件回调
+    onOpen?: () => void; // 开启事件回调
     options: IPickerOption[]; // 选项
     overlayClosable?: boolean; // 允许点击蒙层关闭
-    title?: ReactNode; // 头部标题插槽
-    value?: IPickerValue; // 受控值
-    visible?: boolean; // 显隐
 
     style?: {
         cancelButton?: StyleProp<ViewStyle>; // 取消按钮样式
@@ -48,31 +47,33 @@ export interface IPickerProps {
         title?: StyleProp<TextStyle>; // 标题样式
     }; // 样式
 
-    onCancel?: () => void; // 取消按钮点击事件回调
-    onChange?: (val: IPickerValue) => void; // 值变动事件回调
-    onOpen?: () => void; // 开启事件回调
+    title?: ReactNode; // 头部标题插槽
+    value?: IPickerValue; // 受控值
+    visible?: boolean; // 显隐
 }
+export type IPickerRawValue = number | string;
+export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
 
 function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
     const {
         backCloseable = true,
+        cancelButtonProps,
         cancelText = '取消',
-        okText = '确定',
+        checkIcon,
         defaultValue,
-        title,
-        overlayClosable = true,
         maxHeight = 300,
         multiple,
-        options = [],
-        style,
-        value,
-        visible,
-        checkIcon,
-        cancelButtonProps,
         okButtonProps,
-        onOpen,
+        okText = '确定',
         onCancel,
         onChange,
+        onOpen,
+        options = [],
+        overlayClosable = true,
+        style,
+        title,
+        value,
+        visible,
     } = props;
 
     const localRef = useRef<ActionSheetRef>(null);
@@ -150,37 +151,37 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
     // 渲染选中图标
     const renderCheckIcon = (option: IPickerOption) => {
         if ((multiple && valueCache?.includes(option.value)) || (!multiple && option?.value === innerValue)) {
-            return checkIcon || <Icon name="check" color={COLOR.primary} size={SIZE.icon_xs} style={style?.checkIcon} />;
+            return checkIcon || <Icon color={COLOR.primary} name="check" size={SIZE.icon_xs} style={style?.checkIcon} />;
         }
         return null;
     };
 
     return (
         <ActionSheetOrigin
-            ref={mergeRefs([ref, localRef])}
+            closable={overlayClosable}
             containerStyle={rootStyle}
             enableRouterBackNavigation={backCloseable}
-            closable={overlayClosable}
+            onClose={onCancel}
             onOpen={onOpen}
-            onClose={onCancel}>
+            ref={mergeRefs([ref, localRef])}>
             {/* 头部 */}
             {title || multiple ? (
                 <Flex alignItems="center" justifyContent="space-between" style={headerStyle}>
                     {/* 取消按钮 */}
                     <View style={styles.actionButton}>
-                        <Button type="text" style={{ text: { color: COLOR.text_subtitle } }} onPress={handleCancel} {...cancelButtonProps}>
+                        <Button onPress={handleCancel} style={{ text: { color: COLOR.text_subtitle } }} type="text" {...cancelButtonProps}>
                             {cancelText}
                         </Button>
                     </View>
                     {/* 标题文本 */}
-                    <Flex justifyContent="center" alignItems="center" grow={1}>
+                    <Flex alignItems="center" grow={1} justifyContent="center">
                         <TextX size={SIZE.font_h2} weight={SIZE.weight_title}>
                             {title}
                         </TextX>
                     </Flex>
                     {/*确定按钮*/}
                     <View style={styles.actionButton}>
-                        <Button type="text" style={{ text: { color: COLOR.primary } }} onPress={handleConfirm} {...okButtonProps}>
+                        <Button onPress={handleConfirm} style={{ text: { color: COLOR.primary } }} type="text" {...okButtonProps}>
                             {okText}
                         </Button>
                     </View>
@@ -191,7 +192,7 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
             <ScrollView style={{ maxHeight: maxHeight }}>
                 {options.map(option => {
                     return (
-                        <PressHighlight disabled={option.disabled} onPress={() => handleOptionPress(option.value)} key={option.value}>
+                        <PressHighlight disabled={option.disabled} key={option.value} onPress={() => handleOptionPress(option.value)}>
                             <Flex alignItems="center" justifyContent="space-between" style={optionStyle}>
                                 <Flex alignItems="center" grow={1}>
                                     <Flex column shrink={0}>
@@ -222,8 +223,12 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
 export default forwardRef(Picker);
 
 const styles = StyleSheet.create({
-    root: {
-        backgroundColor: COLOR.white,
+    actionButton: {
+        flexShrink: 0,
+    },
+    divider: {
+        borderBottomWidth: SIZE.border_default,
+        borderColor: COLOR.border_default,
     },
     header: {
         backgroundColor: COLOR.white,
@@ -234,17 +239,13 @@ const styles = StyleSheet.create({
         paddingVertical: SIZE.space_md,
         position: 'relative',
     },
-    actionButton: {
-        flexShrink: 0,
-    },
     option: {
         backgroundColor: COLOR.white,
         minHeight: SIZE.picker_item_height,
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
     },
-    divider: {
-        borderBottomWidth: SIZE.border_default,
-        borderColor: COLOR.border_default,
+    root: {
+        backgroundColor: COLOR.white,
     },
 });

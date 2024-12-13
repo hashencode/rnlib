@@ -1,10 +1,11 @@
-import Dialog, { IDialogProps } from './Dialog';
-import useEventEmitter from '../hooks/useEventEmitter';
-import { EMITTER_MAP } from '../scripts/enum';
 import _ from 'lodash';
-import { randomId } from '../scripts/utils';
 import { useState } from 'react';
 import { View } from 'react-native';
+
+import useEventEmitter from '../hooks/useEventEmitter';
+import { EMITTER_MAP } from '../scripts/enum';
+import { randomId } from '../scripts/utils';
+import Dialog, { IDialogProps } from './Dialog';
 
 export interface IDialogQueueItem extends Omit<IDialogProps, 'id'> {
     id: string;
@@ -45,16 +46,16 @@ export default function DialogRender() {
     return (
         <View>
             {dialogQueue?.map(queueItem => {
-                const { id: queueId, afterClose, visible, ...rest } = queueItem;
+                const { afterClose, id: queueId, visible, ...rest } = queueItem;
                 return (
                     <Dialog
                         {...rest}
-                        visible={visible}
-                        key={queueId}
                         afterClose={() => {
                             destroy(queueId);
                             afterClose?.();
                         }}
+                        key={queueId}
+                        visible={visible}
                     />
                 );
             })}

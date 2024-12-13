@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button, DefaultLayout, Dialog, Flex, Input, Group, Card } from '../../src/components';
+
+import { Button, Card, DefaultLayout, Dialog, Flex, Group, Input } from '../../src/components';
 import { useDialog } from '../../src/hooks';
 import { SIZE } from '../../src/scripts/const';
 
@@ -12,9 +13,9 @@ export default function DemoDialog() {
     };
 
     const config = {
-        title: '弹窗提示',
         content: '点击按钮或遮罩关闭弹窗',
         onCancel: defaultPressFunc,
+        title: '弹窗提示',
     };
 
     const okButton = {
@@ -42,7 +43,7 @@ export default function DemoDialog() {
 
     return (
         <DefaultLayout head="对话框 Dialog">
-            <Group header="按钮数量" first>
+            <Group first header="按钮数量">
                 <Card>
                     <Flex columnGap={SIZE.space_md}>
                         <Button onPress={() => setOpenId('one')}>单个按钮</Button>
@@ -51,9 +52,9 @@ export default function DemoDialog() {
                     </Flex>
                 </Card>
 
-                <Dialog {...config} visible={openId === 'one'} buttons={[okButton]} />
-                <Dialog {...config} visible={openId === 'two'} buttons={[cancelButton, okButton]} />
-                <Dialog {...config} visible={openId === 'three'} buttons={[primaryButton, okButton, cancelButton]} />
+                <Dialog {...config} buttons={[okButton]} visible={openId === 'one'} />
+                <Dialog {...config} buttons={[cancelButton, okButton]} visible={openId === 'two'} />
+                <Dialog {...config} buttons={[primaryButton, okButton, cancelButton]} visible={openId === 'three'} />
             </Group>
             <Group header="动作按钮">
                 <Card>
@@ -62,8 +63,8 @@ export default function DemoDialog() {
                         <Button onPress={() => setOpenId('actions_all')}>包含副操作</Button>
                     </Flex>
                 </Card>
-                <Dialog {...config} visible={openId === 'actions_main'} actions={[{ ...primaryButton }]} />
-                <Dialog {...config} visible={openId === 'actions_all'} actions={[{ ...primaryButton }, cancelButton]} />
+                <Dialog {...config} actions={[{ ...primaryButton }]} visible={openId === 'actions_main'} />
+                <Dialog {...config} actions={[{ ...primaryButton }, cancelButton]} visible={openId === 'actions_all'} />
             </Group>
             <Group header="自定义插槽">
                 <Card columnGap={SIZE.space_md}>
@@ -71,9 +72,9 @@ export default function DemoDialog() {
                 </Card>
                 <Dialog
                     {...config}
+                    buttons={[cancelButton]}
                     content={<Input placeholder="输入一些文字" />}
-                    visible={openId === 'extra'}
-                    buttons={[cancelButton]}></Dialog>
+                    visible={openId === 'extra'}></Dialog>
             </Group>
             <Group header="静态方法创建">
                 <Card columnGap={SIZE.space_md}>

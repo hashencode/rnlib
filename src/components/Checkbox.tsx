@@ -1,18 +1,17 @@
 import { ReactNode, useMemo } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { useMergedState } from '../hooks';
-import { Flex, Icon, TextX } from './index';
 import { StyleProps } from 'react-native-reanimated';
 
-export type ICheckboxValue = boolean;
+import { useMergedState } from '../hooks';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, TextX } from './index';
 
 export interface ICheckboxProps {
     defaultValue?: ICheckboxValue; // 默认值
     disabled?: boolean; // 禁用
     indeterminate?: boolean; // 半选
     label?: ReactNode; // 文本
-    value?: ICheckboxValue; // 受控值
+    onChange?: (val: ICheckboxValue) => void; // 值变动事件回调
 
     style?: {
         icon?: StyleProp<TextStyle>; // 图标样式
@@ -21,16 +20,18 @@ export interface ICheckboxProps {
         root?: StyleProp<ViewStyle>; // 根节点样式
     }; // 样式
 
-    onChange?: (val: ICheckboxValue) => void; // 值变动事件回调
+    value?: ICheckboxValue; // 受控值
 }
 
+export type ICheckboxValue = boolean;
+
 export default function Checkbox(props: ICheckboxProps) {
-    const { indeterminate = false, label, defaultValue, disabled, value, style, onChange } = props;
+    const { defaultValue, disabled, indeterminate = false, label, onChange, style, value } = props;
 
     const [innerValue, handleChange] = useMergedState<ICheckboxValue>(false, {
         defaultValue,
-        value,
         onChange,
+        value,
     });
 
     // 处理点击事件
@@ -60,10 +61,10 @@ export default function Checkbox(props: ICheckboxProps) {
         if (indeterminate) {
             return (
                 <Icon
+                    color={disabled ? COLOR.text_desc : COLOR.primary}
                     name="minus"
                     size={SIZE.icon_xxs}
                     strokeWidth={SIZE.icon_stroke_xl}
-                    color={disabled ? COLOR.text_desc : COLOR.primary}
                     style={style?.icon}
                 />
             );
@@ -71,10 +72,10 @@ export default function Checkbox(props: ICheckboxProps) {
         if (innerValue) {
             return (
                 <Icon
+                    color={disabled ? COLOR.text_desc : COLOR.white}
                     name="check"
                     size={SIZE.icon_xxs}
                     strokeWidth={SIZE.icon_stroke_xl}
-                    color={disabled ? COLOR.text_desc : COLOR.white}
                     style={style?.icon}
                 />
             );
@@ -83,12 +84,12 @@ export default function Checkbox(props: ICheckboxProps) {
     };
 
     return (
-        <Pressable onPress={handlePress} disabled={disabled}>
+        <Pressable disabled={disabled} onPress={handlePress}>
             <Flex alignItems="center" columnGap={SIZE.space_md} style={style?.root}>
                 <Flex alignItems="center" justifyContent="center" style={containerStyle}>
                     {renderIcon()}
                 </Flex>
-                <TextX size={SIZE.font_h3} color={disabled ? COLOR.text_desc : COLOR.text_title} style={style?.label}>
+                <TextX color={disabled ? COLOR.text_desc : COLOR.text_title} size={SIZE.font_h3} style={style?.label}>
                     {label}
                 </TextX>
             </Flex>

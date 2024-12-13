@@ -4,7 +4,7 @@ import { COLOR, SIZE } from '../../src/scripts/const';
 export default function DemoTag() {
     return (
         <DefaultLayout head="标签 Tag">
-            <Group header="图标" first>
+            <Group first header="图标">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Tag icon={<Icon name="tag"></Icon>}>文本</Tag>
@@ -15,12 +15,12 @@ export default function DemoTag() {
             <Group header="颜色">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Tag borderColor={COLOR.primary} backgroundColor={COLOR.white} color={COLOR.primary} icon={<Icon name="tag" />}>
+                        <Tag backgroundColor={COLOR.white} borderColor={COLOR.primary} color={COLOR.primary} icon={<Icon name="tag" />}>
                             图标
                         </Tag>
                         <Tag
-                            borderColor={COLOR.primary}
                             backgroundColor={COLOR.primary}
+                            borderColor={COLOR.primary}
                             color={COLOR.white}
                             icon={<Icon name="tag"></Icon>}>
                             背景色

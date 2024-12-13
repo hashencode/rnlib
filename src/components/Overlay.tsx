@@ -1,26 +1,27 @@
+import { useUpdateEffect } from 'ahooks';
 import { ReactNode } from 'react';
 import { Modal, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
-import { COLOR } from '../scripts/const';
-import { useUpdateEffect } from 'ahooks';
+
 import { useStyle } from '../hooks';
+import { COLOR } from '../scripts/const';
 
 export interface IOverlayProps {
     afterDestroy?: () => void; // 蒙层销毁回调
-    children?: ReactNode; // 插槽
     backgroundColor?: string; // 底色
-    visible?: boolean; // 显隐
+    children?: ReactNode; // 插槽
+    onPress?: () => void; // 点击蒙层回调
+
+    onRequestClose?: () => void; // 请求关闭回调
 
     style?: {
-        root?: StyleProp<ViewStyle>; // 根节点样式
         content?: StyleProp<ViewStyle>; // 内容样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
     };
-
-    onPress?: () => void; // 点击蒙层回调
-    onRequestClose?: () => void; // 请求关闭回调
+    visible?: boolean; // 显隐
 }
 
 function Overlay(props: IOverlayProps) {
-    const { visible, backgroundColor = COLOR.bg_overlay, afterDestroy, style, onPress, onRequestClose } = props;
+    const { afterDestroy, backgroundColor = COLOR.bg_overlay, onPress, onRequestClose, style, visible } = props;
 
     const { height, width } = useWindowDimensions();
 
@@ -35,7 +36,7 @@ function Overlay(props: IOverlayProps) {
     });
 
     return (
-        <Modal visible={visible} transparent={true} animationType="fade" onRequestClose={onRequestClose} style={style?.root}>
+        <Modal animationType="fade" onRequestClose={onRequestClose} style={style?.root} transparent={true} visible={visible}>
             <Pressable onPress={() => onPress?.()} style={[styles.overlay, { backgroundColor }]} />
             <View style={contentStyle}>{props.children}</View>
         </Modal>
@@ -45,6 +46,13 @@ function Overlay(props: IOverlayProps) {
 export default Overlay;
 
 const styles = StyleSheet.create({
+    content: {
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        pointerEvents: 'box-none',
+    },
     overlay: {
         backgroundColor: COLOR.bg_overlay,
         height: '100%',
@@ -52,12 +60,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         width: '100%',
-    },
-    content: {
-        alignItems: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        pointerEvents: 'box-none',
     },
 });

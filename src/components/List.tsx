@@ -1,8 +1,9 @@
 import { Fragment, Key, ReactElement, useMemo } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+
+import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import ListItem, { IListItemProps } from './ListItem';
-import useStyle from '../hooks/useStyle';
 
 export interface IListProps {
     items: IListItemProps[]; // 数据源
@@ -56,8 +57,8 @@ export default function List(props: IListProps) {
 }
 
 const styles = StyleSheet.create({
+    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_lg, marginVertical: 0 },
     root: {
         backgroundColor: COLOR.white,
     },
-    divider: { borderBottomWidth: SIZE.border_default, borderColor: COLOR.border_default, marginLeft: SIZE.space_lg, marginVertical: 0 },
 });

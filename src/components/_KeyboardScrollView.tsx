@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Keyboard, ScrollView, TextInput, StatusBar } from 'react-native';
+import { Keyboard, ScrollView, StatusBar, TextInput } from 'react-native';
 
 interface Props extends React.ComponentProps<typeof ScrollView> {
     additionalScrollHeight?: number;
@@ -7,7 +7,7 @@ interface Props extends React.ComponentProps<typeof ScrollView> {
 
 const offsetY = 20;
 
-const _KeyboardScrollView = ({ children, additionalScrollHeight, contentContainerStyle, ...props }: Props) => {
+const _KeyboardScrollView = ({ additionalScrollHeight, children, contentContainerStyle, ...props }: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const scrollPositionRef = useRef<number>(0);
     const scrollContentSizeRef = useRef<number>(0);
@@ -17,7 +17,7 @@ const _KeyboardScrollView = ({ children, additionalScrollHeight, contentContaine
     const [additionalPadding, setAdditionalPadding] = useState(0);
 
     const scrollToPosition = useCallback((toPosition: number, animated?: boolean) => {
-        scrollViewRef.current?.scrollTo({ y: toPosition, animated: !!animated });
+        scrollViewRef.current?.scrollTo({ animated: !!animated, y: toPosition });
         scrollPositionRef.current = toPosition;
     }, []);
 
@@ -81,18 +81,8 @@ const _KeyboardScrollView = ({ children, additionalScrollHeight, contentContaine
 
     return (
         <ScrollView
-            ref={scrollViewRef}
             contentContainerStyle={[contentContainerStyle, { paddingBottom: additionalPadding }]}
             keyboardShouldPersistTaps="handled"
-            onMomentumScrollEnd={event => {
-                scrollPositionRef.current = event.nativeEvent.contentOffset.y;
-            }}
-            onScrollEndDrag={event => {
-                scrollPositionRef.current = event.nativeEvent.contentOffset.y;
-            }}
-            onLayout={event => {
-                scrollViewSizeRef.current = event.nativeEvent.layout.height;
-            }}
             onContentSizeChange={(_width, height) => {
                 const currentContentHeight = scrollContentSizeRef.current;
                 const contentSizeDelta = height - currentContentHeight;
@@ -106,6 +96,16 @@ const _KeyboardScrollView = ({ children, additionalScrollHeight, contentContaine
                 const scrollPositionTarget = currentScrollY + contentSizeDelta;
                 scrollToPosition(scrollPositionTarget, true);
             }}
+            onLayout={event => {
+                scrollViewSizeRef.current = event.nativeEvent.layout.height;
+            }}
+            onMomentumScrollEnd={event => {
+                scrollPositionRef.current = event.nativeEvent.contentOffset.y;
+            }}
+            onScrollEndDrag={event => {
+                scrollPositionRef.current = event.nativeEvent.contentOffset.y;
+            }}
+            ref={scrollViewRef}
             {...props}>
             {children}
         </ScrollView>

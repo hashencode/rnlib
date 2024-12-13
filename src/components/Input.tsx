@@ -1,27 +1,21 @@
 import { forwardRef, ReactNode, Ref, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { useMergedState } from '../hooks';
-import { Flex, Icon, TextX } from './index';
-import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export interface IInputRef {
-    blur: () => void;
-    clear: () => void;
-    focus: () => void;
-    isFocused: () => boolean | undefined;
-}
+import { useMergedState } from '../hooks';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, TextX } from './index';
 
 export interface IInputProps extends Omit<TextInputProps, 'onChange' | 'style'> {
     allowClear?: boolean; // 允许清空输入
     bordered?: boolean; // 显示边框
     disabled?: boolean; // 禁用
+    onChange?: (val?: string) => void; // 值变动事件回调
     password?: boolean; // 密码输入
     prefix?: ReactNode | string; // 前缀
     round?: boolean; // 圆形外观
-    size?: 'sm' | 'md' | 'lg'; // 尺寸
-    suffix?: ReactNode | string; // 后缀
+    size?: 'lg' | 'md' | 'sm'; // 尺寸
 
     style?: {
         main?: StyleProp<TextStyle>; // 主体样式
@@ -30,7 +24,14 @@ export interface IInputProps extends Omit<TextInputProps, 'onChange' | 'style'> 
         suffix?: StyleProp<TextStyle>; // 后缀样式
     }; // 样式
 
-    onChange?: (val?: string) => void; // 值变动事件回调
+    suffix?: ReactNode | string; // 后缀
+}
+
+export interface IInputRef {
+    blur: () => void;
+    clear: () => void;
+    focus: () => void;
+    isFocused: () => boolean | undefined;
 }
 
 const defaultProps: Partial<TextInputProps> = {
@@ -48,14 +49,14 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
         bordered = true,
         defaultValue,
         disabled,
+        onChange,
+        password,
         prefix,
         round,
         size = 'md',
         style,
         suffix,
         value,
-        password,
-        onChange,
         ...rest
     } = props;
 
@@ -64,8 +65,8 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
 
     const [innerValue, handleChange] = useMergedState(undefined, {
         defaultValue,
-        value,
         onChange,
+        value,
     });
 
     // 根节点样式
@@ -99,14 +100,14 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
 
     // 暴露内部方法
     useImperativeHandle(ref, () => ({
-        focus: () => {
-            inputRef?.current?.focus();
-        },
         blur: () => {
             inputRef?.current?.blur();
         },
         clear: () => {
             inputRef?.current?.clear();
+        },
+        focus: () => {
+            inputRef?.current?.focus();
         },
         isFocused: () => {
             return inputRef?.current?.isFocused();
@@ -136,13 +137,13 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
         }
         return (
             <Pressable disabled={disabled} onPress={handleClearPress}>
-                <Icon name="x-circle" size={SIZE.icon_xs} color={COLOR.icon_touchable} />
+                <Icon color={COLOR.icon_touchable} name="x-circle" size={SIZE.icon_xs} />
             </Pressable>
         );
     }, [innerValue, disabled, allowClear]);
 
     return (
-        <Flex block alignItems="center" columnGap={SIZE.space_md} style={rootStyle}>
+        <Flex alignItems="center" block columnGap={SIZE.space_md} style={rootStyle}>
             {renderPrefix()}
 
             <TextInput
@@ -151,15 +152,15 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
                 style={mainStyle}
                 {...defaultProps}
                 {...rest}
-                value={innerValue}
                 onChange={handleInputChange}
+                value={innerValue}
             />
 
             {renderCloseIcon}
             {renderSuffix()}
             {password ? (
                 <Pressable onPress={() => setShowPasswords(!showPasswords)}>
-                    <Icon name={showPasswords ? 'eye' : 'eye-off'} size={SIZE.icon_xs} color={COLOR.icon_touchable} />
+                    <Icon color={COLOR.icon_touchable} name={showPasswords ? 'eye' : 'eye-off'} size={SIZE.icon_xs} />
                 </Pressable>
             ) : null}
         </Flex>
@@ -169,10 +170,26 @@ function Input(props: IInputProps, ref?: Ref<IInputRef>) {
 export default forwardRef(Input);
 
 const styles = StyleSheet.create({
-    root: {
-        backgroundColor: COLOR.white,
-        paddingHorizontal: SIZE.space_lg,
-        position: 'relative',
+    disabled: {
+        backgroundColor: COLOR.bg_disabled,
+        borderColor: COLOR.border_disabled,
+    },
+    input_lg: {
+        fontSize: SIZE.font_h2,
+        height: SIZE.input_height_lg,
+    },
+    input_md: {
+        fontSize: SIZE.font_h4,
+        height: SIZE.input_height_md,
+    },
+    input_sm: {
+        fontSize: SIZE.font_secondary,
+        height: SIZE.input_height_sm,
+    },
+    inputBorder: {
+        borderColor: COLOR.border_controller,
+        borderRadius: SIZE.radius_md,
+        borderWidth: SIZE.border_default,
     },
     main: {
         flexGrow: 1,
@@ -180,37 +197,21 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
     },
-    inputBorder: {
-        borderColor: COLOR.border_controller,
-        borderRadius: SIZE.radius_md,
-        borderWidth: SIZE.border_default,
+    root: {
+        backgroundColor: COLOR.white,
+        paddingHorizontal: SIZE.space_lg,
+        position: 'relative',
     },
-    input_sm: {
-        fontSize: SIZE.font_secondary,
-        height: SIZE.input_height_sm,
-    },
-    input_md: {
-        fontSize: SIZE.font_h4,
-        height: SIZE.input_height_md,
-    },
-    input_lg: {
-        fontSize: SIZE.font_h2,
-        height: SIZE.input_height_lg,
-    },
-    round_sm: {
-        borderRadius: SIZE.input_height_sm / 2,
+    round_lg: {
+        borderRadius: SIZE.input_height_lg / 2,
         paddingHorizontal: SIZE.space_xl,
     },
     round_md: {
         borderRadius: SIZE.input_height_md / 2,
         paddingHorizontal: SIZE.space_xl,
     },
-    round_lg: {
-        borderRadius: SIZE.input_height_lg / 2,
+    round_sm: {
+        borderRadius: SIZE.input_height_sm / 2,
         paddingHorizontal: SIZE.space_xl,
-    },
-    disabled: {
-        backgroundColor: COLOR.bg_disabled,
-        borderColor: COLOR.border_disabled,
     },
 });

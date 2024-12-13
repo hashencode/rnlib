@@ -1,11 +1,11 @@
-import { Button, DefaultLayout, Flex, Group, Card } from '../../src/components';
-import { COLOR, SIZE } from '../../src/scripts/const';
+import { Button, Card, DefaultLayout, Flex, Group } from '../../src/components';
 import { Icon } from '../../src/components';
+import { COLOR, SIZE } from '../../src/scripts/const';
 
 export default function DemoButton() {
     return (
         <DefaultLayout head="按钮 Button">
-            <Group header="类型" first>
+            <Group first header="类型">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
                         <Button type="default">默认</Button>
@@ -17,13 +17,13 @@ export default function DemoButton() {
             <Group header="危险按钮">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Button type="default" danger>
+                        <Button danger type="default">
                             默认
                         </Button>
-                        <Button type="primary" danger>
+                        <Button danger type="primary">
                             强调
                         </Button>
-                        <Button type="text" danger>
+                        <Button danger type="text">
                             文本
                         </Button>
                     </Flex>
@@ -32,13 +32,13 @@ export default function DemoButton() {
             <Group header="幽灵按钮">
                 <Card style={{ root: { backgroundColor: COLOR.gray } }}>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Button type="default" ghost>
+                        <Button ghost type="default">
                             默认
                         </Button>
-                        <Button type="primary" ghost>
+                        <Button ghost type="primary">
                             强调
                         </Button>
-                        <Button ghost danger>
+                        <Button danger ghost>
                             危险
                         </Button>
                     </Flex>
@@ -47,14 +47,14 @@ export default function DemoButton() {
             <Group header="尺寸">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Button type="primary" size="lg">
+                        <Button size="lg" type="primary">
                             大
                         </Button>
                         <Button type="primary">中</Button>
-                        <Button type="primary" size="sm">
+                        <Button size="sm" type="primary">
                             小
                         </Button>
-                        <Button type="primary" size="xs">
+                        <Button size="xs" type="primary">
                             迷你
                         </Button>
                     </Flex>
@@ -63,16 +63,16 @@ export default function DemoButton() {
             <Group header="圆润外观">
                 <Card>
                     <Flex columnGap={SIZE.space_md} wrap="wrap">
-                        <Button type="primary" size="lg" round>
+                        <Button round size="lg" type="primary">
                             圆润
                         </Button>
-                        <Button type="primary" round>
+                        <Button round type="primary">
                             圆润
                         </Button>
-                        <Button type="primary" size="sm" round>
+                        <Button round size="sm" type="primary">
                             圆润
                         </Button>
-                        <Button type="primary" size="xs" round>
+                        <Button round size="xs" type="primary">
                             圆润
                         </Button>
                     </Flex>
@@ -80,14 +80,14 @@ export default function DemoButton() {
             </Group>
             <Group header="块">
                 <Card>
-                    <Flex rowGap={SIZE.space_md} block column wrap="wrap">
-                        <Button type="default" block>
+                    <Flex block column rowGap={SIZE.space_md} wrap="wrap">
+                        <Button block type="default">
                             默认
                         </Button>
-                        <Button type="primary" block>
+                        <Button block type="primary">
                             强调
                         </Button>
-                        <Button type="text" block>
+                        <Button block type="text">
                             文本
                         </Button>
                     </Flex>
@@ -97,7 +97,7 @@ export default function DemoButton() {
                 <Card>
                     <Flex columnGap={SIZE.space_md} rowGap={SIZE.space_md} wrap="wrap">
                         <Button icon={<Icon name="arrow-down-to-line"></Icon>}>默认</Button>
-                        <Button type="primary" icon={<Icon name="arrow-down-to-line"></Icon>}>
+                        <Button icon={<Icon name="arrow-down-to-line"></Icon>} type="primary">
                             反色
                         </Button>
                     </Flex>
@@ -106,16 +106,16 @@ export default function DemoButton() {
             <Group header="禁用">
                 <Card>
                     <Flex columnGap={SIZE.space_md} rowGap={SIZE.space_md} wrap="wrap">
-                        <Button type="default" disabled>
+                        <Button disabled type="default">
                             默认
                         </Button>
-                        <Button type="primary" disabled>
+                        <Button disabled type="primary">
                             强调
                         </Button>
-                        <Button type="text" disabled>
+                        <Button disabled type="text">
                             文本
                         </Button>
-                        <Button type="default" danger disabled>
+                        <Button danger disabled type="default">
                             危险
                         </Button>
                     </Flex>

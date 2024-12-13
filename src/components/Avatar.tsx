@@ -1,11 +1,12 @@
+import { Source } from '@d11/react-native-fast-image';
+import _ from 'lodash';
 import { ReactNode, useMemo, useState } from 'react';
 import { ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, ImageX, TextX } from './index';
-import _ from 'lodash';
-import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
+
 import useStyle from '../hooks/useStyle';
-import { Source } from '@d11/react-native-fast-image';
+import { COLOR, SIZE } from '../scripts/const';
+import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
+import { Flex, ImageX, TextX } from './index';
 
 export interface IAvatarProps {
     alt?: string; // 未加载完成时显示的文本
@@ -22,7 +23,7 @@ export interface IAvatarProps {
 }
 
 export default function Avatar(props: IAvatarProps) {
-    const { alt, shape = 'circle', source, size = 'md', style } = props;
+    const { alt, shape = 'circle', size = 'md', source, style } = props;
 
     const [loadStatus, setLoadStatus] = useState(AvatarStatusMap['加载中']);
 
@@ -34,7 +35,7 @@ export default function Avatar(props: IAvatarProps) {
         } else {
             width = height = SIZE[`avatar_size_${size}`];
         }
-        return { width, height, borderRadius: shape === 'circle' ? width : SIZE.radius_md };
+        return { borderRadius: shape === 'circle' ? width : SIZE.radius_md, height, width };
     }, [size, shape]);
 
     // 根节点样式
@@ -47,16 +48,16 @@ export default function Avatar(props: IAvatarProps) {
         <Flex alignItems="center" justifyContent="center" style={rootStyle}>
             {source ? (
                 <ImageX
-                    source={source}
-                    width={sizeStyle.width}
                     height={sizeStyle.height}
-                    radius={sizeStyle.borderRadius}
                     onError={() => setLoadStatus(AvatarStatusMap['加载失败'])}
+                    radius={sizeStyle.borderRadius}
+                    source={source}
                     style={style?.image}
+                    width={sizeStyle.width}
                 />
             ) : null}
             {(loadStatus === AvatarStatusMap['加载失败'] && alt) || props?.children ? (
-                <Flex justifyContent="center" alignItems="center">
+                <Flex alignItems="center" justifyContent="center">
                     <TextX size={_.isNumber(size) ? size : TextSizeMap[size]} style={style?.text}>
                         {props?.children || alt}
                     </TextX>

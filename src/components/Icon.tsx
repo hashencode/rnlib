@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import * as icons from 'lucide-react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { StyleProp, TextStyle } from 'react-native';
+
+import { COLOR, SIZE } from '../scripts/const';
 
 export interface IIconProps {
     color?: TextStyle['color']; // 颜色
@@ -18,11 +19,11 @@ const nameMap = Object.keys(icons).map(key => {
         .replace(/^-/, '')
         .toLowerCase();
 });
-type ArrayItem<T> = T extends (infer U)[] ? U : never;
 export type IconNames = ArrayItem<typeof nameMap>;
+type ArrayItem<T> = T extends (infer U)[] ? U : never;
 
 export default function Icon(props: IIconProps) {
-    const { fill = 'transparent', strokeWidth = 2, style = {}, size = SIZE.icon_md, color = COLOR.icon_default, name } = props;
+    const { color = COLOR.icon_default, fill = 'transparent', name, size = SIZE.icon_md, strokeWidth = 2, style = {} } = props;
 
     if (_.isNil(name)) {
         return null;
@@ -37,5 +38,5 @@ export default function Icon(props: IIconProps) {
     // @ts-ignore
     const LuIcon: any = icons[formatName];
 
-    return <LuIcon name={name} size={size} fill={fill} strokeWidth={strokeWidth} style={[{ color }, style]} />;
+    return <LuIcon fill={fill} name={name} size={size} strokeWidth={strokeWidth} style={[{ color }, style]} />;
 }

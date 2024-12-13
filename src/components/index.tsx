@@ -1,5 +1,5 @@
 export { default as ActionSheet } from './ActionSheet';
-export type { IActionSheetProps, IActionSheetOption, IActionSheetOptionValue } from './ActionSheet';
+export type { IActionSheetOption, IActionSheetOptionValue, IActionSheetProps } from './ActionSheet';
 
 export { default as Avatar } from './Avatar';
 export type { IAvatarProps } from './Avatar';
@@ -20,10 +20,10 @@ export { default as Checkbox } from './Checkbox';
 export type { ICheckboxProps, ICheckboxValue } from './Checkbox';
 
 export { default as CheckboxGroup } from './CheckboxGroup';
-export type { ICheckboxGroupProps, ICheckboxGroupValue, ICheckboxGroupOptions, ICheckboxGroupOptionValue } from './CheckboxGroup';
+export type { ICheckboxGroupOptions, ICheckboxGroupOptionValue, ICheckboxGroupProps, ICheckboxGroupValue } from './CheckboxGroup';
 
 export { default as CheckList } from './CheckList';
-export type { ICheckListProps, ICheckListOptions, ICheckListValue, ICheckListRawValue } from './CheckList';
+export type { ICheckListOptions, ICheckListProps, ICheckListRawValue, ICheckListValue } from './CheckList';
 
 export { default as DefaultLayout } from './DefaultLayout';
 export type { IDefaultLayoutProps } from './DefaultLayout';
@@ -71,7 +71,7 @@ export { default as Overlay } from './Overlay';
 export type { IOverlayProps } from './Overlay';
 
 export { default as Picker } from './Picker';
-export type { IPickerProps, IPickerOption, IPickerValue, IPickerRawValue } from './Picker';
+export type { IPickerOption, IPickerProps, IPickerRawValue, IPickerValue } from './Picker';
 
 export { default as PressHighlight } from './PressHighlight';
 export type { IPressHighlightProps } from './PressHighlight';
@@ -80,25 +80,25 @@ export { default as Radio } from './Radio';
 export type { IRadioProps } from './Radio';
 
 export { default as RadioGroup } from './RadioGroup';
-export type { IRadioGroupProps, IRadioGroupOptions, IRadioGroupOptionValue } from './RadioGroup';
+export type { IRadioGroupOptions, IRadioGroupOptionValue, IRadioGroupProps } from './RadioGroup';
 
 export { default as Result } from './Result';
 export type { IResultProps } from './Result';
 
 export { default as Selector } from './Selector';
-export type { ISelectorProps, ISelectorOption, ISelectorValue, ISelectorRawValue } from './Selector';
+export type { ISelectorOption, ISelectorProps, ISelectorRawValue, ISelectorValue } from './Selector';
 
 export { default as Slider } from './Slider';
 export type { ISliderProps } from './Slider';
 
 export { default as SwipeableRow } from './SwipeableRow';
-export type { ISwipeableRowProps, ISwipeableRowActionItem } from './SwipeableRow';
+export type { ISwipeableRowActionItem, ISwipeableRowProps } from './SwipeableRow';
 
 export { default as Switch } from './Switch';
 export type { ISwitchProps } from './Switch';
 
 export { default as Tabs } from './Tabs';
-export type { ITabsProps, ITabsItem, ITabsItemValue } from './Tabs';
+export type { ITabsItem, ITabsItemValue, ITabsProps } from './Tabs';
 
 export { default as Tag } from './Tag';
 export type { ITagProps } from './Tag';

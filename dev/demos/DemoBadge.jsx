@@ -1,4 +1,4 @@
-import { DefaultLayout, Flex, Group, Badge, Card } from '../../src/components';
+import { Badge, Card, DefaultLayout, Flex, Group } from '../../src/components';
 import { SIZE } from '../../src/scripts/const';
 
 export default function DemoBadge() {
@@ -6,7 +6,7 @@ export default function DemoBadge() {
         <DefaultLayout head="徽标数 Badge">
             <Group header="基本">
                 <Card>
-                    <Flex columnGap={SIZE.space_md} wrap="wrap" first>
+                    <Flex columnGap={SIZE.space_md} first wrap="wrap">
                         <Badge>新</Badge>
                         <Badge>1</Badge>
                         <Badge>99</Badge>
