@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle 
 import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
-import Animated, { FadeIn, FadeOut, runOnJS } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutUp, runOnJS } from 'react-native-reanimated';
 
 export interface IMessageProps {
     afterClose?: () => void; // 关闭回调函数
@@ -59,8 +59,8 @@ export default function Message(props: IMessageProps) {
         <View style={styles.container}>
             {visible ? (
                 <Animated.View
-                    entering={FadeIn}
-                    exiting={FadeOut.withCallback(finished => {
+                    entering={FadeInUp}
+                    exiting={FadeOutUp.withCallback(finished => {
                         if (finished) {
                             runOnJS(handleAfterClose)();
                         }

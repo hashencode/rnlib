@@ -2,7 +2,6 @@ import { useBackHandler } from '@react-native-community/hooks';
 import { ReactNode, useEffect } from 'react';
 import { Keyboard, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
 import { Portal } from 'react-native-portalize';
-import Animated, { FadeIn, FadeOut, runOnJS } from 'react-native-reanimated';
 import { useStyle } from '../hooks';
 import { COLOR } from '../scripts/const';
 import { useUpdateEffect } from 'ahooks';
@@ -52,20 +51,14 @@ function Overlay(props: IOverlayProps) {
         extraStyle: [style?.content, { height, width }],
     });
 
+    if (!visible) {
+        return null;
+    }
+
     return (
         <Portal>
-            {visible ? (
-                <Animated.View
-                    entering={FadeIn}
-                    exiting={FadeOut.withCallback(finished => {
-                        if (finished && afterDestroy) {
-                            runOnJS(afterDestroy)();
-                        }
-                    })}>
-                    <Pressable onPress={() => onPress?.()} style={[styles.overlay, { backgroundColor }]} />
-                    <View style={contentStyle}>{props.children}</View>
-                </Animated.View>
-            ) : null}
+            <Pressable onPress={() => onPress?.()} style={[styles.overlay, { backgroundColor }]} />
+            <View style={contentStyle}>{props.children}</View>
         </Portal>
     );
 }

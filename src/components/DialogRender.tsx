@@ -4,7 +4,6 @@ import { EMITTER_MAP } from '../scripts/enum';
 import _ from 'lodash';
 import { randomId } from '../scripts/utils';
 import { useState } from 'react';
-import { View } from 'react-native';
 
 export interface IDialogQueueItem extends Omit<IDialogProps, 'id'> {
     id: string;
@@ -43,7 +42,7 @@ export default function DialogRender() {
     });
 
     return (
-        <View>
+        <>
             {dialogQueue?.map(queueItem => {
                 const { id: queueId, afterClose, visible, ...rest } = queueItem;
                 return (
@@ -58,6 +57,6 @@ export default function DialogRender() {
                     />
                 );
             })}
-        </View>
+        </>
     );
 }
