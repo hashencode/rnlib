@@ -23,7 +23,7 @@ export default function ToastRender() {
             config.id = randomId();
         }
         if (!toastQueue.find(item => item.id === config.id)) {
-            setToastQueue([...toastQueue, config as IToastQueueItem]);
+            setToastQueue(prev => [...prev, config as IToastQueueItem]);
         }
     });
 

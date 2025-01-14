@@ -22,7 +22,7 @@ export default function DialogRender() {
         }
         config.visible = true;
         if (!dialogQueue.find(item => item.id === config.id)) {
-            setDialogQueue([...dialogQueue, config as IDialogQueueItem]);
+            setDialogQueue(prev => [...prev, config as IDialogQueueItem]);
         }
     });
 

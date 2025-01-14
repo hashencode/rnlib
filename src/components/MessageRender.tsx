@@ -24,7 +24,7 @@ export default function MessageRender() {
             config.id = randomId();
         }
         if (!toastQueue.find(item => item.id === config.id)) {
-            setMessageQueue([...toastQueue, config as IMessageQueueItem]);
+            setMessageQueue(prev => [...prev, config as IMessageQueueItem]);
         }
     });
 
