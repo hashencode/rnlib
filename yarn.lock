@@ -1638,13 +1638,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@d11/react-native-fast-image@npm:^8.9.0":
-  version: 8.9.0
-  resolution: "@d11/react-native-fast-image@npm:8.9.0"
+"@d11/react-native-fast-image@npm:^8.9.2":
+  version: 8.9.2
+  resolution: "@d11/react-native-fast-image@npm:8.9.2"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 39274a7c92359bbb447fc2e890ef7c50fd59b34ba17bc57562421fc4d633edd905d946b79b8021f3bbe2d9c730ab89993f2d8bc1ba3ff688cdf638fc681db9e8
+  checksum: 535e018df2affddd3bcb354949f60b5f42d1b303354e2e2d7667cbc63319a4fc82cceeca0308200601790f34b47cc84d89da420866aa10349f03508ac9671349
   languageName: node
   linkType: hard
 
@@ -1734,7 +1734,7 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
-    "@d11/react-native-fast-image": ^8.9.0
+    "@d11/react-native-fast-image": ^8.9.2
     "@gorhom/portal": ^1.0.14
     "@react-native-community/hooks": ^3.0.0
     "@react-native/babel-preset": 0.75.4

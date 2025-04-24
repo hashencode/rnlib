@@ -1,6 +1,6 @@
 {
   "name": "@hashencode/rnlib",
-  "version": "0.1.94",
+  "version": "0.1.96",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -11,7 +11,7 @@
     "prepare": "bob build"
   },
   "dependencies": {
-    "@d11/react-native-fast-image": "^8.9.0",
+    "@d11/react-native-fast-image": "^8.9.2",
     "@gorhom/portal": "^1.0.14",
     "@react-native-community/hooks": "^3.0.0",
     "@react-navigation/bottom-tabs": "^6.6.1",
