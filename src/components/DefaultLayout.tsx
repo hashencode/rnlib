@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isString } from 'lodash';
 import { ReactNode } from 'react';
 import { ScrollView, ScrollViewProps, StatusBar, StatusBarProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaView, SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -48,7 +48,7 @@ export default function DefaultLayout(props: IDefaultLayoutProps) {
             <StatusBar hidden={theme.statusBar.hidden} {...statusBarConfig} />
             <View style={[styles.body, style?.body]}>
                 {/*头部*/}
-                {_.isString(head) ? <Head title={head} /> : head}
+                {isString(head) ? <Head title={head} /> : head}
                 {/*主体内容*/}
                 {defaultScroll ? (
                     // 自带滑动区域

@@ -2,7 +2,7 @@ import { ReactNode, useMemo, useState } from 'react';
 import { ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, ImageX, TextX } from './index';
-import _ from 'lodash';
+import { isNumber } from 'lodash';
 import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
 import useStyle from '../hooks/useStyle';
 import { Source } from '@d11/react-native-fast-image';
@@ -29,7 +29,7 @@ export default function Avatar(props: IAvatarProps) {
     const sizeStyle = useMemo(() => {
         let width = 0;
         let height = 0;
-        if (_.isNumber(size)) {
+        if (isNumber(size)) {
             width = height = size;
         } else {
             width = height = SIZE[`avatar_size_${size}`];
@@ -57,7 +57,7 @@ export default function Avatar(props: IAvatarProps) {
             ) : null}
             {(loadStatus === AvatarStatusMap['加载失败'] && alt) || props?.children ? (
                 <Flex justifyContent="center" alignItems="center">
-                    <TextX size={_.isNumber(size) ? size : TextSizeMap[size]} style={style?.text}>
+                    <TextX size={isNumber(size) ? size : TextSizeMap[size]} style={style?.text}>
                         {props?.children || alt}
                     </TextX>
                 </Flex>

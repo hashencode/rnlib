@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
-import _ from 'lodash';
+import { merge } from 'lodash';
 import { ms } from 'react-native-size-matters';
 
 export function isAndroid() {
@@ -21,7 +21,7 @@ export function randomId() {
 // 克隆节点，设置部分默认属性
 export function mergeElement(element?: ReactElement, defaultProps?: {}): ReactElement | null {
     if (isValidElement(element) && defaultProps) {
-        return cloneElement(element, _.merge({}, defaultProps, element.props));
+        return cloneElement(element, merge({}, defaultProps, element.props));
     } else if (element) {
         return element;
     }

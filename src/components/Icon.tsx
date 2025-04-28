@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isNil, upperFirst } from 'lodash';
 import * as icons from 'lucide-react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { StyleProp, TextStyle } from 'react-native';
@@ -24,12 +24,12 @@ export type IconNames = ArrayItem<typeof nameMap>;
 export default function Icon(props: IIconProps) {
     const { fill = 'transparent', strokeWidth = 2, style = {}, size = SIZE.icon_md, color = COLOR.icon_default, name } = props;
 
-    if (_.isNil(name)) {
+    if (isNil(name)) {
         return null;
     }
     const formatName = name
         .split('-')
-        .map(item => _.upperFirst(item))
+        .map(item => upperFirst(item))
         .join('');
     if (!(formatName in icons)) {
         return null;

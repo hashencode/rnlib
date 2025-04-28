@@ -50,7 +50,7 @@ export default function Checkbox(props: ICheckboxProps) {
         }
         // 如果存在自定义样式
         if (style?.iconContainer) {
-            styleArray.push(style?.iconContainer);
+            styleArray.push(style?.iconContainer as StyleProps);
         }
         return StyleSheet.flatten(styleArray);
     }, [disabled, innerValue, indeterminate, style?.iconContainer]);

@@ -1,7 +1,7 @@
 import { ForwardedRef, forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import _ from 'lodash';
+import { isArray } from 'lodash';
 import { useMergedState } from '../hooks';
 import Button, { IButtonProps } from './Button';
 import { Flex, Grabber, Icon, PressHighlight, TextX } from './index';
@@ -110,7 +110,7 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
     // 处理选项点击
     const handleOptionPress = (val: IPickerRawValue) => {
         if (multiple) {
-            if (_.isArray(valueCache)) {
+            if (isArray(valueCache)) {
                 const newValue = valueCache?.includes(val) ? valueCache.filter(item => item !== val) : [...valueCache, val];
                 setValueCache(newValue);
             } else {

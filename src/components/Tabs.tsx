@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { LayoutChangeEvent, ScrollView, ScrollViewProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import _ from 'lodash';
+import { isNil, isUndefined } from 'lodash';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Flex, PressHighlight, TextX } from './index';
 import { useMergedState } from '../hooks';
@@ -98,12 +98,12 @@ export default function Tabs(props: ITabsProps) {
     };
 
     useEffect(() => {
-        if (!_.isUndefined(innerValue) && isLayoutEnd) {
+        if (!isUndefined(innerValue) && isLayoutEnd) {
             // width
             let underlineWidth = 0;
             const parentRectsValue = parentRects.current;
             const childRectsValue = childRects.current;
-            if (!_.isNil(innerValue) && innerValue in parentRectsValue && innerValue in childRectsValue) {
+            if (!isNil(innerValue) && innerValue in parentRectsValue && innerValue in childRectsValue) {
                 const { width, x } = parentRectsValue[innerValue];
                 const { width: childWidth } = childRectsValue[innerValue];
                 underlineX.current = x + (width - childWidth) / 2;

@@ -2,7 +2,7 @@ import { IToastProps, Toast } from './index';
 import { useState } from 'react';
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
-import _ from 'lodash';
+import { isNil } from 'lodash';
 import { randomId } from '../scripts/utils';
 
 export interface IToastQueueItem extends Omit<IToastProps, 'id'> {
@@ -19,7 +19,7 @@ export default function ToastRender() {
     };
 
     useEventEmitter(EMITTER_MAP['打开提示'], (config: IToastProps) => {
-        if (_.isNil(config.id)) {
+        if (isNil(config.id)) {
             config.id = randomId();
         }
         if (!toastQueue.find(item => item.id === config.id)) {

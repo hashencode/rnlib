@@ -2,7 +2,7 @@ import { Fragment, Key, ReactElement, ReactNode, useMemo } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
-import _ from 'lodash';
+import { isArray } from 'lodash';
 import { Icon, ListItem } from './index';
 import { mergeElement } from '../scripts/utils';
 import useStyle from '../hooks/useStyle';
@@ -69,7 +69,7 @@ export default function CheckList(props: ICheckListProps) {
     // 处理列表项点击
     const handleListItemPress = (itemValue: ICheckListRawValue) => {
         if (multiple) {
-            if (_.isArray(innerValue)) {
+            if (isArray(innerValue)) {
                 if (innerValue.includes(itemValue as ICheckListRawValue)) {
                     handleChange(innerValue.filter(item => item !== itemValue));
                 } else {
@@ -87,7 +87,7 @@ export default function CheckList(props: ICheckListProps) {
             size: SIZE.icon_xs,
             color: COLOR.primary,
         });
-        if (multiple && _.isArray(innerValue) && innerValue.includes(itemValue as ICheckListRawValue)) {
+        if (multiple && isArray(innerValue) && innerValue.includes(itemValue as ICheckListRawValue)) {
             return iconEl;
         } else if (innerValue === itemValue) {
             return iconEl;

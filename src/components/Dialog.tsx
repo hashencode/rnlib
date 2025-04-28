@@ -1,6 +1,6 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import _ from 'lodash';
+import { isArray } from 'lodash';
 import { Button, Flex, Overlay, TextX } from './index';
 import { Fragment, ReactNode } from 'react';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -47,7 +47,7 @@ export default function Dialog(props: IDialogProps) {
 
     // 渲染按钮
     const renderButtons = () => {
-        if (!_.isArray(buttons) || buttons.length <= 0) {
+        if (!isArray(buttons) || buttons.length <= 0) {
             return null;
         }
 
@@ -79,7 +79,7 @@ export default function Dialog(props: IDialogProps) {
 
     // 渲染动作
     const renderActions = () => {
-        if (!_.isArray(actions) || actions.length <= 0) {
+        if (!isArray(actions) || actions.length <= 0) {
             return null;
         }
 

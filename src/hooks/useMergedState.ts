@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import _ from 'lodash';
+import { isUndefined } from 'lodash';
 import { useUpdateEffect } from 'ahooks';
 
 export default function useMergedState<T>(
@@ -9,9 +9,9 @@ export default function useMergedState<T>(
     const { defaultValue, value, onChange } = options || {};
 
     const [innerValue, setInnerValue] = useState(() => {
-        if (!_.isUndefined(value)) {
+        if (!isUndefined(value)) {
             return value;
-        } else if (!_.isUndefined(defaultValue)) {
+        } else if (!isUndefined(defaultValue)) {
             return defaultValue;
         } else {
             return defaultStateValue;
@@ -19,14 +19,14 @@ export default function useMergedState<T>(
     });
 
     useUpdateEffect(() => {
-        if (!_.isUndefined(value)) {
+        if (!isUndefined(value)) {
             setInnerValue(value);
         }
     }, [value]);
 
     // 处理值的变动
     const handleChange = (newValue: T) => {
-        if (_.isUndefined(value)) {
+        if (isUndefined(value)) {
             setInnerValue(newValue);
         }
         onChange?.(newValue);

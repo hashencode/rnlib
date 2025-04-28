@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isNil } from 'lodash';
 import { useState } from 'react';
 
 import useEventEmitter from '../hooks/useEventEmitter';
@@ -20,7 +20,7 @@ export default function MessageRender() {
     };
 
     useEventEmitter(EMITTER_MAP['打开消息'], (config: IMessageProps) => {
-        if (_.isNil(config.id)) {
+        if (isNil(config.id)) {
             config.id = randomId();
         }
         if (!toastQueue.find(item => item.id === config.id)) {

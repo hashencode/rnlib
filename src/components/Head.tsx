@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Flex, Icon, TextX } from './index';
 import useStyle from '../hooks/useStyle';
 import { ReactNode } from 'react';
-import _ from 'lodash';
+import { throttle } from 'lodash';
 
 export interface IHeadProps {
     backIcon?: ReactNode; // 返回按钮图标
@@ -43,7 +43,7 @@ function Head(props: IHeadProps) {
         extraStyle: [style?.body],
     });
 
-    const handleGoBack = _.throttle(() => {
+    const handleGoBack = throttle(() => {
         if (onBack) {
             onBack();
         } else {

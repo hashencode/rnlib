@@ -5,7 +5,7 @@ import { Portal } from '@gorhom/portal';
 import { useAppState, useBackHandler } from '@react-native-community/hooks';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useUpdateEffect } from 'ahooks';
-import _ from 'lodash';
+import { debounce, isNumber, isUndefined } from 'lodash';
 import { forwardRef, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { LinearGradient } from 'react-native-linear-gradient';
@@ -101,11 +101,11 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     const localRef = useRef<VideoRef>(null);
     const videoRef = mergeRefs([ref, localRef]);
-    const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(); // 上次观看进度隐藏定时
+    const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(null); // 上次观看进度隐藏定时
 
     const innerPlugins = useMemo(() => {
         let defaultPlugins: pluginItem[] = ['back', 'rate', 'play', 'time', 'fullscreen', 'progressBar'];
-        if (_.isUndefined(plugins)) {
+        if (isUndefined(plugins)) {
             if (ignorePlugins) {
                 return defaultPlugins.filter(item => !ignorePlugins.includes(item));
             }
@@ -116,9 +116,9 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     }, [plugins, ignorePlugins]);
 
     useEffect(() => {
-        if (_.isNumber(prevTime) && prevTime > 5) {
+        if (isNumber(prevTime) && prevTime > 5) {
             setInnerPrevTime(prevTime - 2);
-        } else if (duration > 0 && _.isNumber(prevProgress) && prevProgress > 0) {
+        } else if (duration > 0 && isNumber(prevProgress) && prevProgress > 0) {
             const seconds = prevProgress * duration;
             if (seconds > 5) {
                 setInnerPrevTime(prevProgress * duration - 2);
@@ -263,7 +263,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     };
 
     // 处理滑动条结束滑动
-    const handleSlidingComplete = _.debounce((value: number) => {
+    const handleSlidingComplete = debounce((value: number) => {
         if (duration) {
             videoSeek(value);
             setCurrentTime(value);
@@ -351,7 +351,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     };
 
     // 处理播放结束
-    const handleEnd = _.debounce(() => {
+    const handleEnd = debounce(() => {
         setIsPaused(true);
         onEnd?.();
     }, 1000);

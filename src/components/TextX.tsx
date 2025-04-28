@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { isNil } from 'lodash';
 import { COLOR, SIZE } from '../scripts/const';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -26,7 +26,7 @@ export default function TextX(props: ITextXProps) {
         extraStyle: [style],
     });
 
-    if (_.isNil(children)) {
+    if (isNil(children)) {
         return null;
     }
 

@@ -23,7 +23,7 @@ export default function Toast(props: IToastProps) {
     const { afterClose, content, duration = 1200, style } = props;
 
     const [visible, setVisible] = useState(true);
-    const timer = useRef<NodeJS.Timeout | null>();
+    const timer = useRef<NodeJS.Timeout | null>(null);
 
     // 关闭回调
     useEffect(() => {

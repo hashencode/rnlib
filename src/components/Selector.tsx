@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import _ from 'lodash';
+import { isArray } from 'lodash';
 import { useMergedState } from '../hooks';
 import { Flex, Icon, PressHighlight, TextX } from './index';
 import useStyle from '../hooks/useStyle';
@@ -71,7 +71,7 @@ export default function Selector(props: ISelectorProps) {
     // 处理选项点击
     const handleOptionPress = (val: ISelectorRawValue) => {
         if (multiple) {
-            if (_.isArray(valueCache)) {
+            if (isArray(valueCache)) {
                 const newValue = valueCache?.includes(val) ? valueCache.filter(item => item !== val) : [...valueCache, val];
                 setValueCache(newValue);
             } else {

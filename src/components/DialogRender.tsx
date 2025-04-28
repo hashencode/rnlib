@@ -1,7 +1,7 @@
 import Dialog, { IDialogProps } from './Dialog';
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
-import _ from 'lodash';
+import { isNil } from 'lodash';
 import { randomId } from '../scripts/utils';
 import { useState } from 'react';
 
@@ -17,7 +17,7 @@ export default function DialogRender() {
     };
 
     useEventEmitter(EMITTER_MAP['打开对话框'], (config: IDialogProps) => {
-        if (_.isNil(config.id)) {
+        if (isNil(config.id)) {
             config.id = randomId();
         }
         config.visible = true;
