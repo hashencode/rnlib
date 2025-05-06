@@ -105,6 +105,7 @@ export default function Tabs(props: ITabsProps) {
             const childRectsValue = childRects.current;
             if (!isNil(innerValue) && innerValue in parentRectsValue && innerValue in childRectsValue) {
                 const { width, x } = parentRectsValue[innerValue];
+
                 const { width: childWidth } = childRectsValue[innerValue];
                 underlineX.current = x + (width - childWidth) / 2;
                 underlineWidth = childWidth;
@@ -235,6 +236,7 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.border_default,
         bottom: 0,
         height: SIZE.border_bold,
+        left: 0,
         position: 'absolute',
     },
     hidden: {
