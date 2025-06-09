@@ -1,4 +1,4 @@
-import { DimensionValue, Image, ImageStyle, LayoutChangeEvent, StyleProp } from 'react-native';
+import { DimensionValue, Image, ImageStyle, LayoutChangeEvent, StyleProp, View } from 'react-native';
 import { useState } from 'react';
 import { isUndefined } from 'lodash';
 import FastImage, { FastImageProps, Source } from '@d11/react-native-fast-image';
@@ -24,13 +24,18 @@ export default function ImageX(props: IImageXProps) {
         const imageHeight = event.nativeEvent.layout.height;
         onLayout?.(event);
 
-        if (isUndefined(height) && imageWidth && (source as Source)?.uri) {
-            Image.getSize((source as Source)?.uri as string, (_width, _height) => {
-                const aspectRatio = _height / _width;
-                if (isUndefined(innerHeight)) {
-                    setInnerHeight(imageWidth * aspectRatio);
-                }
-            });
+        if (isUndefined(height) && imageWidth) {
+            // 本地图片无法使用getSize来获取图片的尺寸
+            if ((source as Source)?.uri) {
+                Image.getSize((source as Source)?.uri as string, (_width, _height) => {
+                    const aspectRatio = _height / _width;
+                    if (isUndefined(innerHeight)) {
+                        setInnerHeight(imageWidth * aspectRatio);
+                    }
+                });
+            } else {
+                setInnerHeight(imageHeight);
+            }
         }
 
         if (isUndefined(width) && imageHeight && (source as Source)?.uri) {
@@ -42,6 +47,21 @@ export default function ImageX(props: IImageXProps) {
             });
         }
     };
+
+    // 如果是本地图片且需要自适应
+    if (!(source as Source)?.uri && (isUndefined(width) || isUndefined(height))) {
+        return (
+            <View style={{ width: '100%', height: '100%' }} onLayout={handleLayout}>
+                <Image
+                    source={source as any}
+                    onError={onError}
+                    resizeMode={FastImage.resizeMode.stretch}
+                    {...rest}
+                    style={[{ width: innerWidth || 1, height: innerHeight || 1, borderRadius: radius }, style]}
+                />
+            </View>
+        );
+    }
 
     return (
         <FastImage
