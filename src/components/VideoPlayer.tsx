@@ -301,6 +301,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 处理数据加载
     const handleError = (error: OnVideoErrorData) => {
+        console.error(error);
         setIsLoading(false);
         setErrorMsg(JSON.stringify(error.error));
         onError?.(error);
