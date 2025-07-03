@@ -1,4 +1,4 @@
-import { ImageStyle, StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { GestureResponderEvent, ImageStyle, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { mergeElement } from '../scripts/utils';
 import useStyle from '../hooks/useStyle';
@@ -31,7 +31,9 @@ export interface IListItemProps extends PropsWithChildren {
         title?: StyleProp<TextStyle>; // 内容标题样式
     }; // 样式
 
-    onPress?: () => void; // 点击事件回调
+    onPress?: (ev?: GestureResponderEvent) => void; // 点击事件回调
+    onLongPress?: (ev?: GestureResponderEvent) => void; // 长按时间回调
+    delayLongPress?:number; // 自定义长按延迟
 }
 
 export default function ListItem(props: IListItemProps) {
@@ -49,6 +51,8 @@ export default function ListItem(props: IListItemProps) {
         showArrow,
         children,
         onPress,
+        onLongPress,
+        delayLongPress=500
     } = props;
 
     // 根节点样式
@@ -134,9 +138,9 @@ export default function ListItem(props: IListItemProps) {
             itemElement
         );
 
-    if (onPress) {
+    if (onPress || onLongPress) {
         return (
-            <PressHighlight disabled={disabled} onPress={onPress}>
+            <PressHighlight disabled={disabled} onPress={onPress} onLongPress={onLongPress} delayLongPress={delayLongPress}>
                 {content}
             </PressHighlight>
         );

@@ -38,7 +38,7 @@ const defaultProps: Partial<TextInputProps> = {
     autoComplete: 'off',
     autoCorrect: false,
     cursorColor: COLOR.primary,
-    maxLength: 100,
+    maxLength: 200,
     placeholderTextColor: COLOR.text_placeholder,
 };
 

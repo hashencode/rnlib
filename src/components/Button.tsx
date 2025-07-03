@@ -25,10 +25,12 @@ export interface IButtonProps extends PropsWithChildren {
     }; // 样式
 
     onPress?: (ev?: GestureResponderEvent) => void; // 点击事件回调
+    onLongPress?: (ev?: GestureResponderEvent) => void; // 长按时间回调
+    delayLongPress?:number; // 自定义长按延迟
 }
 
 export default function Button(props: IButtonProps) {
-    const { round, type = 'default', size = 'md', ghost, danger, block, disabled, icon, children, style, onPress } = props;
+    const { round, type = 'default', size = 'md', ghost, danger, block, disabled, icon, children, style, onPress, onLongPress, delayLongPress = 500 } = props;
     const isPrimary = type === 'primary';
     const borderRadius = round ? SIZE[`button_height_${size}`] / 2 : SIZE.radius_md; // 按钮圆角
 
@@ -105,7 +107,7 @@ export default function Button(props: IButtonProps) {
     };
 
     return (
-        <PressHighlight disabled={disabled} underlayColor={underlayStyle} onPress={onPress} style={rootStyle}>
+        <PressHighlight disabled={disabled} underlayColor={underlayStyle} onPress={onPress} onLongPress={onLongPress} delayLongPress={delayLongPress} style={rootStyle}>
             {renderButton()}
         </PressHighlight>
     );
