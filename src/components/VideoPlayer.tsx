@@ -5,7 +5,7 @@ import { Portal } from '@gorhom/portal';
 import { useAppState, useBackHandler } from '@react-native-community/hooks';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useUpdateEffect } from 'ahooks';
-import { debounce, isNumber, isUndefined } from 'lodash';
+import { debounce, isNumber, isUndefined, throttle } from 'lodash';
 import { forwardRef, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { LinearGradient } from 'react-native-linear-gradient';
@@ -352,10 +352,10 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     };
 
     // 处理播放结束
-    const handleEnd = debounce(() => {
+    const handleEnd = throttle(() => {
         setIsPaused(true);
         onEnd?.();
-    }, 1000);
+    }, 2000, { trailing: false });
 
     // 返回按钮
     const backButtonEl =
