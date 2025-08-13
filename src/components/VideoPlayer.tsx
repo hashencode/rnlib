@@ -12,7 +12,13 @@ import { LinearGradient } from 'react-native-linear-gradient';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScaledSheet } from 'react-native-size-matters';
-import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
+import Video, {
+    OnLoadStartData,
+    OnPlaybackStateChangedData,
+    OnProgressData,
+    OnVideoErrorData,
+    VideoRef,
+} from 'react-native-video';
 import { OnLoadData } from 'react-native-video/src/types/events';
 
 import { useStyle, useTheme } from '../hooks';
@@ -615,26 +621,24 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
             <View style={isFullscreen ? fullscreenStyle : defaultStyle}>
                 <Pressable onPress={() => setShowControls(true)} style={rootStyle}>
                     {controlsEl()}
-
                     {showPoster && poster ? <ImageX resizeMode="cover" source={poster} style={styles.poster} /> : null}
-
-                    <Video
-                        onEnd={handleEnd}
-                        onError={handleError}
-                        onLoad={handleLoad}
-                        onLoadStart={handleLoadStart}
-                        onPlaybackStateChanged={handlePlaybackStateChanged}
-                        onProgress={handleProgress}
-                        onSeek={handleSeek}
-                        paused={isPaused}
-                        rate={+currentRate}
-                        ref={videoRef}
-                        resizeMode="contain"
-                        source={source}
-                        style={{ height: '100%' }}
-                        {...rest}
-                    />
                 </Pressable>
+                <Video
+                    onEnd={handleEnd}
+                    onError={handleError}
+                    onLoad={handleLoad}
+                    onLoadStart={handleLoadStart}
+                    onPlaybackStateChanged={handlePlaybackStateChanged}
+                    onProgress={handleProgress}
+                    onSeek={handleSeek}
+                    paused={isPaused}
+                    rate={+currentRate}
+                    ref={videoRef}
+                    resizeMode="contain"
+                    source={source}
+                    style={styles.player}
+                    {...rest}
+                />
             </View>
         </Portal>
     );
@@ -716,8 +720,12 @@ const styles = ScaledSheet.create({
         marginRight: SIZE.space_md,
     },
     player: {
+        width: '100%',
         height: '100%',
         zIndex: 10,
+        position: 'absolute',
+        left: 0,
+        top: 0,
     },
     poster: {
         height: '100%',
@@ -733,10 +741,10 @@ const styles = ScaledSheet.create({
         padding: SIZE.space_md,
     },
     root: {
-        backgroundColor: COLOR.black,
         flexShrink: 0,
         position: 'relative',
         transformOrigin: 'center',
+        zIndex: 40,
     },
     safeArea: {
         backgroundColor: COLOR.black,
