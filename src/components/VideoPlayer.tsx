@@ -6,19 +6,13 @@ import { useAppState, useBackHandler } from '@react-native-community/hooks';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useUpdateEffect } from 'ahooks';
 import { debounce, isNumber, isUndefined, throttle } from 'lodash';
-import { forwardRef, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { forwardRef, Fragment, ReactNode, Ref, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { LinearGradient } from 'react-native-linear-gradient';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScaledSheet } from 'react-native-size-matters';
-import Video, {
-    OnLoadStartData,
-    OnPlaybackStateChangedData,
-    OnProgressData,
-    OnVideoErrorData,
-    VideoRef,
-} from 'react-native-video';
+import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
 import { OnLoadData } from 'react-native-video/src/types/events';
 
 import { useStyle, useTheme } from '../hooks';
@@ -358,10 +352,18 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     };
 
     // 处理播放结束
-    const handleEnd = throttle(() => {
-        setIsPaused(true);
-        onEnd?.();
-    }, 2000, { trailing: false });
+    const handleEnd = useCallback(
+        throttle(
+            () => {
+                setIsPaused(true);
+                onEnd?.();
+                console.info('@log', 123);
+            },
+            2000,
+            { trailing: false },
+        ),
+        [setIsPaused, onEnd],
+    );
 
     // 返回按钮
     const backButtonEl =

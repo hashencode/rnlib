@@ -3,7 +3,7 @@ import { COLOR, SIZE } from '../scripts/const';
 import { useNavigation } from '@react-navigation/native';
 import { Flex, Icon, TextX } from './index';
 import useStyle from '../hooks/useStyle';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 import { throttle } from 'lodash';
 
 export interface IHeadProps {
@@ -43,13 +43,20 @@ function Head(props: IHeadProps) {
         extraStyle: [style?.body],
     });
 
-    const handleGoBack = throttle(() => {
-        if (onBack) {
-            onBack();
-        } else {
-            navigation.goBack();
-        }
-    }, 500);
+    const handleGoBack = useCallback(
+        throttle(
+            () => {
+                if (onBack) {
+                    onBack();
+                } else {
+                    navigation.goBack();
+                }
+            },
+            500,
+            { trailing: false },
+        ),
+        [onBack, navigation],
+    );
 
     return (
         <Flex justifyContent="space-between" alignItems="center" block style={rootStyle}>
