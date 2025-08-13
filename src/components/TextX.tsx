@@ -1,4 +1,4 @@
-import _, { isNil } from 'lodash';
+import { isNil } from 'lodash';
 import { COLOR, SIZE } from '../scripts/const';
 import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -35,7 +35,7 @@ export default function TextX(props: ITextXProps) {
     }
 
     return (
-        <Text style={rootStyle} {...rest}>
+        <Text style={rootStyle} allowFontScaling={false} {...rest}>
             {children}
         </Text>
     );
