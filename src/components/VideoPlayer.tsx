@@ -625,22 +625,25 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                     {controlsEl()}
                     {showPoster && poster ? <ImageX resizeMode="cover" source={poster} style={styles.poster} /> : null}
                 </Pressable>
-                <Video
-                    onEnd={handleEnd}
-                    onError={handleError}
-                    onLoad={handleLoad}
-                    onLoadStart={handleLoadStart}
-                    onPlaybackStateChanged={handlePlaybackStateChanged}
-                    onProgress={handleProgress}
-                    onSeek={handleSeek}
-                    paused={isPaused}
-                    rate={+currentRate}
-                    ref={videoRef}
-                    resizeMode="contain"
-                    source={source}
-                    style={styles.player}
-                    {...rest}
-                />
+                <Flex justifyContent="center" style={[styles.playerContainer]}>
+                    <Video
+                        onEnd={handleEnd}
+                        onError={handleError}
+                        onLoad={handleLoad}
+                        onLoadStart={handleLoadStart}
+                        onPlaybackStateChanged={handlePlaybackStateChanged}
+                        onProgress={handleProgress}
+                        onSeek={handleSeek}
+                        paused={isPaused}
+                        rate={+currentRate}
+                        ref={videoRef}
+                        resizeMode="contain"
+                        source={source}
+                        style={styles.player}
+                        {...rest}
+                    />
+                </Flex>
+
             </View>
         </Portal>
     );
@@ -721,13 +724,17 @@ const styles = ScaledSheet.create({
     playBtn: {
         marginRight: SIZE.space_md,
     },
-    player: {
-        width: '100%',
-        height: '100%',
+    playerContainer: {
         zIndex: 10,
         position: 'absolute',
         left: 0,
         top: 0,
+        bottom: 0,
+        right: 0,
+    },
+    player: {
+        width: '100%',
+        height: '100%',
     },
     poster: {
         height: '100%',
