@@ -1,7 +1,6 @@
 import { useBackHandler } from '@react-native-community/hooks';
 import { ReactNode, useEffect } from 'react';
-import { Keyboard, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
-import { Portal } from 'react-native-portalize';
+import { Keyboard, Modal, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
 import { useStyle } from '../hooks';
 import { COLOR } from '../scripts/const';
 import { useUpdateEffect } from 'ahooks';
@@ -51,15 +50,11 @@ function Overlay(props: IOverlayProps) {
         extraStyle: [style?.content, { height, width }],
     });
 
-    if (!visible) {
-        return null;
-    }
-
     return (
-        <Portal>
+        <Modal transparent animationType="fade" visible={visible}>
             <Pressable onPress={() => onPress?.()} style={[styles.overlay, { backgroundColor }]} />
             <View style={contentStyle}>{props.children}</View>
-        </Portal>
+        </Modal>
     );
 }
 
