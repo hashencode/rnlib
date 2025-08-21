@@ -15,11 +15,12 @@ type Context = {
     };
     showStatusBar: () => void;
     hideStatusBar: () => void;
+    changeLanguage: (lang: string) => void;
 };
 
 export interface IThemeProviderProps extends PropsWithChildren {
-    theme: { statusBar: { hidden: boolean } };
-    local: 'zh-CN' | 'en-US' | 'ru-RU';
+    theme?: { statusBar: { hidden: boolean } };
+    local?: 'zh-CN' | 'en-US' | 'ru-RU';
 }
 
 const defaultTheme = {
@@ -58,7 +59,9 @@ export default function ThemeProvider(props: IThemeProviderProps) {
     }, [theme, showStatusBar, hideStatusBar, changeLanguage]);
 
     useEffect(() => {
-        changeLanguage(local);
+        if (local) {
+            changeLanguage(local);
+        }
     }, [local]);
 
     return (
