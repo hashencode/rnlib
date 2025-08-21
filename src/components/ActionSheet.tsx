@@ -140,7 +140,7 @@ function ActionSheet(props: IActionSheetProps, ref: ForwardedRef<ActionSheetRef>
                                 </TextX>
                                 {item?.children}
                             </View>
-                            <View style={dividerStyle}></View>
+                            <View style={dividerStyle} />
                         </PressHighlight>
                     );
                 })}

@@ -33,7 +33,7 @@ export interface IListItemProps extends PropsWithChildren {
 
     onPress?: (ev?: GestureResponderEvent) => void; // 点击事件回调
     onLongPress?: (ev?: GestureResponderEvent) => void; // 长按时间回调
-    delayLongPress?:number; // 自定义长按延迟
+    delayLongPress?: number; // 自定义长按延迟
 }
 
 export default function ListItem(props: IListItemProps) {
@@ -52,7 +52,7 @@ export default function ListItem(props: IListItemProps) {
         children,
         onPress,
         onLongPress,
-        delayLongPress=500
+        delayLongPress = 500,
     } = props;
 
     // 根节点样式

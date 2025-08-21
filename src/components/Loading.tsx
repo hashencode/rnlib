@@ -31,7 +31,7 @@ export default function Loading(props: ILoadingProps) {
 
     return (
         <Animated.View style={[animatedStyle, style]}>
-            <Icon color={color} name="loader-circle" size={size} strokeWidth={SIZE.icon_stroke_sm}></Icon>
+            <Icon color={color} name="loader-circle" size={size} strokeWidth={SIZE.icon_stroke_sm} />
         </Animated.View>
     );
 }

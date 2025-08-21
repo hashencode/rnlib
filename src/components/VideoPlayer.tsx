@@ -374,7 +374,8 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                     name="chevron-left"
                     size={isFullscreen ? SIZE.icon_lg : SIZE.icon_md}
                     strokeWidth={SIZE.icon_stroke_lg}
-                    style={styles.headerBackIcon}></Icon>
+                    style={styles.headerBackIcon}
+                />
             </Pressable>
         ) : (
             <View />
@@ -408,7 +409,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         }
         // 直播模式不显示进度条
         if (liveMode) {
-            return <View style={styles.sliderPlaceholder}></View>;
+            return <View style={styles.sliderPlaceholder} />;
         }
         return (
             <Slider
@@ -421,7 +422,8 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 onSlidingStart={handleSlidingStart}
                 style={styles.slider}
                 thumbTintColor="#fff"
-                value={currentTime <= duration ? currentTime : duration}></Slider>
+                value={currentTime <= duration ? currentTime : duration}
+            />
         );
     }, [duration, currentTime, isFullscreen, liveMode, innerPlugins]);
 
@@ -462,7 +464,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         ) : null;
 
     // 加载状态
-    const loadingEl = isLoading ? <Loading color={COLOR.white} size={SIZE.icon_xl}></Loading> : null;
+    const loadingEl = isLoading ? <Loading color={COLOR.white} size={SIZE.icon_xl} /> : null;
 
     // 错误信息展示
     const errorEl = errorMsg ? (
@@ -483,7 +485,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 {currentRate ? (
                     <TextX color={COLOR.white}>{currentRate}X</TextX>
                 ) : (
-                    <Icon color={COLOR.white} name="gauge" size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs}></Icon>
+                    <Icon color={COLOR.white} name="gauge" size={isFullscreen ? SIZE.icon_sm : SIZE.icon_xs} />
                 )}
             </Pressable>
         ) : null;
@@ -643,7 +645,6 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                         {...rest}
                     />
                 </Flex>
-
             </View>
         </Portal>
     );

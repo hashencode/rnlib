@@ -208,7 +208,7 @@ function Picker(props: IPickerProps, ref: ForwardedRef<ActionSheetRef>) {
                                     {renderCheckIcon(option)}
                                 </Flex>
                             </Flex>
-                            <View style={dividerStyle}></View>
+                            <View style={dividerStyle} />
                         </PressHighlight>
                     );
                 })}

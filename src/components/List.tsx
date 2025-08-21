@@ -47,7 +47,7 @@ export default function List(props: IListProps) {
                 return (
                     <Fragment key={keyValue}>
                         {itemNode}
-                        {isLast ? null : <View style={dividerStyle}></View>}
+                        {isLast ? null : <View style={dividerStyle} />}
                     </Fragment>
                 );
             })}

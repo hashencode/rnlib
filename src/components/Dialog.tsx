@@ -69,7 +69,8 @@ export default function Dialog(props: IDialogProps) {
                                     root: { width: buttonLen === 2 ? '50%' : '100%', borderRadius: 0 },
                                     text: { color: isPrimary ? COLOR.text_primary : COLOR.text_subtitle },
                                     ...(button.style || {}),
-                                }}></Button>
+                                }}
+                            />
                         </Fragment>
                     );
                 })}
@@ -87,7 +88,7 @@ export default function Dialog(props: IDialogProps) {
             <Flex block column rowGap={SIZE.space_md} alignItems="center" style={styles.actionContainer}>
                 {actions.map((action, index) => {
                     if (index === 0) {
-                        return <Button block type="primary" size="lg" {...action} key={index}></Button>;
+                        return <Button block type="primary" size="lg" {...action} key={index} />;
                     }
                     return (
                         <Button
@@ -95,7 +96,8 @@ export default function Dialog(props: IDialogProps) {
                             type="text"
                             {...action}
                             style={{ text: { color: COLOR.text_subtitle }, ...(action.style || {}) }}
-                            key={index}></Button>
+                            key={index}
+                        />
                     );
                 })}
             </Flex>

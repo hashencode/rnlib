@@ -190,7 +190,7 @@ export default function Tabs(props: ITabsProps) {
                 ) : (
                     <View onLayout={ev => getWrapperWidth(ev)}>{renderHeader}</View>
                 )}
-                <View style={dividerStyle}></View>
+                <View style={dividerStyle} />
             </View>
             {destroyInactiveTabPane ? (
                 <>{items.find(item => item.value === innerValue)?.children}</>

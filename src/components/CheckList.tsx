@@ -118,7 +118,7 @@ export default function CheckList(props: ICheckListProps) {
                 return (
                     <Fragment key={keyValue}>
                         {itemNode}
-                        {isLast ? null : <View style={dividerStyle}></View>}
+                        {isLast ? null : <View style={dividerStyle} />}
                     </Fragment>
                 );
             })}
