@@ -1,11 +1,6 @@
-import { Platform } from 'react-native';
 import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
 import { merge } from 'lodash';
 import { ms } from 'react-native-size-matters';
-
-export function isAndroid() {
-    return Platform.OS === 'android';
-}
 
 // 生成随机字符串
 export function randomId() {
