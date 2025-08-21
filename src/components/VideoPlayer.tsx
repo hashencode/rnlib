@@ -84,7 +84,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const isFocused = useIsFocused();
     const theme = useTheme();
     const currentAppState = useAppState();
-    const { t } = useTranslation();
+    const { t } = useTranslation('rnlib');
 
     const [showPoster, setShowPoster] = useState(true); // 是否显示海报
     const [showControls, setShowControls] = useState(true); // 是否显示控制组件
