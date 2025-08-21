@@ -1,14 +1,11 @@
-import { createContext, PropsWithChildren, useMemo, useState } from 'react';
+import { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 import DialogRender from '../components/DialogRender';
 import MessageRender from '../components/MessageRender';
 import ToastRender from '../components/ToastRender';
 import { PortalProvider } from '@gorhom/portal';
-
-export interface ILibProviderProps extends PropsWithChildren {
-    theme: { statusBar: { hidden: boolean } };
-    local: string;
-}
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../scripts/i18n';
 
 type Context = {
     theme: {
@@ -20,7 +17,10 @@ type Context = {
     hideStatusBar: () => void;
 };
 
-export const ThemeContext = createContext<Context | undefined>(undefined);
+export interface IThemeProviderProps extends PropsWithChildren {
+    theme: { statusBar: { hidden: boolean } };
+    local: 'zh-CN' | 'en-US' | 'ru-RU';
+}
 
 const defaultTheme = {
     statusBar: {
@@ -28,8 +28,12 @@ const defaultTheme = {
     },
 };
 
-function ThemeProvider(props: ILibProviderProps) {
-    const [theme, setTheme] = useState({ ...defaultTheme, ...(props.theme || {}) });
+export const ThemeContext = createContext<Context | undefined>(undefined);
+
+export default function ThemeProvider(props: IThemeProviderProps) {
+    const { local, theme: _theme } = props;
+
+    const [theme, setTheme] = useState({ ...defaultTheme, ...(_theme || {}) });
 
     const toggleStatusBarVisible = (isHidden: boolean) => {
         const newTheme = { ...theme, statusBar: { ...theme.statusBar, hidden: isHidden } };
@@ -44,18 +48,27 @@ function ThemeProvider(props: ILibProviderProps) {
         toggleStatusBarVisible(true);
     };
 
+    // 切换语言
+    const changeLanguage = (language: string) => {
+        i18n.changeLanguage(language || 'zh-CN');
+    };
+
     const value = useMemo(() => {
-        return { theme, showStatusBar, hideStatusBar };
-    }, [theme, showStatusBar, hideStatusBar]);
+        return { theme, showStatusBar, hideStatusBar, changeLanguage };
+    }, [theme, showStatusBar, hideStatusBar, changeLanguage]);
+
+    useEffect(() => {
+        changeLanguage(local);
+    }, [local]);
 
     return (
-        <ThemeContext.Provider value={value}>
-            <PortalProvider>{props.children}</PortalProvider>
-            <DialogRender />
-            <ToastRender />
-            <MessageRender />
-        </ThemeContext.Provider>
+        <I18nextProvider i18n={i18n}>
+            <ThemeContext.Provider value={value}>
+                <PortalProvider>{props.children}</PortalProvider>
+                <DialogRender />
+                <ToastRender />
+                <MessageRender />
+            </ThemeContext.Provider>
+        </I18nextProvider>
     );
 }
-
-export default ThemeProvider;

@@ -19,6 +19,7 @@ import { useStyle, useTheme } from '../hooks';
 import { COLOR, SIZE } from '../scripts/const';
 import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
 import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
+import { useTranslation } from 'react-i18next';
 
 export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'poster' | 'style'> {
     autoplay?: boolean; // 自动播放
@@ -83,6 +84,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const isFocused = useIsFocused();
     const theme = useTheme();
     const currentAppState = useAppState();
+    const { t } = useTranslation();
 
     const [showPoster, setShowPoster] = useState(true); // 是否显示海报
     const [showControls, setShowControls] = useState(true); // 是否显示控制组件
@@ -454,10 +456,11 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         innerPrevTime && hasLoaded ? (
             <Flex alignItems="center" gap={SIZE.space_md} style={styles.prevTime}>
                 <TextX color={COLOR.white} size={SIZE.font_desc}>
-                    上次观看至{convertSecondsDisplay(innerPrevTime)}
+                    {t('上次观看至')}
+                    {convertSecondsDisplay(innerPrevTime)}
                 </TextX>
                 <Button onPress={handleJumpToPrevTime} size="xs" style={{ button: { paddingHorizontal: SIZE.space_md } }} type="primary">
-                    跳转播放
+                    {t('跳转播放')}
                 </Button>
                 {hidePrevTimeEl()}
             </Flex>
@@ -470,7 +473,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const errorEl = errorMsg ? (
         <Flex column rowGap={SIZE.space_sm} style={{ padding: SIZE.space_lg }}>
             <TextX color={COLOR.white} size={SIZE.font_secondary}>
-                播放错误：
+                {t('播放错误')}：
             </TextX>
             <TextX color={COLOR.white} size={SIZE.font_mini}>
                 {errorMsg}
