@@ -1,13 +1,13 @@
 import Router from './dev/route/Router';
 import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
-import LibProvider from './src/providers/LibProvider';
+import ThemeProvider from './src/providers/ThemeProvider';
 
 function App() {
     return (
         <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-            <LibProvider>
+            <ThemeProvider>
                 <Router />
-            </LibProvider>
+            </ThemeProvider>
         </SafeAreaProvider>
     );
 }

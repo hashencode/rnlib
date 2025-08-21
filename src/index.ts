@@ -1,3 +1,3 @@
 export * from './components';
 export * from './hooks';
-export { default as LibProvider } from './providers/LibProvider';
+export { default as ThemeProvider } from './providers/ThemeProvider.tsx';

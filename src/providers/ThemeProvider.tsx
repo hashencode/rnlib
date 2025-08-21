@@ -1,5 +1,15 @@
 import { createContext, PropsWithChildren, useMemo, useState } from 'react';
 
+import DialogRender from '../components/DialogRender';
+import MessageRender from '../components/MessageRender';
+import ToastRender from '../components/ToastRender';
+import { PortalProvider } from '@gorhom/portal';
+
+export interface ILibProviderProps extends PropsWithChildren {
+    theme: { statusBar: { hidden: boolean } };
+    local: string;
+}
+
 type Context = {
     theme: {
         statusBar: {
@@ -18,8 +28,8 @@ const defaultTheme = {
     },
 };
 
-function ThemeProvider(props: PropsWithChildren) {
-    const [theme, setTheme] = useState(defaultTheme);
+function ThemeProvider(props: ILibProviderProps) {
+    const [theme, setTheme] = useState({ ...defaultTheme, ...(props.theme || {}) });
 
     const toggleStatusBarVisible = (isHidden: boolean) => {
         const newTheme = { ...theme, statusBar: { ...theme.statusBar, hidden: isHidden } };
@@ -38,7 +48,14 @@ function ThemeProvider(props: PropsWithChildren) {
         return { theme, showStatusBar, hideStatusBar };
     }, [theme, showStatusBar, hideStatusBar]);
 
-    return <ThemeContext.Provider value={value}>{props.children}</ThemeContext.Provider>;
+    return (
+        <ThemeContext.Provider value={value}>
+            <PortalProvider>{props.children}</PortalProvider>
+            <DialogRender />
+            <ToastRender />
+            <MessageRender />
+        </ThemeContext.Provider>
+    );
 }
 
 export default ThemeProvider;
