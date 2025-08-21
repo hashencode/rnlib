@@ -163,6 +163,3 @@ export const SCROLL_BASIC_CONFIG: ScrollViewProps = {
     overScrollMode: 'never',
     bounces: false,
 };
-
-export const DEFAULT_IMAGE =
-    'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxsG72wAo9EWJR4yQWyJJaDb6rYcBtJvTvH3UoAS4JFNDaxGhmKNaMwgElLURlRFeVkLCjkfnXmWtINWZIrPGYq0-&format=source';

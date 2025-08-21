@@ -1,5 +1,6 @@
 import { DefaultLayout, Icon, Switch, Group, List, ImageX, TextX } from '../../src/components';
-import { COLOR, DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
+import { COLOR, SIZE } from '../../src/scripts/const';
+import { DEFAULT_IMAGE } from '../screens/Demo';
 
 export default function DemoList() {
     const singleLineList = [

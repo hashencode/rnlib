@@ -1,6 +1,7 @@
-import { COLOR, DEFAULT_IMAGE, SIZE } from '../../src/scripts/const';
+import { COLOR, SIZE } from '../../src/scripts/const';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
 import { Card, DefaultLayout, Flex, Icon, TextX, Group, ImageX } from '../../src/components';
+import { DEFAULT_IMAGE } from '../screens/Demo';
 
 export default function DemoCard() {
     return (

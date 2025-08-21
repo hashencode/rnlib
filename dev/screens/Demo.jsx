@@ -4,6 +4,9 @@ import { DefaultLayout } from '../../src/components';
 import Group from '../../src/components/Group';
 import List from '../../src/components/List';
 
+export const DEFAULT_IMAGE =
+    'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxsG72wAo9EWJR4yQWyJJaDb6rYcBtJvTvH3UoAS4JFNDaxGhmKNaMwgElLURlRFeVkLCjkfnXmWtINWZIrPGYq0-&format=source';
+
 export default function Demo() {
     const navigation = useNavigation();
     const goTo = path => {
