@@ -1,4 +1,3 @@
-import { useBackHandler } from '@react-native-community/hooks';
 import { ReactNode, useEffect } from 'react';
 import { Keyboard, Modal, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
 import { useStyle } from '../hooks';
@@ -25,14 +24,6 @@ function Overlay(props: IOverlayProps) {
 
     const { height, width } = useWindowDimensions();
 
-    // 处理返回操作
-    useBackHandler(() => {
-        if (visible && onRequestClose) {
-            return onRequestClose();
-        }
-        return false;
-    });
-
     useEffect(() => {
         Keyboard.dismiss();
         return () => {
@@ -51,8 +42,8 @@ function Overlay(props: IOverlayProps) {
     });
 
     return (
-        <Modal transparent animationType="fade" visible={visible}>
-            <Pressable onPress={() => onPress?.()} style={[styles.overlay, { backgroundColor }]} />
+        <Modal transparent animationType="fade" visible={visible} onRequestClose={onRequestClose}>
+            <Pressable onPress={() => onPress?.()} style={[{ backgroundColor }, StyleSheet.absoluteFill]} />
             <View style={contentStyle}>{props.children}</View>
         </Modal>
     );
@@ -63,13 +54,5 @@ export default Overlay;
 const styles = StyleSheet.create({
     content: {
         pointerEvents: 'box-none',
-    },
-    overlay: {
-        backgroundColor: COLOR.bg_overlay,
-        height: '100%',
-        left: 0,
-        position: 'absolute',
-        top: 0,
-        width: '100%',
     },
 });
