@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import { Keyboard, Modal, Pressable, StyleProp, StyleSheet, useWindowDimensions, View, ViewStyle } from 'react-native';
+import { Keyboard, Modal, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { useStyle } from '../hooks';
 import { COLOR } from '../scripts/const';
 import { useUpdateEffect } from 'ahooks';
@@ -22,8 +22,6 @@ export interface IOverlayProps {
 function Overlay(props: IOverlayProps) {
     const { visible, backgroundColor = COLOR.bg_overlay, afterDestroy, style, onPress, onRequestClose } = props;
 
-    const { height, width } = useWindowDimensions();
-
     useEffect(() => {
         Keyboard.dismiss();
         return () => {
@@ -38,11 +36,11 @@ function Overlay(props: IOverlayProps) {
 
     const contentStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.content],
-        extraStyle: [style?.content, { height, width }],
+        extraStyle: [style?.content],
     });
 
     return (
-        <Modal transparent animationType="fade" visible={visible} onRequestClose={onRequestClose}>
+        <Modal transparent animationType="fade" visible={visible} onRequestClose={onRequestClose} style={{ zIndex: 98 }}>
             <Pressable onPress={() => onPress?.()} style={[{ backgroundColor }, StyleSheet.absoluteFill]} />
             <View style={contentStyle}>{props.children}</View>
         </Modal>
@@ -53,6 +51,8 @@ export default Overlay;
 
 const styles = StyleSheet.create({
     content: {
+        height: '100%',
         pointerEvents: 'box-none',
+        width: '100%',
     },
 });

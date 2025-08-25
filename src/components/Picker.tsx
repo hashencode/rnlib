@@ -66,6 +66,12 @@ function Picker(props: IPickerProps) {
         onChange,
     } = props;
 
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
+
     // 头部节点样式
     const headerStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.header],
@@ -131,7 +137,7 @@ function Picker(props: IPickerProps) {
 
     return (
         <Overlay visible={visible} onPress={handleOverlayPress} onRequestClose={() => backCloseable}>
-            <Flex column justifyContent="flex-end" grow={1} style={style?.root}>
+            <View style={rootStyle}>
                 {/* 头部 */}
                 {title || multiple ? (
                     <Flex alignItems="center" justifyContent="space-between" style={headerStyle}>
@@ -166,7 +172,7 @@ function Picker(props: IPickerProps) {
                 </ScrollView>
 
                 <Grabber style={style?.grabber} />
-            </Flex>
+            </View>
         </Overlay>
     );
 }
@@ -174,6 +180,11 @@ function Picker(props: IPickerProps) {
 export default Picker;
 
 const styles = StyleSheet.create({
+    root: {
+        bottom: 0,
+        left: 0,
+        position: 'absolute',
+    },
     header: {
         backgroundColor: COLOR.white,
         borderBottomWidth: SIZE.border_default,

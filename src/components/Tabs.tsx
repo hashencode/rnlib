@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 import { LayoutChangeEvent, ScrollView, ScrollViewProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import { isNil, isUndefined } from 'lodash';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Flex, PressHighlight, TextX } from './index';
 import { useMergedState } from '../hooks';
 import useStyle from '../hooks/useStyle';
@@ -47,8 +46,6 @@ export default function Tabs(props: ITabsProps) {
     const underlineX = useRef<number>(0);
     const scrollViewRef = useRef<ScrollView>(null);
 
-    const translateXAnim = useSharedValue(0);
-    const widthAnim = useSharedValue(0);
     const [innerValue, handleChange] = useMergedState('', {
         defaultValue,
         value,
@@ -100,7 +97,6 @@ export default function Tabs(props: ITabsProps) {
     useEffect(() => {
         if (!isUndefined(innerValue) && isLayoutEnd) {
             // width
-            let underlineWidth = 0;
             const parentRectsValue = parentRects.current;
             const childRectsValue = childRects.current;
             if (!isNil(innerValue) && innerValue in parentRectsValue && innerValue in childRectsValue) {
@@ -108,18 +104,10 @@ export default function Tabs(props: ITabsProps) {
 
                 const { width: childWidth } = childRectsValue[innerValue];
                 underlineX.current = x + (width - childWidth) / 2;
-                underlineWidth = childWidth;
             }
-            widthAnim.value = withTiming(underlineWidth, {
-                duration: 200,
-            });
-            // translateX
             const lineX = underlineX.current;
             const rootCenter = rootWidth.current / 2;
             const tabCenter = parentRects.current[innerValue]?.width / 2;
-            translateXAnim.value = withTiming(lineX, {
-                duration: 200,
-            });
             if (scrollable && scrollViewRef) {
                 if (lineX > rootCenter) {
                     scrollViewRef?.current?.scrollTo({ x: lineX - rootCenter + tabCenter, animated: true });
@@ -129,20 +117,6 @@ export default function Tabs(props: ITabsProps) {
             }
         }
     }, [innerValue, isLayoutEnd]);
-
-    // 下划线宽度动画样式
-    const widthAnimStyle = useAnimatedStyle(() => {
-        return {
-            width: widthAnim.value,
-        };
-    });
-
-    // 位移动画样式
-    const translateXAnimStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateX: translateXAnim.value }],
-        };
-    });
 
     // 渲染头部节点
     const renderHeader = (
@@ -165,10 +139,10 @@ export default function Tabs(props: ITabsProps) {
                             style={[style?.label, isActive ? style?.labelActive : {}]}>
                             {item?.label}
                         </TextX>
+                        {isActive ? <View style={[styles.underline, style?.underline]} /> : null}
                     </PressHighlight>
                 );
             })}
-            <Animated.View style={[styles.underline, style?.underline, widthAnimStyle, translateXAnimStyle]} />
         </Flex>
     );
 
@@ -238,6 +212,7 @@ const styles = StyleSheet.create({
         height: SIZE.border_bold,
         left: 0,
         position: 'absolute',
+        width: '100%',
     },
     hidden: {
         left: -9999,

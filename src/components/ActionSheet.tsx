@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Grabber, IListItemProps, Overlay, List, TextX, PressHighlight } from './index';
+import { Flex, Grabber, IListItemProps, Overlay, List, TextX } from './index';
 import useStyle from '../hooks/useStyle';
 
 export type IActionSheetOptionValue = string | number;
@@ -33,18 +33,13 @@ export interface IActionSheetProps {
 }
 
 function ActionSheet(props: IActionSheetProps) {
-    const {
-        options = [],
-        showCancel = true,
-        cancelText = '取消',
-        visible,
-        header,
-        overlayClosable = true,
-        backCloseable = true,
-        style,
-        onCancel,
-        onChange,
-    } = props;
+    const { options = [], visible, header, overlayClosable = true, backCloseable = true, style, onCancel, onChange } = props;
+
+    // 根节点样式
+    const rootStyle = useStyle<ViewStyle>({
+        defaultStyle: [styles.root],
+        extraStyle: [style?.root],
+    });
 
     // 头部节点样式
     const headerStyle = useStyle<ViewStyle>({
@@ -52,26 +47,15 @@ function ActionSheet(props: IActionSheetProps) {
         extraStyle: [style?.header],
     });
 
-    // 选项节点样式
-    const cancelButtonStyle = useStyle<ViewStyle>({
-        defaultStyle: [],
-        extraStyle: [style?.cancelButton],
-    });
-
     // 处理选项点击
     const handleOptionPress = (val: IActionSheetOptionValue) => {
         onChange?.(val);
     };
 
-    // 处理取消按钮点击
-    const handleCancel = () => {
-        onCancel?.();
-    };
-
     // 遮罩点击
     const handleOverlayPress = () => {
         if (overlayClosable) {
-            handleCancel();
+            onCancel?.();
         }
     };
 
@@ -85,7 +69,7 @@ function ActionSheet(props: IActionSheetProps) {
 
     return (
         <Overlay visible={visible} onPress={handleOverlayPress} onRequestClose={() => backCloseable}>
-            <Flex column justifyContent="flex-end" grow={1}>
+            <View style={rootStyle}>
                 {header ? (
                     <Flex block alignItems="center" justifyContent="center" style={headerStyle}>
                         <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
@@ -96,21 +80,8 @@ function ActionSheet(props: IActionSheetProps) {
 
                 <List items={formatOptions} style={{ root: style?.root, divider: style?.divider }} />
 
-                {showCancel ? (
-                    <>
-                        <View style={styles.footerSpace} />
-                        <PressHighlight onPress={handleCancel}>
-                            <View style={cancelButtonStyle}>
-                                <TextX size={SIZE.font_h2} style={style?.cancelText}>
-                                    {cancelText}
-                                </TextX>
-                            </View>
-                        </PressHighlight>
-                    </>
-                ) : null}
-
                 <Grabber style={style?.grabber} />
-            </Flex>
+            </View>
         </Overlay>
     );
 }
@@ -118,16 +89,17 @@ function ActionSheet(props: IActionSheetProps) {
 export default ActionSheet;
 
 const styles = StyleSheet.create({
+    root: {
+        bottom: 0,
+        left: 0,
+        position: 'absolute',
+    },
     header: {
         backgroundColor: COLOR.white,
-        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomWidth: SIZE.border_default,
         borderColor: COLOR.border_default,
         minHeight: SIZE.action_sheet_option_height,
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_md,
-    },
-    footerSpace: {
-        backgroundColor: COLOR.bg_page,
-        height: SIZE.space_lg,
     },
 });

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActionSheet, Button, Card, DefaultLayout, Group, TextX } from '../../src/components';
+import { ActionSheet, Button, Card, DefaultLayout, Group } from '../../src/components';
 
 export default function DemoActionSheet() {
     const [openId, setOpenId] = useState('');
@@ -25,9 +25,7 @@ export default function DemoActionSheet() {
                     visible={openId === 'basic'}
                     options={optionsBasic}
                     onChange={resetOpenId}
-                    onCancel={resetOpenId}>
-                    <TextX>123</TextX>
-                </ActionSheet>
+                    onCancel={resetOpenId}></ActionSheet>
             </Group>
         </DefaultLayout>
     );
