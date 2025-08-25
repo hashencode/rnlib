@@ -66,11 +66,11 @@ export default function Demo() {
     ];
 
     return (
-        <DefaultLayout>
+        <DefaultLayout statusBarConfig={{ barStyle: 'dark-content' }}>
             {list.map((item, index) => {
                 return (
                     <Group first={index === 0} header={item.group} key={index}>
-                        <List items={item.items}></List>
+                        <List items={item.items} />
                     </Group>
                 );
             })}

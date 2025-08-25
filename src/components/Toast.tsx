@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.radius_lg,
         maxWidth: SIZE.toast_width_max,
         padding: SIZE.space_lg,
-        zIndex: 9999,
+        zIndex: 100,
     },
     noIcon: {
         maxWidth: SIZE.toast_width_max,
