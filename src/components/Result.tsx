@@ -1,9 +1,9 @@
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import useStyle from '../hooks/useStyle';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, Icon, TextX } from './index';
 import { ReactNode } from 'react';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, TextX } from './index';
 
 export interface IResultProps {
     extra?: ReactNode; // 额外元素

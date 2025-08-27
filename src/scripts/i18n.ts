@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import zhCN from '../assets/locals/zh-CN.ts';
 import ruRU from '../assets/locals/ru-RU.ts';
+import zhCN from '../assets/locals/zh-CN.ts';
 
 i18n.use(initReactI18next).init({
     fallbackLng: 'zh-CN',

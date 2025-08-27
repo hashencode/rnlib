@@ -1,11 +1,11 @@
 import { PropsWithChildren, ReactElement, useMemo } from 'react';
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, PressHighlight, TextX } from './index';
-import { mergeElement } from '../scripts/utils';
-import { ButtonIconSize, ButtonLabelSize } from '../scripts/enum';
 import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { ButtonIconSize, ButtonLabelSize } from '../scripts/enum';
+import { mergeElement } from '../scripts/utils';
+import { Flex, PressHighlight, TextX } from './index';
 
 export interface IButtonProps extends PropsWithChildren {
     block?: boolean; // 占满整行

@@ -1,5 +1,5 @@
-import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
 import { merge } from 'lodash';
+import { cloneElement, ForwardedRef, isValidElement, ReactElement, RefObject } from 'react';
 import { ms } from 'react-native-size-matters';
 
 // 生成随机字符串

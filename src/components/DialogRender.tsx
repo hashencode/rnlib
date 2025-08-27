@@ -1,9 +1,9 @@
-import Dialog, { IDialogProps } from './Dialog';
+import { isNil } from 'lodash';
+import { useState } from 'react';
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
-import { isNil } from 'lodash';
 import { randomId } from '../scripts/utils';
-import { useState } from 'react';
+import Dialog, { IDialogProps } from './Dialog';
 
 export interface IDialogQueueItem extends Omit<IDialogProps, 'id'> {
     id: string;

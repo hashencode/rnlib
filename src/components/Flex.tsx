@@ -1,6 +1,6 @@
+import { ReactNode } from 'react';
 import { FlexAlignType, StyleProp, View, ViewProps, ViewStyle } from 'react-native';
 import useStyle from '../hooks/useStyle';
-import { ReactNode } from 'react';
 
 export interface IFlexProps extends ViewProps {
     alignItems?: FlexAlignType; // alignItems

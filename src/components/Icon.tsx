@@ -1,7 +1,7 @@
 import { isNil, upperFirst } from 'lodash';
 import * as icons from 'lucide-react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { StyleProp, TextStyle } from 'react-native';
+import { COLOR, SIZE } from '../scripts/const';
 
 export interface IIconProps {
     color?: TextStyle['color']; // 颜色

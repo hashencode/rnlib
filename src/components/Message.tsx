@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { StyleProp, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, View, ViewStyle, useWindowDimensions } from 'react-native';
 
+import Animated, { FadeInUp, FadeOutUp, runOnJS } from 'react-native-reanimated';
 import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
-import Animated, { FadeInUp, FadeOutUp, runOnJS } from 'react-native-reanimated';
 
 export interface IMessageProps {
     afterClose?: () => void; // 关闭回调函数

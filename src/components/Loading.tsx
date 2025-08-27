@@ -1,9 +1,8 @@
 import { ReactElement, useEffect } from 'react';
-import { COLOR } from '../scripts/const';
-import { SIZE } from '../scripts/const';
-import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, Easing, withRepeat, withTiming } from 'react-native-reanimated';
-import Icon from './Icon';
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import Animated, { Easing, cancelAnimation, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import { COLOR, SIZE } from '../scripts/const';
+import Icon from './Icon';
 
 export interface ILoadingProps {
     color?: TextStyle['color']; // 颜色

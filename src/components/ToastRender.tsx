@@ -1,9 +1,9 @@
-import { IToastProps, Toast } from './index';
+import { isNil } from 'lodash';
 import { useState } from 'react';
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
-import { isNil } from 'lodash';
 import { randomId } from '../scripts/utils';
+import { IToastProps, Toast } from './index';
 
 export interface IToastQueueItem extends Omit<IToastProps, 'id'> {
     id: string;

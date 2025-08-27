@@ -1,11 +1,11 @@
+import { Source } from '@d11/react-native-fast-image';
+import { isNumber } from 'lodash';
 import { ReactNode, useMemo, useState } from 'react';
 import { ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, ImageX, TextX } from './index';
-import { isNumber } from 'lodash';
-import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
 import useStyle from '../hooks/useStyle';
-import { Source } from '@d11/react-native-fast-image';
+import { COLOR, SIZE } from '../scripts/const';
+import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
+import { Flex, ImageX, TextX } from './index';
 
 export interface IAvatarProps {
     alt?: string; // 未加载完成时显示的文本

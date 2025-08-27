@@ -1,10 +1,10 @@
-import { StyleProp } from 'react-native/types';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { Overlay } from './index';
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { StyleProp } from 'react-native/types';
+import { COLOR, SIZE } from '../scripts/const';
 import Flex from './Flex';
 import TextX from './TextX';
-import { COLOR, SIZE } from '../scripts/const';
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { Overlay } from './index';
 
 export interface IToastProps {
     afterClose?: () => void; // 关闭回调函数

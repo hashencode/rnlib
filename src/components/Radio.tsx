@@ -1,9 +1,9 @@
 import { ReactNode, useMemo } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { useMergedState } from '../hooks';
-import { Flex, Icon, TextX } from './index';
 import { StyleProps } from 'react-native-reanimated';
+import { useMergedState } from '../hooks';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, TextX } from './index';
 
 export type IRadioValue = boolean;
 

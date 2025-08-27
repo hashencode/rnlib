@@ -1,10 +1,10 @@
-import { View, StyleSheet, ViewStyle, Pressable, StyleProp, TextStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { useNavigation } from '@react-navigation/native';
-import { Flex, Icon, TextX } from './index';
-import useStyle from '../hooks/useStyle';
-import { ReactNode, useCallback } from 'react';
 import { throttle } from 'lodash';
+import { ReactNode, useCallback } from 'react';
+import { Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, TextX } from './index';
 
 export interface IHeadProps {
     backIcon?: ReactNode; // 返回按钮图标

@@ -1,12 +1,12 @@
 import { ReactNode, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { default as CarouselX } from 'react-native-reanimated-carousel';
-import { LayoutChangeEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import PaginationDot from 'react-native-animated-pagination-dot';
-import { SIZE } from '../scripts/const';
-import useStyle from '../hooks/useStyle';
 import { IDotContainerProps } from 'react-native-animated-pagination-dot/src';
+import { default as CarouselX } from 'react-native-reanimated-carousel';
 import { TCarouselProps } from 'react-native-reanimated-carousel/src/types';
+import { LayoutChangeEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import useStyle from '../hooks/useStyle';
+import { SIZE } from '../scripts/const';
 
 export interface ICarouselProps {
     dotConfig?: IDotContainerProps; // 指示器配置项

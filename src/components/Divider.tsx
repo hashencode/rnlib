@@ -1,9 +1,9 @@
+import { PropsWithChildren } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
-import useStyle from '../hooks/useStyle';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { PropsWithChildren } from 'react';
 
 export interface IDividerProps extends PropsWithChildren {
     orientation?: 'left' | 'center' | 'right'; // 文字位置

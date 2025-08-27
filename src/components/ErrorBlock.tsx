@@ -1,11 +1,11 @@
+import { Source } from '@d11/react-native-fast-image';
 import { isValidElement, ReactElement, ReactNode } from 'react';
 import { ImageStyle, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
-import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
 import { Flex, ImageX, TextX } from './index';
-import { Source } from '@d11/react-native-fast-image';
 
 export interface IErrorBlockProps {
     extra?: ReactNode; // 操作区域

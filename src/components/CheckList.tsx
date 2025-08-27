@@ -1,12 +1,12 @@
+import { isArray } from 'lodash';
 import { Fragment, Key, ReactElement, ReactNode, useMemo } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
-import { isArray } from 'lodash';
-import { Icon, ListItem } from './index';
-import { mergeElement } from '../scripts/utils';
 import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { mergeElement } from '../scripts/utils';
 import { IListItemProps } from './ListItem';
+import { Icon, ListItem } from './index';
 
 export type ICheckListRawValue = number | string;
 export type ICheckListValue = ICheckListRawValue | ICheckListRawValue[] | undefined;

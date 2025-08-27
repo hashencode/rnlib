@@ -1,11 +1,11 @@
+import { isArray } from 'lodash';
 import { ReactNode, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { isArray } from 'lodash';
-import { useMergedState } from '../hooks';
-import { Flex, Icon, PressHighlight, TextX } from './index';
-import useStyle from '../hooks/useStyle';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { useMergedState } from '../hooks';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Icon, PressHighlight, TextX } from './index';
 
 export type ISelectorRawValue = number | string;
 export type ISelectorValue = ISelectorRawValue | ISelectorRawValue[] | undefined;

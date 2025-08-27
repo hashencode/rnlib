@@ -1,9 +1,9 @@
 import { isNil } from 'lodash';
-import { COLOR, SIZE } from '../scripts/const';
-import useStyle from '../hooks/useStyle';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { PropsWithChildren, isValidElement } from 'react';
 import { StyleProp, Text, TextProps } from 'react-native';
-import { isValidElement, PropsWithChildren } from 'react';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
 
 export interface ITextXProps extends TextProps, PropsWithChildren {
     color?: TextStyle['color']; // 颜色

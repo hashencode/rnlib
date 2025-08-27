@@ -1,7 +1,7 @@
-import { IToastProps } from '../components';
 import { DeviceEventEmitter } from 'react-native';
-import { EMITTER_MAP } from '../scripts/enum';
+import { IToastProps } from '../components';
 import { IToastQueueItem } from '../components/ToastRender';
+import { EMITTER_MAP } from '../scripts/enum';
 
 export default function useToast() {
     const create = (data: IToastProps) => DeviceEventEmitter.emit(EMITTER_MAP['打开提示'], data);

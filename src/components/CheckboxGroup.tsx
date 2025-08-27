@@ -1,8 +1,8 @@
+import { StyleProp, ViewStyle } from 'react-native';
+import { useMergedState } from '../hooks';
 import { SIZE } from '../scripts/const';
 import Checkbox, { ICheckboxProps, ICheckboxValue } from './Checkbox';
-import { useMergedState } from '../hooks';
 import { Flex } from './index';
-import { StyleProp, ViewStyle } from 'react-native';
 
 export type ICheckboxGroupOptionValue = string | number;
 

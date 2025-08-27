@@ -1,9 +1,9 @@
-import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, TextX } from './index';
-import { mergeElement } from '../scripts/utils';
-import useStyle from '../hooks/useStyle';
 import { ReactElement, ReactNode } from 'react';
+import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { mergeElement } from '../scripts/utils';
+import { Flex, TextX } from './index';
 
 export interface ICardProps {
     children?: ReactNode; // 内容插槽

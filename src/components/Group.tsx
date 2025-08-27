@@ -1,8 +1,8 @@
+import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { TextX } from './index';
-import useStyle from '../hooks/useStyle';
-import { ReactNode } from 'react';
 
 export interface IGroupProps {
     children?: ReactNode; // 内容插槽

@@ -1,8 +1,8 @@
+import { useUpdateEffect } from 'ahooks';
 import { ReactNode, useEffect } from 'react';
 import { Keyboard, Modal, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { useStyle } from '../hooks';
 import { COLOR } from '../scripts/const';
-import { useUpdateEffect } from 'ahooks';
 
 export interface IOverlayProps {
     afterDestroy?: () => void; // 蒙层销毁回调

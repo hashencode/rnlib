@@ -1,8 +1,8 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { useMergedState } from '../hooks';
-import { Flex, PressHighlight } from './index';
 import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, PressHighlight } from './index';
 
 export interface ISwitchProps {
     defaultValue?: boolean; // 默认值

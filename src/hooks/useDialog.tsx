@@ -1,7 +1,7 @@
-import { IDialogProps } from '../components';
 import { DeviceEventEmitter } from 'react-native';
-import { EMITTER_MAP } from '../scripts/enum';
+import { IDialogProps } from '../components';
 import { IDialogQueueItem } from '../components/DialogRender';
+import { EMITTER_MAP } from '../scripts/enum';
 
 export default function useDialog() {
     const create = (data: IDialogProps) => DeviceEventEmitter.emit(EMITTER_MAP['打开对话框'], data);

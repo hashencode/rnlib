@@ -1,10 +1,10 @@
+import { isNil, isUndefined } from 'lodash';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { LayoutChangeEvent, ScrollView, ScrollViewProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { isNil, isUndefined } from 'lodash';
-import { Flex, PressHighlight, TextX } from './index';
 import { useMergedState } from '../hooks';
 import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, PressHighlight, TextX } from './index';
 
 export type ITabsItemValue = string;
 

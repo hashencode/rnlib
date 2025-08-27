@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Keyboard, ScrollView, TextInput, StatusBar } from 'react-native';
+import { Keyboard, ScrollView, StatusBar, TextInput } from 'react-native';
 
 interface Props extends React.ComponentProps<typeof ScrollView> {
     additionalScrollHeight?: number;

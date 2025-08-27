@@ -1,11 +1,11 @@
+import { PropsWithChildren, ReactElement, ReactNode, useMemo } from 'react';
 import { GestureResponderEvent, ImageStyle, StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { mergeElement } from '../scripts/utils';
-import useStyle from '../hooks/useStyle';
-import { PropsWithChildren, ReactElement, ReactNode, useMemo } from 'react';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import { Flex, Icon, PressHighlight, SwipeableRow, TextX } from './index';
 import { ISwipeableRowProps } from './SwipeableRow';
+import { Flex, Icon, PressHighlight, SwipeableRow, TextX } from './index';
 
 export interface IListItemProps extends PropsWithChildren {
     disabled?: boolean; // 禁用

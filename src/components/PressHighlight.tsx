@@ -1,6 +1,6 @@
+import { ReactNode } from 'react';
 import { Pressable, PressableProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { COLOR } from '../scripts/const';
-import { ReactNode } from 'react';
 
 export interface IPressHighlightProps extends Omit<PressableProps, 'style'> {
     children?: ReactNode | string; // 插槽

@@ -2,7 +2,7 @@
  * 改造自 https://github.com/jeanregisser/react-native-slider
  */
 import { PureComponent } from 'react';
-import { Animated, StyleSheet, PanResponder, View, Easing, ViewStyle, StyleProp } from 'react-native';
+import { Animated, Easing, PanResponder, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 const TRACK_SIZE = 3;
 const THUMB_SIZE = 13;

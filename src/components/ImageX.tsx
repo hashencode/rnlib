@@ -1,7 +1,7 @@
-import { DimensionValue, Image, ImageStyle, LayoutChangeEvent, StyleProp, View } from 'react-native';
-import { useState } from 'react';
-import { isUndefined } from 'lodash';
 import FastImage, { FastImageProps, Source } from '@d11/react-native-fast-image';
+import { isUndefined } from 'lodash';
+import { useState } from 'react';
+import { DimensionValue, Image, ImageStyle, LayoutChangeEvent, StyleProp, View } from 'react-native';
 
 export interface IImageXProps extends Omit<FastImageProps, 'style'> {
     height?: DimensionValue; // 高度

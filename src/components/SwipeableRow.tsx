@@ -1,8 +1,7 @@
-import ReanimatedSwipeable, { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
-import { RectButton } from 'react-native-gesture-handler';
-import { COLOR, SIZE } from '../scripts/const';
 import { ReactNode, useRef } from 'react';
-import { SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
+import { RectButton } from 'react-native-gesture-handler';
+import ReanimatedSwipeable, { SwipeableMethods, SwipeableProps } from 'react-native-gesture-handler/ReanimatedSwipeable';
+import { COLOR } from '../scripts/const';
 
 export interface ISwipeableRowActionItem {
     backgroundColor?: string; // 背景色

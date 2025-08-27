@@ -1,10 +1,10 @@
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { isArray } from 'lodash';
-import { Button, Flex, Overlay, TextX } from './index';
 import { Fragment, ReactNode } from 'react';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { COLOR, SIZE } from '../scripts/const';
 import { IButtonProps } from './Button';
+import { Button, Flex, Overlay, TextX } from './index';
 
 export interface IDialogProps {
     actions?: IButtonProps[]; // 动作列表
@@ -85,7 +85,7 @@ export default function Dialog(props: IDialogProps) {
         }
 
         return (
-            <Flex block column rowGap={SIZE.space_md} alignItems="center" style={styles.actionContainer}>
+            <View style={styles.actionContainer}>
                 {actions.map((action, index) => {
                     if (index === 0) {
                         return <Button block type="primary" size="lg" {...action} key={index} />;
@@ -95,12 +95,12 @@ export default function Dialog(props: IDialogProps) {
                             block
                             type="text"
                             {...action}
-                            style={{ text: { color: COLOR.text_subtitle }, ...(action.style || {}) }}
+                            style={{ root: { marginTop: SIZE.space_md }, text: { color: COLOR.text_subtitle }, ...(action.style || {}) }}
                             key={index}
                         />
                     );
                 })}
-            </Flex>
+            </View>
         );
     };
 
@@ -168,5 +168,6 @@ const styles = StyleSheet.create({
     actionContainer: {
         padding: SIZE.space_lg,
         paddingTop: 0,
+        width: '100%',
     },
 });

@@ -1,10 +1,10 @@
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { Flex, TextX } from './index';
-import { mergeElement } from '../scripts/utils';
-import { COLOR, SIZE } from '../scripts/const';
-import useStyle from '../hooks/useStyle';
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { ReactElement, ReactNode } from 'react';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { mergeElement } from '../scripts/utils';
+import { Flex, TextX } from './index';
 
 export interface ITagProps {
     backgroundColor?: ViewStyle['backgroundColor']; // 背景色

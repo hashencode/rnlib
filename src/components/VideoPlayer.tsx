@@ -6,7 +6,7 @@ import { useAppState, useBackHandler } from '@react-native-community/hooks';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useUpdateEffect } from 'ahooks';
 import { debounce, isNumber, isUndefined, throttle } from 'lodash';
-import { forwardRef, Fragment, ReactNode, Ref, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { Fragment, ReactNode, Ref, forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { LinearGradient } from 'react-native-linear-gradient';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
@@ -15,11 +15,11 @@ import { ScaledSheet } from 'react-native-size-matters';
 import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
 import { OnLoadData } from 'react-native-video/src/types/events';
 
+import { useTranslation } from 'react-i18next';
 import { useStyle, useTheme } from '../hooks';
 import { COLOR, SIZE } from '../scripts/const';
 import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
 import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
-import { useTranslation } from 'react-i18next';
 
 export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'poster' | 'style'> {
     autoplay?: boolean; // 自动播放
