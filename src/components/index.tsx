@@ -26,6 +26,8 @@ export { default as ErrorBlock } from './ErrorBlock';
 export type { IErrorBlockProps } from './ErrorBlock';
 export { default as Flex } from './Flex';
 export type { IFlexProps } from './Flex';
+export { default as Grabber } from './Grabber';
+export type { IGrabberProps } from './Grabber';
 export { default as Group } from './Group';
 export type { IGroupProps } from './Group';
 export { default as Head } from './Head';
