@@ -1,12 +1,12 @@
-import { ReactNode, useState } from 'react';
-import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
 import { isArray } from 'lodash';
-import { useMergedState } from '../hooks';
-import Button, { IButtonProps } from './Button';
-import { Flex, Grabber, Icon, IListItemProps, List, Overlay, TextX } from './index';
-import useStyle from '../hooks/useStyle';
+import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { useMergedState } from '../hooks';
+import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import Button, { IButtonProps } from './Button';
+import { Flex, IListItemProps, Icon, List, Overlay, TextX } from './index';
 
 export type IPickerRawValue = number | string;
 export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
@@ -170,8 +170,6 @@ function Picker(props: IPickerProps) {
                 <ScrollView style={{ maxHeight: maxHeight }}>
                     <List items={formatOptions} style={{ root: style?.root, divider: style?.divider }} />
                 </ScrollView>
-
-                <Grabber style={style?.grabber} />
             </View>
         </Overlay>
     );
