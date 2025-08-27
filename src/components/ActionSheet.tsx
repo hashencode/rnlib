@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
-import { Flex, IListItemProps, List, Overlay, TextX } from './index';
+import { Flex, Grabber, IListItemProps, Overlay, List, TextX } from './index';
+import useStyle from '../hooks/useStyle';
 
 export type IActionSheetOptionValue = string | number;
 export interface IActionSheetOption extends IListItemProps {
@@ -79,6 +79,8 @@ function ActionSheet(props: IActionSheetProps) {
                 ) : null}
 
                 <List items={formatOptions} style={{ root: style?.root, divider: style?.divider }} />
+
+                <Grabber style={style?.grabber} />
             </View>
         </Overlay>
     );
