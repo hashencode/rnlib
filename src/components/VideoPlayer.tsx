@@ -8,7 +8,6 @@ import { useUpdateEffect } from 'ahooks';
 import { debounce, isNumber, isUndefined, throttle } from 'lodash';
 import { Fragment, ReactNode, Ref, forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker-cn';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -536,15 +535,14 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
             return (
                 <View style={styles.mask}>
                     {/* 顶部操作区 */}
-                    <LinearGradient colors={['#00000080', '#00000000']}>
-                        <Flex alignItems="center" block columnGap={SIZE.space_lg} style={styles.fullscreenHeader}>
-                            {/* 返回按钮 */}
-                            {backButtonEl}
-                            <TextX color={COLOR.white} numberOfLines={1} size={SIZE.font_h4}>
-                                {title}
-                            </TextX>
-                        </Flex>
-                    </LinearGradient>
+                    <Flex alignItems="center" block columnGap={SIZE.space_lg} style={styles.fullscreenHeader}>
+                        {/* 返回按钮 */}
+                        {backButtonEl}
+                        <TextX color={COLOR.white} numberOfLines={1} size={SIZE.font_h4}>
+                            {title}
+                        </TextX>
+                    </Flex>
+
                     {/* 中间区域 */}
                     <Pressable onPress={hideControls} style={styles.body}>
                         {/* 加载状态 */}
@@ -554,31 +552,30 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                         {/* 上次播放进度 */}
                         {messageGroupEl([messageItems, prevTimeEl])}
                     </Pressable>
+
                     {/* 底部操作区 */}
-                    <LinearGradient colors={['#00000000', '#00000080']}>
-                        <Flex block column rowGap={SIZE.space_md} style={styles.fullscreenFooter}>
-                            <Flex alignItems="center" columnGap={SIZE.space_xl}>
-                                {/* 进度条 */}
-                                {progressBarEl}
-                                {/* 当前时长/总时长 */}
-                                {timeEl}
+                    <Flex block column rowGap={SIZE.space_md} style={styles.fullscreenFooter}>
+                        <Flex alignItems="center" columnGap={SIZE.space_xl}>
+                            {/* 进度条 */}
+                            {progressBarEl}
+                            {/* 当前时长/总时长 */}
+                            {timeEl}
+                        </Flex>
+
+                        <Flex alignItems="center" block justifyContent="space-between">
+                            <Flex alignItems="center" columnGap={SIZE.space_lg}>
+                                {/* 播放/暂停按钮 */}
+                                {playButtonEl}
                             </Flex>
 
-                            <Flex alignItems="center" block justifyContent="space-between">
-                                <Flex alignItems="center" columnGap={SIZE.space_lg}>
-                                    {/* 播放/暂停按钮 */}
-                                    {playButtonEl}
-                                </Flex>
-
-                                <Flex alignItems="center" columnGap={SIZE.space_2xl}>
-                                    {/*播放速率*/}
-                                    {rateButtonEl}
-                                    {/* 全屏 */}
-                                    {fullscreenButtonEl}
-                                </Flex>
+                            <Flex alignItems="center" columnGap={SIZE.space_2xl}>
+                                {/*播放速率*/}
+                                {rateButtonEl}
+                                {/* 全屏 */}
+                                {fullscreenButtonEl}
                             </Flex>
                         </Flex>
-                    </LinearGradient>
+                    </Flex>
                     {controlPanelEl()}
                 </View>
             );
@@ -588,14 +585,14 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         return (
             <View style={styles.mask}>
                 {/* 顶部操作区 */}
-                <LinearGradient colors={['#00000080', '#00000000']}>
-                    <Flex alignItems="center" block columnGap={SIZE.space_lg} justifyContent="space-between" style={styles.defaultHeader}>
-                        {/* 返回按钮 */}
-                        {backButtonEl}
-                        {/*播放速率*/}
-                        {rateButtonEl}
-                    </Flex>
-                </LinearGradient>
+
+                <Flex alignItems="center" block columnGap={SIZE.space_lg} justifyContent="space-between" style={styles.defaultHeader}>
+                    {/* 返回按钮 */}
+                    {backButtonEl}
+                    {/*播放速率*/}
+                    {rateButtonEl}
+                </Flex>
+
                 {/* 中间区域 */}
                 <Pressable onPress={hideControls} style={styles.body}>
                     {/* 加载状态 */}
@@ -606,18 +603,18 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                     {messageGroupEl([messageItems, prevTimeEl])}
                 </Pressable>
                 {/* 底部操作区 */}
-                <LinearGradient colors={['#00000000', '#00000080']}>
-                    <Flex alignItems="center" block columnGap={SIZE.space_lg} style={styles.defaultFooter}>
-                        {/* 播放/暂停按钮 */}
-                        {playButtonEl}
-                        {/* 进度条 */}
-                        {progressBarEl}
-                        {/* 当前时长/总时长 */}
-                        {timeEl}
-                        {/* 全屏 */}
-                        {fullscreenButtonEl}
-                    </Flex>
-                </LinearGradient>
+
+                <Flex alignItems="center" block columnGap={SIZE.space_lg} style={styles.defaultFooter}>
+                    {/* 播放/暂停按钮 */}
+                    {playButtonEl}
+                    {/* 进度条 */}
+                    {progressBarEl}
+                    {/* 当前时长/总时长 */}
+                    {timeEl}
+                    {/* 全屏 */}
+                    {fullscreenButtonEl}
+                </Flex>
+
                 {controlPanelEl()}
             </View>
         );
@@ -679,11 +676,13 @@ const styles = ScaledSheet.create({
         paddingHorizontal: SIZE.space_xl,
         paddingVertical: SIZE.space_sm,
         position: 'relative',
+        backgroundColor: COLOR.bg_overlay,
     },
     defaultHeader: {
         minHeight: scale(44),
         paddingHorizontal: SIZE.space_xl,
         position: 'relative',
+        backgroundColor: COLOR.bg_overlay,
     },
     defaultRoot: {
         aspectRatio: 16 / 9,
@@ -697,11 +696,13 @@ const styles = ScaledSheet.create({
         paddingBottom: SIZE.space_lg,
         paddingHorizontal: SIZE.space_2xl,
         position: 'relative',
+        backgroundColor: COLOR.bg_overlay,
     },
     fullscreenHeader: {
         minHeight: scale(60),
         paddingHorizontal: SIZE.space_2xl,
         position: 'relative',
+        backgroundColor: COLOR.bg_overlay,
     },
     fullscreenRoot: {
         height: '100%',
