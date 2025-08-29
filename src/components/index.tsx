@@ -16,8 +16,6 @@ export { default as Checkbox } from './Checkbox';
 export type { ICheckboxProps, ICheckboxValue } from './Checkbox';
 export { default as CheckboxGroup } from './CheckboxGroup';
 export type { ICheckboxGroupOptionValue, ICheckboxGroupOptions, ICheckboxGroupProps, ICheckboxGroupValue } from './CheckboxGroup';
-export { default as DefaultLayout } from './DefaultLayout';
-export type { IDefaultLayoutProps } from './DefaultLayout';
 export { default as Dialog } from './Dialog';
 export type { IDialogProps } from './Dialog';
 export { default as Divider } from './Divider';

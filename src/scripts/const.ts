@@ -1,4 +1,3 @@
-import { ScrollViewProps } from 'react-native';
 import { scale } from './utils';
 
 const primary = '#1677ff';
@@ -156,10 +155,4 @@ export const SIZE = {
     badge_dot_size: scale(10),
     // 选项卡
     tabs_height: scale(42),
-};
-
-// scrollView组件默认配置
-export const SCROLL_BASIC_CONFIG: ScrollViewProps = {
-    overScrollMode: 'never',
-    bounces: false,
 };
