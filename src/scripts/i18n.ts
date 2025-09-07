@@ -7,7 +7,7 @@ i18n.use(initReactI18next).init({
     fallbackLng: 'zh-CN',
     ns: ['rnlib', 'custom'],
     defaultNS: 'custom',
-    debug: true,
+    debug: false,
     resources: {
         'zh-CN': {
             rnlib: zhCN,
