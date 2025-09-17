@@ -72,5 +72,3 @@ export { default as TextX } from './TextX';
 export type { ITextXProps } from './TextX';
 export { default as Toast } from './Toast';
 export type { IToastProps } from './Toast';
-export { default as VideoPlayer } from './VideoPlayer';
-export type { IVideoPlayerProps, IVideoUtils } from './VideoPlayer';

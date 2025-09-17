@@ -7,8 +7,8 @@ import DemoBadge from '../demos/DemoBadge';
 import DemoButton from '../demos/DemoButton';
 import DemoCard from '../demos/DemoCard';
 import DemoCarousel from '../demos/DemoCarousel';
-import DemoCheckbox from '../demos/DemoCheckbox';
 import DemoCheckList from '../demos/DemoCheckList';
+import DemoCheckbox from '../demos/DemoCheckbox';
 import DemoDialog from '../demos/DemoDialog';
 import DemoDivider from '../demos/DemoDivider';
 import DemoErrorBlock from '../demos/DemoErrorBlock';
@@ -16,6 +16,7 @@ import DemoGroup from '../demos/DemoGroup';
 import DemoHead from '../demos/DemoHead';
 import DemoInput from '../demos/DemoInput';
 import DemoList from '../demos/DemoList';
+import DemoMessage from '../demos/DemoMessage';
 import DemoPicker from '../demos/DemoPicker';
 import DemoRadio from '../demos/DemoRadio';
 import DemoResult from '../demos/DemoResult';
@@ -25,8 +26,6 @@ import DemoSwitch from '../demos/DemoSwitch';
 import DemoTabs from '../demos/DemoTabs';
 import DemoTag from '../demos/DemoTag';
 import DemoToast from '../demos/DemoToast';
-import DemoVideoPlayer from '../demos/DemoVideoPlayer';
-import DemoMessage from '../demos/DemoMessage';
 import Demo from '../screens/Demo';
 
 const Stack = createStackNavigator();
@@ -56,7 +55,6 @@ const screens: any[] = [
     { component: DemoTabs, name: 'TABS' },
     { component: DemoTag, name: 'TAG' },
     { component: DemoToast, name: 'TOAST' },
-    { component: DemoVideoPlayer, name: 'VIDEO_PLAYER' },
     { component: DemoMessage, name: 'MESSAGE' },
 ];
 

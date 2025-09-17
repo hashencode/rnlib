@@ -19,7 +19,6 @@ export default function Demo() {
             items: [
                 { onPress: () => goTo('BUTTON'), title: '按钮 Button' },
                 { onPress: () => goTo('DIVIDER'), title: '分割线 Divider' },
-                { onPress: () => goTo('VIDEO_PLAYER'), title: '视频播放器 VideoPlayer' },
             ],
         },
         {
