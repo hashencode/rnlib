@@ -14,7 +14,7 @@ import { ScaledSheet } from 'react-native-size-matters';
 import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
 import { OnLoadData } from 'react-native-video/src/types/events';
 
-import { useDialog, useStyle, useTheme } from '../hooks';
+import { useStyle, useTheme } from '../hooks';
 import { COLOR, SIZE } from '../scripts/const';
 import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
 import { Button, Dialog, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
@@ -82,7 +82,6 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const isFocused = useIsFocused();
     const theme = useTheme();
     const currentAppState = useAppState();
-    const { destroyDialog } = useDialog();
 
     const [showPoster, setShowPoster] = useState(true); // 是否显示海报
     const [showControls, setShowControls] = useState(true); // 是否显示控制组件
@@ -299,7 +298,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const handleError = (error: OnVideoErrorData) => {
         console.error(error);
         setIsLoading(false);
-        setErrorMsg(JSON.stringify(error.error));
+        setErrorMsg(JSON.stringify(error.error)?.substring(0, 200));
         onError?.(error);
     };
 
@@ -643,7 +642,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 title="播放错误"
                 id="video_play_error_dialog"
                 visible={!!errorMsg}
-                buttons={[{ children: '关闭', onPress: () => destroyDialog('video_play_error_dialog') }]}
+                buttons={[{ children: '关闭', onPress: () => setErrorMsg('') }]}
                 style={{ root: { width: '80%' } }}>
                 <TextX size={SIZE.font_mini}>{errorMsg}</TextX>
             </Dialog>
