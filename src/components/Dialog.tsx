@@ -1,12 +1,12 @@
 import { isArray } from 'lodash';
-import { Fragment, ReactNode } from 'react';
+import { Fragment, PropsWithChildren, ReactNode } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { COLOR, SIZE } from '../scripts/const';
 import { IButtonProps } from './Button';
 import { Button, Flex, Overlay, TextX } from './index';
 
-export interface IDialogProps {
+export interface IDialogProps extends PropsWithChildren {
     actions?: IButtonProps[]; // 动作列表
     afterClose?: () => void; // 遮罩销毁事件回调
     backCloseable?: boolean; // 允许返回操作关闭
@@ -28,7 +28,18 @@ export interface IDialogProps {
 }
 
 export default function Dialog(props: IDialogProps) {
-    const { backCloseable, content, title, buttons, actions, visible, overlayClosable = true, onCancel, afterClose, style } = props;
+    const {
+        backCloseable,
+        content = props.children,
+        title,
+        buttons,
+        actions,
+        visible,
+        overlayClosable = true,
+        onCancel,
+        afterClose,
+        style,
+    } = props;
 
     // 遮罩点击
     const handleOverlayPress = () => {

@@ -1,12 +1,11 @@
+import { isArray } from 'lodash';
 import { ReactNode, useState } from 'react';
 import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { isArray } from 'lodash';
 import { useMergedState } from '../hooks';
-import Button, { IButtonProps } from './Button';
-import { Flex, Grabber, Icon, IListItemProps, List, Overlay, TextX } from './index';
 import useStyle from '../hooks/useStyle';
-import { useTranslation } from 'react-i18next';
+import { COLOR, SIZE } from '../scripts/const';
+import Button, { IButtonProps } from './Button';
+import { Flex, Grabber, IListItemProps, Icon, List, Overlay, TextX } from './index';
 
 export type IPickerRawValue = number | string;
 export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
@@ -83,7 +82,6 @@ function Picker(props: IPickerProps) {
         value,
     });
     const [valueCache, setValueCache] = useState<IPickerRawValue[]>(innerValue as IPickerRawValue[]);
-    const { t } = useTranslation('rnlib');
 
     // 处理选项点击
     const handleOptionPress = (val: IPickerRawValue) => {
@@ -148,7 +146,7 @@ function Picker(props: IPickerProps) {
                                 style={{ text: { color: COLOR.text_subtitle } }}
                                 onPress={handleCancel}
                                 {...cancelButtonProps}>
-                                {t(cancelText)}
+                                {cancelText}
                             </Button>
                         </View>
                         {/* 标题文本 */}
@@ -160,7 +158,7 @@ function Picker(props: IPickerProps) {
                         {/*确定按钮*/}
                         <View style={styles.actionButton}>
                             <Button type="text" style={{ text: { color: COLOR.primary } }} onPress={handleConfirm} {...okButtonProps}>
-                                {t(okText)}
+                                {okText}
                             </Button>
                         </View>
                     </Flex>

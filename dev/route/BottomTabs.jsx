@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLOR, SIZE } from '../../src/scripts/const';
+import { COLOR, SIZE } from '../../src';
 import { Icon } from '../../src/components';
 import DEMO from '../screens/Demo';
 

@@ -1031,7 +1031,7 @@
     "@babel/plugin-transform-modules-commonjs" "^7.27.1"
     "@babel/plugin-transform-typescript" "^7.27.1"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.21.0", "@babel/runtime@^7.25.0", "@babel/runtime@^7.27.6":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.21.0", "@babel/runtime@^7.25.0":
   version "7.28.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.3.tgz#75c5034b55ba868121668be5d5bb31cc64e6e61a"
   integrity sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==
@@ -4201,13 +4201,6 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
-html-parse-stringify@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/html-parse-stringify/-/html-parse-stringify-3.0.1.tgz#dfc1017347ce9f77c8141a507f233040c59c55d2"
-  integrity sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==
-  dependencies:
-    void-elements "3.1.0"
-
 http-errors@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-2.0.0.tgz#b7774a1486ef73cf7667ac9ae0858c012c57b9d3"
@@ -4241,13 +4234,6 @@ hyphenate-style-name@^1.0.3:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.1.0.tgz#1797bf50369588b47b72ca6d5e65374607cf4436"
   integrity sha512-WDC/ui2VVRrz3jOVi+XtjqkDjiVjTtFaAGiW37k6b+ohyQ5wYDOGkvCZa8+H0nx3gyvv0+BST9xuOgIyGQ00gw==
-
-i18next@^25.3.6:
-  version "25.4.0"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-25.4.0.tgz#8c6f10bb365260c882aa532aec5e97b65cbdc997"
-  integrity sha512-UH5aiamXsO3cfrZFurCHiB6YSs3C+s+XY9UaJllMMSbmaoXILxFgqDEZu4NbfzJFjmUo3BNMa++Rjkr3ofjfLw==
-  dependencies:
-    "@babel/runtime" "^7.27.6"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -6188,14 +6174,6 @@ react-fast-compare@^3.2.2:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-i18next@^15.6.1:
-  version "15.7.0"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-15.7.0.tgz#c5d0cb9976335395f877575a7e8cfc3eec33cf07"
-  integrity sha512-hogS6K+7hJnGN1k5hpxcY0x3SnQ30K2Cj9PMKSwP8lqyhfbj7DEdjFhc7tXh9+z+npDQaxvPCGnpkRmCnRNCcQ==
-  dependencies:
-    "@babel/runtime" "^7.27.6"
-    html-parse-stringify "^3.0.1"
-
 react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -6251,6 +6229,11 @@ react-native-builder-bob@^0.40.6:
     which "^2.0.2"
     yargs "^17.5.1"
 
+react-native-edge-to-edge@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-edge-to-edge/-/react-native-edge-to-edge-1.7.0.tgz#6999ee86febe920b9b4e730ec1f0eaf0c28f0003"
+  integrity sha512-ERegbsq28yoMndn/Uq49i4h6aAhMvTEjOfkFh50yX9H/dMjjCr/Tix/es/9JcPRvC+q7VzCMWfxWDUb6Jrq1OQ==
+
 react-native-gesture-handler@^2.21.2:
   version "2.28.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.28.0.tgz#07fb4f5eae72f810aac3019b060d26c1835bfd0c"
@@ -6269,11 +6252,6 @@ react-native-is-edge-to-edge@1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/react-native-is-edge-to-edge/-/react-native-is-edge-to-edge-1.1.7.tgz#28947688f9fafd584e73a4f935ea9603bd9b1939"
   integrity sha512-EH6i7E8epJGIcu7KpfXYXiV2JFIYITtq+rVS8uEb+92naMRBdxhTuS8Wn2Q7j9sqyO0B+Xbaaf9VdipIAmGW4w==
-
-react-native-linear-gradient@^2.8.3:
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
-  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
 react-native-monorepo-config@^0.1.8:
   version "0.1.9"
@@ -7373,11 +7351,6 @@ vlq@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vlq/-/vlq-1.0.1.tgz#c003f6e7c0b4c1edd623fd6ee50bbc0d6a1de468"
   integrity sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==
-
-void-elements@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-3.1.0.tgz#614f7fbf8d801f0bb5f0661f5b2f5785750e4f09"
-  integrity sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==
 
 walker@^1.0.7, walker@^1.0.8:
   version "1.0.8"

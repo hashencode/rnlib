@@ -1,6 +1,6 @@
 {
   "name": "@hashencode/rnlib",
-  "version": "0.2.32",
+  "version": "0.2.33",
   "scripts": {
     "android": "react-native run-android --terminal=/Applications/Utilities/Terminal.app --port 8083",
     "ios": "react-native run-ios --terminal=/Applications/Utilities/Terminal.app --port 8083",
@@ -10,10 +10,9 @@
     "prepare": "bob build"
   },
   "dependencies": {
-    "i18next": "^25.3.6",
     "react": "19.0.0",
-    "react-i18next": "^15.6.1",
-    "react-native": "0.79.1"
+    "react-native": "0.79.1",
+    "react-native-edge-to-edge": "^1.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

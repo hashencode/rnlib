@@ -14,11 +14,10 @@ import { ScaledSheet } from 'react-native-size-matters';
 import Video, { OnLoadStartData, OnPlaybackStateChangedData, OnProgressData, OnVideoErrorData, VideoRef } from 'react-native-video';
 import { OnLoadData } from 'react-native-video/src/types/events';
 
-import { useTranslation } from 'react-i18next';
-import { useStyle, useTheme } from '../hooks';
+import { useDialog, useStyle, useTheme } from '../hooks';
 import { COLOR, SIZE } from '../scripts/const';
 import { convertSecondsDisplay, mergeRefs, randomId, scale } from '../scripts/utils';
-import { Button, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
+import { Button, Dialog, Flex, Icon, ImageX, Loading, Slider, TextX } from './index';
 
 export interface IVideoPlayerProps extends Omit<ReactVideoProps, 'poster' | 'style'> {
     autoplay?: boolean; // 自动播放
@@ -83,7 +82,7 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const isFocused = useIsFocused();
     const theme = useTheme();
     const currentAppState = useAppState();
-    const { t } = useTranslation('rnlib');
+    const { destroyDialog } = useDialog();
 
     const [showPoster, setShowPoster] = useState(true); // 是否显示海报
     const [showControls, setShowControls] = useState(true); // 是否显示控制组件
@@ -97,12 +96,12 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     const [currentRate, setCurrentRate] = useState('1.0'); // 当前速率
     const [hasLoaded, setHasLoaded] = useState(false); // 视频信息加载完成
     const [innerPrevTime, setInnerPrevTime] = useState(0); // 上次观看的秒数，用来兼容prevTime和prevProgress两种不同传入
-    const isPauseBySeek = useRef(false); // 是否是因为seek导致的暂停播放
     const isPausedBeforeSeek = useRef(false); // 在seek之前是否是暂停状态
+    const [isRestartMsgVisible, setIsRestartMsgVisible] = useState(false); // 是否显示从头播放的提示
 
     const localRef = useRef<VideoRef>(null);
     const videoRef = mergeRefs([ref, localRef]);
-    const hidePrevTimeTimer = useRef<NodeJS.Timeout | null>(null); // 上次观看进度隐藏定时
+    const restartMsgAutoHideTimer = useRef<NodeJS.Timeout | null>(null); // 上次观看进度隐藏定时
 
     const innerPlugins = useMemo(() => {
         let defaultPlugins: pluginItem[] = ['back', 'rate', 'play', 'time', 'fullscreen', 'progressBar'];
@@ -208,22 +207,6 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         extraStyle: [style?.fullscreen],
     });
 
-    // 隐藏跳转按钮
-    const hidePrevTimeEl = () => {
-        hidePrevTimeTimer.current = setTimeout(() => {
-            setInnerPrevTime(0);
-        }, 5000);
-        return null;
-    };
-
-    // 清除隐藏控制定时器
-    const clearHideTimer = () => {
-        if (hidePrevTimeTimer.current) {
-            clearTimeout(hidePrevTimeTimer.current);
-        }
-        hidePrevTimeTimer.current = null;
-    };
-
     // 隐藏控制器
     const hideControls = () => {
         if (currentControl) {
@@ -246,10 +229,16 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 切换播放状态
     const togglePlayStatus = () => {
-        if (duration - currentTime < 1) {
-            videoRef.current?.resume();
+        if (hasLoaded) {
+            setIsPaused(prev => {
+                if (prev) {
+                    videoRef.current?.resume();
+                } else {
+                    videoRef.current?.pause();
+                }
+                return !prev;
+            });
         }
-        setIsPaused(!isPaused);
     };
 
     // 切换全屏状态
@@ -259,18 +248,22 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 处理滑动条开始滑动
     const handleSlidingStart = () => {
+        videoRef.current?.pause();
         isPausedBeforeSeek.current = isPaused; // 记录当前播放状态
-        setIsPaused(true);
     };
 
     // 处理滑动条结束滑动
-    const handleSlidingComplete = debounce((value: number) => {
-        if (duration) {
-            videoSeek(value);
-            setCurrentTime(value);
-            setIsLoading(true);
-        }
-    }, 500);
+    const handleSlidingComplete = debounce(
+        (value: number) => {
+            if (duration) {
+                videoSeek(value);
+                setCurrentTime(value);
+                setIsLoading(true);
+            }
+        },
+        500,
+        { leading: false },
+    );
 
     // 视频播放时更新当前播放时间
     const handleProgress = (data: OnProgressData) => {
@@ -296,7 +289,9 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         setHasLoaded(true);
         setIsLoading(false);
         if (autoplay) {
-            setIsPaused(false);
+            videoRef.current?.resume();
+        } else {
+            videoRef.current?.pause();
         }
     };
 
@@ -310,31 +305,27 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
 
     // 通用seek方法
     const videoSeek = (time: number, getPrevPauseStatus?: boolean) => {
-        isPauseBySeek.current = true;
         if (getPrevPauseStatus) {
             isPausedBeforeSeek.current = isPaused;
         }
-        setIsPaused(true);
         videoRef?.current?.seek(time);
     };
 
-    // 处理寻找
+    // 处理SEEK
     const handleSeek = () => {
-        if (isPauseBySeek.current && !isPausedBeforeSeek.current) {
-            setIsPaused(false);
-            isPauseBySeek.current = false;
-        }
         setIsLoading(false);
+        if (!isPausedBeforeSeek.current) {
+            videoRef.current?.resume();
+        }
     };
 
     // 处理播放状态变更
     const handlePlaybackStateChanged = (data: OnPlaybackStateChangedData) => {
         if (data.isPlaying) {
             setIsLoading(false);
+            handleJumpToPrevTime();
         }
-        if (!data.isPlaying) {
-            setIsPaused(true); // 主动暂停的时候会用到
-        }
+        setIsPaused(!data.isPlaying); // 主动暂停的时候会用到
         onPlaybackStateChanged?.(data);
     };
 
@@ -344,26 +335,45 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
         setCurrentControl(undefined);
     };
 
+    // 清除隐藏控制定时器
+    const clearHideTimer = () => {
+        if (restartMsgAutoHideTimer.current) {
+            clearTimeout(restartMsgAutoHideTimer.current);
+        }
+        restartMsgAutoHideTimer.current = null;
+        setIsRestartMsgVisible(false);
+        setInnerPrevTime(0);
+    };
+
     // 跳转至原播放进度
     const handleJumpToPrevTime = () => {
-        if (innerPrevTime) {
+        if (innerPrevTime > 0 && !isRestartMsgVisible) {
             videoSeek(innerPrevTime, true);
-            setInnerPrevTime(0);
+            setIsRestartMsgVisible(true);
+            // 隐藏跳转按钮
+            restartMsgAutoHideTimer.current = setTimeout(() => {
+                clearHideTimer();
+            }, 5000);
         }
+    };
+
+    // 从头开始播放
+    const handleReplay = () => {
+        videoSeek(0, true);
+        videoRef.current?.resume();
+        clearHideTimer();
     };
 
     // 处理播放结束
     const handleEnd = useCallback(
         throttle(
             () => {
-                setIsPaused(true);
                 onEnd?.();
-                console.info('@log', 123);
             },
             2000,
             { trailing: false },
         ),
-        [setIsPaused, onEnd],
+        [onEnd],
     );
 
     // 返回按钮
@@ -451,34 +461,20 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
     };
 
     // 进度跳转
-    const prevTimeEl =
-        innerPrevTime && hasLoaded ? (
-            <Flex alignItems="center" gap={SIZE.space_md} style={styles.prevTime}>
-                <TextX color={COLOR.white} size={SIZE.font_desc}>
-                    {t('上次观看至')}
-                    {convertSecondsDisplay(innerPrevTime)}
-                </TextX>
-                <Button onPress={handleJumpToPrevTime} size="xs" style={{ button: { paddingHorizontal: SIZE.space_md } }} type="primary">
-                    {t('跳转播放')}
-                </Button>
-                {hidePrevTimeEl()}
-            </Flex>
-        ) : null;
+    const prevTimeEl = isRestartMsgVisible ? (
+        <Flex alignItems="center" gap={SIZE.space_md} style={styles.prevTime}>
+            <TextX color={COLOR.white} size={SIZE.font_desc}>
+                已跳转至
+                {convertSecondsDisplay(innerPrevTime)}
+            </TextX>
+            <Button onPress={handleReplay} size="xs" style={{ button: { paddingHorizontal: SIZE.space_md } }} type="primary">
+                从头播放
+            </Button>
+        </Flex>
+    ) : null;
 
     // 加载状态
     const loadingEl = isLoading ? <Loading color={COLOR.white} size={SIZE.icon_xl} /> : null;
-
-    // 错误信息展示
-    const errorEl = errorMsg ? (
-        <Flex column rowGap={SIZE.space_sm} style={{ padding: SIZE.space_lg }}>
-            <TextX color={COLOR.white} size={SIZE.font_secondary}>
-                {t('播放错误')}：
-            </TextX>
-            <TextX color={COLOR.white} size={SIZE.font_mini}>
-                {errorMsg}
-            </TextX>
-        </Flex>
-    ) : null;
 
     // 播放速率控件开关
     const rateButtonEl =
@@ -547,8 +543,6 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                     <Pressable onPress={hideControls} style={styles.body}>
                         {/* 加载状态 */}
                         {loadingEl}
-                        {/* 错误信息 */}
-                        {errorEl}
                         {/* 上次播放进度 */}
                         {messageGroupEl([messageItems, prevTimeEl])}
                     </Pressable>
@@ -597,8 +591,6 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                 <Pressable onPress={hideControls} style={styles.body}>
                     {/* 加载状态 */}
                     {loadingEl}
-                    {/* 错误信息 */}
-                    {errorEl}
                     {/* 上次播放进度 */}
                     {messageGroupEl([messageItems, prevTimeEl])}
                 </Pressable>
@@ -636,16 +628,25 @@ function VideoPlayer(props: IVideoPlayerProps, ref: Ref<VideoRef>) {
                         onPlaybackStateChanged={handlePlaybackStateChanged}
                         onProgress={handleProgress}
                         onSeek={handleSeek}
-                        paused={isPaused}
                         rate={+currentRate}
                         ref={videoRef}
                         resizeMode="contain"
                         source={source}
+                        paused={!autoplay}
                         style={styles.player}
                         {...rest}
                     />
                 </Flex>
             </View>
+            {/* 错误信息弹窗 */}
+            <Dialog
+                title="播放错误"
+                id="video_play_error_dialog"
+                visible={!!errorMsg}
+                buttons={[{ children: '关闭', onPress: () => destroyDialog('video_play_error_dialog') }]}
+                style={{ root: { width: '80%' } }}>
+                <TextX size={SIZE.font_mini}>{errorMsg}</TextX>
+            </Dialog>
         </Portal>
     );
 }
