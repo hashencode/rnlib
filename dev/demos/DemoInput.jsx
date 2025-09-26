@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { SIZE } from '../../src';
-import { Button, DefaultLayout, Flex, Group, Input } from '../../src/components';
+import { Button, Flex, Group, Input } from '../../src/components';
+import DefaultLayout from './DefaultLayout';
 
 export default function DemoInput() {
     const inputRef = useRef(null);

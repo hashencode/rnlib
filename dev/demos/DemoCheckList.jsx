@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { SIZE } from '../../src';
-import { Button, CheckList, DefaultLayout, Group, Icon, ImageX } from '../../src/components';
+import { Button, CheckList, Group, Icon, ImageX } from '../../src/components';
 import { DEFAULT_IMAGE } from '../screens/Demo';
+import DefaultLayout from './DefaultLayout';
 
 export default function DemoCheckList() {
     const [activeIndex, setActiveIndex] = useState(0);

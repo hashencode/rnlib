@@ -29,7 +29,7 @@ export default function Flex(props: IFlexProps) {
         grow = 0,
         justifyContent = 'flex-start',
         rowGap,
-        shrink = 0,
+        shrink = 1,
         style = {},
         wrap = 'nowrap',
         ...rest

@@ -1,5 +1,6 @@
-import { Button, Card, DefaultLayout, Flex, Group, Icon } from '../../src/components';
+import { Button, Card, Flex, Group, Icon } from '../../src/components';
 import { COLOR, SIZE } from '../../src/scripts/const';
+import DefaultLayout from './DefaultLayout';
 
 export default function DemoButton() {
     return (

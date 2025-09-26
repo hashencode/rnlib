@@ -1,4 +1,5 @@
-import { Card, DefaultLayout, Group, Result } from '../../src/components';
+import { Card, Group, Result } from '../../src/components';
+import DefaultLayout from './DefaultLayout';
 
 function DemoResult() {
     return (

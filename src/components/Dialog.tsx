@@ -65,7 +65,7 @@ export default function Dialog(props: IDialogProps) {
         const buttonLen = buttons.length;
         return (
             // 控制flex方向
-            <Flex block column={buttonLen > 2} style={styles.buttonContainer}>
+            <Flex block column={buttonLen > 2} shrink={0} style={styles.buttonContainer}>
                 {buttons.map((button, index) => {
                     const isPrimary = buttonLen === 1 || (buttonLen === 2 && index === 1) || (buttonLen > 2 && index === 0);
                     return (

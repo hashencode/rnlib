@@ -1,4 +1,5 @@
-import { Card, DefaultLayout, Group, Slider } from '../../src/components';
+import { Card, Group, Slider } from '../../src/components';
+import DefaultLayout from './DefaultLayout';
 
 export default function DemoSlider() {
     return (

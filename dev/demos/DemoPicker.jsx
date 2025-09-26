@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Button, Card, DefaultLayout, Flex, Group, Icon, Picker } from '../../src/components';
+import { Button, Card, Flex, Group, Icon, Picker } from '../../src/components';
 import { COLOR, SIZE } from '../../src/scripts/const';
+import DefaultLayout from './DefaultLayout';
 
 export default function DemoPicker() {
     const [openId, setOpenId] = useState('');

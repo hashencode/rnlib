@@ -1,7 +1,8 @@
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
-import { Card, DefaultLayout, Flex, Group, Icon, ImageX, TextX } from '../../src/components';
+import { Card, Flex, Group, Icon, ImageX, TextX } from '../../src/components';
 import { COLOR, SIZE } from '../../src/scripts/const';
 import { DEFAULT_IMAGE } from '../screens/Demo';
+import DefaultLayout from './DefaultLayout';
 
 export default function DemoCard() {
     return (

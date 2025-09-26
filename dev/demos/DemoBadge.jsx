@@ -1,5 +1,6 @@
 import { SIZE } from '../../src';
-import { Badge, Card, DefaultLayout, Flex, Group } from '../../src/components';
+import { Badge, Card, Flex, Group } from '../../src/components';
+import DefaultLayout from './DefaultLayout';
 
 export default function DemoBadge() {
     return (
