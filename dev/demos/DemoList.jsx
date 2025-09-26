@@ -1,4 +1,4 @@
-import { DefaultLayout, Icon, Switch, Group, List, ImageX, TextX } from '../../src/components';
+import { DefaultLayout, Group, Icon, ImageX, List, Switch, TextX } from '../../src/components';
 import { COLOR, SIZE } from '../../src/scripts/const';
 import { DEFAULT_IMAGE } from '../screens/Demo';
 

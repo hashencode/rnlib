@@ -1,4 +1,4 @@
-import { Carousel, DefaultLayout, Flex, TextX, Group, Card } from '../../src/components';
+import { Card, Carousel, DefaultLayout, Flex, Group, TextX } from '../../src/components';
 
 export default function DemoCarousel() {
     return (

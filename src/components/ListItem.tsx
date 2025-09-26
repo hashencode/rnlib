@@ -115,7 +115,7 @@ export default function ListItem(props: IListItemProps) {
                     {children}
                 </Flex>
 
-                <Flex column alignItems="flex-end" justifyContent="center" shrink={0} style={extraStyle}>
+                <Flex column alignItems="flex-end" justifyContent="center" style={extraStyle}>
                     <TextX size={SIZE.font_h3} style={extraTitleStyle}>
                         {extraTitle}
                     </TextX>

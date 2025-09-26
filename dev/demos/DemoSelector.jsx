@@ -1,4 +1,4 @@
-import { DefaultLayout, Icon, Selector, Group, Card } from '../../src/components';
+import { Card, DefaultLayout, Group, Icon, Selector } from '../../src/components';
 
 export default function DemoSelector() {
     const optionsData = [

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Button, DefaultLayout, Flex, Group, RadioGroup, Radio, Card } from '../../src/components';
-import { SIZE } from '../../src/scripts/const';
+import { SIZE } from '../../src';
+import { Button, Card, DefaultLayout, Flex, Group, Radio, RadioGroup } from '../../src/components';
 
 export default function DemoRadio() {
     const [isChecked, setIsChecked] = useState(false);

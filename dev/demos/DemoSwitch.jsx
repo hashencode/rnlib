@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { SIZE } from '../../src';
 import { Button, Card, DefaultLayout, Flex, Group, Switch } from '../../src/components';
-import { SIZE } from '../../src/scripts/const';
 
 export default function DemoSwitch() {
     const [switchValue, setSwitchValue] = useState(false);

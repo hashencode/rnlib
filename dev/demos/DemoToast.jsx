@@ -1,6 +1,6 @@
-import { Button, DefaultLayout, Flex, Group, Card } from '../../src/components';
+import { SIZE } from '../../src';
+import { Button, Card, DefaultLayout, Flex, Group } from '../../src/components';
 import { useToast } from '../../src/hooks';
-import { SIZE } from '../../src/scripts/const';
 
 export default function DemoToast() {
     const { createToast } = useToast();

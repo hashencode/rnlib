@@ -1,5 +1,5 @@
-import { DefaultLayout, Group, Card } from '../../src/components';
 import { Placeholder, PlaceholderLine } from 'rn-placeholder';
+import { Card, DefaultLayout, Group } from '../../src/components';
 
 export default function DemoGroup() {
     const content = (
