@@ -21,7 +21,7 @@ export default function Message(props: IMessageProps) {
     const { afterClose, content, duration = 3000, style } = props;
 
     const [visible, setVisible] = useState(true);
-    const timer = useRef<NodeJS.Timeout | null>(null);
+    const timer = useRef<any>(null);
     const { width: deviceWidth } = useWindowDimensions();
 
     // 关闭回调

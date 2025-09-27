@@ -1,6 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { StyleProp } from 'react-native/types';
+import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { COLOR, SIZE } from '../scripts/const';
 import Flex from './Flex';
 import TextX from './TextX';
@@ -23,7 +22,7 @@ export default function Toast(props: IToastProps) {
     const { afterClose, content, duration = 1200, style } = props;
 
     const [visible, setVisible] = useState(true);
-    const timer = useRef<NodeJS.Timeout | null>(null);
+    const timer = useRef<any>(null);
 
     // 关闭回调
     useEffect(() => {
