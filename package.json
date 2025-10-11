@@ -1,6 +1,6 @@
 {
   "name": "@hashencode/rnlib",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "scripts": {
     "android": "react-native run-android --terminal=/Applications/Utilities/Terminal.app --port 8083",
     "ios": "react-native run-ios --terminal=/Applications/Utilities/Terminal.app --port 8083",
@@ -9,12 +9,10 @@
     "test": "jest",
     "prepare": "bob build"
   },
-  "dependencies": {
-    "react": "19.1.0",
-    "react-native": "0.81.4",
-    "react-native-edge-to-edge": "^1.7.0"
-  },
   "devDependencies": {
+    "react": "19.1.1",
+    "react-native": "0.82.0",
+    "react-native-edge-to-edge": "^1.7.0",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
@@ -23,10 +21,10 @@
     "@react-native-community/cli": "20.0.0",
     "@react-native-community/cli-platform-android": "20.0.0",
     "@react-native-community/cli-platform-ios": "20.0.0",
-    "@react-native/babel-preset": "0.81.4",
-    "@react-native/eslint-config": "0.81.4",
-    "@react-native/metro-config": "0.81.4",
-    "@react-native/typescript-config": "0.81.4",
+    "@react-native/babel-preset": "0.82.0",
+    "@react-native/eslint-config": "0.82.0",
+    "@react-native/metro-config": "0.82.0",
+    "@react-native/typescript-config": "0.82.0",
     "@react-native-community/hooks": "^3.0.0",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
@@ -35,7 +33,7 @@
     "@types/jest": "^29.5.13",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.15.2",
-    "@types/react": "^19.1.0",
+    "@types/react": "^19.1.1",
     "@types/react-test-renderer": "^19.1.0",
     "ahooks": "^3.8.1",
     "babel-plugin-module-resolver": "^5.0.2",
@@ -57,7 +55,7 @@
     "react-native-size-matters": "^0.4.2",
     "react-native-svg": "^15.11.2",
     "react-native-video": "^6.16.1",
-    "react-test-renderer": "19.1.0",
+    "react-test-renderer": "19.1.1",
     "rn-placeholder": "^3.0.3",
     "typescript": "^5.8.3"
   },
