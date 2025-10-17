@@ -1,6 +1,5 @@
 import { ReactNode, useMemo } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { StyleProps } from 'react-native-reanimated';
 import { useMergedState } from '../hooks';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, Icon, TextX } from './index';
@@ -40,7 +39,7 @@ export default function Checkbox(props: ICheckboxProps) {
 
     // 图标容器样式
     const containerStyle = useMemo(() => {
-        let styleArray: StyleProps[] = [styles.iconContainer];
+        let styleArray: StyleProp<ViewStyle>[] = [styles.iconContainer];
         if (disabled) {
             // 禁用
             styleArray.push(styles.iconContainerDisabled);
@@ -50,7 +49,7 @@ export default function Checkbox(props: ICheckboxProps) {
         }
         // 如果存在自定义样式
         if (style?.iconContainer) {
-            styleArray.push(style?.iconContainer as StyleProps);
+            styleArray.push(style?.iconContainer as StyleProp<ViewStyle>);
         }
         return StyleSheet.flatten(styleArray);
     }, [disabled, innerValue, indeterminate, style?.iconContainer]);

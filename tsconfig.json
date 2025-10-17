@@ -1,8 +1,9 @@
 {
   "extends": "@react-native/typescript-config",
   "include": ["src/**/*.ts", "src/**/*.tsx"], // 确保包含所有 TypeScript 文件
-  "exclude": ["**/node_modules", "lib", "**/Pods"], // 排除生成目录
+  "exclude": ["node_modules", "lib", "**/Pods"], // 排除生成目录
   "compilerOptions": {
     "types": ["node"],
+    "skipLibCheck": true
   }
 }
