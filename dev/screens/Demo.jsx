@@ -45,7 +45,6 @@ export default function Demo() {
                 { onPress: () => goTo('AVATAR'), title: '头像 Avatar' },
                 { onPress: () => goTo('BADGE'), title: '徽标数 Badge' },
                 { onPress: () => goTo('CARD'), title: '卡片 Card' },
-                { onPress: () => goTo('CAROUSEL'), title: '走马灯 Carousel' },
                 { onPress: () => goTo('GROUP'), title: '分组 Group' },
                 { onPress: () => goTo('LIST'), title: '列表 List' },
                 { onPress: () => goTo('TABS'), title: '选项卡 Tabs' },
