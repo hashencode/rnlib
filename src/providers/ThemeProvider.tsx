@@ -1,9 +1,10 @@
 import { createContext, PropsWithChildren, useMemo, useState } from 'react';
 
-import { PortalProvider } from '@gorhom/portal';
+import { PortalHost, PortalProvider } from '@gorhom/portal';
 import DialogRender from '../components/DialogRender';
 import MessageRender from '../components/MessageRender';
 import ToastRender from '../components/ToastRender';
+import { StyleSheet } from 'react-native';
 
 type Context = {
     theme: {
@@ -51,10 +52,14 @@ export default function ThemeProvider(props: IThemeProviderProps) {
 
     return (
         <ThemeContext.Provider value={value}>
-            <PortalProvider>{props.children}</PortalProvider>
-            <DialogRender />
-            <ToastRender />
-            <MessageRender />
+            <PortalProvider>
+                {props.children}
+                <DialogRender />
+                <PortalHost name="toastHost" />
+                <ToastRender />
+                <PortalHost name="dialogHost" />
+                <MessageRender />
+            </PortalProvider>
         </ThemeContext.Provider>
     );
 }

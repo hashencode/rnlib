@@ -1,4 +1,4 @@
-import { isNil } from 'lodash';
+import { Portal } from '@gorhom/portal';
 import { useState } from 'react';
 import useEventEmitter from '../hooks/useEventEmitter';
 import { EMITTER_MAP } from '../scripts/enum';
@@ -13,50 +13,41 @@ export default function DialogRender() {
     const [dialogQueue, setDialogQueue] = useState<IDialogQueueItem[]>([]);
 
     const destroy = (id: string) => {
-        setDialogQueue(prev => [...prev.filter(item => item.id !== id)]);
+        setDialogQueue(prev => prev.filter(item => item.id !== id));
     };
 
+    // 打开对话框
     useEventEmitter(EMITTER_MAP['打开对话框'], (config: IDialogProps) => {
-        if (isNil(config.id)) {
-            config.id = randomId();
-        }
-        config.visible = true;
-        if (!dialogQueue.find(item => item.id === config.id)) {
-            setDialogQueue(prev => [...prev, config as IDialogQueueItem]);
-        }
+        setDialogQueue(prev => {
+            const id = config.id ?? randomId();
+            const newDialog = { ...config, id, visible: true } as IDialogQueueItem;
+            if (prev.some(item => item.id === id)) return prev;
+            return [...prev, newDialog];
+        });
     });
 
+    // 关闭指定对话框
     useEventEmitter(EMITTER_MAP['关闭对话框'], (id: string) => {
-        setDialogQueue(prev => [
-            ...prev.map(item => {
-                if (item.id === id) {
-                    item.visible = false;
-                }
-                return item;
-            }),
-        ]);
+        setDialogQueue(prev => prev.map(item => (item.id === id ? { ...item, visible: false } : item)));
     });
 
-    useEventEmitter(EMITTER_MAP['关闭所有对话框'], () => {
-        setDialogQueue([]);
-    });
+    // 关闭所有
+    useEventEmitter(EMITTER_MAP['关闭所有对话框'], () => setDialogQueue([]));
 
     return (
         <>
-            {dialogQueue?.map(queueItem => {
-                const { id: queueId, afterClose, visible, ...rest } = queueItem;
-                return (
+            {dialogQueue.map(({ id, afterClose, visible, ...rest }) => (
+                <Portal key={id} hostName="dialogHost" name={`dialog-${id}`}>
                     <Dialog
                         {...rest}
                         visible={visible}
-                        key={queueId}
                         afterClose={() => {
-                            destroy(queueId);
+                            destroy(id);
                             afterClose?.();
                         }}
                     />
-                );
-            })}
+                </Portal>
+            ))}
         </>
     );
 }

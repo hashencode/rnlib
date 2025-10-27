@@ -6,7 +6,6 @@ import DemoAvatar from '../demos/DemoAvatar';
 import DemoBadge from '../demos/DemoBadge';
 import DemoButton from '../demos/DemoButton';
 import DemoCard from '../demos/DemoCard';
-import DemoCarousel from '../demos/DemoCarousel';
 import DemoCheckList from '../demos/DemoCheckList';
 import DemoCheckbox from '../demos/DemoCheckbox';
 import DemoDialog from '../demos/DemoDialog';
@@ -35,7 +34,6 @@ const screens: any[] = [
     { component: DemoBadge, name: 'BADGE' },
     { component: DemoButton, name: 'BUTTON' },
     { component: DemoCard, name: 'CARD' },
-    { component: DemoCarousel, name: 'CAROUSEL' },
     { component: DemoCheckList, name: 'CHECK_LIST' },
     { component: DemoCheckbox, name: 'CHECKBOX' },
     { component: Demo, name: 'DEMO' },

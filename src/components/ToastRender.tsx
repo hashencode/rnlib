@@ -1,3 +1,4 @@
+import { Portal } from '@gorhom/portal';
 import { isNil } from 'lodash';
 import { useState } from 'react';
 import useEventEmitter from '../hooks/useEventEmitter';
@@ -13,15 +14,14 @@ export default function ToastRender() {
     const [toastQueue, setToastQueue] = useState<IToastQueueItem[]>([]);
 
     const destroy = (id: string) => {
-        setToastQueue(prev => {
-            return [...prev.filter(item => item.id !== id)];
-        });
+        setToastQueue(prev => prev.filter(item => item.id !== id));
     };
 
     useEventEmitter(EMITTER_MAP['打开提示'], (config: IToastProps) => {
         if (isNil(config.id)) {
             config.id = randomId();
         }
+
         if (!toastQueue.find(item => item.id === config.id)) {
             setToastQueue(prev => [...prev, config as IToastQueueItem]);
         }
@@ -37,17 +37,18 @@ export default function ToastRender() {
 
     return (
         <>
-            {toastQueue?.map(queueItem => {
+            {toastQueue.map(queueItem => {
                 const { id: queueId, afterClose, ...rest } = queueItem;
                 return (
-                    <Toast
-                        {...rest}
-                        key={queueId}
-                        afterClose={() => {
-                            destroy(queueId);
-                            afterClose?.();
-                        }}
-                    />
+                    <Portal key={queueId} hostName="toastHost" name={`toast-${queueId}`}>
+                        <Toast
+                            {...rest}
+                            afterClose={() => {
+                                destroy(queueId);
+                                afterClose?.();
+                            }}
+                        />
+                    </Portal>
                 );
             })}
         </>

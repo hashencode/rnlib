@@ -1,59 +1,100 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { COLOR, SIZE } from '../scripts/const';
 import Flex from './Flex';
 import TextX from './TextX';
-import { Overlay } from './index';
 
 export interface IToastProps {
-    afterClose?: () => void; // 关闭回调函数
-    content?: ReactNode; // 内容文本
-    id?: string; // 唯一id
-    type?: 'success' | 'error' | 'loading' | 'info'; // 提示类型
-    duration?: number; // 显示时长
+    afterClose?: () => void;
+    content?: ReactNode;
+    id?: string;
+    type?: 'success' | 'error' | 'loading' | 'info';
+    duration?: number;
+    position?: 'top' | 'center' | 'bottom'; // 新增位置参数
 
     style?: {
-        root?: StyleProp<ViewStyle>; // 根节点样式
-        content?: StyleProp<TextStyle>; // 内容样式
-    }; // 样式
+        root?: StyleProp<ViewStyle>;
+        content?: StyleProp<TextStyle>;
+    };
 }
 
+const ANIMATION_DURATION = 200;
+
 export default function Toast(props: IToastProps) {
-    const { afterClose, content, duration = 1200, style } = props;
+    const { afterClose, content, duration = 2000, style, position = 'center' } = props;
 
-    const [visible, setVisible] = useState(true);
-    const timer = useRef<any>(null);
+    const opacity = useSharedValue(0);
+    const scale = useSharedValue(0.8);
 
-    // 关闭回调
-    useEffect(() => {
-        if (visible && duration) {
-            timer.current = setTimeout(() => {
-                clearTimer();
-            }, duration);
-        }
-        return () => {
-            clearTimer();
+    // 动画样式
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            opacity: opacity.value,
+            transform: [{ scale: scale.value }],
         };
-    }, [visible]);
+    });
 
-    const clearTimer = () => {
-        if (timer.current) {
-            clearTimeout(timer.current);
+    // 根据位置设置容器样式
+    const getPositionStyle: () => ViewStyle = () => {
+        switch (position) {
+            case 'top':
+                return { justifyContent: 'flex-start', paddingTop: SIZE.space_lg };
+            case 'bottom':
+                return { justifyContent: 'flex-end', paddingBottom: SIZE.space_lg };
+            default:
+                return { justifyContent: 'center' };
         }
-        setVisible(false);
-        timer.current = null;
     };
 
+    // 动画效果
+    useEffect(() => {
+        // 进入动画
+        opacity.value = withTiming(1, {
+            duration: ANIMATION_DURATION,
+            easing: Easing.out(Easing.cubic),
+        });
+        scale.value = withTiming(1, {
+            duration: ANIMATION_DURATION,
+            easing: Easing.out(Easing.cubic),
+        });
+
+        // 自动关闭定时器
+        let closeTimer: NodeJS.Timeout | null = null;
+        if (duration > 0) {
+            closeTimer = setTimeout(() => {
+                // 退出动画
+                opacity.value = withTiming(0, {
+                    duration: ANIMATION_DURATION,
+                    easing: Easing.in(Easing.cubic),
+                });
+                scale.value = withTiming(0.8, {
+                    duration: ANIMATION_DURATION,
+                    easing: Easing.in(Easing.cubic),
+                });
+
+                // 使用setTimeout替代runOnJS
+                setTimeout(() => {
+                    afterClose?.();
+                }, ANIMATION_DURATION);
+            }, duration);
+        }
+
+        return () => {
+            if (closeTimer) {
+                clearTimeout(closeTimer);
+            }
+        };
+    }, [afterClose, duration]);
+
     return (
-        <Overlay afterDestroy={afterClose} backgroundColor="transparent" visible={visible}>
-            <Flex alignItems="center" column grow={1} justifyContent="center">
-                <Flex style={[styles.root, style?.root]}>
-                    <TextX color={COLOR.text_white} size={SIZE.font_h4} style={style?.content}>
-                        {content}
-                    </TextX>
-                </Flex>
-            </Flex>
-        </Overlay>
+        <Flex alignItems="center" style={[StyleSheet.absoluteFill, getPositionStyle()]} pointerEvents="box-none">
+            <Animated.View style={[styles.root, style?.root, animatedStyle]}>
+                <TextX color={COLOR.text_white} size={SIZE.font_h4} style={style?.content}>
+                    {content}
+                </TextX>
+            </Animated.View>
+        </Flex>
     );
 }
 
@@ -63,13 +104,5 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.radius_lg,
         maxWidth: SIZE.toast_width_max,
         padding: SIZE.space_lg,
-        zIndex: 100,
-    },
-    noIcon: {
-        maxWidth: SIZE.toast_width_max,
-    },
-    hasIcon: {
-        height: SIZE.toast_big_size,
-        width: SIZE.toast_big_size,
     },
 });
