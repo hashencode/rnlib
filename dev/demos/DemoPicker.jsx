@@ -26,7 +26,10 @@ export default function DemoPicker() {
                                     id: 'cn',
                                     defaultValue: 'B',
                                     options: optionsData,
-                                    onChange: () => destroyPicker('cn'),
+                                    onChange: val => {
+                                        console.log(val);
+                                        destroyPicker('cn');
+                                    },
                                     onCancel: () => destroyPicker('cn'),
                                 })
                             }>
@@ -38,7 +41,7 @@ export default function DemoPicker() {
                                     id: 'cn',
                                     defaultValue: ['A', 'B'],
                                     options: optionsData,
-                                    onChange: () => destroyPicker('cn'),
+                                    onChange: val => console.log(val),
                                     onCancel: () => destroyPicker('cn'),
                                     multiple: true,
                                 })

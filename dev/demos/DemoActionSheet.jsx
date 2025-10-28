@@ -21,7 +21,10 @@ export default function DemoActionSheet() {
                                 id: 'cn',
                                 header: '基础',
                                 options: optionsBasic,
-                                onChange: () => destroyActionSheet('cn'),
+                                onChange: val => {
+                                    console.log(val);
+                                    destroyActionSheet('cn');
+                                },
                                 onCancel: () => destroyActionSheet('cn'),
                             })
                         }>
