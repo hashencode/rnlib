@@ -1,10 +1,12 @@
 import { createContext, PropsWithChildren, useMemo, useState } from 'react';
 
 import { PortalHost, PortalProvider } from '@gorhom/portal';
+import ActionSheetRender from '../components/ActionSheetRender.tsx';
 import DialogRender from '../components/DialogRender';
 import MessageRender from '../components/MessageRender';
+import OverlayRender from '../components/OverlayRender.tsx';
+import PickerRender from '../components/PickerRender.tsx';
 import ToastRender from '../components/ToastRender';
-import { StyleSheet } from 'react-native';
 
 type Context = {
     theme: {
@@ -54,11 +56,18 @@ export default function ThemeProvider(props: IThemeProviderProps) {
         <ThemeContext.Provider value={value}>
             <PortalProvider>
                 {props.children}
+                <PortalHost name="dialogHost" />
                 <DialogRender />
                 <PortalHost name="toastHost" />
                 <ToastRender />
-                <PortalHost name="dialogHost" />
+                <PortalHost name="messageHost" />
                 <MessageRender />
+                <PortalHost name="actionSheetHost" />
+                <ActionSheetRender />
+                <PortalHost name="pickerHost" />
+                <PickerRender />
+                <PortalHost name="overlayHost" />
+                <OverlayRender />
             </PortalProvider>
         </ThemeContext.Provider>
     );

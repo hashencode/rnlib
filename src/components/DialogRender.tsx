@@ -5,8 +5,8 @@ import { EMITTER_MAP } from '../scripts/enum';
 import { randomId } from '../scripts/utils';
 import Dialog, { IDialogProps } from './Dialog';
 
-export interface IDialogQueueItem extends Omit<IDialogProps, 'id'> {
-    id: string;
+export interface IDialogQueueItem extends IDialogProps {
+    id?: string;
 }
 
 export default function DialogRender() {
@@ -36,13 +36,13 @@ export default function DialogRender() {
 
     return (
         <>
-            {dialogQueue.map(({ id, afterClose, visible, ...rest }) => (
-                <Portal key={id} hostName="dialogHost" name={`dialog-${id}`}>
+            {dialogQueue.map(({ id: queueId, afterClose, visible, ...rest }) => (
+                <Portal key={queueId} hostName="dialogHost" name={`dialog-${queueId}`}>
                     <Dialog
                         {...rest}
                         visible={visible}
                         afterClose={() => {
-                            destroy(id);
+                            destroy(queueId as string);
                             afterClose?.();
                         }}
                     />

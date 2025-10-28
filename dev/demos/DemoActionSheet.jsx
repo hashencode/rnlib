@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { ActionSheet, Button, Card, Group } from '../../src/components';
+import { Button, Card, Group } from '../../src/components';
+import useActionSheet from '../../src/hooks/useActionSheet';
 import DefaultLayout from './DefaultLayout';
 
 export default function DemoActionSheet() {
-    const [openId, setOpenId] = useState('');
+    const { createActionSheet, destroyActionSheet } = useActionSheet();
 
     const optionsBasic = [
         { title: '选项 A', value: 'A' },
@@ -11,23 +11,23 @@ export default function DemoActionSheet() {
         { title: '选项禁用', value: 'C', disabled: true },
     ];
 
-    const resetOpenId = () => {
-        setOpenId('');
-    };
-
     return (
         <DefaultLayout head="动作面板 ActionSheet">
             <Group header="选项" first>
                 <Card>
-                    <Button onPress={() => setOpenId('basic')}>基础</Button>
+                    <Button
+                        onPress={() =>
+                            createActionSheet({
+                                id: 'cn',
+                                header: '基础',
+                                options: optionsBasic,
+                                onChange: () => destroyActionSheet('cn'),
+                                onCancel: () => destroyActionSheet('cn'),
+                            })
+                        }>
+                        基础
+                    </Button>
                 </Card>
-                <ActionSheet
-                    header="基础"
-                    visible={openId === 'basic'}
-                    options={optionsBasic}
-                    onChange={resetOpenId}
-                    onCancel={resetOpenId}
-                />
             </Group>
         </DefaultLayout>
     );

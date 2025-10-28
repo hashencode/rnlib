@@ -6,8 +6,8 @@ import { EMITTER_MAP } from '../scripts/enum';
 import { randomId } from '../scripts/utils';
 import { IToastProps, Toast } from './index';
 
-export interface IToastQueueItem extends Omit<IToastProps, 'id'> {
-    id: string;
+export interface IToastQueueItem extends IToastProps {
+    id?: string;
 }
 
 export default function ToastRender() {
@@ -17,7 +17,7 @@ export default function ToastRender() {
         setToastQueue(prev => prev.filter(item => item.id !== id));
     };
 
-    useEventEmitter(EMITTER_MAP['打开提示'], (config: IToastProps) => {
+    useEventEmitter(EMITTER_MAP['打开提示'], (config: IToastQueueItem) => {
         if (isNil(config.id)) {
             config.id = randomId();
         }
@@ -44,7 +44,7 @@ export default function ToastRender() {
                         <Toast
                             {...rest}
                             afterClose={() => {
-                                destroy(queueId);
+                                destroy(queueId as string);
                                 afterClose?.();
                             }}
                         />

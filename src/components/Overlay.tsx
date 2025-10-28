@@ -1,26 +1,52 @@
-import { ReactNode, useEffect, useState } from 'react';
-import { Keyboard, Modal, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { Portal } from '@gorhom/portal';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { Keyboard, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useStyle } from '../hooks';
 import { COLOR } from '../scripts/const';
 
 export interface IOverlayProps {
-    children?: ReactNode;
+    afterClose?: () => void; // 关闭回调
     backgroundColor?: string;
-    visible?: boolean;
+    children?: ReactNode;
     modal?: boolean;
-    onPress?: () => void;
-    onRequestClose?: () => boolean;
+    overlayClosable?: boolean; // 新增：点击遮罩是否可关闭
+    visible?: boolean;
+
     style?: {
         root?: StyleProp<ViewStyle>;
         content?: StyleProp<ViewStyle>;
     };
+
+    onRequestClose?: () => boolean;
 }
 
-function Overlay(props: IOverlayProps) {
-    const { visible, backgroundColor = COLOR.bg_overlay, style, onPress, modal = true, children } = props;
+const ANIMATION_DURATION = 200;
+
+export default function Overlay(props: IOverlayProps) {
+    const {
+        visible,
+        backgroundColor = COLOR.bg_overlay,
+        style,
+        modal = true,
+        children,
+        afterClose,
+        onRequestClose,
+        overlayClosable = true, // 默认允许点击遮罩关闭
+    } = props;
 
     const [keyboardVisible, setKeyboardVisible] = useState(false);
+    const opacity = useSharedValue(0);
+    const portalName = `overlay-${Math.random().toString(36).substr(2, 9)}`;
 
+    // 动画样式
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            opacity: opacity.value,
+        };
+    });
+
+    // 键盘监听
     useEffect(() => {
         const showSub = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
         const hideSub = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
@@ -30,29 +56,65 @@ function Overlay(props: IOverlayProps) {
         };
     }, []);
 
+    // 动画效果
+    useEffect(() => {
+        if (visible) {
+            // 进入动画
+            opacity.value = withTiming(1, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.out(Easing.cubic),
+            });
+        } else if (opacity.value > 0) {
+            // 退出动画
+            opacity.value = withTiming(0, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.in(Easing.cubic),
+            });
+
+            // 动画完成后执行关闭回调
+            setTimeout(() => {
+                afterClose?.();
+            }, ANIMATION_DURATION);
+        }
+    }, [visible]);
+
+    // 内容样式
     const contentStyle = useStyle<ViewStyle>({
         defaultStyle: [styles.content],
         extraStyle: [style?.content],
     });
 
-    return (
-        <Modal transparent animationType="fade" visible={visible} onRequestClose={props.onRequestClose} statusBarTranslucent={true}>
-            <Pressable
-                onPress={onPress}
-                style={({ pressed }) => [{ backgroundColor }, StyleSheet.absoluteFill, modal && { opacity: pressed ? 0.9 : 1 }]}
-                pointerEvents={modal ? 'auto' : 'none'}
-            />
-            <View style={contentStyle} pointerEvents="box-none">
-                {children}
-            </View>
+    // 处理遮罩点击
+    const handleOverlayPress = () => {
+        if (overlayClosable) {
+            if (onRequestClose?.() !== false) {
+                afterClose?.();
+            }
+        }
+    };
 
-            {/* 键盘弹出时添加底部间距 */}
-            {keyboardVisible && <View style={{ height: 250 }} />}
-        </Modal>
+    return (
+        <Portal name={portalName}>
+            <View style={[StyleSheet.absoluteFill, { zIndex: 100 }]} pointerEvents="box-none">
+                {/* 半透明遮罩 */}
+                <Pressable onPress={handleOverlayPress} style={StyleSheet.absoluteFill}>
+                    <Animated.View
+                        style={[StyleSheet.absoluteFill, { backgroundColor }, animatedStyle]}
+                        pointerEvents={modal ? 'auto' : 'none'}
+                    />
+                </Pressable>
+
+                {/* 内容区域 */}
+                <Animated.View style={[contentStyle, animatedStyle]} pointerEvents="box-none">
+                    {children}
+                </Animated.View>
+
+                {/* 键盘弹出时添加底部间距 */}
+                {keyboardVisible && <View style={{ height: 250 }} />}
+            </View>
+        </Portal>
     );
 }
-
-export default Overlay;
 
 const styles = StyleSheet.create({
     content: {

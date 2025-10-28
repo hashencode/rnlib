@@ -1,21 +1,20 @@
 import { isArray } from 'lodash';
-import React, { Fragment, PropsWithChildren, useEffect } from 'react';
+import React, { Fragment, PropsWithChildren, ReactNode, useEffect } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { COLOR, SIZE } from '../scripts/const';
 import { IButtonProps } from './Button';
 import { Button, Flex, TextX } from './index';
-import { COLORS } from 'rn-placeholder/lib/tokens';
 
 export interface IDialogProps extends PropsWithChildren {
     actions?: IButtonProps[];
     afterClose?: () => void;
     backCloseable?: boolean;
     buttons?: IButtonProps[];
-    content?: React.ReactNode;
+    content?: ReactNode;
     id?: string;
     overlayClosable?: boolean;
-    title?: React.ReactNode;
+    title?: ReactNode;
     visible?: boolean;
 
     style?: {
@@ -28,7 +27,7 @@ export interface IDialogProps extends PropsWithChildren {
     onCancel?: () => void;
 }
 
-const ANIMATION_DURATION = 300;
+const ANIMATION_DURATION = 200;
 
 export default function Dialog(props: IDialogProps) {
     const {
@@ -37,7 +36,7 @@ export default function Dialog(props: IDialogProps) {
         buttons,
         actions,
         visible = false,
-        overlayClosable = true,
+        overlayClosable = false,
         onCancel,
         afterClose,
         style,
@@ -87,7 +86,7 @@ export default function Dialog(props: IDialogProps) {
                 afterClose?.();
             }, ANIMATION_DURATION);
         }
-    }, [visible]);
+    }, [visible, afterClose]);
 
     const handleOverlayPress = () => {
         if (overlayClosable) onCancel?.();
@@ -151,8 +150,6 @@ export default function Dialog(props: IDialogProps) {
             </View>
         );
     };
-
-    if (!visible && opacity.value === 0) return null;
 
     return (
         <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: COLOR.bg_overlay }, backgroundStyle]}>

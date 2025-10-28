@@ -1,86 +1,111 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { StyleProp, StyleSheet, TextStyle, View, ViewStyle, useWindowDimensions } from 'react-native';
-
-import Animated, { FadeInUp, FadeOutUp, runOnJS } from 'react-native-reanimated';
-import useStyle from '../hooks/useStyle';
+import React, { ReactNode, useEffect } from 'react';
+import { StyleProp, StyleSheet, TextStyle, ViewStyle, useWindowDimensions } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLOR, SIZE } from '../scripts/const';
 import { Flex, TextX } from './index';
 
 export interface IMessageProps {
-    afterClose?: () => void; // 关闭回调函数
-    content?: ReactNode; // 内容文本
-    duration?: number; // 显示时长
-    id?: string; // 唯一id
+    afterClose?: () => void;
+    content?: ReactNode;
+    duration?: number;
+    position?: 'top' | 'center' | 'bottom';
+
     style?: {
-        content?: StyleProp<TextStyle>; // 内容样式
-        root?: StyleProp<ViewStyle>; // 根节点样式
-    }; // 样式
+        content?: StyleProp<TextStyle>;
+        root?: StyleProp<ViewStyle>;
+    };
 }
 
+const ANIMATION_DURATION = 200;
+
 export default function Message(props: IMessageProps) {
-    const { afterClose, content, duration = 3000, style } = props;
+    const { afterClose, content, duration = 3000, style, position = 'top' } = props;
 
-    const [visible, setVisible] = useState(true);
-    const timer = useRef<any>(null);
     const { width: deviceWidth } = useWindowDimensions();
+    const insets = useSafeAreaInsets();
+    const opacity = useSharedValue(0);
+    const translateY = useSharedValue(position === 'top' ? -50 : position === 'bottom' ? 50 : 0);
 
-    // 关闭回调
-    useEffect(() => {
-        if (visible && duration) {
-            timer.current = setTimeout(() => {
-                clearTimer();
-            }, duration);
-        }
-        return () => {
-            clearTimer();
+    // 动画样式
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            opacity: opacity.value,
+            transform: [{ translateY: translateY.value }],
         };
-    }, [visible]);
-
-    // 根节点样式
-    const rootStyle = useStyle<ViewStyle>({
-        defaultStyle: [styles.root],
-        extraStyle: [style?.root, { width: deviceWidth - SIZE.space_md * 2 }],
     });
 
-    const clearTimer = () => {
-        if (timer.current) {
-            clearTimeout(timer.current);
-        }
-        setVisible(false);
-        timer.current = null;
-    };
+    // 动画效果
+    useEffect(() => {
+        // 进入动画
+        opacity.value = withTiming(1, {
+            duration: ANIMATION_DURATION,
+            easing: Easing.out(Easing.cubic),
+        });
+        translateY.value = withTiming(0, {
+            duration: ANIMATION_DURATION,
+            easing: Easing.out(Easing.cubic),
+        });
 
-    const handleAfterClose = () => {
-        setVisible(false);
-        afterClose?.();
+        let closeTimer: NodeJS.Timeout | null = null;
+        if (duration > 0) {
+            closeTimer = setTimeout(() => {
+                // 退出动画
+                opacity.value = withTiming(0, {
+                    duration: ANIMATION_DURATION,
+                    easing: Easing.in(Easing.cubic),
+                });
+
+                translateY.value = withTiming(position === 'top' ? -50 : position === 'bottom' ? 50 : 0, {
+                    duration: ANIMATION_DURATION,
+                    easing: Easing.in(Easing.cubic),
+                });
+
+                // 使用setTimeout替代runOnJS
+                setTimeout(() => {
+                    afterClose?.();
+                }, ANIMATION_DURATION);
+            }, duration);
+        }
+
+        return () => {
+            if (closeTimer) {
+                clearTimeout(closeTimer);
+            }
+        };
+    }, [afterClose, duration, position]);
+
+    // 根据位置设置容器样式
+    const getPositionStyle: () => ViewStyle = () => {
+        switch (position) {
+            case 'top':
+                return { top: SIZE.space_md + insets.top };
+            case 'bottom':
+                return { bottom: SIZE.space_md + insets.bottom };
+            default: // center
+                return {
+                    top: '50%',
+                    transform: [{ translateY: -25 }], // 居中偏移
+                };
+        }
     };
 
     return (
-        <View style={styles.container}>
-            {visible ? (
-                <Animated.View
-                    entering={FadeInUp}
-                    exiting={FadeOutUp.withCallback(finished => {
-                        if (finished) {
-                            runOnJS(handleAfterClose)();
-                        }
-                    })}>
-                    <Flex style={rootStyle}>
-                        <TextX size={SIZE.font_h5} style={style?.content}>
-                            {content}
-                        </TextX>
-                    </Flex>
-                </Animated.View>
-            ) : null}
-        </View>
+        <Animated.View style={[styles.container, getPositionStyle(), animatedStyle]}>
+            <Flex style={[styles.root, style?.root, { width: deviceWidth - SIZE.space_md * 2 }]}>
+                <TextX size={SIZE.font_h5} style={style?.content}>
+                    {content}
+                </TextX>
+            </Flex>
+        </Animated.View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        left: 0,
+        left: SIZE.space_md,
         position: 'absolute',
-        top: 0,
+        right: SIZE.space_md,
         zIndex: 99,
     },
     root: {
@@ -88,7 +113,6 @@ const styles = StyleSheet.create({
         borderColor: COLOR.border_controller,
         borderRadius: SIZE.radius_md,
         borderWidth: SIZE.border_default,
-        margin: SIZE.space_md,
         padding: SIZE.space_lg,
         width: '100%',
     },

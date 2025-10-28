@@ -1,5 +1,5 @@
-import { ReactNode, useEffect } from 'react';
-import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import React, { ReactNode, useEffect } from 'react';
+import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { COLOR, SIZE } from '../scripts/const';
 import Flex from './Flex';
@@ -8,7 +8,6 @@ import TextX from './TextX';
 export interface IToastProps {
     afterClose?: () => void;
     content?: ReactNode;
-    id?: string;
     type?: 'success' | 'error' | 'loading' | 'info';
     duration?: number;
     position?: 'top' | 'center' | 'bottom'; // 新增位置参数
@@ -88,7 +87,8 @@ export default function Toast(props: IToastProps) {
     }, [afterClose, duration]);
 
     return (
-        <Flex alignItems="center" style={[StyleSheet.absoluteFill, getPositionStyle()]} pointerEvents="box-none">
+        <Flex alignItems="center" style={[StyleSheet.absoluteFill, getPositionStyle()]}>
+            <Pressable style={StyleSheet.absoluteFill} />
             <Animated.View style={[styles.root, style?.root, animatedStyle]}>
                 <TextX color={COLOR.text_white} size={SIZE.font_h4} style={style?.content}>
                     {content}
@@ -104,5 +104,6 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.radius_lg,
         maxWidth: SIZE.toast_width_max,
         padding: SIZE.space_lg,
+        zIndex: 99,
     },
 });

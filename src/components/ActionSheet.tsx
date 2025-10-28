@@ -1,39 +1,102 @@
-import { ReactNode } from 'react';
-import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Grabber, IListItemProps, Overlay, List, TextX } from './index';
+import React, { ReactNode, useEffect } from 'react';
+import { Dimensions, Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import useStyle from '../hooks/useStyle';
+import { COLOR, SIZE } from '../scripts/const';
+import { Flex, Grabber, IListItemProps, List, TextX } from './index';
 
 export type IActionSheetOptionValue = string | number;
 export interface IActionSheetOption extends IListItemProps {
-    value: IActionSheetOptionValue; // 选项值
+    value: IActionSheetOptionValue;
 }
 
 export interface IActionSheetProps {
-    backCloseable?: boolean; // 允许返回操作关闭
-    cancelText?: ReactNode; // 取消按钮文本
-    header?: ReactNode; // 头部插槽
-    options: IActionSheetOption[]; // 选项
-    overlayClosable?: boolean; // 允许点击蒙层关闭
-    showCancel?: boolean; // 显示取消按钮
-    visible?: boolean; // 显隐
+    backCloseable?: boolean;
+    cancelText?: ReactNode;
+    header?: ReactNode;
+    options: IActionSheetOption[];
+    overlayClosable?: boolean;
+    showCancel?: boolean;
+    visible?: boolean;
+    afterClose?: () => void;
 
     style?: {
-        cancelButton?: StyleProp<ViewStyle>; // 取消按钮样式
-        cancelText?: StyleProp<TextStyle>; // 取消按钮文本样式
-        divider?: StyleProp<ViewStyle>; // 分割线样式
-        grabber?: StyleProp<ViewStyle>; // 抓手样式
-        header?: StyleProp<ViewStyle>; // 头部样式
-        headerText?: StyleProp<TextStyle>; // 头部文本样式
-        root: StyleProp<ViewStyle>; // 根节点样式
-    }; // 样式
+        cancelButton?: StyleProp<ViewStyle>;
+        cancelText?: StyleProp<TextStyle>;
+        divider?: StyleProp<ViewStyle>;
+        grabber?: StyleProp<ViewStyle>;
+        header?: StyleProp<ViewStyle>;
+        headerText?: StyleProp<TextStyle>;
+        root: StyleProp<ViewStyle>;
+    };
 
-    onCancel?: () => void; // 关闭事件回调
-    onChange?: (val: IActionSheetOptionValue) => void; // 点击选项事件回调
+    onCancel?: () => void;
+    onChange?: (val: IActionSheetOptionValue) => void;
 }
 
-function ActionSheet(props: IActionSheetProps) {
-    const { options = [], visible, header, overlayClosable = true, backCloseable = true, style, onCancel, onChange } = props;
+const ANIMATION_DURATION = 300;
+
+export default function ActionSheet(props: IActionSheetProps) {
+    const {
+        options = [],
+        visible,
+        header,
+        overlayClosable = true,
+        style,
+        onCancel,
+        onChange,
+        afterClose,
+        showCancel = true,
+        cancelText = '取消',
+    } = props;
+
+    const screenHeight = Dimensions.get('window').height;
+    const translateY = useSharedValue(screenHeight);
+    const opacity = useSharedValue(0);
+
+    // 动画样式
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: translateY.value }],
+        };
+    });
+
+    // 背景动画样式
+    const bgAnimatedStyle = useAnimatedStyle(() => {
+        return {
+            opacity: opacity.value,
+        };
+    });
+
+    // 动画效果
+    useEffect(() => {
+        if (visible) {
+            // 进入动画
+            translateY.value = withTiming(0, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.out(Easing.cubic),
+            });
+            opacity.value = withTiming(1, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.out(Easing.cubic),
+            });
+        } else if (opacity.value > 0) {
+            // 退出动画
+            translateY.value = withTiming(screenHeight, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.in(Easing.cubic),
+            });
+            opacity.value = withTiming(0, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.in(Easing.cubic),
+            });
+
+            // 动画完成后执行关闭回调
+            setTimeout(() => {
+                afterClose?.();
+            }, ANIMATION_DURATION);
+        }
+    }, [visible, afterClose]);
 
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
@@ -61,38 +124,83 @@ function ActionSheet(props: IActionSheetProps) {
 
     // 格式化选项
     const formatOptions = options.map(option => {
-        option.onPress = () => {
-            handleOptionPress(option.value);
+        return {
+            ...option,
+            onPress: () => {
+                if (!option.disabled) {
+                    handleOptionPress(option.value);
+                }
+            },
         };
-        return option;
     });
 
+    // 添加取消按钮
+    const allOptions = showCancel
+        ? [
+              ...formatOptions,
+              {
+                  value: 'cancel',
+                  text: cancelText,
+                  onPress: () => onCancel?.(),
+                  style: {
+                      root: style?.cancelButton,
+                      text: style?.cancelText,
+                  },
+              },
+          ]
+        : formatOptions;
+
     return (
-        <Overlay visible={visible} onPress={handleOverlayPress} onRequestClose={() => backCloseable}>
-            <View style={rootStyle}>
-                {header ? (
-                    <Flex block alignItems="center" justifyContent="center" style={headerStyle}>
-                        <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
-                            {header}
-                        </TextX>
-                    </Flex>
-                ) : null}
+        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+            {/* 半透明遮罩 */}
+            <Pressable onPress={handleOverlayPress} style={StyleSheet.absoluteFill}>
+                <Animated.View
+                    style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.5)' }, bgAnimatedStyle]}
+                    pointerEvents="auto"
+                />
+            </Pressable>
 
-                <List items={formatOptions} style={{ root: style?.root, divider: style?.divider }} />
+            {/* ActionSheet 内容 */}
+            <Animated.View
+                style={[
+                    StyleSheet.absoluteFill,
+                    animatedStyle,
+                    {
+                        top: 'auto',
+                        zIndex: 100,
+                    },
+                ]}>
+                <View style={rootStyle}>
+                    {header ? (
+                        <Flex block alignItems="center" justifyContent="center" style={headerStyle}>
+                            <TextX size={SIZE.font_h5} color={COLOR.text_desc} style={style?.headerText}>
+                                {header}
+                            </TextX>
+                        </Flex>
+                    ) : null}
 
+                    <List
+                        items={allOptions}
+                        style={{
+                            root: style?.root,
+                            divider: style?.divider,
+                        }}
+                    />
+                </View>
+
+                {/* 底部安全区域背景色 */}
                 <Grabber style={style?.grabber} />
-            </View>
-        </Overlay>
+            </Animated.View>
+        </View>
     );
 }
 
-export default ActionSheet;
-
 const styles = StyleSheet.create({
     root: {
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
+        backgroundColor: COLOR.white,
+        borderTopLeftRadius: SIZE.radius_lg,
+        borderTopRightRadius: SIZE.radius_lg,
+        paddingBottom: SIZE.space_md,
     },
     header: {
         backgroundColor: COLOR.white,

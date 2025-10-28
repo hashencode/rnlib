@@ -1,11 +1,12 @@
 import { isArray } from 'lodash';
-import { ReactNode, useState } from 'react';
-import { ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { ReactNode, useEffect, useState } from 'react';
+import { Dimensions, Pressable, ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useMergedState } from '../hooks';
 import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import Button, { IButtonProps } from './Button';
-import { Flex, Grabber, IListItemProps, Icon, List, Overlay, TextX } from './index';
+import { Flex, Grabber, Icon, IListItemProps, List, TextX } from './index';
 
 export type IPickerRawValue = number | string;
 export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;
@@ -14,39 +15,41 @@ export interface IPickerOption extends IListItemProps {
 }
 
 export interface IPickerProps {
-    backCloseable?: boolean; // 允许返回操作关闭
-    cancelButtonProps?: IButtonProps; // 取消按钮属性
-    cancelText?: string; // 取消按钮文案
-    checkIcon?: ReactNode; // 自定义选中图标
-    defaultValue?: IPickerValue; // 默认值
-    maxHeight?: number; // 最大高度
-    multiple?: boolean; // 多选
-    okButtonProps?: IButtonProps; // 确定按钮属性
-    okText?: string; // 确认按钮文案（多选）
-    options: IPickerOption[]; // 选项
-    overlayClosable?: boolean; // 允许点击蒙层关闭
-    title?: ReactNode; // 头部标题插槽
-    value?: IPickerValue; // 受控值
-    visible?: boolean; // 显隐
+    backCloseable?: boolean;
+    cancelButtonProps?: IButtonProps;
+    cancelText?: string;
+    checkIcon?: ReactNode;
+    defaultValue?: IPickerValue;
+    maxHeight?: number;
+    multiple?: boolean;
+    okButtonProps?: IButtonProps;
+    okText?: string;
+    options: IPickerOption[];
+    overlayClosable?: boolean;
+    title?: ReactNode;
+    value?: IPickerValue;
+    visible?: boolean;
+    afterClose?: () => void;
 
     style?: {
-        cancelButton?: StyleProp<ViewStyle>; // 取消按钮样式
-        cancelText?: StyleProp<TextStyle>; // 取消按钮文本样式
-        checkIcon?: StyleProp<TextStyle>; // 选中图标样式
-        divider?: StyleProp<ViewStyle>; // 分割线样式
-        grabber?: StyleProp<ViewStyle>; // 抓手样式
-        header?: StyleProp<ViewStyle>; // 头部样式
-        headerText?: StyleProp<TextStyle>; // 头部文本样式
-        root: StyleProp<ViewStyle>; // 根节点样式
-    }; // 样式
+        cancelButton?: StyleProp<ViewStyle>;
+        cancelText?: StyleProp<TextStyle>;
+        checkIcon?: StyleProp<TextStyle>;
+        divider?: StyleProp<ViewStyle>;
+        grabber?: StyleProp<ViewStyle>;
+        header?: StyleProp<ViewStyle>;
+        headerText?: StyleProp<TextStyle>;
+        root: StyleProp<ViewStyle>;
+    };
 
-    onCancel?: () => void; // 取消按钮点击事件回调
-    onChange?: (val: IPickerValue) => void; // 值变动事件回调
+    onCancel?: () => void;
+    onChange?: (val: IPickerValue) => void;
 }
 
-function Picker(props: IPickerProps) {
+const ANIMATION_DURATION = 300;
+
+export default function Picker(props: IPickerProps) {
     const {
-        backCloseable = true,
         cancelText = '取消',
         okText = '确定',
         defaultValue,
@@ -63,7 +66,56 @@ function Picker(props: IPickerProps) {
         okButtonProps,
         onCancel,
         onChange,
+        afterClose,
     } = props;
+
+    const screenHeight = Dimensions.get('window').height;
+    const translateY = useSharedValue(screenHeight);
+    const opacity = useSharedValue(0);
+
+    // 动画样式
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: translateY.value }],
+        };
+    });
+
+    // 背景动画样式
+    const bgAnimatedStyle = useAnimatedStyle(() => {
+        return {
+            opacity: opacity.value,
+        };
+    });
+
+    // 动画效果
+    useEffect(() => {
+        if (visible) {
+            // 进入动画
+            translateY.value = withTiming(0, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.out(Easing.cubic),
+            });
+            opacity.value = withTiming(1, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.out(Easing.cubic),
+            });
+        } else if (opacity.value > 0) {
+            // 退出动画
+            translateY.value = withTiming(screenHeight, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.in(Easing.cubic),
+            });
+            opacity.value = withTiming(0, {
+                duration: ANIMATION_DURATION,
+                easing: Easing.in(Easing.cubic),
+            });
+
+            // 动画完成后执行关闭回调
+            setTimeout(() => {
+                afterClose?.();
+            }, ANIMATION_DURATION);
+        }
+    }, [visible]);
 
     // 根节点样式
     const rootStyle = useStyle<ViewStyle>({
@@ -96,6 +148,7 @@ function Picker(props: IPickerProps) {
         } else {
             handleChange(val);
             onChange?.(val);
+            onCancel?.();
         }
     };
 
@@ -103,6 +156,7 @@ function Picker(props: IPickerProps) {
     const handleConfirm = () => {
         handleChange(valueCache);
         onChange?.(valueCache);
+        onCancel?.();
     };
 
     // 处理取消按钮点击
@@ -134,54 +188,78 @@ function Picker(props: IPickerProps) {
     });
 
     return (
-        <Overlay visible={visible} onPress={handleOverlayPress} onRequestClose={() => backCloseable}>
-            <View style={rootStyle}>
-                {/* 头部 */}
-                {title || multiple ? (
-                    <Flex alignItems="center" justifyContent="space-between" style={headerStyle}>
-                        {/* 取消按钮 */}
-                        <View style={styles.actionButton}>
-                            <Button
-                                type="text"
-                                style={{ text: { color: COLOR.text_subtitle } }}
-                                onPress={handleCancel}
-                                {...cancelButtonProps}>
-                                {cancelText}
-                            </Button>
-                        </View>
-                        {/* 标题文本 */}
-                        <Flex justifyContent="center" alignItems="center" grow={1}>
-                            <TextX size={SIZE.font_h2} weight={SIZE.weight_title}>
-                                {title}
-                            </TextX>
-                        </Flex>
-                        {/*确定按钮*/}
-                        <View style={styles.actionButton}>
-                            <Button type="text" style={{ text: { color: COLOR.primary } }} onPress={handleConfirm} {...okButtonProps}>
-                                {okText}
-                            </Button>
-                        </View>
-                    </Flex>
-                ) : null}
+        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+            {/* 半透明遮罩 */}
+            <Pressable onPress={handleOverlayPress} style={StyleSheet.absoluteFill}>
+                <Animated.View
+                    style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.5)' }, bgAnimatedStyle]}
+                    pointerEvents="auto"
+                />
+            </Pressable>
 
-                {/* 内容 */}
-                <ScrollView style={{ maxHeight: maxHeight }}>
-                    <List items={formatOptions} style={{ root: style?.root, divider: style?.divider }} />
-                </ScrollView>
+            {/* Picker 内容 */}
+            <Animated.View
+                style={[
+                    StyleSheet.absoluteFill,
+                    animatedStyle,
+                    {
+                        top: 'auto',
+                        zIndex: 100,
+                    },
+                ]}>
+                <View style={rootStyle}>
+                    {/* 头部 */}
+                    {title || multiple ? (
+                        <Flex alignItems="center" justifyContent="space-between" style={headerStyle}>
+                            {/* 取消按钮 */}
+                            <View style={styles.actionButton}>
+                                <Button
+                                    type="text"
+                                    style={{ text: { color: COLOR.text_subtitle } }}
+                                    onPress={handleCancel}
+                                    {...cancelButtonProps}>
+                                    {cancelText}
+                                </Button>
+                            </View>
+                            {/* 标题文本 */}
+                            <Flex justifyContent="center" alignItems="center" grow={1}>
+                                <TextX size={SIZE.font_h2} weight={SIZE.weight_title}>
+                                    {title}
+                                </TextX>
+                            </Flex>
+                            {/*确定按钮*/}
+                            <View style={styles.actionButton}>
+                                <Button type="text" style={{ text: { color: COLOR.primary } }} onPress={handleConfirm} {...okButtonProps}>
+                                    {okText}
+                                </Button>
+                            </View>
+                        </Flex>
+                    ) : null}
+
+                    {/* 内容 */}
+                    <ScrollView style={{ maxHeight: maxHeight }}>
+                        <List
+                            items={formatOptions}
+                            style={{
+                                root: style?.root,
+                                divider: style?.divider,
+                            }}
+                        />
+                    </ScrollView>
+                </View>
 
                 <Grabber style={style?.grabber} />
-            </View>
-        </Overlay>
+            </Animated.View>
+        </View>
     );
 }
 
-export default Picker;
-
 const styles = StyleSheet.create({
     root: {
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
+        backgroundColor: COLOR.white,
+        borderTopLeftRadius: SIZE.radius_lg,
+        borderTopRightRadius: SIZE.radius_lg,
+        paddingBottom: SIZE.space_md,
     },
     header: {
         backgroundColor: COLOR.white,
