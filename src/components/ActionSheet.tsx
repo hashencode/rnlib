@@ -167,7 +167,7 @@ export default function ActionSheet(props: IActionSheetProps) {
                     animatedStyle,
                     {
                         top: 'auto',
-                        zIndex: 100,
+                        zIndex: 97,
                     },
                 ]}>
                 <View style={rootStyle}>

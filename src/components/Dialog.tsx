@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         borderRadius: SIZE.radius_lg,
         overflow: 'hidden',
         width: SIZE.dialog_width,
-        zIndex: 999,
+        zIndex: 99,
     },
     content: {
         paddingHorizontal: SIZE.space_lg,

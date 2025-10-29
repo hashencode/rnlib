@@ -56,18 +56,18 @@ export default function ThemeProvider(props: IThemeProviderProps) {
         <ThemeContext.Provider value={value}>
             <PortalProvider>
                 {props.children}
-                <PortalHost name="dialogHost" />
-                <DialogRender />
-                <PortalHost name="toastHost" />
-                <ToastRender />
-                <PortalHost name="messageHost" />
-                <MessageRender />
+                <PortalHost name="overlayHost" />
+                <OverlayRender />
                 <PortalHost name="actionSheetHost" />
                 <ActionSheetRender />
                 <PortalHost name="pickerHost" />
                 <PickerRender />
-                <PortalHost name="overlayHost" />
-                <OverlayRender />
+                <PortalHost name="dialogHost" />
+                <DialogRender />
+                <PortalHost name="messageHost" />
+                <MessageRender />
+                <PortalHost name="toastHost" />
+                <ToastRender />
             </PortalProvider>
         </ThemeContext.Provider>
     );

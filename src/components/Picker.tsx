@@ -204,7 +204,7 @@ export default function Picker(props: IPickerProps) {
                     animatedStyle,
                     {
                         top: 'auto',
-                        zIndex: 100,
+                        zIndex: 98,
                     },
                 ]}>
                 <View style={rootStyle}>

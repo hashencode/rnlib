@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         left: SIZE.space_md,
         position: 'absolute',
         right: SIZE.space_md,
-        zIndex: 99,
+        zIndex: 100,
     },
     root: {
         backgroundColor: COLOR.white,

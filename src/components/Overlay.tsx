@@ -95,7 +95,7 @@ export default function Overlay(props: IOverlayProps) {
 
     return (
         <Portal name={portalName}>
-            <View style={[StyleSheet.absoluteFill, { zIndex: 100 }]} pointerEvents="box-none">
+            <View style={[StyleSheet.absoluteFill, { zIndex: 96 }]} pointerEvents="box-none">
                 {/* 半透明遮罩 */}
                 <Pressable onPress={handleOverlayPress} style={StyleSheet.absoluteFill}>
                     <Animated.View
