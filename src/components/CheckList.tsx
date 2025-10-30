@@ -5,7 +5,7 @@ import { useMergedState } from '../hooks';
 import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { mergeElement } from '../scripts/utils';
-import { IListItemProps } from './ListItem';
+import { IListItemProps } from './List/ListItem.tsx';
 import { Icon, ListItem } from './index';
 
 export type ICheckListRawValue = number | string;

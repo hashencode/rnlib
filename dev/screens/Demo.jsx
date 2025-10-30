@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 
 import Group from '../../src/components/Group';
-import List from '../../src/components/List';
+import List from '../../src/components/List/List';
 import DefaultLayout from './DefaultLayout';
 
 export const DEFAULT_IMAGE =

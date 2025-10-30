@@ -1,8 +1,8 @@
 import { ReactNode, useMemo } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { useMergedState } from '../hooks';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Icon, TextX } from './index';
+import { useMergedState } from '../../hooks';
+import { COLOR, SIZE } from '../../scripts/const.ts';
+import { Flex, Icon, TextX } from '../index.tsx';
 
 export type ICheckboxValue = boolean;
 

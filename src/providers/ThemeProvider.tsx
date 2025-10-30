@@ -1,12 +1,12 @@
 import { createContext, PropsWithChildren, useMemo, useState } from 'react';
 
-import { PortalHost, PortalProvider } from '@gorhom/portal';
-import ActionSheetRender from '../components/ActionSheetRender.tsx';
-import DialogRender from '../components/DialogRender';
-import MessageRender from '../components/MessageRender';
-import OverlayRender from '../components/OverlayRender.tsx';
-import PickerRender from '../components/PickerRender.tsx';
-import ToastRender from '../components/ToastRender';
+import ActionSheetRender from '../components/ActionSheet/ActionSheetRender.tsx';
+import DialogRender from '../components/Dialog/DialogRender.tsx';
+import MessageRender from '../components/Message/MessageRender.tsx';
+import OverlayRender from '../components/Overlay/OverlayRender.tsx';
+import PickerRender from '../components/Picker/PickerRender.tsx';
+import PortalHost from '../components/Portal/PortalHost.tsx';
+import ToastRender from '../components/Toast/ToastRender.tsx';
 
 type Context = {
     theme: {
@@ -54,21 +54,15 @@ export default function ThemeProvider(props: IThemeProviderProps) {
 
     return (
         <ThemeContext.Provider value={value}>
-            <PortalProvider>
+            <PortalHost>
                 {props.children}
-                <PortalHost name="overlayHost" />
                 <OverlayRender />
-                <PortalHost name="actionSheetHost" />
                 <ActionSheetRender />
-                <PortalHost name="pickerHost" />
                 <PickerRender />
-                <PortalHost name="dialogHost" />
                 <DialogRender />
-                <PortalHost name="messageHost" />
                 <MessageRender />
-                <PortalHost name="toastHost" />
                 <ToastRender />
-            </PortalProvider>
+            </PortalHost>
         </ThemeContext.Provider>
     );
 }

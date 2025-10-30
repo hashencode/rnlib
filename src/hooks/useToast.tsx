@@ -1,5 +1,5 @@
 import { DeviceEventEmitter } from 'react-native';
-import { IToastQueueItem } from '../components/ToastRender';
+import { IToastQueueItem } from '../components/Toast/ToastRender.tsx';
 import { EMITTER_MAP } from '../scripts/enum';
 
 export default function useToast() {

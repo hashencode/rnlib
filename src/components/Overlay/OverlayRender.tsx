@@ -1,9 +1,9 @@
-import { Portal } from '@gorhom/portal';
 import { useState } from 'react';
-import useEventEmitter from '../hooks/useEventEmitter';
-import { EMITTER_MAP } from '../scripts/enum';
-import { randomId } from '../scripts/utils';
-import Overlay, { IOverlayProps } from './Overlay';
+import useEventEmitter from '../../hooks/useEventEmitter.tsx';
+import { EMITTER_MAP } from '../../scripts/enum.ts';
+import { randomId } from '../../scripts/utils.ts';
+import Portal from '../Portal/Portal.tsx';
+import Overlay, { IOverlayProps } from './Overlay.tsx';
 
 export interface IOverlayQueueItem extends IOverlayProps {
     id?: string;
@@ -41,7 +41,7 @@ export default function OverlayRender() {
     return (
         <>
             {overlayQueue.map(({ id: queueId, visible, afterClose, ...rest }) => (
-                <Portal key={queueId} name={`overlay-${queueId}`}>
+                <Portal key={queueId}>
                     <Overlay
                         visible={visible}
                         {...rest}

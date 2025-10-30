@@ -1,9 +1,9 @@
-import { Portal } from '@gorhom/portal';
 import { useState } from 'react';
-import useEventEmitter from '../hooks/useEventEmitter';
-import { EMITTER_MAP } from '../scripts/enum';
-import { randomId } from '../scripts/utils';
-import Picker, { IPickerProps } from './Picker';
+import useEventEmitter from '../../hooks/useEventEmitter.tsx';
+import { EMITTER_MAP } from '../../scripts/enum.ts';
+import { randomId } from '../../scripts/utils.ts';
+import Portal from '../Portal/Portal.tsx';
+import Picker, { IPickerProps } from './Picker.tsx';
 
 export interface IPickerQueueItem extends IPickerProps {
     id?: string;
@@ -41,7 +41,7 @@ export default function PickerRender() {
     return (
         <>
             {pickerQueue.map(({ id: queueId, visible, afterClose, ...rest }) => (
-                <Portal key={queueId} name={`picker-${queueId}`}>
+                <Portal key={queueId}>
                     <Picker
                         visible={visible}
                         {...rest}

@@ -1,5 +1,5 @@
 import { DeviceEventEmitter } from 'react-native';
-import { IDialogQueueItem } from '../components/DialogRender';
+import { IDialogQueueItem } from '../components/Dialog/DialogRender.tsx';
 import { EMITTER_MAP } from '../scripts/enum';
 
 export default function useDialog() {

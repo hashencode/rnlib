@@ -1,6 +1,6 @@
 import { DeviceEventEmitter } from 'react-native';
 
-import { IPickerQueueItem } from '../components/PickerRender.tsx';
+import { IPickerQueueItem } from '../components/Picker/PickerRender.tsx';
 import { EMITTER_MAP } from '../scripts/enum';
 
 export default function usePicker() {

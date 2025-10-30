@@ -14,7 +14,6 @@
         "@babel/preset-env": "^7.25.3",
         "@babel/runtime": "^7.25.0",
         "@d11/react-native-fast-image": "^8.12.0",
-        "@gorhom/portal": "^1.0.14",
         "@react-native-community/cli": "20.0.0",
         "@react-native-community/cli-platform-android": "20.0.0",
         "@react-native-community/cli-platform-ios": "20.0.0",

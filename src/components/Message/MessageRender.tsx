@@ -1,10 +1,10 @@
-import { Portal } from '@gorhom/portal';
 import { isNil } from 'lodash';
 import { useState } from 'react';
-import useEventEmitter from '../hooks/useEventEmitter';
-import { EMITTER_MAP } from '../scripts/enum';
-import { randomId } from '../scripts/utils';
-import Message, { IMessageProps } from './Message';
+import useEventEmitter from '../../hooks/useEventEmitter.tsx';
+import { EMITTER_MAP } from '../../scripts/enum.ts';
+import { randomId } from '../../scripts/utils.ts';
+import Portal from '../Portal/Portal.tsx';
+import Message, { IMessageProps } from './Message.tsx';
 
 export interface IMessageQueueItem extends IMessageProps {
     id?: string;
@@ -41,7 +41,7 @@ export default function MessageRender() {
             {messageQueue.map(queueItem => {
                 const { afterClose, id: queueId, ...rest } = queueItem;
                 return (
-                    <Portal key={queueId} name={`message-${queueId}`}>
+                    <Portal key={queueId}>
                         <Message
                             {...rest}
                             afterClose={() => {

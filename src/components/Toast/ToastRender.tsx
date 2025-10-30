@@ -1,10 +1,10 @@
-import { Portal } from '@gorhom/portal';
 import { isNil } from 'lodash';
 import { useState } from 'react';
-import useEventEmitter from '../hooks/useEventEmitter';
-import { EMITTER_MAP } from '../scripts/enum';
-import { randomId } from '../scripts/utils';
-import { IToastProps, Toast } from './index';
+import useEventEmitter from '../../hooks/useEventEmitter.tsx';
+import { EMITTER_MAP } from '../../scripts/enum.ts';
+import { randomId } from '../../scripts/utils.ts';
+import { IToastProps, Toast } from '../index.tsx';
+import Portal from '../Portal/Portal.tsx';
 
 export interface IToastQueueItem extends IToastProps {
     id?: string;
@@ -40,7 +40,7 @@ export default function ToastRender() {
             {toastQueue.map(queueItem => {
                 const { id: queueId, afterClose, ...rest } = queueItem;
                 return (
-                    <Portal key={queueId} hostName="toastHost" name={`toast-${queueId}`}>
+                    <Portal key={queueId}>
                         <Toast
                             {...rest}
                             afterClose={() => {

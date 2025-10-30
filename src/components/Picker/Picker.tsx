@@ -2,11 +2,11 @@ import { isArray } from 'lodash';
 import { ReactNode, useEffect, useState } from 'react';
 import { Dimensions, Pressable, ScrollView, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { useMergedState } from '../hooks';
-import useStyle from '../hooks/useStyle';
-import { COLOR, SIZE } from '../scripts/const';
-import Button, { IButtonProps } from './Button';
-import { Flex, Grabber, Icon, IListItemProps, List, TextX } from './index';
+import { useMergedState } from '../../hooks';
+import useStyle from '../../hooks/useStyle.tsx';
+import { COLOR, SIZE } from '../../scripts/const.ts';
+import Button, { IButtonProps } from '../Button.tsx';
+import { Flex, Grabber, Icon, IListItemProps, List, TextX } from '../index.tsx';
 
 export type IPickerRawValue = number | string;
 export type IPickerValue = IPickerRawValue | IPickerRawValue[] | undefined;

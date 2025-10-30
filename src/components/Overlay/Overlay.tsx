@@ -1,9 +1,8 @@
-import { Portal } from '@gorhom/portal';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Keyboard, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { useStyle } from '../hooks';
-import { COLOR } from '../scripts/const';
+import { useStyle } from '../../hooks';
+import { COLOR } from '../../scripts/const.ts';
 
 export interface IOverlayProps {
     afterClose?: () => void; // 关闭回调
@@ -37,7 +36,6 @@ export default function Overlay(props: IOverlayProps) {
 
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const opacity = useSharedValue(0);
-    const portalName = `overlay-${Math.random().toString(36).substr(2, 9)}`;
 
     // 动画样式
     const animatedStyle = useAnimatedStyle(() => {
@@ -94,25 +92,23 @@ export default function Overlay(props: IOverlayProps) {
     };
 
     return (
-        <Portal name={portalName}>
-            <View style={[StyleSheet.absoluteFill, { zIndex: 96 }]} pointerEvents="box-none">
-                {/* 半透明遮罩 */}
-                <Pressable onPress={handleOverlayPress} style={StyleSheet.absoluteFill}>
-                    <Animated.View
-                        style={[StyleSheet.absoluteFill, { backgroundColor }, animatedStyle]}
-                        pointerEvents={modal ? 'auto' : 'none'}
-                    />
-                </Pressable>
+        <View style={[StyleSheet.absoluteFill, { zIndex: 96 }]} pointerEvents="box-none">
+            {/* 半透明遮罩 */}
+            <Pressable onPress={handleOverlayPress} style={StyleSheet.absoluteFill}>
+                <Animated.View
+                    style={[StyleSheet.absoluteFill, { backgroundColor }, animatedStyle]}
+                    pointerEvents={modal ? 'auto' : 'none'}
+                />
+            </Pressable>
 
-                {/* 内容区域 */}
-                <Animated.View style={[contentStyle, animatedStyle]} pointerEvents="box-none">
-                    {children}
-                </Animated.View>
+            {/* 内容区域 */}
+            <Animated.View style={[contentStyle, animatedStyle]} pointerEvents="box-none">
+                {children}
+            </Animated.View>
 
-                {/* 键盘弹出时添加底部间距 */}
-                {keyboardVisible && <View style={{ height: 250 }} />}
-            </View>
-        </Portal>
+            {/* 键盘弹出时添加底部间距 */}
+            {keyboardVisible && <View style={{ height: 250 }} />}
+        </View>
     );
 }
 

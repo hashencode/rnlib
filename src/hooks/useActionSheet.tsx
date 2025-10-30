@@ -1,6 +1,6 @@
 import { DeviceEventEmitter } from 'react-native';
 
-import { IActionSheetQueueItem } from '../components/ActionSheetRender.tsx';
+import { IActionSheetQueueItem } from '../components/ActionSheet/ActionSheetRender.tsx';
 import { EMITTER_MAP } from '../scripts/enum';
 
 export default function useActionSheet() {

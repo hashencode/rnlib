@@ -1,9 +1,9 @@
-import { Portal } from '@gorhom/portal';
 import { useState } from 'react';
-import useEventEmitter from '../hooks/useEventEmitter';
-import { EMITTER_MAP } from '../scripts/enum';
-import { randomId } from '../scripts/utils';
-import Dialog, { IDialogProps } from './Dialog';
+import useEventEmitter from '../../hooks/useEventEmitter.tsx';
+import { EMITTER_MAP } from '../../scripts/enum.ts';
+import { randomId } from '../../scripts/utils.ts';
+import Portal from '../Portal/Portal.tsx';
+import Dialog, { IDialogProps } from './Dialog.tsx';
 
 export interface IDialogQueueItem extends IDialogProps {
     id?: string;
@@ -37,7 +37,7 @@ export default function DialogRender() {
     return (
         <>
             {dialogQueue.map(({ id: queueId, afterClose, visible, ...rest }) => (
-                <Portal key={queueId} hostName="dialogHost" name={`dialog-${queueId}`}>
+                <Portal key={queueId}>
                     <Dialog
                         {...rest}
                         visible={visible}

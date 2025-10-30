@@ -2,8 +2,8 @@ import React, { ReactNode, useEffect } from 'react';
 import { StyleProp, StyleSheet, TextStyle, ViewStyle, useWindowDimensions } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, TextX } from './index';
+import { COLOR, SIZE } from '../../scripts/const.ts';
+import { Flex, TextX } from '../index.tsx';
 
 export interface IMessageProps {
     afterClose?: () => void;

@@ -1,8 +1,8 @@
 import { Fragment, Key, ReactElement, useMemo } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import useStyle from '../hooks/useStyle';
-import { COLOR, SIZE } from '../scripts/const';
-import ListItem, { IListItemProps } from './ListItem';
+import useStyle from '../../hooks/useStyle.tsx';
+import { COLOR, SIZE } from '../../scripts/const.ts';
+import ListItem, { IListItemProps } from './ListItem.tsx';
 
 export interface IListProps {
     items: IListItemProps[]; // 数据源

@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect } from 'react';
 import { Dimensions, Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import useStyle from '../hooks/useStyle';
-import { COLOR, SIZE } from '../scripts/const';
-import { Flex, Grabber, IListItemProps, List, TextX } from './index';
+import useStyle from '../../hooks/useStyle.tsx';
+import { COLOR, SIZE } from '../../scripts/const.ts';
+import { Flex, Grabber, IListItemProps, List, TextX } from '../index.tsx';
 
 export type IActionSheetOptionValue = string | number;
 export interface IActionSheetOption extends IListItemProps {

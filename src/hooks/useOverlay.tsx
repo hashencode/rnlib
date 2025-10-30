@@ -1,6 +1,6 @@
 import { DeviceEventEmitter } from 'react-native';
 
-import { IOverlayQueueItem } from '../components/OverlayRender.tsx';
+import { IOverlayQueueItem } from '../components/Overlay/OverlayRender.tsx';
 import { EMITTER_MAP } from '../scripts/enum';
 
 export default function useOverlay() {

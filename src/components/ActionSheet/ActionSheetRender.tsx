@@ -1,9 +1,9 @@
-import { Portal } from '@gorhom/portal';
 import { useState } from 'react';
-import useEventEmitter from '../hooks/useEventEmitter';
-import { EMITTER_MAP } from '../scripts/enum';
-import { randomId } from '../scripts/utils';
-import ActionSheet, { IActionSheetProps } from './ActionSheet';
+import useEventEmitter from '../../hooks/useEventEmitter.tsx';
+import { EMITTER_MAP } from '../../scripts/enum.ts';
+import { randomId } from '../../scripts/utils.ts';
+import Portal from '../Portal/Portal.tsx';
+import ActionSheet, { IActionSheetProps } from './ActionSheet.tsx';
 
 export interface IActionSheetQueueItem extends IActionSheetProps {
     id?: string;
@@ -41,7 +41,7 @@ export default function ActionSheetRender() {
     return (
         <>
             {actionSheetQueue.map(({ id: queueId, visible, afterClose, ...rest }) => (
-                <Portal key={queueId} hostName="actionSheetHost" name={`actionSheet-${queueId}`}>
+                <Portal key={queueId}>
                     <ActionSheet
                         visible={visible}
                         {...rest}

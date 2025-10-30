@@ -2,9 +2,9 @@ import { isArray } from 'lodash';
 import React, { Fragment, PropsWithChildren, ReactNode, useEffect } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { COLOR, SIZE } from '../scripts/const';
-import { IButtonProps } from './Button';
-import { Button, Flex, TextX } from './index';
+import { COLOR, SIZE } from '../../scripts/const.ts';
+import { IButtonProps } from '../Button.tsx';
+import { Button, Flex, TextX } from '../index.tsx';
 
 export interface IDialogProps extends PropsWithChildren {
     actions?: IButtonProps[];

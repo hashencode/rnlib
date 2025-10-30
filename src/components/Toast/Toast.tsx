@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect } from 'react';
 import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { COLOR, SIZE } from '../scripts/const';
-import Flex from './Flex';
-import TextX from './TextX';
+import { COLOR, SIZE } from '../../scripts/const.ts';
+import Flex from '../Flex.tsx';
+import TextX from '../TextX.tsx';
 
 export interface IToastProps {
     afterClose?: () => void;

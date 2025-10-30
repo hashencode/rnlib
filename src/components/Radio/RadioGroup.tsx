@@ -1,9 +1,9 @@
 import { StyleProp, ViewStyle } from 'react-native';
-import { useMergedState } from '../hooks';
-import { SIZE } from '../scripts/const';
-import { ICheckboxProps } from './Checkbox';
-import Radio, { IRadioValue } from './Radio';
-import { Flex } from './index';
+import { useMergedState } from '../../hooks';
+import { SIZE } from '../../scripts/const.ts';
+import { ICheckboxProps } from '../Checkbox/Checkbox.tsx';
+import { Flex } from '../index.tsx';
+import Radio, { IRadioValue } from './Radio.tsx';
 
 export type IRadioGroupOptionValue = string | number | undefined;
 
