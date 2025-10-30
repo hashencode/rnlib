@@ -2,11 +2,11 @@ import { Component, ReactNode } from 'react';
 import PortalConsumer from './PortalConsumer';
 import PortalHost, { PortalContext, PortalMethods } from './PortalHost';
 
-export type Props = {
+export type IPortalProps = {
     children: ReactNode;
 };
 
-class Portal extends Component<Props> {
+class Portal extends Component<IPortalProps> {
     // @component ./PortalHost.tsx
     static Host = PortalHost;
 
