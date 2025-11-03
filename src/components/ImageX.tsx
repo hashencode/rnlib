@@ -1,76 +1,207 @@
-import FastImage, { FastImageProps, Source } from '@d11/react-native-fast-image';
 import { isUndefined } from 'lodash';
-import { useState } from 'react';
-import { DimensionValue, Image, ImageStyle, LayoutChangeEvent, StyleProp, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+    Animated,
+    Easing,
+    Image,
+    ImageErrorEvent,
+    ImageLoadEvent,
+    ImageProps,
+    ImageSourcePropType,
+    ImageStyle,
+    ImageURISource,
+    LayoutChangeEvent,
+    StyleProp,
+    View,
+} from 'react-native';
 
-export interface IImageXProps extends Omit<FastImageProps, 'style'> {
-    height?: DimensionValue; // 高度
-    radius?: number; // 圆角
-    style?: StyleProp<ImageStyle>; // 样式
-    width?: DimensionValue; // 宽度
-    onError?: () => void;
-    onLayout?: (event: LayoutChangeEvent) => void;
-    onLoad?: () => void;
+export interface IImageXProps extends ImageProps {
+    /** 圆角 */
+    radius?: number;
+    /** 加载失败时的备用图片 */
+    fallbackSource?: ImageSourcePropType;
+    /** 是否启用淡入动画 */
+    enableFadeIn?: boolean;
 }
 
 export default function ImageX(props: IImageXProps) {
-    const { height, radius = 0, style = {}, width, source, onError, onLayout, ...rest } = props;
+    const {
+        radius = 0,
+        fallbackSource,
+        style,
+        source,
+        onError,
+        onLoad,
+        onLayout,
+        width,
+        height,
+        resizeMode = 'cover',
+        enableFadeIn = true,
+        ...rest
+    } = props;
 
-    const [innerHeight, setInnerHeight] = useState(height);
-    const [innerWidth, setInnerWidth] = useState(width);
+    const [hasError, setHasError] = useState(false);
+    const [aspectRatio, setAspectRatio] = useState<number | undefined>();
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const isImageLoadedRef = useRef(false);
 
-    const handleLayout = (event: LayoutChangeEvent) => {
-        const imageWidth = event.nativeEvent.layout.width;
-        const imageHeight = event.nativeEvent.layout.height;
-        onLayout?.(event);
+    // 使用 useMemo 优化性能
+    const bothDimensionsUndefined = useMemo(() => isUndefined(width) && isUndefined(height), [width, height]);
 
-        if (isUndefined(height) && imageWidth) {
-            // 本地图片无法使用getSize来获取图片的尺寸
-            if ((source as Source)?.uri) {
-                Image.getSize((source as Source)?.uri as string, (_width, _height) => {
-                    const aspectRatio = _height / _width;
-                    if (isUndefined(innerHeight)) {
-                        setInnerHeight(imageWidth * aspectRatio);
+    // 重置状态当 source 变化时
+    useEffect(() => {
+        setHasError(false);
+        isImageLoadedRef.current = false;
+        if (enableFadeIn) {
+            fadeAnim.setValue(0);
+        }
+        // 重置 aspectRatio 以便重新计算
+        setAspectRatio(undefined);
+    }, [source, enableFadeIn, fadeAnim]);
+
+    /** 处理图片加载错误 */
+    const handleError = (ev: ImageErrorEvent) => {
+        setHasError(true);
+        isImageLoadedRef.current = false;
+        onError?.(ev);
+    };
+
+    /** 图片加载完成后执行淡入动画 */
+    const handleLoad = (ev: ImageLoadEvent) => {
+        isImageLoadedRef.current = true;
+        if (enableFadeIn) {
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true,
+                easing: Easing.out(Easing.ease),
+            }).start();
+        }
+        onLoad?.(ev);
+    };
+
+    /** 获取图片尺寸并计算宽高比 */
+    useEffect(() => {
+        let cancelled = false;
+
+        async function fetchImageSize() {
+            if (!source) return;
+
+            // 如果宽高都已提供，不需要计算 aspectRatio
+            if (!bothDimensionsUndefined) {
+                setAspectRatio(undefined);
+                return;
+            }
+
+            try {
+                let imgWidth: number = 0,
+                    imgHeight: number = 0;
+
+                if ('uri' in (source as ImageURISource) && (source as ImageURISource).uri) {
+                    // 网络图片
+                    await new Promise<void>((resolve, reject) => {
+                        Image.getSize(
+                            (source as ImageURISource).uri as string,
+                            (w, h) => {
+                                if (!cancelled) {
+                                    imgWidth = w;
+                                    imgHeight = h;
+                                    resolve();
+                                }
+                            },
+                            err => {
+                                reject(typeof err === 'string' ? new Error(err) : err);
+                            },
+                        );
+                    });
+                } else {
+                    // 本地图片
+                    const resolvedSource = Image.resolveAssetSource(source);
+                    if (resolvedSource && resolvedSource.width > 0) {
+                        imgWidth = resolvedSource.width;
+                        imgHeight = resolvedSource.height;
+                    } else {
+                        console.error('Invalid local image source');
                     }
-                });
-            } else {
-                setInnerHeight(imageHeight);
+                }
+
+                if (!cancelled && imgWidth > 0) {
+                    setAspectRatio(imgWidth / imgHeight);
+                }
+            } catch (error) {
+                console.warn('Failed to get image size:', error);
+                if (!cancelled) {
+                    setAspectRatio(undefined);
+                }
             }
         }
 
-        if (isUndefined(width) && imageHeight && (source as Source)?.uri) {
-            Image.getSize((source as Source)?.uri as string, (_width, _height) => {
-                const aspectRatio = _width / _height;
-                if (isUndefined(imageWidth)) {
-                    setInnerWidth(imageHeight * aspectRatio);
-                }
-            });
-        }
-    };
+        fetchImageSize();
 
-    // 如果是本地图片且需要自适应
-    if (!(source as Source)?.uri && (isUndefined(width) || isUndefined(height))) {
+        return () => {
+            cancelled = true;
+        };
+    }, [source, bothDimensionsUndefined]); // 添加缺失的依赖
+
+    /** 根据加载状态选择图片源 */
+    const imageSource = useMemo(() => {
+        return hasError && fallbackSource ? fallbackSource : source;
+    }, [source, fallbackSource, hasError]);
+
+    /** 合并样式 */
+    const imageStyle: StyleProp<ImageStyle> = useMemo(() => {
+        const baseStyle: ImageStyle = {
+            borderRadius: radius,
+        };
+
+        if (!isUndefined(width)) baseStyle.width = width;
+        if (!isUndefined(height)) baseStyle.height = height;
+        if (!isUndefined(aspectRatio)) baseStyle.aspectRatio = aspectRatio;
+        if (enableFadeIn) baseStyle.opacity = fadeAnim;
+
+        return [baseStyle, style];
+    }, [width, height, aspectRatio, radius, style, enableFadeIn, fadeAnim]);
+
+    /** 判断是否需要包装器 */
+    const needsWrapper = useMemo(() => {
+        return bothDimensionsUndefined || (hasError && fallbackSource);
+    }, [bothDimensionsUndefined, hasError, fallbackSource]);
+
+    const handleLayout = useCallback(
+        (event: LayoutChangeEvent) => {
+            onLayout?.(event);
+        },
+        [onLayout],
+    );
+
+    const ImageComponent = (
+        <Animated.Image
+            {...rest}
+            source={imageSource}
+            onError={handleError}
+            onLoad={handleLoad}
+            resizeMode={resizeMode}
+            style={imageStyle}
+        />
+    );
+
+    if (needsWrapper) {
         return (
-            <View style={{ width: '100%', height: '100%' }} onLayout={handleLayout}>
-                <Image
-                    source={source as any}
-                    onError={onError}
-                    resizeMode={FastImage.resizeMode.stretch}
-                    {...rest}
-                    style={[{ width: innerWidth || 1, height: innerHeight || 1, borderRadius: radius }, style]}
-                />
+            <View
+                style={[
+                    {
+                        borderRadius: radius,
+                        overflow: 'hidden',
+                        width: width ?? '100%',
+                        height: height ?? undefined,
+                    },
+                    bothDimensionsUndefined && { minHeight: 1 },
+                ]}
+                onLayout={handleLayout}>
+                {ImageComponent}
             </View>
         );
     }
 
-    return (
-        <FastImage
-            source={source}
-            onLayout={handleLayout}
-            onError={onError}
-            resizeMode={FastImage.resizeMode.stretch}
-            {...rest}
-            style={[{ width: innerWidth || 1, height: innerHeight || 1, borderRadius: radius }, style as FastImageProps['style']]}
-        />
-    );
+    return ImageComponent;
 }

@@ -1,7 +1,6 @@
-import { Source } from '@d11/react-native-fast-image';
 import { isNumber } from 'lodash';
 import { ReactNode, useMemo, useState } from 'react';
-import { ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { ImageProps, ImageStyle, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import useStyle from '../hooks/useStyle';
 import { COLOR, SIZE } from '../scripts/const';
 import { AvatarStatusMap, TextSizeMap } from '../scripts/enum';
@@ -12,7 +11,7 @@ export interface IAvatarProps {
     children?: ReactNode; // 内容插槽
     shape?: 'circle' | 'square'; // 形状
     size?: 'lg' | 'md' | 'sm' | number; // 尺寸
-    source?: Source; // 图片来源
+    source?: ImageProps['source']; // 图片来源
 
     style?: {
         image?: StyleProp<ImageStyle>; // 图片样式

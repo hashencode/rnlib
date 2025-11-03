@@ -1,4 +1,3 @@
-import { Source } from '@d11/react-native-fast-image';
 import { isValidElement, ReactElement, ReactNode } from 'react';
 import { ImageStyle, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image';
@@ -46,7 +45,7 @@ export default function ErrorBlock(props: IErrorBlockProps) {
         if (isValidElement(image)) {
             return image;
         }
-        return <ImageX source={image as Source} style={imageStyle} />;
+        return <ImageX source={image} style={imageStyle} />;
     };
 
     return (

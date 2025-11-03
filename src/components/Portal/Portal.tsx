@@ -7,7 +7,6 @@ export type IPortalProps = {
 };
 
 class Portal extends Component<IPortalProps> {
-    // @component ./PortalHost.tsx
     static Host = PortalHost;
 
     render() {
