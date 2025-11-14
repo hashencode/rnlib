@@ -1,8 +1,6 @@
 import { isUndefined } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-    Animated,
-    Easing,
     Image,
     ImageErrorEvent,
     ImageLoadEvent,
@@ -10,18 +8,13 @@ import {
     ImageSourcePropType,
     ImageStyle,
     ImageURISource,
-    LayoutChangeEvent,
     StyleProp,
-    View,
 } from 'react-native';
 
 export interface IImageXProps extends ImageProps {
-    /** 圆角 */
     radius?: number;
-    /** 加载失败时的备用图片 */
     fallbackSource?: ImageSourcePropType;
-    /** 是否启用淡入动画 */
-    enableFadeIn?: boolean;
+    temporaryHeight?: number; // aspectRatio 还没算出前的临时高度
 }
 
 export default function ImageX(props: IImageXProps) {
@@ -32,176 +25,114 @@ export default function ImageX(props: IImageXProps) {
         source,
         onError,
         onLoad,
-        onLayout,
         width,
         height,
         resizeMode = 'cover',
-        enableFadeIn = true,
+        temporaryHeight = 200,
         ...rest
     } = props;
 
     const [hasError, setHasError] = useState(false);
-    const [aspectRatio, setAspectRatio] = useState<number | undefined>();
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-    const isImageLoadedRef = useRef(false);
+    const [aspectRatio, setAspectRatio] = useState<number | undefined>(undefined);
 
-    // 使用 useMemo 优化性能
-    const bothDimensionsUndefined = useMemo(() => isUndefined(width) && isUndefined(height), [width, height]);
+    const bothUndefined = isUndefined(width) && isUndefined(height);
 
-    // 重置状态当 source 变化时
+    /** source 变化时重置 */
     useEffect(() => {
         setHasError(false);
-        isImageLoadedRef.current = false;
-        if (enableFadeIn) {
-            fadeAnim.setValue(0);
-        }
-        // 重置 aspectRatio 以便重新计算
         setAspectRatio(undefined);
-    }, [source, enableFadeIn, fadeAnim]);
+    }, [source]);
 
-    /** 处理图片加载错误 */
+    /** 图片加载错误 */
     const handleError = (ev: ImageErrorEvent) => {
         setHasError(true);
-        isImageLoadedRef.current = false;
         onError?.(ev);
     };
 
-    /** 图片加载完成后执行淡入动画 */
+    /** 图片加载成功 */
     const handleLoad = (ev: ImageLoadEvent) => {
-        isImageLoadedRef.current = true;
-        if (enableFadeIn) {
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true,
-                easing: Easing.out(Easing.ease),
-            }).start();
-        }
         onLoad?.(ev);
     };
 
-    /** 获取图片尺寸并计算宽高比 */
+    /** 自动计算宽高比 */
     useEffect(() => {
         let cancelled = false;
 
-        async function fetchImageSize() {
-            if (!source) return;
-
-            // 如果宽高都已提供，不需要计算 aspectRatio
-            if (!bothDimensionsUndefined) {
-                setAspectRatio(undefined);
-                return;
-            }
+        async function getSize() {
+            if (!source || !bothUndefined) return;
 
             try {
-                let imgWidth: number = 0,
-                    imgHeight: number = 0;
+                let w = 0,
+                    h = 0;
 
-                if ('uri' in (source as ImageURISource) && (source as ImageURISource).uri) {
-                    // 网络图片
+                const src = source as ImageURISource;
+
+                if (src?.uri) {
+                    // 网络图
                     await new Promise<void>((resolve, reject) => {
                         Image.getSize(
-                            (source as ImageURISource).uri as string,
-                            (w, h) => {
+                            src.uri!,
+                            (width, height) => {
                                 if (!cancelled) {
-                                    imgWidth = w;
-                                    imgHeight = h;
-                                    resolve();
+                                    w = width;
+                                    h = height;
                                 }
+                                resolve();
                             },
-                            err => {
-                                reject(typeof err === 'string' ? new Error(err) : err);
-                            },
+                            err => reject(err),
                         );
                     });
                 } else {
-                    // 本地图片
-                    const resolvedSource = Image.resolveAssetSource(source);
-                    if (resolvedSource && resolvedSource.width > 0) {
-                        imgWidth = resolvedSource.width;
-                        imgHeight = resolvedSource.height;
-                    } else {
-                        console.error('Invalid local image source');
-                    }
+                    // 本地图
+                    const local = Image.resolveAssetSource(source);
+                    w = local?.width ?? 0;
+                    h = local?.height ?? 0;
                 }
 
-                if (!cancelled && imgWidth > 0) {
-                    setAspectRatio(imgWidth / imgHeight);
+                if (!cancelled && w > 0 && h > 0) {
+                    setAspectRatio(w / h);
                 }
-            } catch (error) {
-                console.warn('Failed to get image size:', error);
+            } catch (e) {
                 if (!cancelled) {
                     setAspectRatio(undefined);
                 }
             }
         }
 
-        fetchImageSize();
-
+        getSize();
         return () => {
             cancelled = true;
         };
-    }, [source, bothDimensionsUndefined]); // 添加缺失的依赖
+    }, [source, bothUndefined]);
 
-    /** 根据加载状态选择图片源 */
+    /** 出错时显示 fallback */
     const imageSource = useMemo(() => {
         return hasError && fallbackSource ? fallbackSource : source;
-    }, [source, fallbackSource, hasError]);
+    }, [hasError, source, fallbackSource]);
 
-    /** 合并样式 */
-    const imageStyle: StyleProp<ImageStyle> = useMemo(() => {
-        const baseStyle: ImageStyle = {
+    /** 样式生成 */
+    const imageStyle = useMemo<StyleProp<ImageStyle>>(() => {
+        const s: ImageStyle = {
             borderRadius: radius,
         };
 
-        if (!isUndefined(width)) baseStyle.width = width;
-        if (!isUndefined(height)) baseStyle.height = height;
-        if (!isUndefined(aspectRatio)) baseStyle.aspectRatio = aspectRatio;
-        if (enableFadeIn) baseStyle.opacity = fadeAnim;
+        if (!isUndefined(width)) s.width = width;
+        if (!isUndefined(height)) s.height = height;
 
-        return [baseStyle, style];
-    }, [width, height, aspectRatio, radius, style, enableFadeIn, fadeAnim]);
+        // 宽高都没传
+        if (bothUndefined) {
+            s.width = '100%';
 
-    /** 判断是否需要包装器 */
-    const needsWrapper = useMemo(() => {
-        return bothDimensionsUndefined || (hasError && fallbackSource);
-    }, [bothDimensionsUndefined, hasError, fallbackSource]);
+            if (!isUndefined(aspectRatio)) {
+                s.aspectRatio = aspectRatio;
+            } else {
+                // ★ aspectRatio 未算出时使用临时高度，避免图片高度为 0
+                s.height = temporaryHeight;
+            }
+        }
 
-    const handleLayout = useCallback(
-        (event: LayoutChangeEvent) => {
-            onLayout?.(event);
-        },
-        [onLayout],
-    );
+        return [s, style];
+    }, [width, height, radius, style, bothUndefined, aspectRatio, temporaryHeight]);
 
-    const ImageComponent = (
-        <Animated.Image
-            {...rest}
-            source={imageSource}
-            onError={handleError}
-            onLoad={handleLoad}
-            resizeMode={resizeMode}
-            style={imageStyle}
-        />
-    );
-
-    if (needsWrapper) {
-        return (
-            <View
-                style={[
-                    {
-                        borderRadius: radius,
-                        overflow: 'hidden',
-                        width: width ?? '100%',
-                        height: height ?? undefined,
-                    },
-                    bothDimensionsUndefined && { minHeight: 1 },
-                ]}
-                onLayout={handleLayout}>
-                {ImageComponent}
-            </View>
-        );
-    }
-
-    return ImageComponent;
+    return <Image {...rest} source={imageSource} resizeMode={resizeMode} onError={handleError} onLoad={handleLoad} style={imageStyle} />;
 }
