@@ -9,35 +9,33 @@ import {
     ImageStyle,
     ImageURISource,
     StyleProp,
+    StyleSheet,
 } from 'react-native';
 
 export interface IImageXProps extends ImageProps {
     radius?: number;
     fallbackSource?: ImageSourcePropType;
-    temporaryHeight?: number; // aspectRatio 还没算出前的临时高度
+    temporaryHeight?: number; // aspectRatio 未算出前的临时高度
 }
 
 export default function ImageX(props: IImageXProps) {
-    const {
-        radius = 0,
-        fallbackSource,
-        style,
-        source,
-        onError,
-        onLoad,
-        width,
-        height,
-        resizeMode = 'cover',
-        temporaryHeight = 200,
-        ...rest
-    } = props;
+    const { radius = 0, fallbackSource, style, source, onError, onLoad, resizeMode = 'cover', temporaryHeight = 200, ...rest } = props;
 
     const [hasError, setHasError] = useState(false);
     const [aspectRatio, setAspectRatio] = useState<number | undefined>(undefined);
 
-    const bothUndefined = isUndefined(width) && isUndefined(height);
+    /** 从 style 中读取宽高 */
+    const flatStyle = StyleSheet.flatten(style) || {};
+    const styleWidth = flatStyle.width;
+    const styleHeight = flatStyle.height;
 
-    /** source 变化时重置 */
+    /** props + style 的最终宽高 */
+    const finalWidth = props.width ?? styleWidth;
+    const finalHeight = props.height ?? styleHeight;
+
+    const bothUndefined = isUndefined(finalWidth) && isUndefined(finalHeight);
+
+    /** source 变化重置 */
     useEffect(() => {
         setHasError(false);
         setAspectRatio(undefined);
@@ -54,7 +52,7 @@ export default function ImageX(props: IImageXProps) {
         onLoad?.(ev);
     };
 
-    /** 自动计算宽高比 */
+    /** 自动计算宽高比（仅在宽高都未指定时） */
     useEffect(() => {
         let cancelled = false;
 
@@ -64,7 +62,6 @@ export default function ImageX(props: IImageXProps) {
             try {
                 let w = 0,
                     h = 0;
-
                 const src = source as ImageURISource;
 
                 if (src?.uri) {
@@ -93,6 +90,7 @@ export default function ImageX(props: IImageXProps) {
                     setAspectRatio(w / h);
                 }
             } catch (e) {
+                console.error(e);
                 if (!cancelled) {
                     setAspectRatio(undefined);
                 }
@@ -105,34 +103,34 @@ export default function ImageX(props: IImageXProps) {
         };
     }, [source, bothUndefined]);
 
-    /** 出错时显示 fallback */
+    /** 错误时 fallbackSource */
     const imageSource = useMemo(() => {
         return hasError && fallbackSource ? fallbackSource : source;
     }, [hasError, source, fallbackSource]);
 
-    /** 样式生成 */
+    /** 样式合成 */
     const imageStyle = useMemo<StyleProp<ImageStyle>>(() => {
         const s: ImageStyle = {
             borderRadius: radius,
         };
 
-        if (!isUndefined(width)) s.width = width;
-        if (!isUndefined(height)) s.height = height;
+        // 优先使用 props.width/height，其次 style 的宽高
+        if (!isUndefined(finalWidth)) s.width = finalWidth;
+        if (!isUndefined(finalHeight)) s.height = finalHeight;
 
-        // 宽高都没传
+        // 宽高都未指定，用 aspectRatio
         if (bothUndefined) {
             s.width = '100%';
 
             if (!isUndefined(aspectRatio)) {
                 s.aspectRatio = aspectRatio;
             } else {
-                // ★ aspectRatio 未算出时使用临时高度，避免图片高度为 0
                 s.height = temporaryHeight;
             }
         }
 
         return [s, style];
-    }, [width, height, radius, style, bothUndefined, aspectRatio, temporaryHeight]);
+    }, [finalWidth, finalHeight, radius, style, bothUndefined, aspectRatio, temporaryHeight]);
 
     return <Image {...rest} source={imageSource} resizeMode={resizeMode} onError={handleError} onLoad={handleLoad} style={imageStyle} />;
 }
