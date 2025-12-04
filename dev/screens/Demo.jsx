@@ -57,6 +57,7 @@ export default function Demo() {
                 { onPress: () => goTo('ERROR_BLOCK'), title: '错误块 ErrorBlock' },
                 { onPress: () => goTo('DIALOG'), title: '对话框 Dialog' },
                 { onPress: () => goTo('MESSAGE'), title: '消息 Message' },
+                { onPress: () => goTo('POPUP'), title: '弹出层 Popup' },
                 { onPress: () => goTo('RESULT'), title: '结果 Result' },
                 { onPress: () => goTo('TOAST'), title: '轻提示 Toast' },
             ],

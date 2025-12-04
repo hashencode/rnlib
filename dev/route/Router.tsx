@@ -17,6 +17,7 @@ import DemoInput from '../demos/DemoInput';
 import DemoList from '../demos/DemoList';
 import DemoMessage from '../demos/DemoMessage';
 import DemoPicker from '../demos/DemoPicker';
+import DemoPopup from '../demos/DemoPopup';
 import DemoRadio from '../demos/DemoRadio';
 import DemoResult from '../demos/DemoResult';
 import DemoSelector from '../demos/DemoSelector';
@@ -54,6 +55,7 @@ const screens: any[] = [
     { component: DemoTag, name: 'TAG' },
     { component: DemoToast, name: 'TOAST' },
     { component: DemoMessage, name: 'MESSAGE' },
+    { component: DemoPopup, name: 'POPUP' },
 ];
 
 export default function Router() {

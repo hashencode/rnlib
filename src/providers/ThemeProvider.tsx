@@ -5,6 +5,7 @@ import DialogRender from '../components/Dialog/DialogRender.tsx';
 import MessageRender from '../components/Message/MessageRender.tsx';
 import OverlayRender from '../components/Overlay/OverlayRender.tsx';
 import PickerRender from '../components/Picker/PickerRender.tsx';
+import PopupRender from '../components/Popup/PopupRender.tsx';
 import PortalHost from '../components/Portal/PortalHost.tsx';
 import ToastRender from '../components/Toast/ToastRender.tsx';
 
@@ -62,6 +63,7 @@ export default function ThemeProvider(props: IThemeProviderProps) {
                 <DialogRender />
                 <MessageRender />
                 <ToastRender />
+                <PopupRender />
             </PortalHost>
         </ThemeContext.Provider>
     );

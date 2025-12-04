@@ -27,7 +27,7 @@ export interface ISelectorProps {
         checkIcon?: StyleProp<TextStyle>; // 选中图标样式
         corner?: StyleProp<ViewStyle>; // 角落样式
         option?: StyleProp<ViewStyle>; // 选项样式
-        root: StyleProp<ViewStyle>; // 根节点样式
+        root?: StyleProp<ViewStyle>; // 根节点样式
         subtitle?: StyleProp<TextStyle>; // 副标题样式
         title?: StyleProp<TextStyle>; // 标题样式
     }; // 样式

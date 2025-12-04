@@ -158,8 +158,10 @@ const styles = StyleSheet.create({
     icon: {
         borderRadius: SIZE.radius_md,
         flexShrink: 0,
+        height: SIZE.icon_lg,
         marginRight: SIZE.space_lg,
         overflow: 'hidden',
+        width: SIZE.icon_lg,
     },
     body: {
         minHeight: SIZE.list_item_min_height,

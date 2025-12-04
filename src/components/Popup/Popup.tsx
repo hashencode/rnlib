@@ -3,26 +3,18 @@ import { Dimensions, Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyl
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import useStyle from '../../hooks/useStyle.tsx';
 import { COLOR, SIZE } from '../../scripts/const.ts';
-import { Flex, Grabber, IListItemProps, List, TextX } from '../index.tsx';
+import { Flex, Grabber, TextX } from '../index.tsx';
 
-export type IActionSheetOptionValue = string | number;
-export interface IActionSheetOption extends IListItemProps {
-    value: IActionSheetOptionValue;
-}
-
-export interface IActionSheetProps {
+export interface IPopupProps {
     backCloseable?: boolean;
     cancelText?: ReactNode;
+    content?: ReactNode;
     header?: ReactNode;
-    options: IActionSheetOption[];
     overlayClosable?: boolean;
-    showCancel?: boolean;
     visible?: boolean;
     afterClose?: () => void;
 
     style?: {
-        cancelButton?: StyleProp<ViewStyle>;
-        cancelText?: StyleProp<TextStyle>;
         divider?: StyleProp<ViewStyle>;
         grabber?: StyleProp<ViewStyle>;
         header?: StyleProp<ViewStyle>;
@@ -31,24 +23,12 @@ export interface IActionSheetProps {
     };
 
     onCancel?: () => void;
-    onChange?: (val: IActionSheetOptionValue) => void;
 }
 
 const ANIMATION_DURATION = 300;
 
-export default function ActionSheet(props: IActionSheetProps) {
-    const {
-        options = [],
-        visible,
-        header,
-        overlayClosable = true,
-        style,
-        onCancel,
-        onChange,
-        afterClose,
-        showCancel = true,
-        cancelText = '取消',
-    } = props;
+export default function Popup(props: IPopupProps) {
+    const { visible, header, overlayClosable = true, style, content, onCancel, afterClose } = props;
 
     const screenHeight = Dimensions.get('window').height;
     const translateY = useSharedValue(screenHeight);
@@ -110,49 +90,12 @@ export default function ActionSheet(props: IActionSheetProps) {
         extraStyle: [style?.header],
     });
 
-    // 处理选项点击
-    const handleOptionPress = (val: IActionSheetOptionValue) => {
-        onChange?.(val);
-    };
-
     // 遮罩点击
     const handleOverlayPress = () => {
         if (overlayClosable) {
             onCancel?.();
         }
     };
-
-    // 格式化选项
-    const formatOptions: IListItemProps[] = options.map(option => {
-        return {
-            ...option,
-            style: {
-                main: { alignItems: 'center' },
-                ...option.style,
-            },
-            onPress: () => {
-                if (!option.disabled) {
-                    handleOptionPress(option.value);
-                }
-            },
-        };
-    });
-
-    // 添加取消按钮
-    const allOptions: IListItemProps[] = showCancel
-        ? [
-              ...formatOptions,
-              {
-                  title: cancelText,
-                  onPress: () => onCancel?.(),
-                  style: {
-                      root: style?.cancelButton,
-                      main: { alignItems: 'center' },
-                      title: style?.cancelText,
-                  },
-              },
-          ]
-        : formatOptions;
 
     return (
         <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
@@ -164,7 +107,7 @@ export default function ActionSheet(props: IActionSheetProps) {
                 />
             </Pressable>
 
-            {/* ActionSheet 内容 */}
+            {/* Popup 内容 */}
             <Animated.View
                 style={[
                     StyleSheet.absoluteFill,
@@ -183,13 +126,7 @@ export default function ActionSheet(props: IActionSheetProps) {
                         </Flex>
                     ) : null}
 
-                    <List
-                        items={allOptions}
-                        style={{
-                            root: style?.root,
-                            divider: style?.divider,
-                        }}
-                    />
+                    {content}
                 </View>
 
                 {/* 底部安全区域背景色 */}

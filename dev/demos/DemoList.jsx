@@ -25,7 +25,6 @@ export default function DemoList() {
             extraTitle: '额外标题',
             extraSubtitle: '额外描述文本',
             showArrow: true,
-            style: { icon: { width: SIZE.icon_lg, height: SIZE.icon_lg } },
         },
     ];
 
@@ -55,16 +54,16 @@ export default function DemoList() {
     return (
         <DefaultLayout head="列表 List">
             <Group header="单行列表" first>
-                <List items={singleLineList}></List>
+                <List items={singleLineList} />
             </Group>
             <Group header="多行列表">
-                <List items={multipleLineList}></List>
+                <List items={multipleLineList} />
             </Group>
             <Group header="左右滑动显示操作按钮">
-                <List items={actionsList}></List>
+                <List items={actionsList} />
             </Group>
             <Group header="更多状态">
-                <List items={moreList}></List>
+                <List items={moreList} />
             </Group>
         </DefaultLayout>
     );

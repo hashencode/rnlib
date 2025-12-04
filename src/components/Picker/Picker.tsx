@@ -39,7 +39,7 @@ export interface IPickerProps {
         grabber?: StyleProp<ViewStyle>;
         header?: StyleProp<ViewStyle>;
         headerText?: StyleProp<TextStyle>;
-        root: StyleProp<ViewStyle>;
+        root?: StyleProp<ViewStyle>;
     };
 
     onCancel?: () => void;

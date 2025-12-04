@@ -51,6 +51,8 @@ export { default as Overlay } from './Overlay/Overlay.tsx';
 export type { IOverlayProps } from './Overlay/Overlay.tsx';
 export { default as Picker } from './Picker/Picker.tsx';
 export type { IPickerOption, IPickerProps, IPickerRawValue, IPickerValue } from './Picker/Picker.tsx';
+export { default as Popup } from './Popup/Popup.tsx';
+export type { IPopupProps } from './Popup/Popup.tsx';
 export { default as Portal } from './Portal/Portal.tsx';
 export type { IPortalProps } from './Portal/Portal.tsx';
 export { default as PressHighlight } from './PressHighlight';

@@ -46,6 +46,7 @@ export enum EMITTER_MAP {
     '关闭动作面板' = '_CLOSE_ACTION_SHEET',
     '关闭选择器' = '_CLOSE_PICKER',
     '关闭遮罩' = '_CLOSE_OVERLAY',
+    '关闭弹出层' = '_CLOSE_POPUP',
 
     '关闭所有对话框' = '_CLOSE_ALL_DIALOG',
     '关闭所有消息' = '_CLOSE_ALL_MESSAGE',
@@ -53,6 +54,7 @@ export enum EMITTER_MAP {
     '关闭所有动作面板' = '_CLOSE_ALL_ACTION_SHEET',
     '关闭所有选择器' = '_CLOSE_ALL_PICKER',
     '关闭所有遮罩' = '_CLOSE_ALL_OVERLAY',
+    '关闭所有弹出层' = '_CLOSE_ALL_POPUP',
 
     '打开对话框' = '_OPEN_DIALOG',
     '打开消息' = '_OPEN_MESSAGE',
@@ -60,4 +62,5 @@ export enum EMITTER_MAP {
     '打开动作面板' = '_OPEN_ACTION_SHEET',
     '打开选择器' = '_OPEN_PICKER',
     '打开遮罩' = '_OPEN_OVERLAY',
+    '打开弹出层' = '_OPEN_POPUP',
 }

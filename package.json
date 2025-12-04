@@ -1,6 +1,6 @@
 {
     "name": "@hashencode/rnlib",
-    "version": "0.4.11",
+    "version": "0.4.14",
     "scripts": {
         "android": "react-native run-android --terminal=/Applications/Utilities/Terminal.app --port 8083",
         "ios": "react-native run-ios --terminal=/Applications/Utilities/Terminal.app --port 8083",
